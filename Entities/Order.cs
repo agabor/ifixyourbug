@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace IFYB;
 
 public class Order
@@ -9,9 +11,12 @@ public class Order
     public string ProjectDescription { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
-    public Client Client { get; set; } = null!;
+    
+    [JsonIgnore]
+    public Client? Client { get; set; }
     public List<Message>? Messages { get; set; }
-    public GitAccess GitAccess { get; set; } = null!;
+    public int GitAccessId { get; set; }
+    public GitAccess? GitAccess { get; set; }
 
     public Order(Framework framework, string version, string projectDescription, string bugDescription)
     {

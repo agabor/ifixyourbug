@@ -17,6 +17,17 @@ public class ClientsController : ControllerBase
         return Ok(ApplicationDBContext.Clients);
     }
 
+    [HttpGet]
+    [Route("{clientId}")]
+    public IActionResult GetClient(int clientId) {
+        ApplicationDBContext.Database.EnsureCreated();
+        Client? client = ApplicationDBContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        if (client == null)
+            return NotFound();
+        return base.Ok(client);
+    }
+
+
     [HttpPost]
     public IActionResult AddClient([FromBody] Client client) {
         ApplicationDBContext.Database.EnsureCreated();

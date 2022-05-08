@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("clients")]
+[Route("clients/{clientId}/orders")]
 public class OrdersController : ControllerBase
 {
     ApplicationDBContext dbContext { get; }
@@ -12,20 +13,21 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{clientId}")]
     public IActionResult ListOrders(int clientId) {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        var client = dbContext.Clients.Include(c => c.Orders!).ThenInclude(o => o.GitAccess).FirstOrDefault(c => c.Id == clientId);
         if (client == null)
             return NotFound();
-        dbContext.Entry(client).Collection(c => c.Orders!).Load();
         return base.Ok(client.Orders);
     }
 
     [HttpPost]
-    public IActionResult AddOrder([FromBody] Order order) {
+    public IActionResult AddOrder(int clientId, [FromBody] Order order) {
         dbContext.Database.EnsureCreated();
-        dbContext.Orders.Add(order);
+        var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
+        if (client == null)
+            return NotFound();
+        client.Orders!.Add(order);
         dbContext.SaveChanges();
         return Ok();
     }
