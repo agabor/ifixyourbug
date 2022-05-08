@@ -1,6 +1,6 @@
 namespace IFYB;
 
-class Client
+public class Client
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -8,8 +8,7 @@ class Client
     public string? InvoiceName { get; set; }
     public string? InvoiceAddress { get; set; }
     public string? TaxNumber { get; set; }
-    public List<Order> Orders { get; set; } = null!;
-
+    public List<Order>? Orders { get; set; }
     public Client(string name, string email)
     {
         Name = name;
