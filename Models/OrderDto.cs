@@ -7,14 +7,16 @@ public class OrderDto
     public string ThirdPartyTool { get; set; }
     public string ProjectDescription { get; set; }
     public string BugDescription { get; set; }
+    public int GitAccessId { get; set; }
 
-    public OrderDto(Framework framework, string version, string thirdPartyTool, string projectDescription, string bugDescription)
+    public OrderDto(Framework framework, string version, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
     {
         Framework = framework;
         Version = version;
         ThirdPartyTool = thirdPartyTool;
         ProjectDescription = projectDescription;
         BugDescription = bugDescription;
+        GitAccessId = gitAccessId;
     }
 }
 

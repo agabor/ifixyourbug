@@ -8,10 +8,22 @@ public class GitAccess
     public GitAccessMode AccessMode { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }
-    public GitAccessState State { get; set; }
 
-    public GitAccess(string url)
+    public GitAccess(string url, GitAccessMode accessMode, string? username, string? password)
     {
         Url = url;
+        AccessMode = accessMode;
+        Username = username;
+        Password = password;
+    }
+
+    public static GitAccess FromDto(GitAccessDto dto)
+    {
+        return new GitAccess(dto.Url, dto.AccessMode, dto.Username, dto.Password);
+    }
+
+    public GitAccessDto ToDto()
+    {
+        return new GitAccessDto(Url, AccessMode, Username, Password);
     }
 }

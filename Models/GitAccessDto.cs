@@ -6,13 +6,13 @@ public class GitAccessDto
     public GitAccessMode AccessMode { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }
-    public GitAccessState State { get; set; }
 
-    public GitAccessDto(string url)
+    public GitAccessDto(string url, GitAccessMode accessMode, string? username, string? password)
     {
         Url = url;
+        AccessMode = accessMode;
+        Username = username;
+        Password = password;
     }
 }
-
-public enum GitAccessState { Submitted, Verified, Error }
 public enum GitAccessMode { Public, Invite, Credentials }
