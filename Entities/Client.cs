@@ -8,6 +8,7 @@ class Client
     public string? InvoiceName { get; set; }
     public string? InvoiceAddress { get; set; }
     public string? TaxNumber { get; set; }
+    public List<Order> Orders { get; set; } = null!;
 
     public Client(string name, string email)
     {
