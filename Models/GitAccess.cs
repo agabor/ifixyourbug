@@ -1,7 +1,5 @@
-using IFYB.Models;
-
-namespace IFYB.Entities;
-public class GitAccess
+namespace IFYB.Models;
+public class GitAccessDto
 {
     public int Id { get; set; }
     public string Url { get; set; }
@@ -10,8 +8,11 @@ public class GitAccess
     public string? Password { get; set; }
     public GitAccessState State { get; set; }
 
-    public GitAccess(string url)
+    public GitAccessDto(string url)
     {
         Url = url;
     }
 }
+
+public enum GitAccessState { Submitted, Verified, Error }
+public enum GitAccessMode { Public, Invite, Credentials }
