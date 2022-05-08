@@ -1,6 +1,6 @@
-using System.Text.Json.Serialization;
+using IFYB.Models;
 
-namespace IFYB;
+namespace IFYB.Entities;
 
 public class Order
 {
@@ -11,8 +11,6 @@ public class Order
     public string ProjectDescription { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
-    
-    [JsonIgnore]
     public Client? Client { get; set; }
     public List<Message>? Messages { get; set; }
     public int GitAccessId { get; set; }
@@ -26,7 +24,5 @@ public class Order
         BugDescription = bugDescription;
     }
 }
-
-public enum Framework { DotNet, Vue }
 
 public enum OrderState { Submitted, Accepted, Payed, Completed, Refundable }

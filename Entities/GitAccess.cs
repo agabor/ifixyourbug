@@ -1,3 +1,5 @@
+namespace IFYB.Entities;
+
 public class GitAccess
 {
     public int Id { get; set; }

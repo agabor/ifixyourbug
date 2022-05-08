@@ -1,4 +1,6 @@
-namespace IFYB;
+using IFYB.Models;
+
+namespace IFYB.Entities;
 
 public class Client
 {
@@ -13,5 +15,15 @@ public class Client
     {
         Name = name;
         Email = email;
+    }
+
+    public static Client FromDto(ClientDto dto)
+    {
+        return new Client(dto.Name, dto.Email);
+    }
+
+    public ClientDto ToDto()
+    {
+        return new ClientDto(Name, Email);
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using IFYB.Entities;
 
 namespace IFYB.Controllers;
 

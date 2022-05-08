@@ -1,4 +1,5 @@
-using IFYB;
+
+using IFYB.Entities;
 using Microsoft.EntityFrameworkCore;
 
 public class ApplicationDBContext : DbContext
