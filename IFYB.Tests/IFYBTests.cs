@@ -16,14 +16,22 @@ public class IFYBTests
     [TestMethod]
     public async Task RegisterAndSendOrder()
     {
+        await Get($"reset", HttpStatusCode.OK);
         var response = await Post("clients", HttpStatusCode.OK, new {
-            name = "First User",
             email = "aa@bb.cc"
         });
         JToken? idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
         int clientId = (int)idToken;
         Assert.AreNotEqual(0, clientId);
+        await Get($"clients/{clientId}/name", HttpStatusCode.NotFound);
+        await Post($"clients/{clientId}/name", HttpStatusCode.OK, new {
+            name = "First User"
+        });
+        var nameResponse = await Get($"clients/{clientId}/name", HttpStatusCode.OK);
+        JToken? nameToken = nameResponse.GetValue("name");
+        Assert.IsNotNull(nameToken);
+        Assert.AreEqual("First User", nameToken.ToString());
         response = await Post($"clients/{clientId}/git-accesses", HttpStatusCode.OK, new {
             url = "https://github.com/BootGen/VueStart",
             accessMode = 0

@@ -39,6 +39,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
+    [Produces(typeof(IdDto))]
     public IActionResult AddOrder(int clientId, [FromBody] OrderDto dto) {
         dbContext.Database.EnsureCreated();
         var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
@@ -47,6 +48,6 @@ public class OrdersController : ControllerBase
         var order = Order.FromDto(dto);
         client.Orders!.Add(order);
         dbContext.SaveChanges();
-        return Ok(new { Id = order.Id });
+        return Ok(new IdDto(order.Id));
     }
 }

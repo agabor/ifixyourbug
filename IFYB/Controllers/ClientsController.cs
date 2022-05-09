@@ -13,30 +13,42 @@ public class ClientsController : ControllerBase
         dbContext = applicationDBContext;
     }
 
-    [HttpGet]
-    [Produces(typeof(IEnumerable<ClientDto>))]
-    public IActionResult ListClients() {
-        dbContext.Database.EnsureCreated();
-        return Ok(dbContext.Clients);
-    }
-
-    [HttpGet]
-    [Route("{clientId}")]
-    [Produces(typeof(ClientDto))]
-    public IActionResult GetClient(int clientId) {
-        dbContext.Database.EnsureCreated();
-        Client? client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
-        if (client == null)
-            return NotFound();
-        return base.Ok(client.ToDto());
-    }
-
 
     [HttpPost]
-    public IActionResult AddClient([FromBody] ClientDto client) {
+    [Produces(typeof(IdDto))]
+    public IActionResult StartSession([FromBody] EmailDto dto) {
         dbContext.Database.EnsureCreated();
-        var entry = dbContext.Clients.Add(Client.FromDto(client));
+        var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
+        if (client == null) {
+            client = new Client(dto.Email);
+            dbContext.Clients.Add(client);
+            dbContext.SaveChanges();
+        }
+        return Ok(new IdDto(client.Id));
+    }
+
+    [HttpGet]
+    [Route("{clientId}/name")]
+    [Produces(typeof(NameDto))]
+    public IActionResult GetName(int clientId)
+    {
+        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        if (client == null || string.IsNullOrWhiteSpace(client.Name))
+            return NotFound();
+        return Ok(new NameDto(client.Name));
+    }
+
+    [HttpPost]
+    [Route("{clientId}/name")]
+    public IActionResult SetName(int clientId, NameDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+            return BadRequest();
+        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        if (client == null)
+            return NotFound();
+        client.Name = dto.Name;
         dbContext.SaveChanges();
-        return Ok(new { Id = entry.Entity.Id });
+        return Ok();
     }
 }
