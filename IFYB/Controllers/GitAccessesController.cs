@@ -26,14 +26,15 @@ public class GitAccessesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddOrder(int clientId, [FromBody] GitAccessDto access) {
+    public IActionResult AddGitAccesses(int clientId, [FromBody] GitAccessDto access) {
         dbContext.Database.EnsureCreated();
         var client = dbContext.Clients.Include(c => c.GitAccesses!).FirstOrDefault(c => c.Id == clientId);
         if (client == null)
             return NotFound();
-        client.GitAccesses!.Add(GitAccess.FromDto(access));
+        var gitAccess = GitAccess.FromDto(access);
+        client.GitAccesses!.Add(gitAccess);
         dbContext.SaveChanges();
-        return Ok();
+        return Ok(new { Id = gitAccess.Id });
     }
 
 }

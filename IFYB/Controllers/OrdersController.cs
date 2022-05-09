@@ -24,14 +24,29 @@ public class OrdersController : ControllerBase
         return base.Ok(client.Orders!.Select(o => o.ToDto()).ToList());
     }
 
-    [HttpPost]
-    public IActionResult AddOrder(int clientId, [FromBody] OrderDto order) {
+    [HttpGet]
+    [Produces(typeof(OrderDto))]
+    [Route("{orderId}")]
+    public IActionResult GetOrder(int clientId, int orderId) {
         dbContext.Database.EnsureCreated();
         var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
         if (client == null)
             return NotFound();
-        client.Orders!.Add(Order.FromDto(order));
+        var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        return base.Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    public IActionResult AddOrder(int clientId, [FromBody] OrderDto dto) {
+        dbContext.Database.EnsureCreated();
+        var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
+        if (client == null)
+            return NotFound();
+        var order = Order.FromDto(dto);
+        client.Orders!.Add(order);
         dbContext.SaveChanges();
-        return Ok();
+        return Ok(new { Id = order.Id });
     }
 }

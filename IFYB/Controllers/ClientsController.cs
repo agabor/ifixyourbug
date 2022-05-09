@@ -35,8 +35,8 @@ public class ClientsController : ControllerBase
     [HttpPost]
     public IActionResult AddClient([FromBody] ClientDto client) {
         dbContext.Database.EnsureCreated();
-        dbContext.Clients.Add(Client.FromDto(client));
+        var entry = dbContext.Clients.Add(Client.FromDto(client));
         dbContext.SaveChanges();
-        return Ok();
+        return Ok(new { Id = entry.Entity.Id });
     }
 }
