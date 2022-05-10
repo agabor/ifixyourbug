@@ -15,4 +15,4 @@ public class GitAccessDto
         Password = password;
     }
 }
-public enum GitAccessMode { Public, SaasInvite, PrivateInvite, PrivatePassword, PrivateSsh }
+public enum GitAccessMode { Public, SaasInvite, PrivateInvite, PrivateSsh }
