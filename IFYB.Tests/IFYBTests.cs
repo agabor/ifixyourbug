@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,26 +14,39 @@ namespace IFYB.Tests;
 [TestClass]
 public class IFYBTests
 {
+    
+    HttpClient httpClient = GetHttpClient();
+
     [TestMethod]
     public async Task RegisterAndSendOrder()
     {
         await Get($"reset", HttpStatusCode.OK);
-        var response = await Post("clients", HttpStatusCode.OK, new {
+        
+        var response = await Post("authenticate", HttpStatusCode.OK, new {
             email = "aa@bb.cc"
         });
         JToken? idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
         int clientId = (int)idToken;
         Assert.AreNotEqual(0, clientId);
-        await Get($"clients/{clientId}/name", HttpStatusCode.NotFound);
-        await Post($"clients/{clientId}/name", HttpStatusCode.OK, new {
+
+
+        response = await Post($"authenticate/{clientId}", HttpStatusCode.OK, new {
+            password = "123456"
+        });
+        string? jwt = response.GetValue("jwt")?.ToString();
+        Assert.IsNotNull(jwt);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
+
+        await Get($"clients/name", HttpStatusCode.NotFound);
+        await Post($"clients/name", HttpStatusCode.OK, new {
             name = "First User"
         });
-        var nameResponse = await Get($"clients/{clientId}/name", HttpStatusCode.OK);
+        var nameResponse = await Get($"clients/name", HttpStatusCode.OK);
         JToken? nameToken = nameResponse.GetValue("name");
         Assert.IsNotNull(nameToken);
         Assert.AreEqual("First User", nameToken.ToString());
-        response = await Post($"clients/{clientId}/git-accesses", HttpStatusCode.OK, new {
+        response = await Post($"git-accesses", HttpStatusCode.OK, new {
             url = "https://github.com/BootGen/VueStart",
             accessMode = 0
         });
@@ -49,17 +63,16 @@ public class IFYBTests
             bugDescription = "bello",
             gitAccessId = gitAccessId
         };
-        response = await Post($"clients/{clientId}/orders", HttpStatusCode.OK, order);
+        response = await Post($"orders", HttpStatusCode.OK, order);
         idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
         int orderId = (int)idToken;
-        response = await Get($"clients/{clientId}/orders/{orderId}", HttpStatusCode.OK);
+        response = await Get($"orders/{orderId}", HttpStatusCode.OK);
         Assert.AreEqual(JObject.FromObject(order).ToString(), response.ToString());
     }
 
     private async Task<JObject> Get(string route, HttpStatusCode expectedStatus)
     {
-        HttpClient httpClient = GetHttpClient();
         var response = await httpClient.GetAsync(route);
         Assert.AreEqual(expectedStatus, response.StatusCode);
         return ReadJObjest(response);
@@ -67,7 +80,6 @@ public class IFYBTests
 
     private async Task<JObject> Post(string route, HttpStatusCode expectedStatus, object data)
     {
-        HttpClient httpClient = GetHttpClient();
         var json = JObject.FromObject(data);
         var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync(route, content);

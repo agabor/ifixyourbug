@@ -12,6 +12,8 @@ public class Client
     public string? TaxNumber { get; set; }
     public List<Order> Orders { get; set; } = null!;
     public List<GitAccess> GitAccesses { get; set; } = null!;
+    public string? Password { get; set; }
+
     public Client(string email)
     {
         Email = email;

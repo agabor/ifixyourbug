@@ -8,8 +8,8 @@ namespace IFYB.Controllers;
 [Route("reset")]
 public class ResetController : ControllerBase
 {
-    ApplicationDBContext dbContext { get; }
-    public ResetController(ApplicationDBContext applicationDBContext) {
+    ApplicationDbContext dbContext { get; }
+    public ResetController(ApplicationDbContext applicationDBContext) {
         dbContext = applicationDBContext;
     }
 

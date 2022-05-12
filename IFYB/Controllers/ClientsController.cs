@@ -1,50 +1,40 @@
 using Microsoft.AspNetCore.Mvc;
-using IFYB.Entities;
 using IFYB.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IFYB.Controllers;
 
 [ApiController]
 [Route("clients")]
-public class ClientsController : ControllerBase
+[Authorize]
+public class ClientsController : BaseController
 {
-    ApplicationDBContext dbContext { get; }
-    public ClientsController(ApplicationDBContext applicationDBContext) {
-        dbContext = applicationDBContext;
+    public IConfiguration Configuration { get; }
+
+    public ClientsController(ApplicationDbContext dbContext, IConfiguration configuration) : base(dbContext)
+    {
+        Configuration = configuration;
     }
 
-
-    [HttpPost]
-    [Produces(typeof(IdDto))]
-    public IActionResult StartSession([FromBody] EmailDto dto) {
-        dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
-        if (client == null) {
-            client = new Client(dto.Email);
-            dbContext.Clients.Add(client);
-            dbContext.SaveChanges();
-        }
-        return Ok(new IdDto(client.Id));
-    }
 
     [HttpGet]
-    [Route("{clientId}/name")]
+    [Route("name")]
     [Produces(typeof(NameDto))]
-    public IActionResult GetName(int clientId)
+    public IActionResult GetName()
     {
-        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null || string.IsNullOrWhiteSpace(client.Name))
             return NotFound();
         return Ok(new NameDto(client.Name));
     }
 
     [HttpPost]
-    [Route("{clientId}/name")]
-    public IActionResult SetName(int clientId, NameDto dto)
+    [Route("name")]
+    public IActionResult SetName(NameDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest();
-        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
         client.Name = dto.Name;

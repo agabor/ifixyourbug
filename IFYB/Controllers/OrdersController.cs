@@ -1,24 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using IFYB.Entities;
 using IFYB.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("clients/{clientId}/orders")]
-public class OrdersController : ControllerBase
+[Route("orders")]
+[Authorize]
+public class OrdersController : BaseController
 {
-    ApplicationDBContext dbContext { get; }
-    public OrdersController(ApplicationDBContext applicationDBContext) {
-        dbContext = applicationDBContext;
+    public OrdersController(ApplicationDbContext dbContext) : base(dbContext)
+     {
     }
 
     [HttpGet]
     [Produces(typeof(IEnumerable<OrderDto>))]
-    public IActionResult ListOrders(int clientId) {
+    public IActionResult ListOrders() {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.Include(c => c.Orders!).ThenInclude(o => o.GitAccess).FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
         return base.Ok(client.Orders!.Select(o => o.ToDto()).ToList());
@@ -27,11 +27,12 @@ public class OrdersController : ControllerBase
     [HttpGet]
     [Produces(typeof(OrderDto))]
     [Route("{orderId}")]
-    public IActionResult GetOrder(int clientId, int orderId) {
+    public IActionResult GetOrder(int orderId) {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
         var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
@@ -40,11 +41,12 @@ public class OrdersController : ControllerBase
 
     [HttpPost]
     [Produces(typeof(IdDto))]
-    public IActionResult AddOrder(int clientId, [FromBody] OrderDto dto) {
+    public IActionResult AddOrder([FromBody] OrderDto dto) {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.Include(c => c.Orders!).FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
         var order = Order.FromDto(dto);
         client.Orders!.Add(order);
         dbContext.SaveChanges();

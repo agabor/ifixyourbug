@@ -1,25 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using IFYB.Entities;
 using IFYB.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("clients/{clientId}/git-accesses")]
-public class GitAccessesController : ControllerBase
+[Route("git-accesses")]
+[Authorize]
+public class GitAccessesController : BaseController
 {
-    ApplicationDBContext dbContext { get; }
-    public GitAccessesController(ApplicationDBContext applicationDBContext) {
-        dbContext = applicationDBContext;
+    public GitAccessesController(ApplicationDbContext dbContext) : base(dbContext) {
     }
 
 
     [HttpGet]
     [Produces(typeof(IEnumerable<GitAccessDto>))]
-    public IActionResult ListGitAccesses(int clientId) {
+    public IActionResult ListGitAccesses() {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.Include(c => c.GitAccesses!).FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
         return base.Ok(client.GitAccesses!.Select(o => o.ToDto()).ToList());
@@ -27,11 +26,12 @@ public class GitAccessesController : ControllerBase
 
     [HttpPost]
     [Produces(typeof(IdDto))]
-    public IActionResult AddGitAccesses(int clientId, [FromBody] GitAccessDto access) {
+    public IActionResult AddGitAccesses([FromBody] GitAccessDto access) {
         dbContext.Database.EnsureCreated();
-        var client = dbContext.Clients.Include(c => c.GitAccesses!).FirstOrDefault(c => c.Id == clientId);
+        var client = CurrentClient;
         if (client == null)
             return NotFound();
+        dbContext.Entry(client).Collection(c => c.GitAccesses).Load();
         var gitAccess = GitAccess.FromDto(access);
         client.GitAccesses!.Add(gitAccess);
         dbContext.SaveChanges();
