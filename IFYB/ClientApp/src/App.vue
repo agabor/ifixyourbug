@@ -18,7 +18,7 @@
             <router-link to="/" class="dropdown-item border-radius-md ps-3 d-flex align-items-center justify-content-between mb-1">Home</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link to="/about" class="dropdown-item border-radius-md ps-3 d-flex align-items-center justify-content-between mb-1">About</router-link>
+            <router-link to="/order" class="dropdown-item border-radius-md ps-3 d-flex align-items-center justify-content-between mb-1">Order</router-link>
           </li>
         </ul>
         <ul class="navbar-nav d-lg-block d-none">
