@@ -104,6 +104,28 @@ public class IFYBTests
         Assert.AreEqual(JObject.FromObject(message).ToString(), messages[0].ToString());
     }
 
+    [TestMethod]
+    public async Task TestClientAdminAccess()
+    {
+        await Get($"reset", HttpStatusCode.OK);
+        
+        var response = await Post("authenticate", HttpStatusCode.OK, new {
+            email = "aa@bb.cc"
+        });
+        JToken? idToken = response.GetValue("id");
+        Assert.IsNotNull(idToken);
+        int clientId = (int)idToken;
+        Assert.AreNotEqual(0, clientId);
+
+
+        response = await Post($"authenticate/{clientId}", HttpStatusCode.OK, new {
+            password = "123456"
+        });
+        string? jwt = response.GetValue("jwt")?.ToString();
+        Assert.IsNotNull(jwt);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
+        await GetArray($"admin/contact-messages", HttpStatusCode.Unauthorized);
+    }
 
     private async Task<JObject> Get(string route, HttpStatusCode expectedStatus)
     {
