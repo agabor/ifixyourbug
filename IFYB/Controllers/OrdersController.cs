@@ -18,7 +18,7 @@ public class OrdersController : BaseController
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
         dbContext.Database.EnsureCreated();
-        var client = CurrentClient;
+        var client = GetClient();
         if (client == null)
             return NotFound();
         return base.Ok(client.Orders!.Select(o => o.ToDto()).ToList());
@@ -29,7 +29,7 @@ public class OrdersController : BaseController
     [Route("{orderId}")]
     public IActionResult GetOrder(int orderId) {
         dbContext.Database.EnsureCreated();
-        var client = CurrentClient;
+        var client = GetClient();
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
@@ -43,7 +43,7 @@ public class OrdersController : BaseController
     [Produces(typeof(IdDto))]
     public IActionResult AddOrder([FromBody] OrderDto dto) {
         dbContext.Database.EnsureCreated();
-        var client = CurrentClient;
+        var client = GetClient();
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();

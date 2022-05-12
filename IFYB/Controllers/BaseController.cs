@@ -13,14 +13,11 @@ public abstract class BaseController : ControllerBase
         this.dbContext = dbContext;
     }
 
-    protected Client? CurrentClient
+    protected Client? GetClient()
     {
-        get
-        {
-            var email = User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            if (string.IsNullOrEmpty(email))
-                return null;
-            return dbContext.Clients.Where(u => u.Email == email).FirstOrDefault();
-        }
+        var email = User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        if (string.IsNullOrEmpty(email))
+            return null;
+        return dbContext.Clients.Where(u => u.Email == email).FirstOrDefault();
     }
 }

@@ -22,7 +22,7 @@ public class ClientsController : BaseController
     [Produces(typeof(NameDto))]
     public IActionResult GetName()
     {
-        var client = CurrentClient;
+        var client = GetClient();
         if (client == null || string.IsNullOrWhiteSpace(client.Name))
             return NotFound();
         return Ok(new NameDto(client.Name));
@@ -34,7 +34,7 @@ public class ClientsController : BaseController
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest();
-        var client = CurrentClient;
+        var client = GetClient();
         if (client == null)
             return NotFound();
         client.Name = dto.Name;
