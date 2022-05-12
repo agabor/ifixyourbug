@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
+using IFYB.Filters;
 
 namespace IFYB.Controllers;
 
 [ApiController]
 [Route("orders")]
 [Authorize]
+[ClientFilter]
 public class OrdersController : BaseController
 {
     public OrdersController(ApplicationDbContext dbContext) : base(dbContext)

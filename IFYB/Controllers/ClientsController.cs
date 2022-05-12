@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
+using IFYB.Filters;
 
 namespace IFYB.Controllers;
 
 [ApiController]
 [Route("clients")]
 [Authorize]
+[ClientFilter]
 public class ClientsController : BaseController
 {
     public IConfiguration Configuration { get; }

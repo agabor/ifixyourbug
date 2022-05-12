@@ -4,7 +4,6 @@ using IFYB.Models;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using System.Security.Claims;
 
 namespace IFYB.Controllers;
@@ -53,24 +52,64 @@ public class AuthenticationController : ControllerBase
         switch (passwordHasher.VerifyHashedPassword(client, client.Password, dto.Password))
         {
             case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(client));
+                return Ok(GenerateJWT(new Claim(ClaimTypes.Email, client.Email)));
             case PasswordVerificationResult.Failed:
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 client.Password = passwordHasher.HashPassword(client, dto.Password);
                 DbContext.SaveChanges();
-                return Ok(GenerateJWT(client));
+                return Ok(GenerateJWT(new Claim(ClaimTypes.Email, client.Email)));
         }
         return Forbid();
     }
 
-    private JwtDto GenerateJWT(Client client)
+    [HttpPost]
+    [Route("admin")]
+    [Produces(typeof(IdDto))]
+    public IActionResult StartAdminSession([FromBody] EmailDto dto)
+    {
+        DbContext.Database.EnsureCreated();
+        var admin = DbContext.Admins.FirstOrDefault(c => c.Email == dto.Email);
+        if (admin == null) {
+            return Forbid();
+        }
+        var passwordHasher = new PasswordHasher<Admin>();
+        admin.Password = passwordHasher.HashPassword(admin, "123456");
+        DbContext.SaveChanges();
+        return Ok(new IdDto(admin.Id));
+    }
+
+    [HttpPost]
+    [Route("admin/{adminId}")]
+    [Produces(typeof(JwtDto))]
+    public IActionResult AuthenticateAdmin(int adminId, [FromBody] PasswordDto dto)
+    {
+        DbContext.Database.EnsureCreated();
+        var admin = DbContext.Admins.FirstOrDefault(c => c.Id == adminId);
+        if (admin == null)
+            return Forbid();
+        var passwordHasher = new PasswordHasher<Admin>();
+        switch (passwordHasher.VerifyHashedPassword(admin, admin.Password, dto.Password))
+        {
+            case PasswordVerificationResult.Success:
+                return Ok(GenerateJWT(new Claim(ClaimTypes.IsPersistent, "yes")));
+            case PasswordVerificationResult.Failed:
+                return Forbid();
+            case PasswordVerificationResult.SuccessRehashNeeded:
+                admin.Password = passwordHasher.HashPassword(admin, dto.Password);
+                DbContext.SaveChanges();
+                return Ok(GenerateJWT(new Claim(ClaimTypes.IsPersistent, "yes")));
+        }
+        return Forbid();
+    }
+
+    private JwtDto GenerateJWT(Claim claim)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Email, client.Email)
+                claim
             }),
             Issuer = Configuration["JwtIssuer"],
             Audience = Configuration["JwtAudience"],

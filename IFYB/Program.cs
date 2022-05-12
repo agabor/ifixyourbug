@@ -36,15 +36,23 @@ builder.Services.AddAuthentication(option =>
             });
 builder.Services.AddSingleton<SecurityKey>(key);
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next.Invoke();
+    } catch (UnauthorizedAccessException)
+    {
+        context.Response.StatusCode = 401;
+    }
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseSpa(spa =>
-    {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-    });
 }
 app.UseAuthentication();
 app.UseAuthorization();

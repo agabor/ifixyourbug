@@ -1,3 +1,4 @@
+namespace IFYB.Models;
 public class ContactMessageDto
 {
     public string Name { get; set; }
