@@ -15,4 +15,16 @@ public class ApplicationDbContext : DbContext
 
     }
 
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Order)
+            .WithMany(o => o.Messages)
+            .IsRequired(false);
+        modelBuilder.Entity<Admin>().HasData(new Admin("admin@admin.com") {
+            Id = 1
+        });
+    }
+
 }

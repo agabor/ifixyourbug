@@ -71,11 +71,51 @@ public class IFYBTests
         Assert.AreEqual(JObject.FromObject(order).ToString(), response.ToString());
     }
 
+    [TestMethod]
+    public async Task SendContactMessage()
+    {
+        await Get($"reset", HttpStatusCode.OK);
+
+        var message = new
+        {
+            name = "First User",
+            email = "aa@bb.cc",
+            text = "hello"
+        };
+        var response = await Post("contact", HttpStatusCode.OK, message);
+
+        response = await Post("authenticate/admin", HttpStatusCode.OK, new {
+            email = "admin@admin.com"
+        });
+        JToken? idToken = response.GetValue("id");
+        Assert.IsNotNull(idToken);
+        int clientId = (int)idToken;
+        Assert.AreNotEqual(0, clientId);
+
+
+        response = await Post($"authenticate/admin/{clientId}", HttpStatusCode.OK, new {
+            password = "123456"
+        });
+        string? jwt = response.GetValue("jwt")?.ToString();
+        Assert.IsNotNull(jwt);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
+
+        var messages = await GetArray($"admin/contact-messages", HttpStatusCode.OK);
+        Assert.AreEqual(JObject.FromObject(message).ToString(), messages[0].ToString());
+    }
+
+
     private async Task<JObject> Get(string route, HttpStatusCode expectedStatus)
     {
         var response = await httpClient.GetAsync(route);
         Assert.AreEqual(expectedStatus, response.StatusCode);
-        return ReadJObjest(response);
+        return ReadJObject(response);
+    }
+    private async Task<JArray> GetArray(string route, HttpStatusCode expectedStatus)
+    {
+        var response = await httpClient.GetAsync(route);
+        Assert.AreEqual(expectedStatus, response.StatusCode);
+        return ReadJArray(response);
     }
 
     private async Task<JObject> Post(string route, HttpStatusCode expectedStatus, object data)
@@ -84,10 +124,10 @@ public class IFYBTests
         var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync(route, content);
         Assert.AreEqual(expectedStatus, response.StatusCode);
-        return ReadJObjest(response);
+        return ReadJObject(response);
     }
 
-    private static JObject ReadJObjest(HttpResponseMessage response)
+    private static JObject ReadJObject(HttpResponseMessage response)
     {
         using var reader = new StreamReader(response.Content.ReadAsStream());
         string respContent = reader.ReadToEnd();
@@ -95,6 +135,15 @@ public class IFYBTests
             return null!;
 
         return JObject.Parse(respContent);
+    }
+    private static JArray ReadJArray(HttpResponseMessage response)
+    {
+        using var reader = new StreamReader(response.Content.ReadAsStream());
+        string respContent = reader.ReadToEnd();
+        if (string.IsNullOrEmpty(respContent))
+            return null!;
+
+        return JArray.Parse(respContent);
     }
 
     private static HttpClient GetHttpClient()
