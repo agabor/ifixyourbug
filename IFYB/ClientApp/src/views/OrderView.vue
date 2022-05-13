@@ -18,10 +18,10 @@
                     <p class="mb-4">Enter your email.</p>
                     <form>
                       <div class="row mb-4">
-                        <input class="form-control" placeholder="email@example.com" type="email">
+                        <input class="form-control" placeholder="email@example.com" type="email" v-model="order.email">
                       </div>
                       <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
-                        <button type="button" class="btn bg-gradient-primary my-4">Submit</button>
+                        <button type="button" class="btn bg-gradient-primary my-4" @click="submitEmail()">Submit</button>
                       </div>
                     </form>
                   </div>
@@ -91,27 +91,27 @@
                       <div class="row">
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div class="col-md-6">
-                            <label class="">Language</label>
-                            <select class="form-control" name="choices-language" id="choices-language" placeholder="Language">
+                            <label class="">Framework</label>
+                            <select class="form-control" name="choices-framework" id="choices-framework" placeholder="Framework" v-model="order.framework">
                               <option value="vuejs">Vuejs</option>
                               <option value="dotnet">.Net</option>
                             </select>
                           </div>
                           <div class="col-md-6 ps-md-2">
                             <label>Version</label>
-                            <input class="form-control" placeholder="x.x" type="text">
+                            <input class="form-control" placeholder="x.x" type="text" v-model="order.version">
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <label>Git repo url</label>
-                          <input class="form-control" placeholder="https://..." type="text">
+                          <input class="form-control" placeholder="https://..." type="text" v-model="order.repoUrl">
                         </div>
     
                         <label>Project sharing with</label>
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div>
-                            <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                            <div class="form-check me-3" >
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="public-repo" v-model="order.repoType">
                               <label class="form-check-label" for="flexRadioDefault1">
                                 Public repo
                               </label>
@@ -119,7 +119,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="invite" v-model="order.repoType">
                               <label class="form-check-label" for="flexRadioDefault2">
                                 Invite
                               </label>
@@ -127,7 +127,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="user-acc" v-model="order.repoType">
                               <label class="form-check-label" for="flexRadioDefault3">
                                 User account
                               </label>
@@ -137,19 +137,19 @@
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Project description</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Project description"></textarea>
+                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Project description" v-model="order.projectDescription"></textarea>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Error description</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Error description"></textarea>
+                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Error description" v-model="order.errorDescription"></textarea>
                           </div>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-md-6 text-end ms-auto">
-                          <button type="submit" class="btn btn-round bg-gradient-primary mb-0">Submit</button>
+                          <button type="button" class="btn btn-round bg-gradient-primary mb-0" @click="submitOrder()">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -163,3 +163,21 @@
     </div>
   </section>
 </template>
+
+<script>
+import { ref } from 'vue';
+export default {
+  name: 'OrderView',
+  setup() {
+    const order = ref({});
+
+    function submitEmail() {
+      console.log(order.value);
+    }
+    function submitOrder() {
+      console.log(order.value);
+    }
+    return { order, submitEmail, submitOrder }
+  }
+}
+</script>
