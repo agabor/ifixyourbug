@@ -15,7 +15,9 @@
                 all the work that make this design available.
               </p>
               <div class="buttons">
-                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4">Contact Us</button>
+
+            
+                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/order')">Order</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2">Read More</button>
               </div>
               <div class="row mt-2">
