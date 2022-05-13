@@ -65,7 +65,7 @@
                         </div>
                       </div>
                       <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
-                        <button type="button" class="btn bg-gradient-primary my-4">Check</button>
+                        <button type="button" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
                       </div>
                     </form>
                   </div>
@@ -170,14 +170,34 @@ export default {
   name: 'OrderView',
   setup() {
     const order = ref({});
-
-    function submitEmail() {
-      console.log(order.value);
+    let clientId;
+    let jwt;
+    async function submitEmail() {
+      console.log('email:', order.value.email);
+      const response = await fetch('/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'email': order.value.email})
+      });
+      clientId = (await response.json()).id;
+    }
+    async function checkAuthentication() {
+      const response = await fetch(`/authenticate/${clientId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'clientId': clientId, 'password': '123456'})
+      });
+      jwt = (await response.json()).jwt;
+      console.log(jwt);
     }
     function submitOrder() {
       console.log(order.value);
     }
-    return { order, submitEmail, submitOrder }
+    return { order, submitEmail, checkAuthentication, submitOrder }
   }
 }
 </script>
