@@ -74,6 +74,33 @@
             </div>
           </div>
         </div>
+        <div class="carousel-item" v-if="showNameForm">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-5 col-md-7 mx-auto">
+                <div class="card">
+                  <div class="card-body px-lg-5 py-lg-5 text-center">
+                    <div class="info mb-4">
+                      <div class="icon icon-shape icon-xl rounded-circle bg-gradient-primary shadow text-center py-3 mx-auto">
+                        <i class="ni ni-badge opacity-10 mt-2"></i>
+                      </div>
+                    </div>
+                    <h2>Name</h2>
+                    <p class="mb-4">Enter your name.</p>
+                    <form>
+                      <div class="row mb-4">
+                        <input class="form-control" placeholder="Your Name" type="text" v-model="order.name">
+                      </div>
+                      <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
+                        <button type="button" class="btn bg-gradient-primary my-4" @click="setName()">Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="carousel-item">
           <div class="container">
             <div class="row">
@@ -170,10 +197,11 @@ export default {
   name: 'OrderView',
   setup() {
     const order = ref({});
+    const showNameForm = ref(false);
     let clientId;
     let jwt;
+    
     async function submitEmail() {
-      console.log('email:', order.value.email);
       const response = await fetch('/authenticate', {
         method: 'POST',
         headers: {
@@ -183,6 +211,7 @@ export default {
       });
       clientId = (await response.json()).id;
     }
+
     async function checkAuthentication() {
       const response = await fetch(`/authenticate/${clientId}`, {
         method: 'POST',
@@ -192,12 +221,35 @@ export default {
         body: JSON.stringify({'clientId': clientId, 'password': '123456'})
       });
       jwt = (await response.json()).jwt;
-      console.log(jwt);
+      
+      const nameResponse = await fetch('/clients/name', {
+        method: 'GET',
+        headers: {
+          'Authorization': `bearer ${jwt}`
+        }
+      })
+      if(nameResponse.status == 404) {
+        showNameForm.value = true;
+      } else {
+        showNameForm.value = false;
+      }
     }
+
+    async function setName() {
+      await fetch('/clients/name', {
+        method: 'POST',
+        headers: {
+          'Authorization': `bearer ${jwt}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'name': order.value.name})
+      });
+    }
+
     function submitOrder() {
       console.log(order.value);
     }
-    return { order, submitEmail, checkAuthentication, submitOrder }
+    return { order, showNameForm, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
