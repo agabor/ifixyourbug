@@ -18,7 +18,7 @@
                     <p class="mb-4">Enter your email.</p>
                     <form>
                       <div class="row mb-4">
-                        <input class="form-control" placeholder="email@example.com" type="email" v-model="order.email">
+                        <input class="form-control" placeholder="email@example.com" type="email" v-model="order.email" autofocus>
                       </div>
                       <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
                         <button type="button" class="btn bg-gradient-primary my-4" @click="submitEmail()">Submit</button>
@@ -46,26 +46,26 @@
                     <form>
                       <div class="row mb-4">
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" class="form-control text-lg text-center" value="" aria-label="2fa">
+                          <input type="text" id="2fa_0" class="form-control text-lg text-center" maxlength="1" v-model="auth[0]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" class="form-control text-lg text-center" value="" aria-label="2fa">
+                          <input type="text" id="2fa_1" class="form-control text-lg text-center" maxlength="1" v-model="auth[1]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" class="form-control text-lg text-center" value="" aria-label="2fa">
+                          <input type="text" id="2fa_2" class="form-control text-lg text-center" maxlength="1" v-model="auth[2]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" class="form-control text-lg text-center" value="" aria-label="2fa">
+                          <input type="text" id="2fa_3" class="form-control text-lg text-center" maxlength="1" v-model="auth[3]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" class="form-control text-lg text-center" value="" aria-label="2fa">
+                          <input type="text" id="2fa_4" class="form-control text-lg text-center" maxlength="1" v-model="auth[4]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" class="form-control text-lg text-center" aria-label="2fa">
+                          <input type="text" id="2fa_5" class="form-control text-lg text-center" maxlength="1" v-model="auth[5]" aria-label="2fa">
                         </div>
                       </div>
                       <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
-                        <button type="button" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
+                        <button type="button" id="2fa_btn" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
                       </div>
                     </form>
                   </div>
@@ -192,14 +192,47 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 export default {
   name: 'OrderView',
   setup() {
     const order = ref({});
     const showNameForm = ref(false);
+    const auth = ref([])
     let clientId;
     let jwt;
+    let authLength = 6;
+
+    function KeyCheck(event)
+    {
+      let KeyID = event.keyCode;
+      let focused = parseInt(document.activeElement.id.split('_')[1]);
+      switch(KeyID)
+      {
+        case 8:
+          if(focused - 1 > -1 && (auth.value[focused] === '' || auth.value[focused] === undefined)) { 
+            auth.value[focused - 1] = ''
+          }
+          break;
+        default:
+        break;
+      }
+    }
+    
+    watch(auth.value, () => {
+      let focused = false;
+      for(let i = 0; i < authLength; i++) {
+        if(auth.value[i] === '' || auth.value[i] === undefined) {
+          document.getElementById('2fa_' + i).focus();
+          document.getElementById('2fa_' + i).addEventListener('keydown', KeyCheck);
+          focused = true;
+          break;
+        }
+      }
+      if(!focused) {
+        document.getElementById('2fa_btn').click();
+      }
+    })
     
     async function submitEmail() {
       const response = await fetch('/authenticate', {
@@ -210,6 +243,7 @@ export default {
         body: JSON.stringify({'email': order.value.email})
       });
       clientId = (await response.json()).id;
+      document.getElementById("2fa_0").focus();
     }
 
     async function checkAuthentication() {
@@ -218,7 +252,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'clientId': clientId, 'password': '123456'})
+        body: JSON.stringify({'clientId': clientId, 'password': auth.value.join('')})
       });
       jwt = (await response.json()).jwt;
       
@@ -233,6 +267,7 @@ export default {
       } else {
         showNameForm.value = false;
       }
+      document.getElementById("choices-framework").focus();
     }
 
     async function setName() {
@@ -249,7 +284,7 @@ export default {
     function submitOrder() {
       console.log(order.value);
     }
-    return { order, showNameForm, submitEmail, checkAuthentication, setName, submitOrder }
+    return { order, auth, showNameForm, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
