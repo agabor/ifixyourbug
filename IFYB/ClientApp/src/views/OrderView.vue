@@ -179,6 +179,7 @@
                           <button type="button" class="btn btn-round bg-gradient-primary mb-0" @click="submitOrder()">Submit</button>
                         </div>
                       </div>
+                      {{auth}}
                     </form>
                   </div>
                 </div>
@@ -220,20 +221,18 @@ export default {
     }
     
     watch(auth.value, () => {
-      let temp = [...auth.value];
       for(let i = 0; i < authLength; i++) {
-        if(temp[i] && temp[i].length > 1) {
-          let code = temp[i];
+        if(auth.value[i] && auth.value[i].length > 1) {
+          let code = auth.value[i];
           for(let j = 0; j < code.length; j++){
-            if(j < authLength-1) {
-              temp[i+j] = code[j];
+            if(i+j < authLength) {
+              auth.value[i+j] = code[j];
             } else {
               break;
             }
           }
         }
       }
-      auth.value = [...temp];
 
       let focused = false;
       for(let i = 0; i < authLength; i++) {
