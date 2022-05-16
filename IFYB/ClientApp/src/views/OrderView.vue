@@ -46,22 +46,22 @@
                     <form>
                       <div class="row mb-4">
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" id="2fa_0" class="form-control text-lg text-center" maxlength="1" v-model="auth[0]" aria-label="2fa">
+                          <input type="text" id="2fa_0" class="form-control text-lg text-center" v-model="auth[0]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" id="2fa_1" class="form-control text-lg text-center" maxlength="1" v-model="auth[1]" aria-label="2fa">
+                          <input type="text" id="2fa_1" class="form-control text-lg text-center" v-model="auth[1]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                          <input type="text" id="2fa_2" class="form-control text-lg text-center" maxlength="1" v-model="auth[2]" aria-label="2fa">
+                          <input type="text" id="2fa_2" class="form-control text-lg text-center" v-model="auth[2]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" id="2fa_3" class="form-control text-lg text-center" maxlength="1" v-model="auth[3]" aria-label="2fa">
+                          <input type="text" id="2fa_3" class="form-control text-lg text-center" v-model="auth[3]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" id="2fa_4" class="form-control text-lg text-center" maxlength="1" v-model="auth[4]" aria-label="2fa">
+                          <input type="text" id="2fa_4" class="form-control text-lg text-center" v-model="auth[4]" aria-label="2fa">
                         </div>
                         <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                          <input type="text" id="2fa_5" class="form-control text-lg text-center" maxlength="1" v-model="auth[5]" aria-label="2fa">
+                          <input type="text" id="2fa_5" class="form-control text-lg text-center" v-model="auth[5]" aria-label="2fa">
                         </div>
                       </div>
                       <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
@@ -220,6 +220,21 @@ export default {
     }
     
     watch(auth.value, () => {
+      let temp = [...auth.value];
+      for(let i = 0; i < authLength; i++) {
+        if(temp[i] && temp[i].length > 1) {
+          let code = temp[i];
+          for(let j = 0; j < code.length; j++){
+            if(j < authLength-1) {
+              temp[i+j] = code[j];
+            } else {
+              break;
+            }
+          }
+        }
+      }
+      auth.value = [...temp];
+
       let focused = false;
       for(let i = 0; i < authLength; i++) {
         if(auth.value[i] === '' || auth.value[i] === undefined) {
