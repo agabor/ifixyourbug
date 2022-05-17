@@ -17,7 +17,7 @@
                     <h2>Email</h2>
                     <p class="mb-4">Enter your email.</p>
                     <div class="row mb-4">
-                      <input class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email" autofocus>
+                      <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email" autofocus>
                     </div>
                     <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                       {{error}}
@@ -90,7 +90,7 @@
                     <h2>Name</h2>
                     <p class="mb-4">Enter your name.</p>
                     <div class="row mb-4">
-                      <input class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
+                      <input id="nameInput" class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
                     </div>
                     <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                       {{error}}
@@ -239,7 +239,6 @@ export default {
     })
     
     function deleteFromAuth(idx) {
-      console.log('delete', idx);
       if(idx - 1 > -1 && (auth.value[idx] === '' || auth.value[idx] === undefined)) { 
         auth.value[idx - 1] = ''
       }
@@ -248,6 +247,7 @@ export default {
       let err = validEmail(order.value.email);
       if(err) {
         error.value = err;
+        document.getElementById("emailInput").focus();
       } else {
         error.value = null;
         const response = await fetch('/authenticate', {
@@ -258,8 +258,8 @@ export default {
           body: JSON.stringify({'email': order.value.email})
         });
         clientId = (await response.json()).id;
-        document.getElementById("2fa_0").focus();
         page.value = 'auth';
+        document.getElementById("2fa_0").focus();
       }
     }
 
@@ -269,6 +269,7 @@ export default {
         err = min(auth.value.join(''), 6);
       if(err) {
         error.value = err;
+        document.getElementById("2fa_0").focus();
       } else {
         try {
           error.value = null;
@@ -281,7 +282,7 @@ export default {
           });
           jwt = (await response.json()).jwt;
         } catch(e) {
-          error.value = 'Wrong code.'
+          error.value = 'Wrong code.';
         }
       }
       if(jwt) {
@@ -293,10 +294,11 @@ export default {
         })
         if(nameResponse.status == 404) {
           page.value = 'name';
+          document.getElementById("nameInput").focus();
         } else {
           page.value = 'data';
+          document.getElementById("choices-framework").focus();
         }
-        document.getElementById("choices-framework").focus();
       }
     }
 
@@ -304,6 +306,7 @@ export default {
       let err = required(order.value.name, 'Name');
       if(err) {
         error.value = err;
+        document.getElementById("nameInput").focus();
       } else {
         error.value = null;
         await fetch('/clients/name', {
@@ -315,6 +318,7 @@ export default {
           body: JSON.stringify({'name': order.value.name})
         });
         page.value = 'data';
+        document.getElementById("choices-framework").focus();
       }
     }
 
