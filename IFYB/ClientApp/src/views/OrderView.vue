@@ -46,29 +46,29 @@
                     <p class="mb-4">Enter 6-digits code from your athenticatior app.</p>
                     <div class="row mb-4">
                       <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                        <input type="text" id="2fa_0" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(0)" v-model="auth[0]" aria-label="2fa">
+                        <input type="text" id="2fa-0" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(0)" v-model="auth[0]" aria-label="2fa">
                       </div>
                       <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                        <input type="text" id="2fa_1" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(1)" v-model="auth[1]" aria-label="2fa">
+                        <input type="text" id="2fa-1" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(1)" v-model="auth[1]" aria-label="2fa">
                       </div>
                       <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
-                        <input type="text" id="2fa_2" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(2)" v-model="auth[2]" aria-label="2fa">
+                        <input type="text" id="2fa-2" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(2)" v-model="auth[2]" aria-label="2fa">
                       </div>
                       <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                        <input type="text" id="2fa_3" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(3)" v-model="auth[3]" aria-label="2fa">
+                        <input type="text" id="2fa-3" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(3)" v-model="auth[3]" aria-label="2fa">
                       </div>
                       <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                        <input type="text" id="2fa_4" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(4)" v-model="auth[4]" aria-label="2fa">
+                        <input type="text" id="2fa-4" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(4)" v-model="auth[4]" aria-label="2fa">
                       </div>
                       <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
-                        <input type="text" id="2fa_5" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(5)" v-model="auth[5]" aria-label="2fa">
+                        <input type="text" id="2fa-5" class="form-control text-lg text-center" @keyup.enter="checkAuthentication()" @keyup.delete="deleteFromAuth(5)" v-model="auth[5]" aria-label="2fa">
                       </div>
                     </div>
                     <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                       {{error}}
                     </div>
                     <div class="text-center">
-                      <button type="button" id="2fa_btn" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
+                      <button type="button" id="2fa-btn" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
                     </div>
                   </div>
                 </div>
@@ -90,7 +90,7 @@
                     <h2>Name</h2>
                     <p class="mb-4">Enter your name.</p>
                     <div class="row mb-4">
-                      <input id="nameInput" class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
+                      <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
                     </div>
                     <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                       {{error}}
@@ -129,12 +129,12 @@
                           </div>
                           <div class="col-md-6 ps-md-2">
                             <label>Version</label>
-                            <input class="form-control" placeholder="x.x" type="text" v-model="order.version">
+                            <input class="form-control" id="version-input" placeholder="x.x" type="text" v-model="order.version">
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <label>Git repo url</label>
-                          <input class="form-control" placeholder="https://..." type="text" v-model="order.repoUrl">
+                          <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl">
                         </div>
     
                         <label>Project sharing with</label>
@@ -167,13 +167,13 @@
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Project description</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Project description" v-model="order.projectDescription"></textarea>
+                            <textarea name="message" class="form-control border-radius-lg" id="project-description-input" rows="6" placeholder="Project description" v-model="order.projectDescription"></textarea>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Error description</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="message" rows="6" placeholder="Error description" v-model="order.errorDescription"></textarea>
+                            <textarea name="message" class="form-control border-radius-lg" id="error-description-input" rows="6" placeholder="Error description" v-model="order.errorDescription"></textarea>
                           </div>
                         </div>
                       </div>
@@ -228,7 +228,7 @@ export default {
       let focused = false;
       for(let i = 0; i < authLength; i++) {
         if(auth.value[i] === '' || auth.value[i] === undefined) {
-          document.getElementById('2fa_' + i).focus();
+          document.getElementById('2fa-' + i).focus();
           focused = true;
           break;
         }
@@ -259,17 +259,16 @@ export default {
         });
         clientId = (await response.json()).id;
         page.value = 'auth';
-        document.getElementById("2fa_0").focus();
+        document.getElementById('2fa-0').focus();
       }
     }
 
     async function checkAuthentication() {
-      let err = required(auth.value.join(''), 'Authentication code');
+      let err = required(auth.value.join(''), 'Authentication code', '2fa-0')?.message;
       if(!err)
         err = min(auth.value.join(''), 6);
       if(err) {
         error.value = err;
-        document.getElementById("2fa_0").focus();
       } else {
         try {
           error.value = null;
@@ -294,7 +293,7 @@ export default {
         })
         if(nameResponse.status == 404) {
           page.value = 'name';
-          document.getElementById("nameInput").focus();
+          document.getElementById("name-input").focus();
         } else {
           page.value = 'data';
           document.getElementById("choices-framework").focus();
@@ -303,10 +302,9 @@ export default {
     }
 
     async function setName() {
-      let err = required(order.value.name, 'Name');
+      let err = required(order.value.name, 'Name', 'name-input');
       if(err) {
         error.value = err;
-        document.getElementById("nameInput").focus();
       } else {
         error.value = null;
         await fetch('/clients/name', {
@@ -323,7 +321,18 @@ export default {
     }
 
     function submitOrder() {
-      console.log(order.value);
+      let err =
+        required(order.value.framework, 'Framework', 'choices-framework') ||
+        required(order.value.version, 'Version', 'version-input') ||
+        required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
+        required(order.value.repoType, 'Project sharing') ||
+        required(order.value.projectDescription, 'Project description', 'project-description-input') ||
+        required(order.value.errorDescription, 'Error description', 'error-description-input');
+      if(err) {
+        error.value = err;
+      } else {
+        error.value = null;
+      }
     }
     return { page, error, order, auth, submitEmail, checkAuthentication, setName, submitOrder, deleteFromAuth }
   }

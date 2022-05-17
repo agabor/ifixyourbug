@@ -10,9 +10,13 @@ export function validEmail(email) {
   return;
 }
 
-export function required(e, text) {
-  if(e === '' || !e)
+export function required(e, text, id) {
+  if(e === '' || !e) {
+    if(id) {
+      document.getElementById(id).focus();
+    }
     return text + ' required.';
+  }
   return;
 }
 
