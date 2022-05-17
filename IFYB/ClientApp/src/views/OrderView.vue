@@ -1,9 +1,9 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100 carousel slide carousel-team" data-bs-ride="carousel" data-bs-interval="false">
+    <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <div class="carousel-item active">
+        <div class="carousel-item" :class="{'active': page === 'email'}">
           <div class="container">
             <div class="row">
               <div class="col-lg-5 col-md-7 mx-auto">
@@ -20,7 +20,7 @@
                       <div class="row mb-4">
                         <input class="form-control" placeholder="email@example.com" type="email" v-model="order.email" autofocus>
                       </div>
-                      <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
+                      <div class="text-center">
                         <button type="button" class="btn bg-gradient-primary my-4" @click="submitEmail()">Submit</button>
                       </div>
                     </form>
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item">
+        <div class="carousel-item" :class="{'active': page === 'auth'}">
           <div class="container">
             <div class="row">
               <div class="col-lg-5 col-md-7 mx-auto">
@@ -64,7 +64,7 @@
                           <input type="text" id="2fa_5" class="form-control text-lg text-center" v-model="auth[5]" aria-label="2fa">
                         </div>
                       </div>
-                      <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
+                      <div class="text-center">
                         <button type="button" id="2fa_btn" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
                       </div>
                     </form>
@@ -74,7 +74,7 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item" v-if="showNameForm">
+        <div class="carousel-item" :class="{'active': page === 'name'}">
           <div class="container">
             <div class="row">
               <div class="col-lg-5 col-md-7 mx-auto">
@@ -91,7 +91,7 @@
                       <div class="row mb-4">
                         <input class="form-control" placeholder="Your Name" type="text" v-model="order.name">
                       </div>
-                      <div class="text-center" href="#carousel-testimonials" data-bs-slide="next">
+                      <div class="text-center">
                         <button type="button" class="btn bg-gradient-primary my-4" @click="setName()">Save</button>
                       </div>
                     </form>
@@ -101,7 +101,7 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item">
+        <div class="carousel-item" :class="{'active': page === 'data'}">
           <div class="container">
             <div class="row">
               <div class="col-lg-9 col-md-11 mx-auto">
@@ -196,8 +196,8 @@ import { ref, watch } from 'vue';
 export default {
   name: 'OrderView',
   setup() {
+    const page = ref('email');
     const order = ref({});
-    const showNameForm = ref(false);
     const auth = ref([])
     let clientId;
     let jwt;
@@ -243,7 +243,7 @@ export default {
         }
       }
       if(!focused) {
-        document.getElementById('2fa_btn').click();
+        checkAuthentication()
       }
     })
     
@@ -257,6 +257,7 @@ export default {
       });
       clientId = (await response.json()).id;
       document.getElementById("2fa_0").focus();
+      page.value = 'auth';
     }
 
     async function checkAuthentication() {
@@ -269,16 +270,16 @@ export default {
       });
       jwt = (await response.json()).jwt;
       
-      const nameResponse = await fetch('/clients/name', {
+      let nameResponse = await fetch('/clients/name', {
         method: 'GET',
         headers: {
           'Authorization': `bearer ${jwt}`
         }
       })
       if(nameResponse.status == 404) {
-        showNameForm.value = true;
+        page.value = 'name';
       } else {
-        showNameForm.value = false;
+        page.value = 'data';
       }
       document.getElementById("choices-framework").focus();
     }
@@ -292,12 +293,13 @@ export default {
         },
         body: JSON.stringify({'name': order.value.name})
       });
+      page.value = 'data';
     }
 
     function submitOrder() {
       console.log(order.value);
     }
-    return { order, auth, showNameForm, submitEmail, checkAuthentication, setName, submitOrder }
+    return { page, order, auth, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
