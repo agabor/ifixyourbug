@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100 carousel slide carousel-team" data-bs-ride="carousel" data-bs-interval="false" style="background-image: url('../assets/img/pricing3.jpg');">
+    <div id="carousel-testimonials" class="page-header min-vh-100 carousel slide carousel-team" data-bs-ride="carousel" data-bs-interval="false">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -179,7 +179,6 @@
                           <button type="button" class="btn btn-round bg-gradient-primary mb-0" @click="submitOrder()">Submit</button>
                         </div>
                       </div>
-                      {{auth}}
                     </form>
                   </div>
                 </div>
@@ -302,3 +301,9 @@ export default {
   }
 }
 </script>
+
+<style>
+#carousel-testimonials {
+  background-image: url('../assets/img/pricing3.jpg');
+}
+</style>
