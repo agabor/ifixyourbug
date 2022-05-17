@@ -20,6 +20,9 @@
                       <div class="row mb-4">
                         <input class="form-control" placeholder="email@example.com" type="email" v-model="order.email" autofocus>
                       </div>
+                      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
+                        {{error}}
+                      </div>
                       <div class="text-center">
                         <button type="button" class="btn bg-gradient-primary my-4" @click="submitEmail()">Submit</button>
                       </div>
@@ -64,6 +67,9 @@
                           <input type="text" id="2fa_5" class="form-control text-lg text-center" v-model="auth[5]" aria-label="2fa">
                         </div>
                       </div>
+                      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
+                        {{error}}
+                      </div>
                       <div class="text-center">
                         <button type="button" id="2fa_btn" class="btn bg-gradient-primary my-4" @click="checkAuthentication()">Check</button>
                       </div>
@@ -90,6 +96,9 @@
                     <form>
                       <div class="row mb-4">
                         <input class="form-control" placeholder="Your Name" type="text" v-model="order.name">
+                      </div>
+                      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
+                        {{error}}
                       </div>
                       <div class="text-center">
                         <button type="button" class="btn bg-gradient-primary my-4" @click="setName()">Save</button>
@@ -175,6 +184,9 @@
                         </div>
                       </div>
                       <div class="row">
+                        <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
+                          {{error}}
+                        </div>
                         <div class="col-md-6 text-end ms-auto">
                           <button type="button" class="btn btn-round bg-gradient-primary mb-0" @click="submitOrder()">Submit</button>
                         </div>
@@ -193,11 +205,13 @@
 
 <script>
 import { ref, watch } from 'vue';
+import { validEmail, required, min } from '../utils/Validate';
 export default {
   name: 'OrderView',
   setup() {
     const page = ref('email');
     const order = ref({});
+    const error = ref(null);
     const auth = ref([])
     let clientId;
     let jwt;
@@ -243,63 +257,88 @@ export default {
         }
       }
       if(!focused) {
-        checkAuthentication()
+        checkAuthentication();
       }
     })
     
     async function submitEmail() {
-      const response = await fetch('/authenticate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'email': order.value.email})
-      });
-      clientId = (await response.json()).id;
-      document.getElementById("2fa_0").focus();
-      page.value = 'auth';
+      let err = validEmail(order.value.email);
+      if(err) {
+        error.value = err;
+      } else {
+        error.value = null;
+        const response = await fetch('/authenticate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({'email': order.value.email})
+        });
+        clientId = (await response.json()).id;
+        document.getElementById("2fa_0").focus();
+        page.value = 'auth';
+      }
     }
 
     async function checkAuthentication() {
-      const response = await fetch(`/authenticate/${clientId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'clientId': clientId, 'password': auth.value.join('')})
-      });
-      jwt = (await response.json()).jwt;
-      
-      let nameResponse = await fetch('/clients/name', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${jwt}`
-        }
-      })
-      if(nameResponse.status == 404) {
-        page.value = 'name';
+      let err = required(auth.value.join(''), 'Authentication code');
+      if(!err)
+        err = min(auth.value.join(''), 6);
+      if(err) {
+        error.value = err;
       } else {
-        page.value = 'data';
+        try {
+          error.value = null;
+          const response = await fetch(`/authenticate/${clientId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'clientId': clientId, 'password': auth.value.join('')})
+          });
+          jwt = (await response.json()).jwt;
+        } catch(e) {
+          error.value = 'Wrong code.'
+        }
       }
-      document.getElementById("choices-framework").focus();
+      if(jwt) {
+        let nameResponse = await fetch('/clients/name', {
+          method: 'GET',
+          headers: {
+            'Authorization': `bearer ${jwt}`
+          }
+        })
+        if(nameResponse.status == 404) {
+          page.value = 'name';
+        } else {
+          page.value = 'data';
+        }
+        document.getElementById("choices-framework").focus();
+      }
     }
 
     async function setName() {
-      await fetch('/clients/name', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'name': order.value.name})
-      });
-      page.value = 'data';
+      let err = required(order.value.name, 'Name');
+      if(err) {
+        error.value = err;
+      } else {
+        error.value = null;
+        await fetch('/clients/name', {
+          method: 'POST',
+          headers: {
+            'Authorization': `bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({'name': order.value.name})
+        });
+        page.value = 'data';
+      }
     }
 
     function submitOrder() {
       console.log(order.value);
     }
-    return { page, order, auth, submitEmail, checkAuthentication, setName, submitOrder }
+    return { page, error, order, auth, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
