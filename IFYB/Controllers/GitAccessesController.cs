@@ -23,6 +23,7 @@ public class GitAccessesController : BaseController
         var client = GetClient();
         if (client == null)
             return NotFound();
+        dbContext.Entry(client).Collection(c => c.GitAccesses).Load();
         return base.Ok(client.GitAccesses!.Select(o => o.ToDto()).ToList());
     }
 
