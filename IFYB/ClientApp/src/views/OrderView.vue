@@ -195,6 +195,28 @@
             </div>
           </div>
         </div>
+        <div class="carousel-item" :class="{'active': page === 'success'}">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-5 col-md-7 mx-auto">
+                <div class="card">
+                  <div class="card-body px-lg-5 py-lg-5 text-center">
+                    <div class="info mb-4">
+                      <div class="icon icon-shape icon-xl rounded-circle bg-gradient-primary shadow text-center py-3 mx-auto">
+                        <i class="ni ni-send opacity-10 mt-2"></i>
+                      </div>
+                    </div>
+                    <h2>Successful order</h2>
+                    <p class="mb-4">We will contact you shortly via email.</p>
+                    <div class="text-center">
+                      <button type="button" class="btn bg-gradient-primary my-4" @click="$router.push('/')">Bact to home</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -250,7 +272,7 @@ export default {
       let err = validEmail(order.value.email);
       if(err) {
         error.value = err;
-        document.getElementById("emailInput").focus();
+        document.getElementById('emailInput').focus();
       } else {
         error.value = null;
         const response = await fetch('/authenticate', {
@@ -296,10 +318,10 @@ export default {
         })
         if(nameResponse.status == 404) {
           page.value = 'name';
-          document.getElementById("name-input").focus();
+          document.getElementById('name-input').focus();
         } else {
           page.value = 'data';
-          document.getElementById("choices-framework").focus();
+          document.getElementById('choices-framework').focus();
         }
       }
     }
@@ -319,7 +341,7 @@ export default {
           body: JSON.stringify({'name': order.value.name})
         });
         page.value = 'data';
-        document.getElementById("choices-framework").focus();
+        document.getElementById('choices-framework').focus();
       }
     }
 
@@ -327,6 +349,7 @@ export default {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
         required(order.value.version, 'Version', 'version-input') ||
+        required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input') ||
         required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
         required(order.value.repoType, 'Project sharing') ||
         required(order.value.projectDescription, 'Project description', 'project-description-input') ||
@@ -344,21 +367,26 @@ export default {
           body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': 0})
         });
         let id = (await gitResponse.json()).id;
-        await fetch('/orders', {
-          method: 'POST',
-          headers: {
-            'Authorization': `bearer ${jwt}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "framework": order.value.framework,
-            "version": order.value.version,
-            "thirdPartyTool": order.value.thirdPartyTool,
-            "projectDescription": order.value.projectDescription,
-            "bugDescription": order.value.errorDescription,
-            "gitAccessId": id
-          })
-        });
+        try {
+          await fetch('/orders', {
+            method: 'POST',
+            headers: {
+              'Authorization': `bearer ${jwt}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              'framework': order.value.framework,
+              'version': order.value.version,
+              'thirdPartyTool': order.value.thirdPartyTool,
+              'projectDescription': order.value.projectDescription,
+              'bugDescription': order.value.errorDescription,
+              'gitAccessId': id
+            })
+          });
+          page.value = 'success';
+        } catch {
+          error.value = 'Something wrong'
+        }
       }
     }
     return { page, error, order, auth, submitEmail, checkAuthentication, setName, submitOrder, deleteFromAuth }
