@@ -175,8 +175,8 @@
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
-                            <label>Error description</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="error-description-input" rows="6" placeholder="Error description" v-model="order.errorDescription"></textarea>
+                            <label>Bug description</label>
+                            <textarea name="message" class="form-control border-radius-lg" id="bug-description-input" rows="6" placeholder="Bug description" v-model="order.bugDescription"></textarea>
                           </div>
                         </div>
                       </div>
@@ -353,7 +353,7 @@ export default {
         required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
         required(order.value.repoType, 'Project sharing') ||
         required(order.value.projectDescription, 'Project description', 'project-description-input') ||
-        required(order.value.errorDescription, 'Error description', 'error-description-input');
+        required(order.value.bugDescription, 'Bug description', 'bug-description-input');
       if(err) {
         error.value = err;
       } else {
@@ -368,6 +368,7 @@ export default {
         });
         let id = (await gitResponse.json()).id;
         try {
+          error.value = null;
           await fetch('/orders', {
             method: 'POST',
             headers: {
@@ -379,7 +380,7 @@ export default {
               'version': order.value.version,
               'thirdPartyTool': order.value.thirdPartyTool,
               'projectDescription': order.value.projectDescription,
-              'bugDescription': order.value.errorDescription,
+              'bugDescription': order.value.bugDescription,
               'gitAccessId': id
             })
           });
