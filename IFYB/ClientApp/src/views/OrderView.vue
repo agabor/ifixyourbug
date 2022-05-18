@@ -123,8 +123,8 @@
                           <div class="col-md-6">
                             <label class="">Framework</label>
                             <select class="form-control" name="choices-framework" id="choices-framework" placeholder="Framework" v-model="order.framework">
-                              <option value="vuejs">Vuejs</option>
-                              <option value="dotnet">.Net</option>
+                              <option :value="0">Vuejs</option>
+                              <option :value="1">.Net</option>
                             </select>
                           </div>
                           <div class="col-md-6 ps-md-2">
@@ -136,7 +136,10 @@
                           <label>Git repo url</label>
                           <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl">
                         </div>
-    
+                        <div class="col-md-12 pe-2 mb-3">
+                          <label>Third party tool</label>
+                          <input class="form-control" id="third-party-tool-input" placeholder="..." type="text" v-model="order.thirdPartyTool">
+                        </div>
                         <label>Project sharing with</label>
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div>
@@ -320,7 +323,7 @@ export default {
       }
     }
 
-    function submitOrder() {
+    async function submitOrder() {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
         required(order.value.version, 'Version', 'version-input') ||
@@ -332,6 +335,30 @@ export default {
         error.value = err;
       } else {
         error.value = null;
+        let gitResponse = await fetch('/git-accesses', {
+          method: 'POST',
+          headers: {
+            'Authorization': `bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': 0})
+        });
+        let id = (await gitResponse.json()).id;
+        await fetch('/orders', {
+          method: 'POST',
+          headers: {
+            'Authorization': `bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            "framework": order.value.framework,
+            "version": order.value.version,
+            "thirdPartyTool": order.value.thirdPartyTool,
+            "projectDescription": order.value.projectDescription,
+            "bugDescription": order.value.errorDescription,
+            "gitAccessId": id
+          })
+        });
       }
     }
     return { page, error, order, auth, submitEmail, checkAuthentication, setName, submitOrder, deleteFromAuth }

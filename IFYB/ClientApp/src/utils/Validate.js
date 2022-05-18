@@ -11,7 +11,7 @@ export function validEmail(email) {
 }
 
 export function required(e, text, id) {
-  if(e === '' || !e) {
+  if(e === '' || e === null || e === undefined) {
     if(id) {
       document.getElementById(id).focus();
     }
