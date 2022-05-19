@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import OrderView from '../views/OrderView.vue'
-import FAQ from '../views/FAQ.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import OrderView from '../views/OrderView.vue';
+import FAQ from '../views/FAQ.vue';
+import AdminLogin from '../views/AdminLogin.vue';
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQ
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminLogin
   }
 ]
 
