@@ -17,6 +17,7 @@
               <div class="buttons">
                 <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/order')">Order</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/faq')">FAQ</button>
+                <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">Contact</button>
               </div>
               <div class="row mt-2">
                 <div class="col-md-3 col-6 p-0">
