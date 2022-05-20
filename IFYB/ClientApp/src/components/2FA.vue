@@ -14,7 +14,7 @@
               <p class="mb-4">Enter 6-digits code from your athenticatior app.</p>
               <div class="row mb-4">
                 <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in authLength" :key="i">
-                  <input type="text" :id="`2fa-${idx}`" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa">
+                  <input type="text" :id="`2fa-${idx}`" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChane($event, idx)">
                 </div>
               </div>
               <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { required, min } from '../utils/Validate';
 
 export default {
@@ -50,43 +50,56 @@ export default {
     let oldAuth = [];
     let authLength = 6;
     const codeError = ref(null);
-    
-    watch(auth.value, () => {
-      for(let i = 0; i < authLength; i++) {
-        if(auth.value[i] && auth.value[i].length == 1) {
-          oldAuth[i] = auth.value[i];
-        } else if(auth.value[i] && auth.value[i].length == 2) {
-          auth.value[i] = auth.value[i].replace(oldAuth[i], '');
-          if(i+1 < authLength)
-            document.getElementById('2fa-' + (i+1)).focus();
-        } else if(auth.value[i] && auth.value[i].length > 2) {
-          let code = auth.value[i].split('');
-          for(let j = 0; j < authLength; j++){
-            if(i+j > authLength){
-              break;
-            }
-            if(code[j] !== '' && code[j] !== undefined){
-              auth.value[i+j] = code[j];
-            }
-          }
+
+    function onPaste(event, idx) {
+      let code = event.clipboardData.getData('text').split('');
+      for(let i = 0; i < authLength-idx; i++){
+        if(code[i] !== '' && code[i] !== undefined){
+          auth.value[idx+i] = code[i];
+          oldAuth[idx+i] = code[i];
         }
       }
-      let focused = false;
+      auth.value[idx] = code[0];
+    }
+
+    function onInputChane(event, idx) {
+      let newValue = event.target.value;
+      if(newValue.length <= 2) {
+        if(newValue && newValue.length == 1) {
+          auth.value[idx] = newValue;
+          oldAuth[idx] = auth.value[idx];
+          if(idx+1 < authLength)
+            document.getElementById('2fa-' + (idx+1)).focus();
+        } else if(newValue && newValue.length == 2) {
+          auth.value[idx] = newValue.replace(oldAuth[idx], '');
+          oldAuth[idx] = auth.value[idx];
+          if(idx+1 < authLength)
+            document.getElementById('2fa-' + (idx+1)).focus();
+        }
+        autoCheck();
+      } else {
+        auth.value[idx] = newValue[0];
+        autoCheck();
+      }
+    }
+
+    function autoCheck() {
+      let unfilled = false;
       for(let i = 0; i < authLength; i++) {
         if(auth.value[i] === '' || auth.value[i] === undefined) {
-          document.getElementById('2fa-' + i).focus();
-          focused = true;
+          unfilled = true;
           break;
         }
       }
-      if(!focused) {
+      if(!unfilled) {
         checkValidCode();
       }
-    })
+    }
     
     function deleteFromAuth(idx) {
       if(idx - 1 > -1 && (auth.value[idx] === '' || auth.value[idx] === undefined)) { 
-        auth.value[idx - 1] = ''
+        auth.value[idx - 1] = '';
+        document.getElementById('2fa-' + (idx-1)).focus();
       }
     }
 
@@ -100,7 +113,7 @@ export default {
       }
     }
 
-    return { auth, codeError, authLength, deleteFromAuth, checkValidCode }
+    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChane }
   }
 }
 </script>
