@@ -13,7 +13,7 @@
               <h2>2FA Security</h2>
               <p class="mb-4">Enter 6-digits code from your athenticatior app.</p>
               <div class="row mb-4">
-                <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in 6" :key="i">
+                <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in authLength" :key="i">
                   <input type="text" :id="`2fa-${idx}`" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa">
                 </div>
               </div>
@@ -47,23 +47,30 @@ export default {
   emits:['update:modelValue'],
   setup(props, context) {
     const auth = ref(props.modelValue.split(''));
+    let oldAuth = [];
     let authLength = 6;
     const codeError = ref(null);
     
     watch(auth.value, () => {
       for(let i = 0; i < authLength; i++) {
-        if(auth.value[i] && auth.value[i].length > 1) {
-          let code = auth.value[i];
-          for(let j = 0; j < code.length; j++){
-            if(i+j < authLength) {
-              auth.value[i+j] = code[j];
-            } else {
+        if(auth.value[i] && auth.value[i].length == 1) {
+          oldAuth[i] = auth.value[i];
+        } else if(auth.value[i] && auth.value[i].length == 2) {
+          auth.value[i] = auth.value[i].replace(oldAuth[i], '');
+          if(i+1 < authLength)
+            document.getElementById('2fa-' + (i+1)).focus();
+        } else if(auth.value[i] && auth.value[i].length > 2) {
+          let code = auth.value[i].split('');
+          for(let j = 0; j < authLength; j++){
+            if(i+j > authLength){
               break;
+            }
+            if(code[j] !== '' && code[j] !== undefined){
+              auth.value[i+j] = code[j];
             }
           }
         }
       }
-
       let focused = false;
       for(let i = 0; i < authLength; i++) {
         if(auth.value[i] === '' || auth.value[i] === undefined) {
@@ -93,7 +100,7 @@ export default {
       }
     }
 
-    return { auth, codeError, deleteFromAuth, checkValidCode }
+    return { auth, codeError, authLength, deleteFromAuth, checkValidCode }
   }
 }
 </script>
