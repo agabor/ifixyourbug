@@ -22,7 +22,7 @@ public class OrdersController : BaseController
         dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
-            return NotFound();
+            return Forbid();
         return base.Ok(client.Orders!.Select(o => o.ToDto()).ToList());
     }
 

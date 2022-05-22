@@ -10,32 +10,40 @@ namespace IFYB.Controllers;
 
 [ApiController]
 [Route("authenticate")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : BaseController
 {
-    public ApplicationDbContext DbContext { get; }
     public IConfiguration Configuration { get; private set; }
     public SecurityKey SecurityKey { get; }
 
-    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey)
+    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey) : base(dbContext)
     {
-        DbContext = dbContext;
         Configuration = configuration;
         SecurityKey = securityKey;
+    }
+
+
+    [HttpGet]
+    [Route("check-jwt")]
+    public IActionResult CheckJwt()
+    {
+        if (GetClient() == null)
+            return Forbid();
+        return Ok();
     }
 
     [HttpPost]
     [Produces(typeof(IdDto))]
     public IActionResult StartSession([FromBody] EmailDto dto)
     {
-        DbContext.Database.EnsureCreated();
-        var client = DbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
+        dbContext.Database.EnsureCreated();
+        var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
         if (client == null) {
             client = new Client(dto.Email);
-            DbContext.Clients.Add(client);
+            dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
         client.Password = passwordHasher.HashPassword(client, "123456");
-        DbContext.SaveChanges();
+        dbContext.SaveChanges();
         return Ok(new IdDto(client.Id));
     }
 
@@ -44,8 +52,8 @@ public class AuthenticationController : ControllerBase
     [Produces(typeof(JwtDto))]
     public IActionResult Authenticate(int clientId, [FromBody] PasswordDto dto)
     {
-        DbContext.Database.EnsureCreated();
-        var client = DbContext.Clients.FirstOrDefault(c => c.Id == clientId);
+        dbContext.Database.EnsureCreated();
+        var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
         if (client == null)
             return Forbid();
         var passwordHasher = new PasswordHasher<Client>();
@@ -57,7 +65,7 @@ public class AuthenticationController : ControllerBase
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 client.Password = passwordHasher.HashPassword(client, dto.Password);
-                DbContext.SaveChanges();
+                dbContext.SaveChanges();
                 return Ok(GenerateJWT(new Claim(ClaimTypes.Email, client.Email)));
         }
         return Forbid();
@@ -68,14 +76,14 @@ public class AuthenticationController : ControllerBase
     [Produces(typeof(IdDto))]
     public IActionResult StartAdminSession([FromBody] EmailDto dto)
     {
-        DbContext.Database.EnsureCreated();
-        var admin = DbContext.Admins.FirstOrDefault(c => c.Email == dto.Email);
+        dbContext.Database.EnsureCreated();
+        var admin = dbContext.Admins.FirstOrDefault(c => c.Email == dto.Email);
         if (admin == null) {
             return Forbid();
         }
         var passwordHasher = new PasswordHasher<Admin>();
         admin.Password = passwordHasher.HashPassword(admin, "123456");
-        DbContext.SaveChanges();
+        dbContext.SaveChanges();
         return Ok(new IdDto(admin.Id));
     }
 
@@ -84,8 +92,8 @@ public class AuthenticationController : ControllerBase
     [Produces(typeof(JwtDto))]
     public IActionResult AuthenticateAdmin(int adminId, [FromBody] PasswordDto dto)
     {
-        DbContext.Database.EnsureCreated();
-        var admin = DbContext.Admins.FirstOrDefault(c => c.Id == adminId);
+        dbContext.Database.EnsureCreated();
+        var admin = dbContext.Admins.FirstOrDefault(c => c.Id == adminId);
         if (admin == null)
             return Forbid();
         var passwordHasher = new PasswordHasher<Admin>();
@@ -97,7 +105,7 @@ public class AuthenticationController : ControllerBase
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 admin.Password = passwordHasher.HashPassword(admin, dto.Password);
-                DbContext.SaveChanges();
+                dbContext.SaveChanges();
                 return Ok(GenerateJWT(new Claim(ClaimTypes.IsPersistent, "yes")));
         }
         return Forbid();

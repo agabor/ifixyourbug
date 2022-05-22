@@ -21,6 +21,7 @@ public class IFYBTests
     public async Task RegisterAndSendOrder()
     {
         await Get($"reset", HttpStatusCode.OK);
+        await Get($"authenticate/check-jwt", HttpStatusCode.Forbidden);
         
         var response = await Post("authenticate", HttpStatusCode.OK, new {
             email = "aa@bb.cc"
@@ -38,6 +39,7 @@ public class IFYBTests
         Assert.IsNotNull(jwt);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
 
+        await Get($"authenticate/check-jwt", HttpStatusCode.OK);
         await Get($"clients/name", HttpStatusCode.NotFound);
         await Post($"clients/name", HttpStatusCode.OK, new {
             name = "First User"
