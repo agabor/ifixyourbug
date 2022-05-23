@@ -79,13 +79,19 @@
                           <div class="col-md-6">
                             <label class="">Framework</label>
                             <select class="form-control" name="choices-framework" id="choices-framework" placeholder="Framework" v-model="order.framework">
-                              <option :value="0">Vuejs</option>
-                              <option :value="1">.Net</option>
+                              <option :value="0">Vue.js</option>
+                              <option :value="1">ASP.NET Core</option>
                             </select>
                           </div>
                           <div class="col-md-6 ps-md-2">
-                            <label>Version</label>
-                            <input class="form-control" id="version-input" placeholder="x.x" type="text" v-model="order.version">
+                            <label class="">Version</label>
+                            <select v-if="order.framework == 0" class="form-control" name="choices-version" id="choices-version" placeholder="Version" v-model="order.version">
+                              <option :value="version" v-for="version in vueVersions" :key="version">{{ version }}</option>
+                            </select>
+                            <select v-else-if="order.framework == 1" class="form-control" name="choices-version" id="choices-version" placeholder="Version" v-model="order.version">
+                              <option :value="version" v-for="version in aspVersions" :key="version">{{ version }}</option>
+                            </select>
+                            <input v-else type="text" placeholder="Please select a framework first" class="form-control"  disabled>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
@@ -192,6 +198,8 @@ export default {
     const order = ref({});
     const error = ref(null);
     const auth = ref('');
+    const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
+    const vueVersions = ['2.6', '3.0', '3.1', '3.2'];
     let clientId;
     let jwt;
     order.value.thirdPartyTool = false;
@@ -271,7 +279,7 @@ export default {
     async function submitOrder() {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
-        required(order.value.version, 'Version', 'version-input') ||
+        required(order.value.version, 'Version', 'choices-version') ||
         required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input') ||
         required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
         required(order.value.repoType, 'Project sharing') ||
@@ -313,7 +321,7 @@ export default {
         }
       }
     }
-    return { page, error, order, auth, submitEmail, checkAuthentication, setName, submitOrder }
+    return { page, error, order, auth, aspVersions, vueVersions, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
