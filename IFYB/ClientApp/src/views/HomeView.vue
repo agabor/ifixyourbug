@@ -20,17 +20,13 @@
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">Contact</button>
               </div>
               <div class="row mt-2">
-                <div class="col-md-3 col-6 p-0">
-                  <img class="w-100" src="../assets/img/logos/gray-logos/logo-pinterest.svg" alt="logo">
+                <div class="col-md-4 col-6 d-flex justify-content-center align-items-center p-0">
+                  <img class="w-15" src="../assets/img/logos/gray-logos/vue-logo.png" alt="logo">
+                  <p class="m-0 mx-2 fw-bolder">ASP.NET Core</p>
                 </div>
-                <div class="col-md-3 col-6 p-0">
-                  <img class="w-100" src="../assets/img/logos/gray-logos/logo-netflix.svg" alt="logo">
-                </div>
-                <div class="col-md-3 col-6 p-0">
-                  <img class="w-100" src="../assets/img/logos/gray-logos/logo-coinbase.svg" alt="logo">
-                </div>
-                <div class="col-md-3 col-6 p-0">
-                  <img class="w-100" src="../assets/img/logos/gray-logos/logo-nasa.svg" alt="logo">
+                <div class="col-md-4 col-6 d-flex justify-content-center align-items-center p-0">
+                  <img class="w-15" src="../assets/img/logos/gray-logos/dotnet-logo.png" alt="logo">
+                  <p class="m-0 mx-2 fw-bolder">Vue.js</p>
                 </div>
               </div>
             </div>
