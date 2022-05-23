@@ -203,6 +203,35 @@ export default {
     let clientId;
     let jwt;
     order.value.thirdPartyTool = false;
+
+    checkJwtIsActive();
+
+    async function checkJwtIsActive() {
+      if(localStorage.getItem('jwt')) {
+        let authResponse = await fetch('/authenticate/check-jwt', {
+          method: 'GET',
+          headers: {
+            'Authorization': `bearer ${localStorage.getItem('jwt')}`
+          }
+        })
+        if(authResponse.status == 200) {
+          jwt = localStorage.getItem('jwt');
+          let nameResponse = await fetch('/clients/name', {
+            method: 'GET',
+            headers: {
+              'Authorization': `bearer ${jwt}`
+            }
+          })
+          if(nameResponse.status == 404) {
+            page.value = 'name';
+            document.getElementById('name-input').focus();
+          } else {
+            page.value = 'data';
+            document.getElementById('choices-framework').focus();
+          }
+        }
+      }
+    }
     
     async function submitEmail() {
       let err = validEmail(order.value.email);
@@ -235,6 +264,7 @@ export default {
           body: JSON.stringify({'clientId': clientId, 'password': auth.value})
         });
         jwt = (await response.json()).jwt;
+        localStorage.setItem('jwt', jwt);
         error.value = null;
       } catch(e) {
         jwt = null;
