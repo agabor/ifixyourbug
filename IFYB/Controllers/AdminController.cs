@@ -27,4 +27,12 @@ public class AdminController : ControllerBase
     {
         return Ok(dbContext.Messages.Include(m => m.Client).Where(m => m.OrderId == null).Select(m => new ContactMessageDto(m.Client!.Name!, m.Client.Email, m.Text)));
     }
+
+    [HttpGet]
+    [Route("orders")]
+    [Produces(typeof(IEnumerable<OrderDto>))]
+    public IActionResult ListOrders() {
+        dbContext.Database.EnsureCreated();
+        return base.Ok(dbContext.Orders!.Select(o => o.ToDto()).ToList());
+    }
 }

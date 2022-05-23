@@ -32,6 +32,52 @@
           </div>
         </div>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
+        <div class="carousel-item" :class="{'active': page === 'orders'}">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 mx-auto">
+                <div class="card">
+                  <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Framework</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">version</th>
+                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">thirdPartyTool</th>
+                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">bugDescription</th>
+                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">projectDescription</th>
+                          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">gitAccessId</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(order, idx) in orders" :key="idx">
+                          <td>
+                            <span class="text-secondary text-xs font-weight-bold">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }}</span>
+                          </td>
+                          <td>
+                            <span class="text-secondary text-xs font-weight-bold">{{ order.version }}</span>
+                          </td>
+                          <td class="align-middle text-center text-sm">
+                            <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">{{ order.bugDescription }}</span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">{{ order.projectDescription }}</span>
+                          </td>
+                          <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">{{ order.gitAccessId }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       </div>
       </div>
     </div>
   </section>
@@ -49,6 +95,7 @@ export default {
     const order = ref({});
     const error = ref(null);
     const auth = ref('');
+    const orders = ref([]);
     let clientId;
     let jwt;
     
@@ -93,17 +140,25 @@ export default {
         error.value = 'Wrong code.';
       }
       if(jwt) {
-        let adminResponse = await fetch('/admin/contact-messages', {
+        let orderResponse = await fetch('/admin/orders', {
           method: 'GET',
           headers: {
             'Authorization': `bearer ${jwt}`,
             'Content-Type': 'application/json'
           }
         })
-        console.log('adminResponse', await adminResponse.json());
+        orders.value = await orderResponse.json();
+        page.value = 'orders';
+        
       }
     }
-    return { page, error, order, auth, submitEmail, checkAuthentication }
+    return { page, error, order, orders, auth, submitEmail, checkAuthentication }
   }
 }
 </script>
+
+<style scoped>
+  td > span {
+    white-space: pre-line;
+  }
+</style>
