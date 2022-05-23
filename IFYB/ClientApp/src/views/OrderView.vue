@@ -210,7 +210,6 @@ export default {
         error.value = err;
         document.getElementById('emailInput').focus();
       } else {
-        error.value = null;
         const response = await fetch('/authenticate', {
           method: 'POST',
           headers: {
@@ -221,13 +220,13 @@ export default {
         clientId = (await response.json()).id;
         page.value = 'auth';
         document.getElementById('2fa-0').focus();
+        error.value = null;
       }
     }
 
     async function checkAuthentication(code) {
       auth.value = code;
       try {
-        error.value = null;
         const response = await fetch(`/authenticate/${clientId}`, {
           method: 'POST',
           headers: {
@@ -236,6 +235,7 @@ export default {
           body: JSON.stringify({'clientId': clientId, 'password': auth.value})
         });
         jwt = (await response.json()).jwt;
+        error.value = null;
       } catch(e) {
         jwt = null;
         error.value = 'Wrong code.';
@@ -262,7 +262,6 @@ export default {
       if(err) {
         error.value = err;
       } else {
-        error.value = null;
         await fetch('/clients/name', {
           method: 'POST',
           headers: {
@@ -273,6 +272,7 @@ export default {
         });
         page.value = 'data';
         document.getElementById('choices-framework').focus();
+        error.value = null;
       }
     }
 
@@ -288,7 +288,6 @@ export default {
       if(err) {
         error.value = err;
       } else {
-        error.value = null;
         let gitResponse = await fetch('/git-accesses', {
           method: 'POST',
           headers: {
@@ -298,8 +297,8 @@ export default {
           body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': 0})
         });
         let id = (await gitResponse.json()).id;
+        error.value = null;
         try {
-          error.value = null;
           await fetch('/orders', {
             method: 'POST',
             headers: {
@@ -316,6 +315,7 @@ export default {
             })
           });
           page.value = 'success';
+          error.value = null;
         } catch {
           error.value = 'Something wrong'
         }

@@ -108,8 +108,8 @@ export default {
       if(err) {
         codeError.value = err;
       } else {
-        codeError.value = null;
         context.emit('update:modelValue', auth.value.join(''));
+        codeError.value = null;
       }
     }
 

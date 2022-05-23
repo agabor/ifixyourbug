@@ -91,7 +91,6 @@ export default {
         error.value = err;
       } else {
         try {
-          error.value = null;
           await fetch('/contact', {
             method: 'POST',
             headers: {
@@ -100,6 +99,7 @@ export default {
             body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
           });
           page.value = 'success';
+          error.value = null;
         } catch {
           error.value = 'Something wrong'
         }

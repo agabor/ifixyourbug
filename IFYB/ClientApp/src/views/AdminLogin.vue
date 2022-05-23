@@ -105,7 +105,6 @@ export default {
         error.value = err;
         document.getElementById('emailInput').focus();
       } else {
-        error.value = null;
         try {
           const response = await fetch('authenticate/admin', {
             method: 'POST',
@@ -117,6 +116,7 @@ export default {
           clientId = (await response.json()).id;
           page.value = 'auth';
           document.getElementById('2fa-0').focus();
+          error.value = null;
         } catch(e) {
           error.value = 'This email is not an administrator email.'
         }
@@ -126,7 +126,6 @@ export default {
     async function checkAuthentication(code) {
       auth.value = code;
       try {
-        error.value = null;
         const response = await fetch(`authenticate/admin/${clientId}`, {
           method: 'POST',
           headers: {
@@ -135,6 +134,7 @@ export default {
           body: JSON.stringify({'clientId': clientId, 'password': auth.value})
         });
         jwt = (await response.json()).jwt;
+        error.value = null;
       } catch(e) {
         jwt = null;
         error.value = 'Wrong code.';
