@@ -77,14 +77,14 @@
                       <div class="row">
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div class="col-md-6">
-                            <label class="">Framework</label>
+                            <label class="">Framework*</label>
                             <select class="form-control" name="choices-framework" id="choices-framework" placeholder="Framework" v-model="order.framework">
                               <option :value="0">Vue.js</option>
                               <option :value="1">ASP.NET Core</option>
                             </select>
                           </div>
                           <div class="col-md-6 ps-md-2">
-                            <label class="">Version</label>
+                            <label class="">Version*</label>
                             <select v-if="order.framework == 0" class="form-control" name="choices-version" id="choices-version" placeholder="Version" v-model="order.version">
                               <option :value="version" v-for="version in vueVersions" :key="version">{{ version }}</option>
                             </select>
@@ -94,21 +94,22 @@
                             <input v-else type="text" placeholder="Please select a framework first" class="form-control"  disabled>
                           </div>
                         </div>
+                        <div class="col-md-12 pe-2 mb-3 opacity-75" v-if="gitAccesses.length > 0">
+                          <label class="">Previous accesses</label>
+                          <select class="form-control" name="choices-git-access" id="choices-git-access" placeholder="Git accesses" v-model="selectedAccess">
+                            <option :value="null">-</option>
+                            <option :value="access" v-for="(access, idx) in gitAccesses" :key="idx">{{ access.accessMode == 0 ? 'Public repo' : access.accessMode == 1 ? 'Invite' : 'User account' }} - {{ access.url }}</option>
+                          </select>
+                        </div>
                         <div class="col-md-12 pe-2 mb-3">
-                          <label>Git repo url</label>
+                          <label>Git repo url*</label>
                           <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl">
                         </div>
-                        <div class="col-md-12 pe-2 mb-3">
-                          <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.thirdPartyTool">
-                            <label class="form-check-label" for="third-party-tool-input">Is the bug potentially related to a third party library?</label>
-                          </div>
-                        </div>
-                        <label>Project sharing with</label>
+                        <label>Project sharing with*</label>
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div>
                             <div class="form-check me-3" >
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="public-repo" v-model="order.repoType">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :value="0" v-model="order.accessMode">
                               <label class="form-check-label" for="flexRadioDefault1">
                                 Public repo
                               </label>
@@ -116,7 +117,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="invite" v-model="order.repoType">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" :value="1" v-model="order.accessMode">
                               <label class="form-check-label" for="flexRadioDefault2">
                                 Invite
                               </label>
@@ -124,7 +125,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="user-acc" v-model="order.repoType">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" :value="2" v-model="order.accessMode">
                               <label class="form-check-label" for="flexRadioDefault3">
                                 User account
                               </label>
@@ -133,14 +134,20 @@
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
-                            <label>Project description</label>
+                            <label>Project description*</label>
                             <textarea name="message" class="form-control border-radius-lg" id="project-description-input" rows="6" placeholder="Project description" v-model="order.projectDescription"></textarea>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
-                            <label>Bug description</label>
+                            <label>Bug description*</label>
                             <textarea name="message" class="form-control border-radius-lg" id="bug-description-input" rows="6" placeholder="Bug description" v-model="order.bugDescription"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-md-12 pe-2 mb-3">
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.thirdPartyTool">
+                            <label class="form-check-label" for="third-party-tool-input">Is the bug potentially related to a third party library?</label>
                           </div>
                         </div>
                       </div>
@@ -187,7 +194,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import TwoFa from '../components/2FA.vue';
 export default {
@@ -200,9 +207,21 @@ export default {
     const auth = ref('');
     const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
     const vueVersions = ['2.6', '3.0', '3.1', '3.2'];
+    const gitAccesses = ref([]);
+    const selectedAccess = ref({});
     let clientId;
     let jwt;
     order.value.thirdPartyTool = false;
+
+    watch(selectedAccess, () => {
+      if(selectedAccess.value) {
+        order.value.accessMode = selectedAccess.value.accessMode;
+        order.value.repoUrl = selectedAccess.value.url;
+      } else {
+        order.value.accessMode = undefined;
+        order.value.repoUrl = undefined;
+      }
+    })
 
     checkJwtIsActive();
 
@@ -226,6 +245,13 @@ export default {
             page.value = 'name';
             document.getElementById('name-input').focus();
           } else {
+            let gitResponse = await fetch('/git-accesses', {
+              method: 'GET',
+              headers: {
+                'Authorization': `bearer ${jwt}`
+              }
+            })
+            gitAccesses.value = await gitResponse.json();
             page.value = 'data';
             document.getElementById('choices-framework').focus();
           }
@@ -281,6 +307,13 @@ export default {
           page.value = 'name';
           document.getElementById('name-input').focus();
         } else {
+          let gitResponse = await fetch('/git-accesses', {
+            method: 'GET',
+            headers: {
+              'Authorization': `bearer ${jwt}`
+            }
+          })
+          gitAccesses.value = await gitResponse.json();
           page.value = 'data';
           document.getElementById('choices-framework').focus();
         }
@@ -312,7 +345,7 @@ export default {
         required(order.value.version, 'Version', 'choices-version') ||
         required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input') ||
         required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
-        required(order.value.repoType, 'Project sharing') ||
+        required(order.value.accessMode, 'Project sharing') ||
         required(order.value.projectDescription, 'Project description', 'project-description-input') ||
         required(order.value.bugDescription, 'Bug description', 'bug-description-input');
       if(err) {
@@ -324,7 +357,7 @@ export default {
             'Authorization': `bearer ${jwt}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': 0})
+          body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
         });
         let id = (await gitResponse.json()).id;
         error.value = null;
@@ -351,7 +384,7 @@ export default {
         }
       }
     }
-    return { page, error, order, auth, aspVersions, vueVersions, submitEmail, checkAuthentication, setName, submitOrder }
+    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
