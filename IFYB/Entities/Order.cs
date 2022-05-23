@@ -7,7 +7,7 @@ public class Order
     public int Id { get; set; }
     public Framework Framework { get; set; }
     public string Version { get; set; }
-    public string ThirdPartyTool { get; set; }
+    public bool ThirdPartyTool { get; set; }
     public string ProjectDescription { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
@@ -17,7 +17,7 @@ public class Order
     public GitAccess GitAccess { get; set; } = null!;
 
 
-    public Order(Framework framework, string version, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
+    public Order(Framework framework, string version, bool thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
     {
         Framework = framework;
         Version = version;

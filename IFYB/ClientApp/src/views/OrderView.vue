@@ -93,8 +93,10 @@
                           <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl">
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
-                          <label>Third party tool</label>
-                          <input class="form-control" id="third-party-tool-input" placeholder="..." type="text" v-model="order.thirdPartyTool">
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.thirdPartyTool">
+                            <label class="form-check-label" for="third-party-tool-input">Is the bug potentially related to a third party library?</label>
+                          </div>
                         </div>
                         <label>Project sharing with</label>
                         <div class="col-md-12 d-flex pe-2 mb-3">
@@ -192,6 +194,7 @@ export default {
     const auth = ref('');
     let clientId;
     let jwt;
+    order.value.thirdPartyTool = false;
     
     async function submitEmail() {
       let err = validEmail(order.value.email);
