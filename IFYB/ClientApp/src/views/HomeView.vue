@@ -76,6 +76,47 @@
     </div>
   </section>
   <!-- -------- END Features w/ 4 infos - just colored icons -------- -->
+  <section class="pb-md-7 pb-5">
+    <div class="author-header min-vh-25">
+      <span class="mask bg-gradient-primary opacity-8"></span>
+    </div>
+    <div class="container">
+      <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
+        <div class="col-lg-3 col-md-5 position-relative my-auto">
+          <img class="img rounded-circle max-width-200 w-100 position-relative z-index-2" src="../assets/img/james.jpg" alt="bruce">
+        </div>
+        <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="mb-0">Michael Roven</h4>
+            <div class="d-block">
+              <button type="button" class="btn btn-sm btn-outline-primary text-nowrap mb-0">Follow</button>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-auto">
+              <span class="h6">323</span>
+              <span>Posts</span>
+            </div>
+            <div class="col-auto">
+              <span class="h6">3.5k</span>
+              <span>Followers</span>
+            </div>
+            <div class="col-auto">
+              <span class="h6">260</span>
+              <span>Following</span>
+            </div>
+          </div>
+          <p class="text-lg mb-0">
+            Decisions: If you can’t decide, the answer is no.
+            If two equally difficult paths, choose the one more
+            painful in the short term (pain avoidance is creating
+            an illusion of equality). Choose the path that leaves
+            you more equanimous. <br><a href="javascript:;" class="text-primary text-decoration-underline-hover">More about me</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- START Blogs w/ 3 images & quote & text -->
   <section>
     <div class="container">
@@ -496,3 +537,12 @@ export default {
   name: 'HomeView',
 }
 </script>
+
+<style scoped>
+  .author-header {
+    background-image: url('../assets/img/bg45.jpg');
+    position: relative;
+    background-size: cover;
+    background-position: 50%;
+  }
+</style>
