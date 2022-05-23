@@ -78,26 +78,29 @@
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div class="col-md-6">
                             <label class="">Framework*</label>
-                            <select class="form-control" name="choices-framework" id="choices-framework" placeholder="Framework" v-model="order.framework">
+                            <select class="form-control" :class="{'text-black-50': order.framework == undefined}" name="choices-framework" id="choices-framework" @input="changeFreamwork">
+                              <option :value="undefined" selected hidden>Select a framework</option>
                               <option :value="0">Vue.js</option>
                               <option :value="1">ASP.NET Core</option>
                             </select>
                           </div>
                           <div class="col-md-6 ps-md-2">
                             <label class="">Version*</label>
-                            <select v-if="order.framework == 0" class="form-control" name="choices-version" id="choices-version" placeholder="Version" v-model="order.version">
+                            <select v-if="order.framework == 0" class="form-control" :class="{'text-black-50': order.version == undefined}" name="choices-version" id="choices-version" v-model="order.version">
+                              <option :value="undefined" selected hidden>Select version</option>
                               <option :value="version" v-for="version in vueVersions" :key="version">{{ version }}</option>
                             </select>
-                            <select v-else-if="order.framework == 1" class="form-control" name="choices-version" id="choices-version" placeholder="Version" v-model="order.version">
+                            <select v-else-if="order.framework == 1" class="form-control" :class="{'text-black-50': order.version == undefined}" name="choices-version" id="choices-version" v-model="order.version">
+                              <option :value="undefined" selected hidden>Select version</option>
                               <option :value="version" v-for="version in aspVersions" :key="version">{{ version }}</option>
                             </select>
                             <input v-else type="text" placeholder="Please select a framework first" class="form-control"  disabled>
                           </div>
                         </div>
-                        <div class="col-md-12 pe-2 mb-3 opacity-75" v-if="gitAccesses.length > 0">
+                        <div class="col-md-12 pe-2 mb-3" v-if="gitAccesses.length > 0">
                           <label class="">Previous accesses</label>
-                          <select class="form-control" name="choices-git-access" id="choices-git-access" placeholder="Git accesses" v-model="selectedAccess">
-                            <option :value="null">-</option>
+                          <select class="form-control text-black-50" name="choices-git-access" id="choices-git-access" v-model="selectedAccess">
+                            <option :value="{}" selected hidden>Select a previous access</option>
                             <option :value="access" v-for="(access, idx) in gitAccesses" :key="idx">{{ access.accessMode == 0 ? 'Public repo' : access.accessMode == 1 ? 'Invite' : 'User account' }} - {{ access.url }}</option>
                           </select>
                         </div>
@@ -384,7 +387,11 @@ export default {
         }
       }
     }
-    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder }
+    function changeFreamwork(event) {
+      order.value.framework = event.target.value;
+      order.value.version = undefined;
+    }
+    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder, changeFreamwork }
   }
 }
 </script>
