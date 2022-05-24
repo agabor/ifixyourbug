@@ -370,27 +370,26 @@ export default {
           body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
         });
         let id = (await gitResponse.json()).id;
-        error.value = null;
-        try {
-          await fetch('/orders', {
-            method: 'POST',
-            headers: {
-              'Authorization': `bearer ${jwt}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              'framework': order.value.framework,
-              'version': order.value.version,
-              'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
-              'projectDescription': order.value.projectDescription,
-              'bugDescription': order.value.bugDescription,
-              'gitAccessId': id
-            })
-          });
+        let orderResponse = await fetch('/orders', {
+          method: 'POST',
+          headers: {
+            'Authorization': `bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            'framework': order.value.framework,
+            'version': order.value.version,
+            'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
+            'projectDescription': order.value.projectDescription,
+            'bugDescription': order.value.bugDescription,
+            'gitAccessId': id
+          })
+        });
+        if(orderResponse.status == 200){
           page.value = 'success';
           error.value = null;
-        } catch {
-          error.value = 'Something wrong'
+        } else {
+          error.value = `Something wrong - ${orderResponse.statusText} (${orderResponse.status})`;
         }
       }
     }
