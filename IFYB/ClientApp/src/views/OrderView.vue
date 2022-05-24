@@ -106,13 +106,13 @@
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <label>Git repo url*</label>
-                          <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl">
+                          <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl" :disabled="selectedAccess.url">
                         </div>
                         <label>Project sharing with*</label>
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div>
                             <div class="form-check me-3" >
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :value="0" v-model="order.accessMode">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :value="0" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
                               <label class="form-check-label" for="flexRadioDefault1">
                                 Public repo
                               </label>
@@ -120,7 +120,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" :value="1" v-model="order.accessMode">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" :value="1" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
                               <label class="form-check-label" for="flexRadioDefault2">
                                 Invite
                               </label>
@@ -128,7 +128,7 @@
                           </div>
                           <div>
                             <div class="form-check me-3">
-                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" :value="2" v-model="order.accessMode">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" :value="2" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
                               <label class="form-check-label" for="flexRadioDefault3">
                                 User account
                               </label>
@@ -361,15 +361,20 @@ export default {
       if(err) {
         error.value = err;
       } else {
-        let gitResponse = await fetch('/git-accesses', {
-          method: 'POST',
-          headers: {
-            'Authorization': `bearer ${jwt}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
-        });
-        let id = (await gitResponse.json()).id;
+        let gitAccessId;
+        if(selectedAccess.value.id != undefined){
+          gitAccessId = selectedAccess.value.id;
+        } else {
+          let gitResponse = await fetch('/git-accesses', {
+            method: 'POST',
+            headers: {
+              'Authorization': `bearer ${jwt}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
+          });
+          gitAccessId = (await gitResponse.json()).id;
+        }
         let orderResponse = await fetch('/orders', {
           method: 'POST',
           headers: {
@@ -382,7 +387,7 @@ export default {
             'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
             'projectDescription': order.value.projectDescription,
             'bugDescription': order.value.bugDescription,
-            'gitAccessId': id
+            'gitAccessId': gitAccessId
           })
         });
         if(orderResponse.status == 200){

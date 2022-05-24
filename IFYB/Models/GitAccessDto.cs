@@ -7,8 +7,9 @@ public class GitAccessDto
     public string? Username { get; set; }
     public string? Password { get; set; }
 
-    public GitAccessDto(string url, GitAccessMode accessMode, string? username, string? password)
+    public GitAccessDto(int id, string url, GitAccessMode accessMode, string? username, string? password)
     {
+        Id = id;
         Url = url;
         AccessMode = accessMode;
         Username = username;

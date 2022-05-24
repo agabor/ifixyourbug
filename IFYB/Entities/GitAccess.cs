@@ -24,6 +24,6 @@ public class GitAccess
 
     public GitAccessDto ToDto()
     {
-        return new GitAccessDto(Url, AccessMode, Username, Password);
+        return new GitAccessDto(Id, Url, AccessMode, Username, Password);
     }
 }
