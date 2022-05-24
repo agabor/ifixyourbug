@@ -138,13 +138,13 @@
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Project description*</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="project-description-input" rows="6" placeholder="Project description" v-model="order.projectDescription"></textarea>
+                            <text-editor id="project-description-input" :modelValue="order.projectDescription" placeholder="Project description" @update:modelValue="updateProjectDescription"></text-editor>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
                             <label>Bug description*</label>
-                            <textarea name="message" class="form-control border-radius-lg" id="bug-description-input" rows="6" placeholder="Bug description" v-model="order.bugDescription"></textarea>
+                            <text-editor id="bug-description-input" :modelValue="order.bugDescription" placeholder="Bug description" @update:modelValue="updateBugDescription"></text-editor>
                           </div>
                         </div>
                         <div class="col-md-12 pe-2">
@@ -206,9 +206,11 @@
 import { ref, watch } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import TwoFa from '../components/2FA.vue';
+import TextEditor from '../components/TextEditor.vue';
+
 export default {
   name: 'OrderView',
-  components: { TwoFa },
+  components: { TwoFa, TextEditor },
   setup() {
     const page = ref('email');
     const order = ref({});
@@ -398,7 +400,13 @@ export default {
         }
       }
     }
-    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder }
+    function updateBugDescription(text) {
+      order.value.bugDescription = text;
+    }
+    function updateProjectDescription(text) {
+      order.value.projectDescription = text;
+    }
+    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, updateBugDescription, updateProjectDescription, submitOrder }
   }
 }
 </script>
