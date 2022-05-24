@@ -78,7 +78,7 @@
                         <div class="col-md-12 d-flex pe-2 mb-3">
                           <div class="col-md-6">
                             <label class="">Framework*</label>
-                            <select class="form-control" :class="{'text-black-50': order.framework == undefined}" name="choices-framework" id="choices-framework" @input="changeFreamwork">
+                            <select class="form-control" :class="{'text-black-50': order.framework == undefined}" name="choices-framework" id="choices-framework" v-model="order.framework" @change="order.version = undefined">
                               <option :value="undefined" selected hidden>Select a framework</option>
                               <option :value="0">Vue.js</option>
                               <option :value="1">ASP.NET Core</option>
@@ -393,11 +393,7 @@ export default {
         }
       }
     }
-    function changeFreamwork(event) {
-      order.value.framework = parseInt(event.target.value);
-      order.value.version = undefined;
-    }
-    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder, changeFreamwork }
+    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder }
   }
 }
 </script>
