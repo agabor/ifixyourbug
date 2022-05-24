@@ -60,7 +60,7 @@ public class IFYBTests
         {
             framework = 0,
             version = "6.0",
-            thirdPartyTool = false,
+            thirdPartyTool = "",
             projectDescription = "hello",
             bugDescription = "bello",
             gitAccessId = gitAccessId

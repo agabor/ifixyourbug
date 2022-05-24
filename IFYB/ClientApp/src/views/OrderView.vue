@@ -147,10 +147,16 @@
                             <textarea name="message" class="form-control border-radius-lg" id="bug-description-input" rows="6" placeholder="Bug description" v-model="order.bugDescription"></textarea>
                           </div>
                         </div>
-                        <div class="col-md-12 pe-2 mb-3">
+                        <div class="col-md-12 pe-2">
                           <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.thirdPartyTool">
+                            <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.isThirdPartyTool">
                             <label class="form-check-label" for="third-party-tool-input">Is the bug potentially related to a third party library?</label>
+                          </div>
+                        </div>
+                        <div class="col-md-12 pe-2 mb-3" v-if="order.isThirdPartyTool">
+                          <div class="form-group mb-0">
+                            <label>Third party library name*</label>
+                            <input id="third-party-tool-input" class="form-control" placeholder="Third party library name" type="text" v-model="order.thirdPartyTool">
                           </div>
                         </div>
                       </div>
@@ -214,7 +220,7 @@ export default {
     const selectedAccess = ref({});
     let clientId;
     let jwt;
-    order.value.thirdPartyTool = false;
+    order.value.isThirdPartyTool = false;
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -346,11 +352,12 @@ export default {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
         required(order.value.version, 'Version', 'choices-version') ||
-        required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input') ||
         required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
         required(order.value.accessMode, 'Project sharing') ||
         required(order.value.projectDescription, 'Project description', 'project-description-input') ||
         required(order.value.bugDescription, 'Bug description', 'bug-description-input');
+      if(!err && order.value.isThirdPartyTool)
+        err = required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input');
       if(err) {
         error.value = err;
       } else {
@@ -374,7 +381,7 @@ export default {
             body: JSON.stringify({
               'framework': order.value.framework,
               'version': order.value.version,
-              'thirdPartyTool': order.value.thirdPartyTool,
+              'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
               'projectDescription': order.value.projectDescription,
               'bugDescription': order.value.bugDescription,
               'gitAccessId': id
@@ -388,7 +395,7 @@ export default {
       }
     }
     function changeFreamwork(event) {
-      order.value.framework = event.target.value;
+      order.value.framework = parseInt(event.target.value);
       order.value.version = undefined;
     }
     return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder, changeFreamwork }
