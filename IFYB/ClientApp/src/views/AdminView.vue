@@ -89,7 +89,7 @@ import { validEmail } from '../utils/Validate';
 import TwoFa from '../components/2FA.vue';
 import TextViewer from '../components/TextViewer.vue';
 export default {
-  name: 'AdminLogin',
+  name: 'AdminView',
   components: { TwoFa, TextViewer },
   setup() {
     const page = ref('email');
@@ -99,6 +99,31 @@ export default {
     const orders = ref([]);
     let clientId;
     let jwt;
+
+    checkJwtIsActive();
+
+    async function checkJwtIsActive() {
+      if(localStorage.getItem('jwt')) {
+        let authResponse = await fetch('/authenticate/admin/check-jwt', {
+          method: 'GET',
+          headers: {
+            'Authorization': `bearer ${localStorage.getItem('jwt')}`
+          }
+        })
+        if(authResponse.status == 200) {
+          jwt = localStorage.getItem('jwt');
+          let orderResponse = await fetch('/admin/orders', {
+            method: 'GET',
+            headers: {
+              'Authorization': `bearer ${jwt}`,
+              'Content-Type': 'application/json'
+            }
+          })
+          orders.value = await orderResponse.json();
+          page.value = 'orders';
+        }
+      }
+    }
     
     async function submitEmail() {
       let err = validEmail(order.value.email);
@@ -135,6 +160,7 @@ export default {
           body: JSON.stringify({'clientId': clientId, 'password': auth.value})
         });
         jwt = (await response.json()).jwt;
+        localStorage.setItem('jwt', jwt);
         error.value = null;
       } catch(e) {
         jwt = null;
@@ -149,8 +175,7 @@ export default {
           }
         })
         orders.value = await orderResponse.json();
-        page.value = 'orders';
-        
+        page.value = 'orders';        
       }
     }
     return { page, error, order, orders, auth, submitEmail, checkAuthentication }

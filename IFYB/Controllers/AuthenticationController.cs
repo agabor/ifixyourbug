@@ -71,6 +71,15 @@ public class AuthenticationController : BaseController
         return Forbid();
     }
 
+    [HttpGet]
+    [Route("admin/check-jwt")]
+    public IActionResult CheckAdminJwt()
+    {
+        if (User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value != "admin")
+            return Forbid();
+        return Ok();
+    }
+
     [HttpPost]
     [Route("admin")]
     [Produces(typeof(IdDto))]
@@ -100,13 +109,13 @@ public class AuthenticationController : BaseController
         switch (passwordHasher.VerifyHashedPassword(admin, admin.Password, dto.Password))
         {
             case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(new Claim(ClaimTypes.IsPersistent, "yes")));
+                return Ok(GenerateJWT(new Claim(ClaimTypes.Role, "admin")));
             case PasswordVerificationResult.Failed:
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 admin.Password = passwordHasher.HashPassword(admin, dto.Password);
                 dbContext.SaveChanges();
-                return Ok(GenerateJWT(new Claim(ClaimTypes.IsPersistent, "yes")));
+                return Ok(GenerateJWT(new Claim(ClaimTypes.Role, "admin")));
         }
         return Forbid();
     }

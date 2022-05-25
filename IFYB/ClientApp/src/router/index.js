@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import OrderView from '../views/OrderView.vue';
 import FAQ from '../views/FAQ.vue';
-import AdminLogin from '../views/AdminLogin.vue';
+import AdminView from '../views/AdminView.vue';
 import ContactForm from '../views/ContactForm.vue';
 
 const routes = [
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: AdminLogin
+    component: AdminView
   },
   {
     path: '/contact-form',
