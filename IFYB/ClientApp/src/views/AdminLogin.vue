@@ -61,10 +61,10 @@
                             <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>
                           </td>
                           <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">{{ order.bugDescription }}</span>
+                            <text-viewer :id="`bug-description-input-${idx}`" :value="order.bugDescription"></text-viewer>
                           </td>
                           <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">{{ order.projectDescription }}</span>
+                            <text-viewer :id="`project-description-input-${idx}`" :value="order.projectDescription"></text-viewer>
                           </td>
                           <td class="align-middle text-center">
                             <span class="text-secondary text-xs font-weight-bold">{{ order.gitAccessId }}</span>
@@ -87,9 +87,10 @@
 import { ref } from 'vue';
 import { validEmail } from '../utils/Validate';
 import TwoFa from '../components/2FA.vue';
+import TextViewer from '../components/TextViewer.vue';
 export default {
   name: 'AdminLogin',
-  components: { TwoFa },
+  components: { TwoFa, TextViewer },
   setup() {
     const page = ref('email');
     const order = ref({});

@@ -40,4 +40,7 @@ export default {
 	.tox-tinymce {
 		border-radius: 0.625rem!important;
 	}
+	.tox-statusbar{
+			display: none!important;
+	}
 </style>
