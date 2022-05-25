@@ -97,6 +97,45 @@
                             <input v-else type="text" placeholder="Please select a framework first" class="form-control"  disabled>
                           </div>
                         </div>
+                        <div class="col-md-12 pe-2" v-if="order.framework == 1">
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="specific-op-system-input" v-model="order.isSpecificOpSystem">
+                            <label class="form-check-label" for="third-party-tool-input">Is the issue specific to an operating system?</label>
+                          </div>
+                        </div>
+                        <label v-if="order.isSpecificOpSystem">Operating system*</label>
+                        <div class="col-md-12 d-flex pe-2" v-if="order.isSpecificOpSystem">
+                          <div>
+                            <div class="form-check me-3">
+                              <input class="form-check-input" type="radio" name="osRadio" id="osRadio0" :value="0" v-model="order.os">
+                              <label class="form-check-label" for="osRadio0">
+                                Windows
+                              </label>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="form-check me-3">
+                              <input class="form-check-input" type="radio" name="osRadio" id="osRadio1" :value="1" v-model="order.os">
+                              <label class="form-check-label" for="osRadio1">
+                                Linux
+                              </label>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="form-check me-3">
+                              <input class="form-check-input" type="radio" name="osRadio" id="osRadio2" :value="2" v-model="order.os">
+                              <label class="form-check-label" for="osRadio2">
+                                macOS
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 pe-2 mb-3" v-if="order.isSpecificOpSystem">
+                          <div class="form-group mb-0">
+                            <label>Operating system version*</label>
+                            <input id="op-system-name-input" class="form-control" placeholder="Operating system version" type="text" v-model="order.opSystemVersion">
+                          </div>
+                        </div>
                         <div class="col-md-12 pe-2 mb-3" v-if="gitAccesses.length > 0">
                           <label class="">Previous accesses</label>
                           <select class="form-control text-black-50" name="choices-git-access" id="choices-git-access" v-model="selectedAccess">
@@ -228,6 +267,7 @@ export default {
     let clientId;
     let jwt;
     order.value.isThirdPartyTool = false;
+    order.value.isSpecificOpSystem = false;
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -358,13 +398,20 @@ export default {
     async function submitOrder() {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
-        required(order.value.version, 'Version', 'choices-version') ||
-        required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
-        required(order.value.accessMode, 'Project sharing') ||
-        required(order.value.projectDescription, 'Project description', 'project-description-input') ||
-        required(order.value.bugDescription, 'Bug description', 'bug-description-input');
+        required(order.value.version, 'Version', 'choices-version')
+      if(!err && order.value.isSpecificOpSystem)
+        err =
+          required(order.value.os, 'Operating system') ||
+          required(order.value.opSystemVersion, 'Operating system version', 'op-system-name-input');
+      if(!err)
+        err =
+          required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
+          required(order.value.accessMode, 'Project sharing') ||
+          required(order.value.projectDescription, 'Project description', 'project-description-input') ||
+          required(order.value.bugDescription, 'Bug description', 'bug-description-input');
       if(!err && order.value.isThirdPartyTool)
         err = required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input');
+        
       if(err) {
         error.value = err;
       } else {
