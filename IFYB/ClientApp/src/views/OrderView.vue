@@ -109,9 +109,9 @@
                           <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl" :disabled="selectedAccess.url">
                         </div>
                         <label>Project sharing with*</label>
-                        <div class="col-md-12 d-flex pe-2 mb-3">
+                        <div class="col-md-12 d-flex pe-2">
                           <div>
-                            <div class="form-check me-3" >
+                            <div class="form-check me-3" :class="{'mb-3': order.accessMode == undefined}">
                               <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :value="0" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
                               <label class="form-check-label" for="flexRadioDefault1">
                                 Public repo
@@ -134,6 +134,11 @@
                               </label>
                             </div>
                           </div>
+                        </div>
+                        <div class="col-md-12 pe-2 mb-3" v-if="order.accessMode != undefined">
+                          <span v-if="order.accessMode == 0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 0</span>
+                          <span v-if="order.accessMode== 1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 1</span>
+                          <span v-if="order.accessMode == 2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 2</span>
                         </div>
                         <div class="col-md-12 pe-2 mb-3">
                           <div class="form-group mb-0">
