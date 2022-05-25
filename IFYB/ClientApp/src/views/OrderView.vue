@@ -5,7 +5,7 @@
       <div class="carousel-inner">
         <carousel-item :class="{'active': page === 'email'}" icon="email-83" title="Email" subTitle="Enter your email." buttonText="Submit" :error="error" @onClickBtn="submitEmail()">
           <div class="row mb-4">
-            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email" autofocus>
+            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email">
           </div>
         </carousel-item>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
@@ -200,26 +200,7 @@ export default {
         })
         if(authResponse.status == 200) {
           jwt = localStorage.getItem('jwt');
-          let nameResponse = await fetch('/clients/name', {
-            method: 'GET',
-            headers: {
-              'Authorization': `bearer ${jwt}`
-            }
-          })
-          if(nameResponse.status == 404) {
-            page.value = 'name';
-            document.getElementById('name-input').focus();
-          } else {
-            let gitResponse = await fetch('/git-accesses', {
-              method: 'GET',
-              headers: {
-                'Authorization': `bearer ${jwt}`
-              }
-            })
-            gitAccesses.value = await gitResponse.json();
-            page.value = 'data';
-            document.getElementById('choices-framework').focus();
-          }
+          toNamePageOrToDataPage();
         }
       }
     }
@@ -228,7 +209,6 @@ export default {
       let err = validEmail(order.value.email);
       if(err) {
         error.value = err;
-        document.getElementById('emailInput').focus();
       } else {
         const response = await fetch('/authenticate', {
           method: 'POST',
@@ -239,7 +219,6 @@ export default {
         });
         clientId = (await response.json()).id;
         page.value = 'auth';
-        document.getElementById('2fa-0').focus();
         error.value = null;
       }
     }
@@ -262,26 +241,7 @@ export default {
         error.value = 'Wrong code.';
       }
       if(jwt) {
-        let nameResponse = await fetch('/clients/name', {
-          method: 'GET',
-          headers: {
-            'Authorization': `bearer ${jwt}`
-          }
-        })
-        if(nameResponse.status == 404) {
-          page.value = 'name';
-          document.getElementById('name-input').focus();
-        } else {
-          let gitResponse = await fetch('/git-accesses', {
-            method: 'GET',
-            headers: {
-              'Authorization': `bearer ${jwt}`
-            }
-          })
-          gitAccesses.value = await gitResponse.json();
-          page.value = 'data';
-          document.getElementById('choices-framework').focus();
-        }
+        toNamePageOrToDataPage();
       }
     }
 
@@ -299,28 +259,12 @@ export default {
           body: JSON.stringify({'name': order.value.name})
         });
         page.value = 'data';
-        document.getElementById('choices-framework').focus();
         error.value = null;
       }
     }
 
     async function submitOrder() {
-      let err =
-        required(order.value.framework, 'Framework', 'choices-framework') ||
-        required(order.value.version, 'Version', 'choices-version')
-      if(!err && order.value.isSpecificOpSystem)
-        err =
-          required(order.value.os, 'Operating system') ||
-          required(order.value.opSystemVersion, 'Operating system version', 'op-system-name-input');
-      if(!err)
-        err =
-          required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
-          required(order.value.accessMode, 'Project sharing') ||
-          required(order.value.projectDescription, 'Project description', 'project-description-input') ||
-          required(order.value.bugDescription, 'Bug description', 'bug-description-input');
-      if(!err && order.value.isThirdPartyTool)
-        err = required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input');
-        
+      let err = getOrderFormError();        
       if(err) {
         error.value = err;
       } else {
@@ -353,7 +297,7 @@ export default {
             'gitAccessId': gitAccessId
           })
         });
-        if(orderResponse.status == 200){
+        if(orderResponse.status == 200) {
           page.value = 'success';
           error.value = null;
         } else {
@@ -361,12 +305,55 @@ export default {
         }
       }
     }
+
     function updateBugDescription(text) {
       order.value.bugDescription = text;
     }
+
     function updateProjectDescription(text) {
       order.value.projectDescription = text;
     }
+
+    async function toNamePageOrToDataPage() {
+      let nameResponse = await fetch('/clients/name', {
+        method: 'GET',
+        headers: {
+          'Authorization': `bearer ${jwt}`
+        }
+      })
+      if(nameResponse.status == 404) {
+        page.value = 'name';
+      } else {
+        let gitResponse = await fetch('/git-accesses', {
+          method: 'GET',
+          headers: {
+            'Authorization': `bearer ${jwt}`
+          }
+        })
+        gitAccesses.value = await gitResponse.json();
+        page.value = 'data';
+      }
+    }
+
+    function getOrderFormError() {
+      let err =
+        required(order.value.framework, 'Framework', 'choices-framework') ||
+        required(order.value.version, 'Version', 'choices-version')
+      if(!err && order.value.isSpecificOpSystem)
+        err =
+          required(order.value.os, 'Operating system') ||
+          required(order.value.opSystemVersion, 'Operating system version', 'op-system-name-input');
+      if(!err)
+        err =
+          required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
+          required(order.value.accessMode, 'Project sharing') ||
+          required(order.value.projectDescription, 'Project description', 'project-description-input') ||
+          required(order.value.bugDescription, 'Bug description', 'bug-description-input');
+      if(!err && order.value.isThirdPartyTool)
+        err = required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input');
+      return err;
+    }
+
     return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, updateBugDescription, updateProjectDescription, submitOrder }
   }
 }

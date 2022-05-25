@@ -5,7 +5,7 @@
       <div class="carousel-inner">
         <carousel-item :class="{'active': page === 'email'}" icon="email-83" title="Email" subTitle="Enter your email." buttonText="Submit" :error="error" @onClickBtn="submitEmail()">
           <div class="row mb-4">
-            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email" autofocus>
+            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email">
           </div>
         </carousel-item>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
@@ -81,15 +81,7 @@ export default {
         })
         if(authResponse.status == 200) {
           jwt = localStorage.getItem('jwt');
-          let orderResponse = await fetch('/admin/orders', {
-            method: 'GET',
-            headers: {
-              'Authorization': `bearer ${jwt}`,
-              'Content-Type': 'application/json'
-            }
-          })
-          orders.value = await orderResponse.json();
-          page.value = 'orders';
+          setOrders();
         }
       }
     }
@@ -98,7 +90,6 @@ export default {
       let err = validEmail(order.value.email);
       if(err) {
         error.value = err;
-        document.getElementById('emailInput').focus();
       } else {
         try {
           const response = await fetch('authenticate/admin', {
@@ -110,7 +101,6 @@ export default {
           });
           clientId = (await response.json()).id;
           page.value = 'auth';
-          document.getElementById('2fa-0').focus();
           error.value = null;
         } catch(e) {
           error.value = 'This email is not an administrator email.'
@@ -135,6 +125,10 @@ export default {
         jwt = null;
         error.value = 'Wrong code.';
       }
+      setOrders();
+    }
+
+    async function setOrders() {
       if(jwt) {
         let orderResponse = await fetch('/admin/orders', {
           method: 'GET',
@@ -147,6 +141,7 @@ export default {
         page.value = 'orders';        
       }
     }
+
     return { page, error, order, orders, auth, submitEmail, checkAuthentication }
   }
 }
