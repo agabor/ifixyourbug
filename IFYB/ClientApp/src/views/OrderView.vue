@@ -16,135 +16,27 @@
         </carousel-item>
         <carousel-item :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" title="Order data" subTitle="Enter data from your app." buttonText="Submit" :error="error" @onClickBtn="submitOrder()">
           <form>
-            <div class="row">
+            <div class="row text-start">
               <div class="col-md-12 d-flex pe-2 mb-3">
-                <div class="col-md-6">
-                  <label class="">Framework*</label>
-                  <select class="form-control" :class="{'text-black-50': order.framework == undefined}" name="choices-framework" id="choices-framework" v-model="order.framework" @change="order.version = undefined">
-                    <option :value="undefined" selected hidden>Select a framework</option>
-                    <option :value="0">Vue.js</option>
-                    <option :value="1">ASP.NET Core</option>
-                  </select>
-                </div>
-                <div class="col-md-6 ps-md-2">
-                  <label class="">Version*</label>
-                  <select v-if="order.framework == 0" class="form-control" :class="{'text-black-50': order.version == undefined}" name="choices-version" id="choices-version" v-model="order.version">
-                    <option :value="undefined" selected hidden>Select version</option>
-                    <option :value="version" v-for="version in vueVersions" :key="version">{{ version }}</option>
-                  </select>
-                  <select v-else-if="order.framework == 1" class="form-control" :class="{'text-black-50': order.version == undefined}" name="choices-version" id="choices-version" v-model="order.version">
-                    <option :value="undefined" selected hidden>Select version</option>
-                    <option :value="version" v-for="version in aspVersions" :key="version">{{ version }}</option>
-                  </select>
-                  <input v-else type="text" placeholder="Please select a framework first" class="form-control"  disabled>
-                </div>
+                <select-framework :value="order.framework" @changeFramework="changeFramework"></select-framework>
+                <select-version :value="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" @changeVersion="(v) => order.version = v"></select-version>
               </div>
-              <div class="col-md-12 pe-2" v-if="order.framework == 1">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="specific-op-system-input" v-model="order.isSpecificOpSystem">
-                  <label class="form-check-label" for="third-party-tool-input">Is the issue specific to an operating system?</label>
-                </div>
-              </div>
-              <label v-if="order.isSpecificOpSystem">Operating system*</label>
-              <div class="col-md-12 d-flex pe-2" v-if="order.isSpecificOpSystem">
-                <div>
-                  <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="osRadio" id="osRadio0" :value="0" v-model="order.os">
-                    <label class="form-check-label" for="osRadio0">
-                      Windows
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="osRadio" id="osRadio1" :value="1" v-model="order.os">
-                    <label class="form-check-label" for="osRadio1">
-                      Linux
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="osRadio" id="osRadio2" :value="2" v-model="order.os">
-                    <label class="form-check-label" for="osRadio2">
-                      macOS
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 pe-2 mb-3" v-if="order.isSpecificOpSystem">
-                <div class="form-group mb-0">
-                  <label>Operating system version*</label>
-                  <input id="op-system-name-input" class="form-control" placeholder="Operating system version" type="text" v-model="order.opSystemVersion">
-                </div>
-              </div>
-              <div class="col-md-12 pe-2 mb-3" v-if="gitAccesses.length > 0">
-                <label class="">Previous accesses</label>
-                <select class="form-control text-black-50" name="choices-git-access" id="choices-git-access" v-model="selectedAccess">
-                  <option :value="{}" selected hidden>Select a previous access</option>
-                  <option :value="access" v-for="(access, idx) in gitAccesses" :key="idx">{{ access.accessMode == 0 ? 'Public repo' : access.accessMode == 1 ? 'Invite' : 'User account' }} - {{ access.url }}</option>
-                </select>
-              </div>
-              <div class="col-md-12 pe-2 mb-3">
-                <label>Git repo url*</label>
-                <input class="form-control" id="repo-url-input" placeholder="https://..." type="text" v-model="order.repoUrl" :disabled="selectedAccess.url">
-              </div>
-              <label>Project sharing with*</label>
-              <div class="col-md-12 d-flex pe-2">
-                <div>
-                  <div class="form-check me-3" :class="{'mb-3': order.accessMode == undefined}">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :value="0" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Public repo
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" :value="1" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Invite
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div class="form-check me-3">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" :value="2" v-model="order.accessMode" :disabled="selectedAccess.accessMode != undefined">
-                    <label class="form-check-label" for="flexRadioDefault3">
-                      User account
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 pe-2 mb-3" v-if="order.accessMode != undefined">
-                <span v-if="order.accessMode == 0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 0</span>
-                <span v-if="order.accessMode== 1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 1</span>
-                <span v-if="order.accessMode == 2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 2</span>
-              </div>
+              <operating-system v-if="order.framework == 1" :isSpecificOpSystem="order.isSpecificOpSystem" :operatingSystem="order.os" :operatingVersion="order.opSystemVersion" @changeOs="(o) => order.os = o" @changeIsSpecificOpSystem="(b) => order.isSpecificOpSystem = b" @changeVersion="(v) => order.opSystemVersion = v"></operating-system>
+              <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" :access="selectedAccess" @selectAccess="(a) => selectedAccess = a"></git-access-selector>
+              <project-sharing :accessMode="order.accessMode" :url="order.repoUrl" :visible="selectedAccess.url == undefined" @changeAccessMode="(a) => order.accessMode = a" @changeUrl="(u) => order.repoUrl = u"></project-sharing>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
                   <label>Project description*</label>
-                  <text-editor id="project-description-input" :modelValue="order.projectDescription" placeholder="Project description" @update:modelValue="updateProjectDescription"></text-editor>
+                  <text-editor id="project-description-input" :modelValue="order.projectDescription" placeholder="Project description" @update:modelValue="(t) => order.projectDescription = t"></text-editor>
                 </div>
               </div>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
                   <label>Bug description*</label>
-                  <text-editor id="bug-description-input" :modelValue="order.bugDescription" placeholder="Bug description" @update:modelValue="updateBugDescription"></text-editor>
+                  <text-editor id="bug-description-input" :modelValue="order.bugDescription" placeholder="Bug description" @update:modelValue="(t) => order.bugDescription = t"></text-editor>
                 </div>
               </div>
-              <div class="col-md-12 pe-2">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="third-party-tool-input" v-model="order.isThirdPartyTool">
-                  <label class="form-check-label" for="third-party-tool-input">Is the bug potentially related to a third party library?</label>
-                </div>
-              </div>
-              <div class="col-md-12 pe-2 mb-3" v-if="order.isThirdPartyTool">
-                <div class="form-group mb-0">
-                  <label>Third party library name*</label>
-                  <input id="third-party-tool-input" class="form-control" placeholder="Third party library name" type="text" v-model="order.thirdPartyTool">
-                </div>
-              </div>
+              <third-party-tool :isTool="order.isThirdPartyTool" :tool="order.thirdPartyTool" @changeIsThirdPartyTool="(b) => order.isThirdPartyTool = b" @changeThirdPartyTool="(t) => order.thirdPartyTool = t"></third-party-tool>
             </div>
           </form>
         </carousel-item>
@@ -160,10 +52,16 @@ import { validEmail, required } from '../utils/Validate';
 import TwoFa from '../components/2FA.vue';
 import TextEditor from '../components/TextEditor.vue';
 import CarouselItem from '../components/CarouselItem.vue';
+import SelectFramework from '../components/orderComponents/SelectFramework.vue';
+import SelectVersion from '../components/orderComponents/SelectVersion.vue';
+import OperatingSystem from '../components/orderComponents/OperatingSystem.vue';
+import GitAccessSelector from '../components/orderComponents/GitAccessSelector.vue';
+import ProjectSharing from '../components/orderComponents/ProjectSharing.vue';
+import ThirdPartyTool from '../components/orderComponents/ThirdPartyTool.vue';
 
 export default {
   name: 'OrderView',
-  components: { TwoFa, TextEditor, CarouselItem },
+  components: { TwoFa, TextEditor, CarouselItem, SelectFramework, SelectVersion, OperatingSystem, GitAccessSelector, ProjectSharing, ThirdPartyTool },
   setup() {
     const page = ref('email');
     const order = ref({});
@@ -306,14 +204,6 @@ export default {
       }
     }
 
-    function updateBugDescription(text) {
-      order.value.bugDescription = text;
-    }
-
-    function updateProjectDescription(text) {
-      order.value.projectDescription = text;
-    }
-
     async function toNamePageOrToDataPage() {
       let nameResponse = await fetch('/clients/name', {
         method: 'GET',
@@ -354,7 +244,15 @@ export default {
       return err;
     }
 
-    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, updateBugDescription, updateProjectDescription, submitOrder }
+    function changeFramework(newFramework) {
+      order.value.version = undefined;
+      order.value.os = undefined;
+      order.value.opSystemVersion = undefined;
+      order.value.framework = newFramework;
+      order.value.isSpecificOpSystem = false;
+    }
+
+    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder, changeFramework }
   }
 }
 </script>
