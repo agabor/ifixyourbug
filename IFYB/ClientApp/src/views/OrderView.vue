@@ -18,7 +18,7 @@
           <form>
             <div class="row text-start">
               <div class="col-md-12 d-flex pe-2 mb-3">
-                <select-framework :value="order.framework" @changeFramework="changeFramework"></select-framework>
+                <select-framework v-model:modelvalue="order.framework" @update:modelvalue="changeFramework"></select-framework>
                 <select-version :value="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" @changeVersion="(v) => order.version = v"></select-version>
               </div>
               <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion"></operating-system>
