@@ -21,7 +21,7 @@
                 <select-framework :value="order.framework" @changeFramework="changeFramework"></select-framework>
                 <select-version :value="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" @changeVersion="(v) => order.version = v"></select-version>
               </div>
-              <operating-system v-if="order.framework == 1" :isSpecificOpSystem="order.isSpecificOpSystem" :operatingSystem="order.os" :operatingVersion="order.opSystemVersion" @changeOs="(o) => order.os = o" @changeIsSpecificOpSystem="(b) => order.isSpecificOpSystem = b" @changeVersion="(v) => order.opSystemVersion = v"></operating-system>
+              <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion"></operating-system>
               <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion"></browser-type>
               <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl"></online-app>
               <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
