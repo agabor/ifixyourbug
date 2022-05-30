@@ -1,6 +1,6 @@
 <template>
 	<editor class="border-radius-lg" v-model="text" @change="$emit('update:modelValue', text)" :placeholder="placeholder"
-		api-key="no-api-key"
+		:api-key="key"
 		:init="{
 			height: 300,
 			menubar: false,
@@ -31,7 +31,8 @@ export default {
   emits:['update:modelValue'],
   setup(props) {
 		const text = ref(props.modelValue);
-		return { text }
+		const key = process.env.VUE_APP_TINY_API_KEY;
+		return { text, key }
 	}
 }
 </script>
