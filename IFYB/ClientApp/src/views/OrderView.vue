@@ -22,7 +22,7 @@
                 <select-version :value="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" @changeVersion="(v) => order.version = v"></select-version>
               </div>
               <operating-system v-if="order.framework == 1" :isSpecificOpSystem="order.isSpecificOpSystem" :operatingSystem="order.os" :operatingVersion="order.opSystemVersion" @changeOs="(o) => order.os = o" @changeIsSpecificOpSystem="(b) => order.isSpecificOpSystem = b" @changeVersion="(v) => order.opSystemVersion = v"></operating-system>
-              <browser-type v-if="order.framework == 0" :isSpecificBrowser="order.isSpecificBrowser" :browser="order.browser" :browserVersion="order.browserVersion" @changeIsSpecificBrowser="(b) => order.isSpecificBrowser = b" @changeBrowser="(b) => order.browser = b" @changeVersion="(v) => order.browserVersion = v"></browser-type>
+              <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion"></browser-type>
               <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl"></online-app>
               <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
               <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
