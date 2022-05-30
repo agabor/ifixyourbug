@@ -24,7 +24,7 @@
               <operating-system v-if="order.framework == 1" :isSpecificOpSystem="order.isSpecificOpSystem" :operatingSystem="order.os" :operatingVersion="order.opSystemVersion" @changeOs="(o) => order.os = o" @changeIsSpecificOpSystem="(b) => order.isSpecificOpSystem = b" @changeVersion="(v) => order.opSystemVersion = v"></operating-system>
               <browser-type v-if="order.framework == 0" :isSpecificBrowser="order.isSpecificBrowser" :browser="order.browser" :browserVersion="order.browserVersion" @changeIsSpecificBrowser="(b) => order.isSpecificBrowser = b" @changeBrowser="(b) => order.browser = b" @changeVersion="(v) => order.browserVersion = v"></browser-type>
               <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl"></online-app>
-              <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" :access="selectedAccess" @selectAccess="(a) => selectedAccess = a"></git-access-selector>
+              <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
               <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
