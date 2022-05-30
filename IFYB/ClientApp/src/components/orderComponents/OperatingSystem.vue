@@ -57,6 +57,7 @@ export default {
 
     function changeIsSpecificOpSystem() {
       os.value = undefined;
+      version.value = undefined;
       context.emit('changeIsSpecificOpSystem', isSpecific);
     }
     

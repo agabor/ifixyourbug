@@ -22,6 +22,7 @@
                 <select-version :value="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" @changeVersion="(v) => order.version = v"></select-version>
               </div>
               <operating-system v-if="order.framework == 1" :isSpecificOpSystem="order.isSpecificOpSystem" :operatingSystem="order.os" :operatingVersion="order.opSystemVersion" @changeOs="(o) => order.os = o" @changeIsSpecificOpSystem="(b) => order.isSpecificOpSystem = b" @changeVersion="(v) => order.opSystemVersion = v"></operating-system>
+              <browser-type v-if="order.framework == 0" :isSpecificBrowser="order.isSpecificBrowser" :browser="order.browser" :browserVersion="order.browserVersion" @changeIsSpecificBrowser="(b) => order.isSpecificBrowser = b" @changeBrowser="(b) => order.browser = b" @changeVersion="(v) => order.browserVersion = v"></browser-type>
               <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" :access="selectedAccess" @selectAccess="(a) => selectedAccess = a"></git-access-selector>
               <project-sharing :accessMode="order.accessMode" :url="order.repoUrl" :visible="selectedAccess.url == undefined" @changeAccessMode="(a) => order.accessMode = a" @changeUrl="(u) => order.repoUrl = u"></project-sharing>
               <div class="col-md-12 pe-2 mb-3">
@@ -55,13 +56,14 @@ import CarouselItem from '../components/CarouselItem.vue';
 import SelectFramework from '../components/orderComponents/SelectFramework.vue';
 import SelectVersion from '../components/orderComponents/SelectVersion.vue';
 import OperatingSystem from '../components/orderComponents/OperatingSystem.vue';
+import BrowserType from '../components/orderComponents/BrowserType.vue';
 import GitAccessSelector from '../components/orderComponents/GitAccessSelector.vue';
 import ProjectSharing from '../components/orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from '../components/orderComponents/ThirdPartyTool.vue';
 
 export default {
   name: 'OrderView',
-  components: { TwoFa, TextEditor, CarouselItem, SelectFramework, SelectVersion, OperatingSystem, GitAccessSelector, ProjectSharing, ThirdPartyTool },
+  components: { TwoFa, TextEditor, CarouselItem, SelectFramework, SelectVersion, OperatingSystem, BrowserType, GitAccessSelector, ProjectSharing, ThirdPartyTool },
   setup() {
     const page = ref('email');
     const order = ref({});
@@ -228,11 +230,15 @@ export default {
     function getOrderFormError() {
       let err =
         required(order.value.framework, 'Framework', 'choices-framework') ||
-        required(order.value.version, 'Version', 'choices-version')
+        required(order.value.version, 'Version', 'choices-version');
       if(!err && order.value.isSpecificOpSystem)
         err =
           required(order.value.os, 'Operating system') ||
           required(order.value.opSystemVersion, 'Operating system version', 'op-system-name-input');
+      if(!err && order.value.isSpecificBrowser)
+        err =
+          required(order.value.browser, 'Browser type') ||
+          required(order.value.browserVersion, 'Browser version', 'browser-system-name-input');
       if(!err)
         err =
           required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
