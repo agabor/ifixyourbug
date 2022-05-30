@@ -255,11 +255,14 @@ export default {
     }
 
     function changeFramework(newFramework) {
+      order.value.framework = newFramework;
       order.value.version = undefined;
       order.value.os = undefined;
       order.value.opSystemVersion = undefined;
-      order.value.framework = newFramework;
-      order.value.isSpecificOpSystem = false;
+      order.value.isSpecificOpSystem = undefined;
+      order.value.isSpecificBrowser = undefined;
+      order.value.browser = undefined;
+      order.value.browserVersion = undefined;
     }
 
     return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, submitEmail, checkAuthentication, setName, submitOrder, changeFramework }
