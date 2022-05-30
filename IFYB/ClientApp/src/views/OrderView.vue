@@ -29,13 +29,13 @@
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
                   <label>Project description*</label>
-                  <text-editor id="project-description-input" :modelValue="order.projectDescription" placeholder="Project description" @update:modelValue="(t) => order.projectDescription = t"></text-editor>
+                  <text-editor id="project-description-input" v-model:modelValue="order.projectDescription" placeholder="Project description"></text-editor>
                 </div>
               </div>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
                   <label>Bug description*</label>
-                  <text-editor id="bug-description-input" :modelValue="order.bugDescription" placeholder="Bug description" @update:modelValue="(t) => order.bugDescription = t"></text-editor>
+                  <text-editor id="bug-description-input" v-model:modelValue="order.bugDescription" placeholder="Bug description"></text-editor>
                 </div>
               </div>
               <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool"></third-party-tool>
