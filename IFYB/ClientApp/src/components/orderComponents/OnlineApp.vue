@@ -1,8 +1,8 @@
 <template>
   <div class="col-md-12 pe-2">
     <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="third-party-tool-input" :value="available" @change="$emit('update:available', $event.target.value)">
-      <label class="form-check-label" for="third-party-tool-input"> Is there a deployed version of the application available online?</label>
+      <input class="form-check-input" type="checkbox" id="available-app-input" :value="available" @change="updateAvailable">
+      <label class="form-check-label" for="available-app-input"> Is there a deployed version of the application available online?</label>
     </div>
   </div>
   <div class="col-md-12 pe-2 mb-3" v-if="available">
@@ -20,6 +20,13 @@ export default {
   props: {
     available: Boolean,
     url: String
+  },
+  setup(props, context){
+    function updateAvailable(){
+      context.emit('update:url', '');
+      context.emit('update:available', !props.available);
+    }
+    return { updateAvailable }
   }
 }
 </script>
