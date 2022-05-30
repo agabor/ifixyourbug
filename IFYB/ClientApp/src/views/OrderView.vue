@@ -38,7 +38,7 @@
                   <text-editor id="bug-description-input" :modelValue="order.bugDescription" placeholder="Bug description" @update:modelValue="(t) => order.bugDescription = t"></text-editor>
                 </div>
               </div>
-              <third-party-tool :isTool="order.isThirdPartyTool" :tool="order.thirdPartyTool" @changeIsThirdPartyTool="(b) => order.isThirdPartyTool = b" @changeThirdPartyTool="(t) => order.thirdPartyTool = t"></third-party-tool>
+              <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool"></third-party-tool>
             </div>
           </form>
         </carousel-item>
