@@ -8,37 +8,34 @@
         <div class="col-lg-7 d-flex justify-content-center flex-column">
           <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
             <div class="text-center">
-              <h3>Contact us</h3>
-              <p class="mb-0">
-                For further questions, including partnership opportunities, please email hello@creative-tim.com
-                or contact using our contact form.
-              </p>
+              <h3>{{ $t('contact.title') }}</h3>
+              <p class="mb-0">{{ $t('contact.subTitle') }}</p>
             </div>
             <div class="card-body pb-2">
               <div class="row">
                 <div class="col-md-6">
-                  <label>Full Name</label>
+                  <label>{{ $t('contact.fullName') }}</label>
                   <div class="input-group mb-4">
-                    <input id="name-input" class="form-control" placeholder="Full Name" aria-label="Full Name" type="text" v-model="contact.name" autofocus>
+                    <input id="name-input" class="form-control" :placeholder="$t('contact.fullName')" type="text" v-model="contact.name" autofocus>
                   </div>
                 </div>
                 <div class="col-md-6 ps-md-2">
-                  <label>Email</label>
+                  <label>{{ $t('contact.email') }}</label>
                   <div class="input-group">
-                    <input type="email" id="email-input" class="form-control" placeholder="hello@creative-tim.com" v-model="contact.email">
+                    <input type="email" id="email-input" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email">
                   </div>
                 </div>
               </div>
               <div class="form-group mb-0 mt-md-0 mt-4">
-                <label>How can we help you?</label>
-                <textarea name="message" class="form-control border-radius-lg" id="message-input" rows="6" placeholder="Describe your problem in at least 250 characters" v-model="contact.message"></textarea>
+                <label>{{ $t('contact.howCanWeHelp') }}</label>
+                <textarea name="message" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
               </div>
               <div class="row">
                 <div class="alert alert-warning text-white font-weight-bold mt-3 mb-0" role="alert" v-if="error">
                   {{error}}
                 </div>
                 <div class="col-md-12 text-center mt-3">
-                  <button type="submit" class="btn bg-gradient-primary" @click="submitMessage">Send Message</button>
+                  <button type="submit" class="btn bg-gradient-primary" @click="submitMessage">{{ $t('contact.sendMessage') }}</button>
                 </div>
               </div>
             </div>
@@ -51,15 +48,13 @@
         <div class="col-lg-7 d-flex justify-content-center flex-column">
           <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
             <div class="text-center">
-              <h3>Thank you!</h3>
-              <p class="mb-0">
-                We will contact you shortly via email.
-              </p>
+              <h3>{{ $t('contactSuccess.title') }}</h3>
+              <p class="mb-0">{{ $t('contactSuccess.subTitle') }}</p>
             </div>
             <div class="card-body pb-2">
               <div class="row">
                 <div class="col-md-12 text-center mt-3">
-                  <button type="button" class="btn bg-gradient-primary" @click="$router.push('/')">Bact to home</button>
+                  <button type="button" class="btn bg-gradient-primary" @click="$router.push('/')">{{ $t('contactSuccess.backToHome') }}</button>
                 </div>
               </div>
             </div>

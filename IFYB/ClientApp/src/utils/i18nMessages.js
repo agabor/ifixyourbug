@@ -152,6 +152,22 @@ export const messages = {
         detailedDocumentationDes: 'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever.',
         awesomeSupport: 'Awesome Support',
         awesomeSupportDes: 'The time is now for it to be okay to be great. People in this world shun people for being great. I’m not trying to do the best.',
+      },
+    //ContactForm
+      contact: {
+        title: 'Contact us',
+        subTitle: 'For further questions, including partnership opportunities, please email info@codesharp.hu or contact using our contact form.',
+        fullName: 'Full Name',
+        email: 'Email',
+        emailPlaceholder: 'info@codesharp.hu',
+        howCanWeHelp: 'How can we help you?',
+        problemDes: 'Describe your problem in at least 250 characters',
+        sendMessage: 'Send Message',
+      },
+      contactSuccess: {
+        title: 'Thank you!',
+        subTitle: 'We will contact you shortly via email.',
+        backToHome: 'Bact to home',
       }
     }
   }
