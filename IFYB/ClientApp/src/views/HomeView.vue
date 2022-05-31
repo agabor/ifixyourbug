@@ -8,25 +8,22 @@
         <div class="row">
           <div class="col-lg-7 d-flex">
             <div class="card card-body text-md-start text-center px-sm-5 shadow mt-sm-5 py-sm-5">
-              <h2 class="mb-0">Now UI Design System.</h2>
-              <h2 class="text-dark mb-4">Choose the best</h2>
-              <p class="lead pe-md-5 me-md-5">
-                Find the story of Creative Tim&#39;s most complex design system and
-                all the work that make this design available.
-              </p>
+              <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
+              <h2 class="text-dark mb-4">{{ $t('mainCard.subTitle') }}</h2>
+              <p class="lead pe-md-5 me-md-5">{{ $t('mainCard.description') }}</p>
               <div class="buttons">
-                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/order')">Order</button>
-                <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/faq')">FAQ</button>
-                <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">Contact</button>
+                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/order')">{{ $t('mainCard.order') }}</button>
+                <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/faq')">{{ $t('mainCard.faq') }}</button>
+                <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
               </div>
               <div class="row mt-2">
                 <div class="col-md-4 col-6 d-flex justify-content-center align-items-center p-0">
                   <img class="w-15" src="../assets/img/logos/gray-logos/vue-logo.png" alt="logo">
-                  <p class="m-0 mx-2 fw-bolder">ASP.NET Core</p>
+                  <p class="m-0 mx-2 fw-bolder">{{ $t('mainCard.vuejs') }}</p>
                 </div>
                 <div class="col-md-4 col-6 d-flex justify-content-center align-items-center p-0">
                   <img class="w-15" src="../assets/img/logos/gray-logos/dotnet-logo.png" alt="logo">
-                  <p class="m-0 mx-2 fw-bolder">Vue.js</p>
+                  <p class="m-0 mx-2 fw-bolder">{{ $t('mainCard.asp') }}</p>
                 </div>
               </div>
             </div>
@@ -43,29 +40,29 @@
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-box-2 h3 text-primary"></i>
-            <h5 class="mt-2">Components</h5>
-            <p>Choose the best design system for your next product.</p>
+            <h5 class="mt-2">{{ $t('features.components') }}</h5>
+            <p>{{ $t('features.componentsDes') }}</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-album-2 h3 text-primary"></i>
-            <h5 class="mt-2">Design</h5>
-            <p>Get the latest design ideas and turn it into reality.</p>
+            <h5 class="mt-2">{{ $t('features.design') }}</h5>
+            <p>{{ $t('features.designDes') }}</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-atom h3 text-primary"></i>
-            <h5 class="mt-2">Less Code</h5>
-            <p>Make your code easier to maintain using variables.</p>
+            <h5 class="mt-2">{{ $t('features.lessCode') }}</h5>
+            <p>{{ $t('features.lessCodeDes') }}</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-collection h3 text-primary"></i>
-            <h5 class="mt-2">Fully Responsive</h5>
-            <p>This design system is fully supported on any device.</p>
+            <h5 class="mt-2">{{ $t('features.fullyResponsive') }}</h5>
+            <p>{{ $t('features.fullyResponsiveDes') }}</p>
           </div>
         </div>
       </div>
@@ -83,31 +80,28 @@
         </div>
         <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <h4 class="mb-0">Michael Roven</h4>
+            <h4 class="mb-0">{{ $t('nameCard.name') }}</h4>
             <div class="d-block">
-              <button type="button" class="btn btn-sm btn-outline-primary text-nowrap mb-0">Follow</button>
+              <button type="button" class="btn btn-sm btn-outline-primary text-nowrap mb-0">{{ $t('nameCard.follow') }}</button>
             </div>
           </div>
           <div class="row mb-4">
             <div class="col-auto">
               <span class="h6">323</span>
-              <span>Posts</span>
+              <span>{{ $t('nameCard.posts') }}</span>
             </div>
             <div class="col-auto">
               <span class="h6">3.5k</span>
-              <span>Followers</span>
+              <span>{{ $t('nameCard.followers') }}</span>
             </div>
             <div class="col-auto">
               <span class="h6">260</span>
-              <span>Following</span>
+              <span>{{ $t('nameCard.following') }}</span>
             </div>
           </div>
           <p class="text-lg mb-0">
-            Decisions: If you can’t decide, the answer is no.
-            If two equally difficult paths, choose the one more
-            painful in the short term (pain avoidance is creating
-            an illusion of equality). Choose the path that leaves
-            you more equanimous. <br><a href="javascript:;" class="text-primary text-decoration-underline-hover">More about me</a>
+            {{ $t('nameCard.description') }}
+            <br><a href="javascript:;" class="text-primary text-decoration-underline-hover">{{ $t('nameCard.more') }}</a>
           </p>
         </div>
       </div>
@@ -118,10 +112,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 ms-auto me-auto text-center">
-          <h2>From nothing to something</h2>
-          <p>
-            The highest status people in human history are those that asked for nothing and gave everything
-          </p>
+          <h2>{{ $t('blog.title') }}</h2>
+          <p>{{ $t('blog.titleDes') }}</p>
         </div>
       </div>
       <div class="row mt-5">
@@ -129,10 +121,11 @@
           <div class="position-relative ms-md-5 me-md-n5">
             <img class="image-left shadow rounded-3 img-fluid position-relative top-0 end-0 bg-cover" src="../assets/img/bg28.jpg" alt="image">
           </div>
-          <p class="blockquote border border-primary rounded w-50 p-3 text-sm text-primary float-md-end mt-4 me-md-n2 mx-auto">"Over the span of the satellite record, Arctic sea ice has been declining significantly, while sea ice in the Antarctichas increased very slightly"
+          <p class="blockquote border border-primary rounded w-50 p-3 text-sm text-primary float-md-end mt-4 me-md-n2 mx-auto">
+            {{ $t('blog.quote') }}
             <br>
             <br>
-            <small>-NOAA</small>
+            <small>{{ $t('blog.quoteAuthor') }}</small>
           </p>
           <!-- Second image on the left side of the article -->
           <div class="position-absolute bottom-0 mb-5 ms-n2 me-3 start-0 end-2 d-md-block d-none">
@@ -144,14 +137,10 @@
           <div class="position-relative ms-n4 mb-5 mt-8 d-md-block d-none">
             <img class="image-right shadow rounded-3 img-fluid position-relative bg-cover" src="../assets/img/bg29.jpg" alt="image">
           </div>
-          <h3 class="mb-4">So what does the new record for the lowest level of winter ice actually mean</h3>
-          <p>The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens with climate change. Even if the Arctic continues to be one of the fastest-warming regions of the world, it will always be plunged into bitterly cold polar dark every winter. And year-by-year, for all kinds of natural reasons, there’s huge variety of the state of the ice.
-          </p>
-          <p>
-            For a start, it does not automatically follow that a record amount of ice will melt this summer. More important for determining the size of the annual thaw is the state of the weather as the midnight sun approaches and temperatures rise. But over the more than 30 years of satellite records, scientists have observed a clear pattern of decline, decade-by-decade.
-          </p>
-          <p>The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens with climate change. Even if the Arctic continues to be one of the fastest-warming regions of the world, it will always be plunged into bitterly cold polar dark every winter. And year-by-year, for all kinds of natural reasons, there’s huge variety of the state of the ice.
-          </p>
+          <h3 class="mb-4">{{ $t('blog.subTitle') }}</h3>
+          <p>{{ $t('blog.paragraph1') }}</p>
+          <p>{{ $t('blog.paragraph2') }}</p>
+          <p>{{ $t('blog.paragraph3') }}</p>
         </div>
       </div>
     </div>
@@ -176,44 +165,38 @@
               </a>
             </div>
             <div class="carousel-inner">
-              <h2 class="text-white mb-0">Work with us</h2>
-              <p class="text-white opacity-8 mb-1">Whatever your qualification is - we got you!</p>
+              <h2 class="text-white mb-0">{{ $t('workWithUs.title') }}</h2>
+              <p class="text-white opacity-8 mb-1">{{ $t('workWithUs.subTitle') }}</p>
               <hr class="text-white horizontal opacity-6 mb-4 mt-2 w-25 text-start">
               <div class="carousel-item active">
-                <h6 class="text-white opacity-8 pe-5">"Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.
-                  Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone.
-                  This is the way to success. A single rose can be my garden... a single friend, my world."</h6>
+                <h6 class="text-white opacity-8 pe-5">{{ $t('workWithUs.carouselDes1') }}</h6>
                 <div class="author mt-4">
                   <div class="name">
-                    <span class="text-white">Ludwig Siato</span>
+                    <span class="text-white">{{ $t('workWithUs.carouselName1') }}</span>
                     <div class="stats">
-                      <small class="text-white opacity-6">Project manager, Apple</small>
+                      <small class="text-white opacity-6">{{ $t('workWithUs.carouselPosition1') }}</small>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="carousel-item">
-                <h6 class="text-white opacity-8 pe-5">"Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.
-                  Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone.
-                  This is the way to success. A single rose can be my garden... a single friend, my world."</h6>
+                <h6 class="text-white opacity-8 pe-5">{{ $t('workWithUs.carouselDes2') }}</h6>
                 <div class="author mt-4">
                   <div class="name">
-                    <span class="text-white">John Down</span>
+                    <span class="text-white">{{ $t('workWithUs.carouselName2') }}</span>
                     <div class="stats">
-                      <small class="text-white opacity-6">CFO, Google</small>
+                      <small class="text-white opacity-6">{{ $t('workWithUs.carouselPosition2') }}</small>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="carousel-item">
-                <h6 class="text-white opacity-8 pe-5">"Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.
-                  Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone.
-                  This is the way to success. A single rose can be my garden... a single friend, my world."</h6>
+                <h6 class="text-white opacity-8 pe-5">{{ $t('workWithUs.carouselDes3') }}</h6>
                 <div class="author mt-4">
                   <div class="name">
-                    <span class="text-white">Mark Jojansen</span>
+                    <span class="text-white">{{ $t('workWithUs.carouselName3') }}</span>
                     <div class="stats">
-                      <small class="text-white opacity-6">Fullstack Developer, Atlassian</small>
+                      <small class="text-white opacity-6">{{ $t('workWithUs.carouselPosition3') }}</small>
                     </div>
                   </div>
                 </div>
@@ -280,8 +263,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 mx-auto text-center mb-5">
-          <h2>Best no-tricks pricing</h2>
-          <p class="lead">If you're not satisfied, contact us within the first 30 days and we'll send you a full refund.</p>
+          <h2>{{ $t('pricing.mainTitle') }}</h2>
+          <p class="lead">{{ $t('pricing.mainSubTitle') }}</p>
         </div>
       </div>
       <div class="row">
@@ -289,11 +272,11 @@
           <div class="row">
             <div class="col-lg-8">
               <div class="card-body">
-                <h3 class="text-info">Lifetime Membership</h3>
-                <p>You have Free Unlimited Updates and Premium Support on each package. You also have 30 days to request a refund.</p>
+                <h3 class="text-info">{{ $t('pricing.title') }}</h3>
+                <p>{{ $t('pricing.description') }}</p>
                 <div class="row mt-5 mb-2">
                   <div class="col-lg-3 col-12">
-                    <h6 class="text-dark tet-uppercase">What's included</h6>
+                    <h6 class="text-dark tet-uppercase">{{ $t('pricing.whatsincluded') }}</h6>
                   </div>
                   <div class="col-6">
                     <hr class="horizontal dark">
@@ -304,13 +287,13 @@
                     <div class="d-flex align-items-center p-2">
                       <i class="fas fa-check text-dark"></i>
                       <div>
-                        <span class="ps-2">Private code access</span>
+                        <span class="ps-2">{{ $t('pricing.include1') }}</span>
                       </div>
                     </div>
                     <div class="d-flex align-items-center p-2">
                       <i class="fas fa-check text-dark"></i>
                       <div>
-                        <span class="ps-2">Free entry to all repositories</span>
+                        <span class="ps-2">{{ $t('pricing.include2') }}</span>
                       </div>
                     </div>
                   </div>
@@ -318,13 +301,13 @@
                     <div class="d-flex align-items-center p-2">
                       <i class="fas fa-check text-dark"></i>
                       <div>
-                        <span class="ps-2">Pro member accounts</span>
+                        <span class="ps-2">{{ $t('pricing.include3') }}</span>
                       </div>
                     </div>
                     <div class="d-flex align-items-center p-2">
                       <i class="fas fa-check text-dark"></i>
                       <div>
-                        <span class="ps-2">Support team full assist</span>
+                        <span class="ps-2">{{ $t('pricing.include4') }}</span>
                       </div>
                     </div>
                   </div>
@@ -333,12 +316,12 @@
             </div>
             <div class="col-lg-4 my-auto">
               <div class="card-body text-center">
-                <h6 class="mt-sm-4 mt-0 mb-0">Pay once, own it forever</h6>
+                <h6 class="mt-sm-4 mt-0 mb-0">{{ $t('pricing.payOne') }}</h6>
                 <h1 class="mt-0">
                   <small>$</small>399
                 </h1>
-                <button type="button" class="btn bg-gradient-info btn-lg mt-2">Get Access</button>
-                <p class="text-sm">Get a free sample (20MB)</p>
+                <button type="button" class="btn bg-gradient-info btn-lg mt-2">{{ $t('pricing.getAccess') }}</button>
+                <p class="text-sm">{{ $t('pricing.getFree') }}</p>
               </div>
             </div>
           </div>
@@ -355,9 +338,9 @@
               <i class="ni ni-chart-bar-32  opacity-10"></i>
             </div>
           </div>
-          <h3 class="mb-0 mt-4">Beware The Components</h3>
-          <h3>How To Handle Them</h3>
-          <p>We’re constantly trying to express ourselves and actualize our dreams. Don't stop.</p>
+          <h3 class="mb-0 mt-4">{{ $t('handle.title1') }}</h3>
+          <h3>{{ $t('handle.title2') }}</h3>
+          <p>{{ $t('handle.subTitle') }}</p>
         </div>
       </div>
       <div class="row mt-5">
@@ -367,9 +350,9 @@
               <img class="full-background" src="../assets/img/bg26.jpg" alt="image">
               <div class="card-body pt-7 pb-6 text-center">
                 <i class="ni ni-books mb-3 h3 text-white"></i>
-                <a href="javascript:;" class="h4 d-block text-white up mb-0 text-decoration-underline-hover">Search and Discover!</a>
-                <p class="lead mt-2 opacity-9">Website visitors</p>
-                <button type="button" class="btn btn-white shadow-none mt-3">Get Started</button>
+                <a href="javascript:;" class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('handle.searchAndDiscover') }}</a>
+                <p class="lead mt-2 opacity-9">{{ $t('handle.websiteVisitors') }}</p>
+                <button type="button" class="btn btn-white shadow-none mt-3">{{ $t('handle.getStarted') }}</button>
               </div>
             </div>
           </div>
@@ -377,26 +360,20 @@
         <div class="col-md-5 me-auto my-auto ms-md-5">
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>1. Listen to Social Conversations</h5>
-              <p>
-                Gain access to the demographics, psychographics, and location of unique people who are interested and talk about your brand.
-              </p>
+              <h5>{{ $t('handle.searchTitle1') }}</h5>
+              <p>{{ $t('handle.searchDes1') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>2. Performance Analyze</h5>
-              <p>
-                Unify data from Facebook, Instagram, Twitter, LinkedIn, and Youtube to gain rich insights from easy-to-use reports.
-              </p>
+              <h5>{{ $t('handle.searchTitle2') }}</h5>
+              <p>{{ $t('handle.searchDes2') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>3. Social Conversions</h5>
-              <p>
-                Track actions taken on your website that originated from social, and understand the impact on your bottom line.
-              </p>
+              <h5>{{ $t('handle.searchTitle3') }}</h5>
+              <p>{{ $t('handle.searchDes3') }}</p>
             </div>
           </div>
         </div>
@@ -406,26 +383,20 @@
         <div class="col-md-5 ms-auto my-auto">
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>1. Always In Sync</h5>
-              <p>
-                No matter where you are, Trello stays in sync across all of your devices.
-              </p>
+              <h5>{{ $t('handle.visitorsTitle1') }}</h5>
+              <p>{{ $t('handle.visitorsDes1') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>2. Work With Any Team</h5>
-              <p>
-                Whether it’s for work or even the next family vacation, Trello helps your team.
-              </p>
+              <h5>{{ $t('handle.visitorsTitle2') }}</h5>
+              <p>{{ $t('handle.visitorsDes2') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>3. A Productivity Platform</h5>
-              <p>
-                Integrate the apps your team already uses directly into your workflow.
-              </p>
+              <h5>{{ $t('handle.visitorsTitle3') }}</h5>
+              <p>{{ $t('handle.visitorsDes3') }}</p>
             </div>
           </div>
         </div>
@@ -435,9 +406,9 @@
               <img class="full-background" src="../assets/img/bg24.jpg" alt="image">
               <div class="card-body pt-7 pb-6 text-center">
                 <i class="ni ni-planet mb-3 h3 text-white"></i>
-                <a class="h4 text-decoration-underline-hover d-block text-white up mb-0">Talk and Meet!</a>
-                <p class="lead mt-2 opacity-9">Social activities</p>
-                <button type="button" class="btn btn-white mt-3">Get Started</button>
+                <a class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('handle.talAndMeet') }}</a>
+                <p class="lead mt-2 opacity-9">{{ $t('handle.socialActivities') }}</p>
+                <button type="button" class="btn btn-white mt-3">{{ $t('handle.getStarted') }}</button>
               </div>
             </div>
           </div>
@@ -450,73 +421,53 @@
     <div class="container position-relative">
       <div class="row">
         <div class="col-lg-4 me-auto my-auto text-lg-start text-center">
-          <h6 class="text-white font-weight-bolder text-uppercase mb-2">Now UI</h6>
-          <p class="text-white">
-            Copyright © 2022 Now UI by Creative Tim.
-          </p>
+          <h6 class="text-white font-weight-bolder text-uppercase mb-2">{{ $t('footer.title') }}</h6>
+          <p class="text-white">{{ $t('footer.copyright') }}</p>
         </div>
         <div class="col-lg-2 col-sm-4 col-12 ms-md-auto text-lg-start text-center mb-sm-0 mb-4">
           <div>
-            <h6 class="text-white text-sm mb-1">Company</h6>
+            <h6 class="text-white text-sm mb-1">{{ $t('footer.company') }}</h6>
             <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  About Us
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.aboutUs') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Careers
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.careers') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Press
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.press') }}</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
-            <h6 class="text-white text-sm mb-1">Pages</h6>
+            <h6 class="text-white text-sm mb-1">{{ $t('footer.pages') }}</h6>
             <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Login
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/">{{ $t('footer.home') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Register
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/order">{{ $t('footer.order') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  About
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
-            <h6 class="text-white text-sm mb-1">Products</h6>
+            <h6 class="text-white text-sm mb-1">{{ $t('footer.products') }}</h6>
             <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Free
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.free') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  PRO
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.pro') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">
-                  Latest
-                </a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.latest') }}</a>
               </li>
             </ul>
           </div>
