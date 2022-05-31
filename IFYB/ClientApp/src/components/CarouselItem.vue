@@ -2,7 +2,7 @@
   <div class="carousel-item">
     <div class="container">
       <div class="row">
-        <div :class="width ? `${width} mx-auto` : 'col-lg-5 col-md-7 mx-auto'">
+        <div :class="width ? `${width} mx-auto my-4` : 'col-lg-5 col-md-7 my-4 mx-auto'">
           <div class="card">
             <div class="card-body px-lg-5 py-lg-5 text-center">
               <div class="info mb-4" v-if="icon">

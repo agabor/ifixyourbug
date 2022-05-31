@@ -14,7 +14,7 @@
             <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
           </div>
         </carousel-item>
-        <carousel-item :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" title="Order data" subTitle="Enter data from your app." buttonText="Submit" :error="error" @onClickBtn="submitOrder()">
+        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" title="Order data" subTitle="Enter data from your app." buttonText="Submit" :error="error" @onClickBtn="submitOrder()">
           <form>
             <div class="row text-start">
               <div class="col-md-12 d-flex pe-2 mb-3">
@@ -272,6 +272,14 @@ export default {
 
 <style>
 #carousel-testimonials {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
   background-image: url('../assets/img/pricing3.jpg');
 }
+.full-height{
+  overflow: auto;
+  height: 100vh;
+}
+
 </style>
