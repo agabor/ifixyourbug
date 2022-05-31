@@ -156,10 +156,10 @@ export const messages = {
     //ContactForm
       contact: {
         title: 'Contact us',
-        subTitle: 'For further questions, including partnership opportunities, please email info@codesharp.hu or contact using our contact form.',
+        subTitle: "For further questions, including partnership opportunities, please email info{'@'}codesharp.hu or contact using our contact form.",
         fullName: 'Full Name',
         email: 'Email',
-        emailPlaceholder: 'info@codesharp.hu',
+        emailPlaceholder: "info{'@'}codesharp.hu",
         howCanWeHelp: 'How can we help you?',
         problemDes: 'Describe your problem in at least 250 characters',
         sendMessage: 'Send Message',
