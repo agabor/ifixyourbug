@@ -177,6 +177,87 @@ export const messages = {
         bugDescription: 'Bug description',
         projectDescription: 'Project description',
         gitAccessId: 'Git access id',
-      }
+      },
+    //OrderView
+      order: {
+        email: 'Email',
+        emailDes: 'Enter your email.',
+        submit: 'Submit',
+        name: 'Name',
+        nameDes: 'Enter your name.',
+        save: 'Save',
+        orderData: 'Order data',
+        orderDataDes: 'Enter data from your app.',
+        emailExample: "email{'@'}example.com",
+        projectDescription: 'Project description',
+        bugDescription: 'Bug description',
+        successfulOrder: 'Successful order',
+        successfulOrderDes: 'We will contact you shortly via email.',
+        backToHome: 'Bact to home',
+      },
+    //2FA
+      twofa: {
+        title: '2FA Security',
+        subTitle: 'Enter 6-digits code from your athenticatior app.',
+        buttonText: 'Check',
+      },
+    //SelectFramework
+      framework: {
+        label: 'Framework*',
+        placeholder: 'Select a framework',
+        option1: 'Vue.js',
+        option2: 'ASP.NET Core',
+      },
+    //SelectVersion
+      frameworkVersion: {
+        label: 'Version*',
+        placeholder: 'Select version',
+        frameworkFirst: 'Please select a framework first',
+      },
+    //OperatingSystem
+      operatingSystem: {
+        isSpecific: 'Is the issue specific to an operating system?',
+        label: 'Operating system*',
+        option1: 'Windows',
+        option2: 'Linux',
+        option3: 'MacOS',
+        version: 'Operating system version',
+      },
+    //BrowserType
+      browserType: {
+        isSpecific: 'Is the issue specific to an browser?',
+        label: 'Browser type*',
+        option1: 'Chrome',
+        option2: 'Safari',
+        option3: 'Firefox',
+        version: 'Browser version',
+      },
+    //OnlineApp
+      onlineApp: {
+        isAvailable: 'Is there a deployed version of the application available online?',
+        appUrl: 'Application url',
+      },
+    //GitAccessSelector
+      gitAccessSelector: {
+        label: 'Previous accesses',
+        placeholder: 'Select a previous access',
+      },
+    //ProjectSharing
+      projectSharing: {
+        urlLabel: 'Git repo url*',
+        urlPlaceholder: 'https://..',
+        sharingLabel: 'Project sharing with*',
+        option1: 'Public repo',
+        option2: 'Invite',
+        option3: 'User account',
+        option1Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 0',
+        option2Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 1',
+        option3Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 2',
+      },
+    //ThirdPartyTool
+      thirdPartyTool: {
+        isPotentially: 'Is the bug potentially related to a third party library?',
+        label: 'Third party library name',
+      },
     }
   }

@@ -2,13 +2,13 @@
   <div class="col-md-12 pe-2">
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="available-app-input" :value="available" @change="updateAvailable">
-      <label class="form-check-label" for="available-app-input"> Is there a deployed version of the application available online?</label>
+      <label class="form-check-label" for="available-app-input">{{ $t('onlineApp.isAvailable') }}</label>
     </div>
   </div>
   <div class="col-md-12 pe-2 mb-3" v-if="available">
     <div class="form-group mb-0">
-      <label>App url*</label>
-      <input id="app-url-input" class="form-control" placeholder="Application url" type="text" :value="url" @input="$emit('update:url', $event.target.value)">
+      <label>{{ $t('onlineApp.appUrl') }}*</label>
+      <input id="app-url-input" class="form-control" :placeholder="$t('onlineApp.appUrl')" type="text" :value="url" @input="$emit('update:url', $event.target.value)">
     </div>
   </div>
 </template>

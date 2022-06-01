@@ -3,18 +3,18 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <carousel-item :class="{'active': page === 'email'}" icon="email-83" title="Email" subTitle="Enter your email." buttonText="Submit" :error="error" @onClickBtn="submitEmail()">
+        <carousel-item :class="{'active': page === 'email'}" icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :buttonText="$t('order.submit')" :error="error" @onClickBtn="submitEmail()">
           <div class="row mb-4">
-            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email">
+            <input id="emailInput" class="form-control" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="submitEmail()" v-model="order.email">
           </div>
         </carousel-item>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
-        <carousel-item :class="{'active': page === 'name'}" icon="badge" title="Name" subTitle="Enter your name." buttonText="Save" :error="error" @onClickBtn="setName()">
+        <carousel-item :class="{'active': page === 'name'}" icon="badge" :title="$t('order.name')" :subTitle="$t('order.nameDes')" :buttonText="$t('order.save')" :error="error" @onClickBtn="setName()">
           <div class="row mb-4">
             <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="setName()" v-model="order.name">
           </div>
         </carousel-item>
-        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" title="Order data" subTitle="Enter data from your app." buttonText="Submit" :error="error" @onClickBtn="submitOrder()">
+        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')" :buttonText="$t('order.submit')" :error="error" @onClickBtn="submitOrder()">
           <form>
             <div class="row text-start">
               <div class="col-md-12 d-flex pe-2 mb-3">
@@ -28,21 +28,21 @@
               <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
-                  <label>Project description*</label>
-                  <text-editor id="project-description-input" v-model:modelValue="order.projectDescription" placeholder="Project description"></text-editor>
+                  <label>{{ $t('order.projectDescription') }}*</label>
+                  <text-editor id="project-description-input" v-model:modelValue="order.projectDescription" :placeholder="$t('order.projectDescription')"></text-editor>
                 </div>
               </div>
               <div class="col-md-12 pe-2 mb-3">
                 <div class="form-group mb-0">
-                  <label>Bug description*</label>
-                  <text-editor id="bug-description-input" v-model:modelValue="order.bugDescription" placeholder="Bug description"></text-editor>
+                  <label>{{ $t('order.bugDescription') }}*</label>
+                  <text-editor id="bug-description-input" v-model:modelValue="order.bugDescription" :placeholder="$t('order.bugDescription')"></text-editor>
                 </div>
               </div>
               <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool"></third-party-tool>
             </div>
           </form>
         </carousel-item>
-        <carousel-item :class="{'active': page === 'success'}" icon="send" title="Successful order" subTitle="We will contact you shortly via email." buttonText="Bact to home" @onClickBtn="$router.push('/')"></carousel-item>
+        <carousel-item :class="{'active': page === 'success'}" icon="send" :title="$t('order.successfulOrder')" :subTitle="$t('order.successfulOrderDes')" :buttonText="$t('order.backToHome')" @onClickBtn="$router.push('/')"></carousel-item>
       </div>
     </div>
   </section>

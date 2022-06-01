@@ -1,5 +1,5 @@
 <template>
-  <carousel-item icon="atom" title="2FA Security" subTitle="Enter 6-digits code from your athenticatior app." buttonText="Check" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
+  <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
     <div class="row mb-4">
       <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in authLength" :key="i">
         <input type="text" :id="`2fa-${idx}`" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChane($event, idx)">
