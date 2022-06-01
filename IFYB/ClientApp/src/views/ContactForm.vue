@@ -68,20 +68,22 @@
 <script>
 import { ref } from 'vue';
 import { validEmail, required } from '../utils/Validate';
+import { useI18n } from "vue-i18n";
 
 export default {
   name: 'ContactForm',
   setup() {
+    const { tm } = useI18n();
     const contact = ref({});
     const error = ref(null);
     const page = ref('contact');
 
     async function submitMessage() {
       let err =
-        required(contact.value.name, 'Name', 'name-input') ||
-        required(contact.value.email, 'Email', 'email-input') ||
+        required(contact.value.name, tm('errors.requiredName'), 'name-input') ||
+        required(contact.value.email, tm('errors.requiredEmail'), 'email-input') ||
         validEmail(contact.value.email) ||
-        required(contact.value.message, 'Message', 'message-input');
+        required(contact.value.message, tm('errors.requiredMessage'), 'message-input');
       if(err) {
         error.value = err;
       } else {
@@ -96,7 +98,7 @@ export default {
           page.value = 'success';
           error.value = null;
         } catch {
-          error.value = 'Something wrong'
+          error.value = tm('errors.somethingWrong');
         }
       }
     }

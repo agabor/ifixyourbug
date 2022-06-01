@@ -14,6 +14,10 @@ export const messages = {
         requiredProjectDes: 'Project description required',
         requiredBugDes: 'Bug description required',
         requiredThirdPartyTool: 'Third party tool required',
+        requiredName: 'Name required',
+        requiredEmail: 'Email required',
+        requiredMessage: 'Message required',
+        somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
       },
     //HomeView
