@@ -13,12 +13,12 @@
           <table class="table align-items-center mb-0">
             <thead>
               <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Framework</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">version</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">thirdPartyTool</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">bugDescription</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">projectDescription</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">gitAccessId</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.framework') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.version') }}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.thirdPartyTool') }}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.bugDescription') }}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.projectDescription') }}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.gitAccessId') }}</th>
               </tr>
             </thead>
             <tbody>

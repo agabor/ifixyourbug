@@ -168,6 +168,15 @@ export const messages = {
         title: 'Thank you!',
         subTitle: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
+      },
+    //AdminView
+      admin: {
+        framework: 'Framework',
+        version: 'Version',
+        thirdPartyTool: 'Third party tool',
+        bugDescription: 'Bug description',
+        projectDescription: 'Project description',
+        gitAccessId: 'Git access id',
       }
     }
   }
