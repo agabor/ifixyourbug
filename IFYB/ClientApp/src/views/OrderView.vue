@@ -134,16 +134,16 @@ export default {
     async function checkAuthentication(code) {
       auth.value = code;
       try {
-        await tryAuthenticate();
+        await tryAuthentication();
       } catch(e) {
-        handleAuthenticateError();
+        handleAuthenticationError();
       }
       if(jwt) {
         toNamePageOrToDataPage();
       }
     }
 
-    async function tryAuthenticate() {
+    async function tryAuthentication() {
       const response = await fetch(`/authenticate/${clientId}`, {
         method: 'POST',
         headers: {
@@ -156,7 +156,7 @@ export default {
       error.value = null;
     }
 
-    function handleAuthenticateError() {
+    function handleAuthenticationError() {
       jwt = null;
       error.value = tm('errors.wrongCode');
     }

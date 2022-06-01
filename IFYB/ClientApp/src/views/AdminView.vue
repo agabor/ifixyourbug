@@ -3,9 +3,9 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <carousel-item :class="{'active': page === 'email'}" icon="email-83" title="Email" subTitle="Enter your email." buttonText="Submit" :error="error" @onClickBtn="submitEmail()">
+        <carousel-item :class="{'active': page === 'email'}" icon="email-83" title="Email" subTitle="Enter your email." buttonText="Submit" :error="error" @onClickBtn="trySubmitEmail()">
           <div class="row mb-4">
-            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="submitEmail()" v-model="order.email">
+            <input id="emailInput" class="form-control" placeholder="email@example.com" type="email" @keyup.enter="trySubmitEmail()" v-model="order.email">
           </div>
         </carousel-item>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
@@ -71,9 +71,9 @@ export default {
     let clientId;
     let jwt;
 
-    checkJwtIsActive();
+    setJwtIfActive();
 
-    async function checkJwtIsActive() {
+    async function setJwtIfActive() {
       if(localStorage.getItem('jwt')) {
         let authResponse = await fetch('/authenticate/admin/check-jwt', {
           method: 'GET',
@@ -87,64 +87,76 @@ export default {
         }
       }
     }
-    
-    async function submitEmail() {
+
+    function trySubmitEmail() {
       let err = validEmail(order.value.email);
       if(err) {
         error.value = tm(err);
       } else {
-        try {
-          const response = await fetch('authenticate/admin', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({'email': order.value.email})
-          });
-          clientId = (await response.json()).id;
-          page.value = 'auth';
-          error.value = null;
-        } catch(e) {
-          error.value = tm('errors.notAdministratorEmail')
-        }
+        submitEmail();
+      }
+    }
+
+    async function submitEmail() {
+      const response = await fetch('authenticate/admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'email': order.value.email})
+      });
+      if(response.status == 200){
+        clientId = (await response.json()).id;
+        page.value = 'auth';
+        error.value = null;
+      } else {
+        error.value = tm('errors.notAdministratorEmail')
       }
     }
 
     async function checkAuthentication(code) {
       auth.value = code;
       try {
-        const response = await fetch(`authenticate/admin/${clientId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({'clientId': clientId, 'password': auth.value})
-        });
-        jwt = (await response.json()).jwt;
-        localStorage.setItem('jwt', jwt);
-        error.value = null;
+        await tryAuthentication();
       } catch(e) {
-        jwt = null;
-        error.value = tm('errors.wrongCode');
+        handleAuthenticationError();
       }
-      setOrders();
+      if(jwt) {
+        setOrders();
+      }
+    }
+
+    async function tryAuthentication() {
+      const response = await fetch(`authenticate/admin/${clientId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'clientId': clientId, 'password': auth.value})
+      });
+      jwt = (await response.json()).jwt;
+      localStorage.setItem('jwt', jwt);
+      error.value = null;
+    }
+
+    function handleAuthenticationError() {
+      jwt = null;
+      error.value = tm('errors.wrongCode');
     }
 
     async function setOrders() {
-      if(jwt) {
-        let orderResponse = await fetch('/admin/orders', {
-          method: 'GET',
-          headers: {
-            'Authorization': `bearer ${jwt}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        orders.value = await orderResponse.json();
-        page.value = 'orders';        
-      }
+      let orderResponse = await fetch('/admin/orders', {
+        method: 'GET',
+        headers: {
+          'Authorization': `bearer ${jwt}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      orders.value = await orderResponse.json();
+      page.value = 'orders';        
     }
 
-    return { page, error, order, orders, auth, submitEmail, checkAuthentication }
+    return { page, error, order, orders, auth, trySubmitEmail, checkAuthentication }
   }
 }
 </script>
