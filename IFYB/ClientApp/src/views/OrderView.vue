@@ -112,7 +112,7 @@ export default {
     async function submitEmail() {
       let err = validEmail(order.value.email);
       if(err) {
-        error.value = err;
+        error.value = tm(err);
       } else {
         const response = await fetch('/authenticate', {
           method: 'POST',
@@ -205,7 +205,7 @@ export default {
           page.value = 'success';
           error.value = null;
         } else {
-          error.value = `Something wrong - ${orderResponse.statusText} (${orderResponse.status})`;
+          error.value = `${tm('errors.somethingWrong')} - ${orderResponse.statusText} (${orderResponse.status})`;
         }
       }
     }

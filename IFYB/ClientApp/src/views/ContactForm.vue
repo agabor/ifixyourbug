@@ -79,11 +79,7 @@ export default {
     const page = ref('contact');
 
     async function submitMessage() {
-      let err =
-        required(contact.value.name, tm('errors.requiredName'), 'name-input') ||
-        required(contact.value.email, tm('errors.requiredEmail'), 'email-input') ||
-        validEmail(contact.value.email) ||
-        required(contact.value.message, tm('errors.requiredMessage'), 'message-input');
+      let err = getFormError();
       if(err) {
         error.value = err;
       } else {
@@ -102,6 +98,20 @@ export default {
         }
       }
     }
+
+    function getFormError() {
+      let err =
+        required(contact.value.name, tm('errors.requiredName'), 'name-input') ||
+        required(contact.value.email, tm('errors.requiredEmail'), 'email-input');
+      if(!err && validEmail(contact.value.email)) {
+        err = tm(validEmail(contact.value.email));
+      }
+      if(!err) {
+        err = required(contact.value.message, tm('errors.requiredMessage'), 'message-input');
+      }
+      return err;
+    }
+
     return { contact, error, page, submitMessage }
   }
 }

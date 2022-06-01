@@ -10,7 +10,8 @@
 
 <script>
 import { ref } from 'vue';
-import { required, min } from '../utils/Validate';
+import { min } from '../utils/Validate';
+import { useI18n } from "vue-i18n";
 import CarouselItem from './CarouselItem.vue';
 
 export default {
@@ -22,6 +23,7 @@ export default {
   },
   emits:['update:modelValue'],
   setup(props, context) {
+    const { tm } = useI18n();
     const auth = ref(props.modelValue.split(''));
     let oldAuth = [];
     let authLength = 6;
@@ -80,9 +82,9 @@ export default {
     }
 
     function checkValidCode() {
-      let err = required(auth.value, 'Authentication code', '2fa-0')?.message || min(auth.value.join(''), 6);
+      let err = min(auth.value.join(''), authLength);
       if(err) {
-        codeError.value = err;
+        codeError.value = tm(err) + authLength;
       } else {
         context.emit('update:modelValue', auth.value.join(''));
         codeError.value = null;

@@ -91,7 +91,7 @@ export default {
     async function submitEmail() {
       let err = validEmail(order.value.email);
       if(err) {
-        error.value = err;
+        error.value = tm(err);
       } else {
         try {
           const response = await fetch('authenticate/admin', {
@@ -125,7 +125,7 @@ export default {
         error.value = null;
       } catch(e) {
         jwt = null;
-        error.value = 'Wrong code.';
+        error.value = tm('errors.wrongCode');
       }
       setOrders();
     }

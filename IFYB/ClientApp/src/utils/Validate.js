@@ -1,10 +1,10 @@
 export function validEmail(email) {
   if(email === '' || !email) {
-    return 'Email is required.';
+    return 'errors.requiredEmail';
   } else {
     let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!re.test(email)) {
-      return 'Valid email required.';
+      return 'errors.requiredValidEmail';
     }
   }
   return;
@@ -22,6 +22,6 @@ export function required(e, errorText, id) {
 
 export function min(e, i) {
   if(e.length < i)
-    return ('Minimum character ' + i + '.');
+    return ('errors.minLength');
   return;
 }
