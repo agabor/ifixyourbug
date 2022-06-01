@@ -53,6 +53,7 @@
 <script>
 import { ref } from 'vue';
 import { validEmail } from '../utils/Validate';
+import { useI18n } from "vue-i18n";
 import TwoFa from '../components/2FA.vue';
 import TextViewer from '../components/TextViewer.vue';
 import CarouselItem from '../components/CarouselItem.vue';
@@ -61,6 +62,7 @@ export default {
   name: 'AdminView',
   components: { TwoFa, TextViewer, CarouselItem },
   setup() {
+    const { tm } = useI18n();
     const page = ref('email');
     const order = ref({});
     const error = ref(null);
@@ -103,7 +105,7 @@ export default {
           page.value = 'auth';
           error.value = null;
         } catch(e) {
-          error.value = 'This email is not an administrator email.'
+          error.value = tm('errors.notAdministratorEmail')
         }
       }
     }

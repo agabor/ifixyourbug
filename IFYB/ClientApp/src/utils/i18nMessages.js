@@ -17,6 +17,7 @@ export const messages = {
         requiredName: 'Name required',
         requiredEmail: 'Email required',
         requiredMessage: 'Message required',
+        notAdministratorEmail: 'This email is not an administrator email.',
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
       },
