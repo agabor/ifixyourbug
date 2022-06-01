@@ -10,12 +10,12 @@ export function validEmail(email) {
   return;
 }
 
-export function required(e, text, id) {
+export function required(e, errorText, id) {
   if(e === '' || e === null || e === undefined) {
     if(id) {
       document.getElementById(id).focus();
     }
-    return text + ' required.';
+    return errorText;
   }
   return;
 }

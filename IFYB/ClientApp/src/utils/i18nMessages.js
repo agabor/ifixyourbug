@@ -1,5 +1,21 @@
 export const messages = {
     en: {
+    //Errors
+      errors: {
+        requiredFramework: 'Framework required',
+        requiredVersion: 'Version required',
+        requiredOS: 'Operating system required',
+        requiredOSVersion: 'Operating system version required',
+        requiredBrowserType: 'Browser type required',
+        requiredBrowserVersion: 'Browser version required',
+        requiredAppUrl: 'App url required',
+        requiredGitRepoUrl: 'Git repo url required',
+        requiredProjectSharing: 'Project sharing required',
+        requiredProjectDes: 'Project description required',
+        requiredBugDes: 'Bug description required',
+        requiredThirdPartyTool: 'Third party tool required',
+        wrongCode: 'Wrong code.',
+      },
     //HomeView
       mainCard: {
         title: 'Now UI Design System.',

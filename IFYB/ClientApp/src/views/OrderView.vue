@@ -62,11 +62,13 @@ import OnlineApp from '../components/orderComponents/OnlineApp.vue';
 import GitAccessSelector from '../components/orderComponents/GitAccessSelector.vue';
 import ProjectSharing from '../components/orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from '../components/orderComponents/ThirdPartyTool.vue';
+import { useI18n } from "vue-i18n";
 
 export default {
   name: 'OrderView',
   components: { TwoFa, TextEditor, CarouselItem, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, ThirdPartyTool },
   setup() {
+    const { tm } = useI18n();
     const page = ref('email');
     const order = ref({});
     const error = ref(null);
@@ -140,7 +142,7 @@ export default {
         error.value = null;
       } catch(e) {
         jwt = null;
-        error.value = 'Wrong code.';
+        error.value = tm('errors.wrongCode');
       }
       if(jwt) {
         toNamePageOrToDataPage();
@@ -231,26 +233,26 @@ export default {
 
     function getOrderFormError() {
       let err =
-        required(order.value.framework, 'Framework', 'choices-framework') ||
-        required(order.value.version, 'Version', 'choices-version');
+        required(order.value.framework, tm('errors.requiredFramework'), 'choices-framework') ||
+        required(order.value.version, tm('errors.requiredVersion'), 'choices-version');
       if(!err && order.value.isSpecificOpSystem)
         err =
-          required(order.value.os, 'Operating system') ||
-          required(order.value.opSystemVersion, 'Operating system version', 'op-system-name-input');
+          required(order.value.os, tm('errors.requiredOS')) ||
+          required(order.value.opSystemVersion, tm('errors.requiredOSVersion'), 'op-system-name-input');
       if(!err && order.value.isSpecificBrowser)
         err =
-          required(order.value.browser, 'Browser type') ||
-          required(order.value.browserVersion, 'Browser version', 'browser-system-name-input');
+          required(order.value.browser, tm('errors.requiredBrowserType')) ||
+          required(order.value.browserVersion, tm('errors.requiredBrowserVersion'), 'browser-system-name-input');
       if(!err && order.value.isAvailableApp)
-        err = required(order.value.availableAppUrl, 'App url', 'app-url-input');
+        err = required(order.value.availableAppUrl, tm('errors.requiredAppUrl'), 'app-url-input');
       if(!err)
         err =
-          required(order.value.repoUrl, 'Git repo url', 'repo-url-input') ||
-          required(order.value.accessMode, 'Project sharing') ||
-          required(order.value.projectDescription, 'Project description', 'project-description-input') ||
-          required(order.value.bugDescription, 'Bug description', 'bug-description-input');
+          required(order.value.repoUrl, tm('errors.requiredGitRepoUrl'), 'repo-url-input') ||
+          required(order.value.accessMode, tm('errors.requiredProjectSharing')) ||
+          required(order.value.projectDescription, tm('errors.requiredProjectDes'), 'project-description-input') ||
+          required(order.value.bugDescription, tm('errors.requiredBugDes'), 'bug-description-input');
       if(!err && order.value.isThirdPartyTool)
-        err = required(order.value.thirdPartyTool, 'Third party tool', 'third-party-tool-input');
+        err = required(order.value.thirdPartyTool, tm('errors.requiredThirdPartyTool'), 'third-party-tool-input');
       return err;
     }
 
