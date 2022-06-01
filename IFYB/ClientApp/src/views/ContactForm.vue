@@ -35,7 +35,7 @@
                   {{error}}
                 </div>
                 <div class="col-md-12 text-center mt-3">
-                  <button type="submit" class="btn bg-gradient-primary" @click="submitMessage">{{ $t('contact.sendMessage') }}</button>
+                  <button type="submit" class="btn bg-gradient-primary" @click="trySubmitMessage">{{ $t('contact.sendMessage') }}</button>
                 </div>
               </div>
             </div>
@@ -78,24 +78,30 @@ export default {
     const error = ref(null);
     const page = ref('contact');
 
-    async function submitMessage() {
-      let err = getFormError();
+
+    function trySubmitMessage() {
+      let err =  getFormError();
       if(err) {
         error.value = err;
       } else {
-        try {
-          await fetch('/contact', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
-          });
-          page.value = 'success';
-          error.value = null;
-        } catch {
-          error.value = tm('errors.somethingWrong');
-        }
+        submitMessage();
+      }
+    }
+
+    async function submitMessage() {
+      let response = await fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
+      });
+        console.log(response.status)
+      if(response.status == 200) {
+        page.value = 'success';
+        error.value = null;
+      } else {
+        error.value = tm('errors.somethingWrong');
       }
     }
 
@@ -112,7 +118,7 @@ export default {
       return err;
     }
 
-    return { contact, error, page, submitMessage }
+    return { contact, error, page, trySubmitMessage }
   }
 }
 </script>
