@@ -10,155 +10,43 @@
           <div class="card-body p-sm-5 pt-0">
             <h4 class="my-4 ps-3">{{ $t('faqBasics.title') }}</h4>
             <div class="accordion" id="accordionFaq">
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingOne">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{ $t('faqBasics.basicTitle1') }}
+              <div class="accordion-item" v-for="n in faqBasicsCount" :key="n">
+                <h6 class="accordion-header" :id="`headingBasics${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
+                    {{ $t(`faqBasics.basicTitle${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
                 </h6>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqBasics.basicDes1') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingTwo">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    {{ $t('faqBasics.basicTitle2') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqBasics.basicDes2') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingThree">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    {{ $t('faqBasics.basicTitle3') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqBasics.basicDes3') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingFour">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    {{ $t('faqBasics.basicTitle4') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqBasics.basicDes4') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingFifth">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifth" aria-expanded="false" aria-controls="collapseFifth">
-                    {{ $t('faqBasics.basicTitle5') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseFifth" class="accordion-collapse collapse" aria-labelledby="headingFifth" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqBasics.basicDes5') }}</div>
+                <div :id="`collapseBasics${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingBasics${n}`" data-bs-parent="#accordionFaq">
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqBasics.basicDes${n}`) }}</div>
                 </div>
               </div>
             </div>
             <h4 class="mt-5 mb-4 ps-3">{{ $t('faqSettings.title') }}</h4>
             <div class="accordion" id="accordionFaq2">
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingOne1">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1">
-                    {{ $t('faqSettings.settingTitle1') }}
+              <div class="accordion-item" v-for="n in faqSettings" :key="n">
+                <h6 class="accordion-header" :id="`headingSettings${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseSettings${n}`" aria-expanded="false" :aria-controls="`collapseSettings${n}`">
+                    {{ $t(`faqSettings.settingTitle${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
                 </h6>
-                <div id="collapseOne1" class="accordion-collapse collapse" aria-labelledby="headingOne1" data-bs-parent="#accordionFaq2">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqSettings.settingDes1') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingTwo1">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo1">
-                    {{ $t('faqSettings.settingTitle2') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseTwo1" class="accordion-collapse collapse" aria-labelledby="headingTwo1" data-bs-parent="#accordionFaq2">
-                  <div class="accordion-body text-sm opacity-8" v-html="$t('faqSettings.settingDes2')"></div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingThree1">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree1" aria-expanded="false" aria-controls="collapseThree1">
-                    {{ $t('faqSettings.settingTitle3') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseThree1" class="accordion-collapse collapse" aria-labelledby="headingThree1" data-bs-parent="#accordionFaq2">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqSettings.settingDes3') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingFour1">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour1" aria-expanded="false" aria-controls="collapseFour1">
-                   {{ $t('faqSettings.settingTitle4') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseFour1" class="accordion-collapse collapse" aria-labelledby="headingFour1" data-bs-parent="#accordionFaq2">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqSettings.settingDes4') }}</div>
+                <div :id="`collapseSettings${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${n}`" data-bs-parent="#accordionFaq2">
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqSettings.settingDes${n}`) }}</div>
                 </div>
               </div>
             </div>
             <h4 class="mt-5 mb-4 ps-3">{{ $t('faqLicenses.title') }}</h4>
             <div class="accordion" id="accordionFaq3">
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingOne2">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2">
-                    {{ $t('faqLicenses.licenseTitle1') }}
+              <div class="accordion-item" v-for="n in faqLicenses" :key="n">
+                <h6 class="accordion-header" :id="`headingLicenses${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
+                    {{ $t(`faqLicenses.licenseTitle${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
                 </h6>
-                <div id="collapseOne2" class="accordion-collapse collapse" aria-labelledby="headingOne2" data-bs-parent="#accordionFaq3">
-                  <div class="accordion-body text-sm opacity-8">
-                    {{ $t('faqLicenses.licenseDes1') }}
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingTwo2">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
-                    {{ $t('faqLicenses.licenseTitle2') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseTwo2" class="accordion-collapse collapse" aria-labelledby="headingTwo2" data-bs-parent="#accordionFaq3">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqLicenses.licenseDes2') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingThree2">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2">
-                    {{ $t('faqLicenses.licenseTitle3') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseThree2" class="accordion-collapse collapse" aria-labelledby="headingThree2" data-bs-parent="#accordionFaq3">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqLicenses.licenseDes3') }}</div>
-                </div>
-              </div>
-              <div class="accordion-item mb-3">
-                <h6 class="accordion-header" id="headingFour2">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour2" aria-expanded="false" aria-controls="collapseFour2">
-                    {{ $t('faqLicenses.licenseTitle4') }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div id="collapseFour2" class="accordion-collapse collapse" aria-labelledby="headingFour2" data-bs-parent="#accordionFaq3">
-                  <div class="accordion-body text-sm opacity-8">{{ $t('faqLicenses.licenseDes4') }}</div>
+                <div :id="`collapseLicenses${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingLicenses${n}`" data-bs-parent="#accordionFaq3">
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqLicenses.licenseDes${n}`) }}</div>
                 </div>
               </div>
             </div>
@@ -193,3 +81,16 @@
     </div>
   </section>
 </template>
+
+
+<script>
+export default {
+  setup() {
+    const faqBasicsCount = 5;
+    const faqSettings = 5;
+    const faqLicenses = 4;
+
+    return { faqBasicsCount, faqSettings, faqLicenses };
+  }
+}
+</script>
