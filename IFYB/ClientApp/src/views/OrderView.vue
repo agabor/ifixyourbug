@@ -144,7 +144,7 @@ export default {
     }
 
     async function tryAuthentication() {
-      const response = await fetch(`/authenticate/${clientId}`, {
+      const response = await fetch(`/api/authenticate/${clientId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
