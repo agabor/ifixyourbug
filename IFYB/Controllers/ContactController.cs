@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("contact")]
+[Route("api/contact")]
 public class ContactController : BaseController
 {
     public ContactController(ApplicationDbContext dbContext) : base(dbContext)

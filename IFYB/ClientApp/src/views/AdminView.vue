@@ -75,7 +75,7 @@ export default {
 
     async function setJwtIfActive() {
       if(localStorage.getItem('jwt')) {
-        let authResponse = await fetch('/authenticate/admin/check-jwt', {
+        let authResponse = await fetch('/api/authenticate/admin/check-jwt', {
           method: 'GET',
           headers: {
             'Authorization': `bearer ${localStorage.getItem('jwt')}`
@@ -98,7 +98,7 @@ export default {
     }
 
     async function submitEmail() {
-      const response = await fetch('authenticate/admin', {
+      const response = await fetch('/api/authenticate/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export default {
     }
 
     async function setOrders() {
-      let orderResponse = await fetch('/admin/orders', {
+      let orderResponse = await fetch('/api/admin/orders', {
         method: 'GET',
         headers: {
           'Authorization': `bearer ${jwt}`,

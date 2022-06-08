@@ -96,7 +96,7 @@ export default {
 
     async function setJwtIfActive() {
       if(localStorage.getItem('jwt')) {
-        let authResponse = await fetch('/authenticate/check-jwt', {
+        let authResponse = await fetch('/api/authenticate/check-jwt', {
           method: 'GET',
           headers: {
             'Authorization': `bearer ${localStorage.getItem('jwt')}`
@@ -119,7 +119,7 @@ export default {
     }
 
     async function submitEmail() {
-      const response = await fetch('/authenticate', {
+      const response = await fetch('/api/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default {
     }
 
     async function setName() {
-      await fetch('/clients/name', {
+      await fetch('/api/clients/name', {
         method: 'POST',
         headers: {
           'Authorization': `bearer ${jwt}`,
@@ -193,7 +193,7 @@ export default {
     }
 
     async function submitOrder() {
-      let orderResponse = await fetch('/orders', {
+      let orderResponse = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Authorization': `bearer ${jwt}`,
@@ -221,7 +221,7 @@ export default {
       if(selectedAccess.value.id != undefined){
         gitAccessId = selectedAccess.value.id;
       } else {
-        let gitResponse = await fetch('/git-accesses', {
+        let gitResponse = await fetch('/api/git-accesses', {
           method: 'POST',
           headers: {
             'Authorization': `bearer ${jwt}`,
@@ -235,7 +235,7 @@ export default {
     }
 
     async function toNamePageOrToDataPage() {
-      let nameResponse = await fetch('/clients/name', {
+      let nameResponse = await fetch('/api/clients/name', {
         method: 'GET',
         headers: {
           'Authorization': `bearer ${jwt}`
@@ -244,7 +244,7 @@ export default {
       if(nameResponse.status == 404) {
         page.value = 'name';
       } else {
-        let gitResponse = await fetch('/git-accesses', {
+        let gitResponse = await fetch('/api/git-accesses', {
           method: 'GET',
           headers: {
             'Authorization': `bearer ${jwt}`

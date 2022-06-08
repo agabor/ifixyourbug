@@ -5,7 +5,7 @@ namespace IFYB.Controllers;
 #if DEBUG
 
 [ApiController]
-[Route("reset")]
+[Route("api/reset")]
 public class ResetController : ControllerBase
 {
     ApplicationDbContext dbContext { get; }

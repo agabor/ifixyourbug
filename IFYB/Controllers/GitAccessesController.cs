@@ -7,7 +7,7 @@ using IFYB.Filters;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("git-accesses")]
+[Route("api/git-accesses")]
 [Authorize]
 [ClientFilter]
 public class GitAccessesController : BaseController

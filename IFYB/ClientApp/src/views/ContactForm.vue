@@ -89,7 +89,7 @@ export default {
     }
 
     async function submitMessage() {
-      let response = await fetch('/contact', {
+      let response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

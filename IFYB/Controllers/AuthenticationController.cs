@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("authenticate")]
+[Route("api/authenticate")]
 public class AuthenticationController : BaseController
 {
     public IConfiguration Configuration { get; private set; }

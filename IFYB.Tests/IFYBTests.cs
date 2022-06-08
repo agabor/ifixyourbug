@@ -20,10 +20,10 @@ public class IFYBTests
     [TestMethod]
     public async Task RegisterAndSendOrder()
     {
-        await Get($"reset", HttpStatusCode.OK);
-        await Get($"authenticate/check-jwt", HttpStatusCode.Forbidden);
+        await Get("api/reset", HttpStatusCode.OK);
+        await Get("api/authenticate/check-jwt", HttpStatusCode.Forbidden);
         
-        var response = await Post("authenticate", HttpStatusCode.OK, new {
+        var response = await Post("api/authenticate", HttpStatusCode.OK, new {
             email = "aa@bb.cc"
         });
         JToken? idToken = response.GetValue("id");
@@ -32,23 +32,23 @@ public class IFYBTests
         Assert.AreNotEqual(0, clientId);
 
 
-        response = await Post($"authenticate/{clientId}", HttpStatusCode.OK, new {
+        response = await Post($"api/authenticate/{clientId}", HttpStatusCode.OK, new {
             password = "123456"
         });
         string? jwt = response.GetValue("jwt")?.ToString();
         Assert.IsNotNull(jwt);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
 
-        await Get($"authenticate/check-jwt", HttpStatusCode.OK);
-        await Get($"clients/name", HttpStatusCode.NotFound);
-        await Post($"clients/name", HttpStatusCode.OK, new {
+        await Get("api/authenticate/check-jwt", HttpStatusCode.OK);
+        await Get("api/clients/name", HttpStatusCode.NotFound);
+        await Post("api/clients/name", HttpStatusCode.OK, new {
             name = "First User"
         });
-        var nameResponse = await Get($"clients/name", HttpStatusCode.OK);
+        var nameResponse = await Get("api/clients/name", HttpStatusCode.OK);
         JToken? nameToken = nameResponse.GetValue("name");
         Assert.IsNotNull(nameToken);
         Assert.AreEqual("First User", nameToken.ToString());
-        response = await Post($"git-accesses", HttpStatusCode.OK, new {
+        response = await Post("api/git-accesses", HttpStatusCode.OK, new {
             url = "https://github.com/BootGen/VueStart",
             accessMode = 0
         });
@@ -65,18 +65,18 @@ public class IFYBTests
             bugDescription = "bello",
             gitAccessId = gitAccessId
         };
-        response = await Post($"orders", HttpStatusCode.OK, order);
+        response = await Post("api/orders", HttpStatusCode.OK, order);
         idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
         int orderId = (int)idToken;
-        response = await Get($"orders/{orderId}", HttpStatusCode.OK);
+        response = await Get($"api/orders/{orderId}", HttpStatusCode.OK);
         Assert.AreEqual(JObject.FromObject(order).ToString(), response.ToString());
     }
 
     [TestMethod]
     public async Task SendContactMessage()
     {
-        await Get($"reset", HttpStatusCode.OK);
+        await Get("api/reset", HttpStatusCode.OK);
 
         var message = new
         {
@@ -84,9 +84,9 @@ public class IFYBTests
             email = "aa@bb.cc",
             text = "hello"
         };
-        var response = await Post("contact", HttpStatusCode.OK, message);
+        var response = await Post("api/contact", HttpStatusCode.OK, message);
 
-        response = await Post("authenticate/admin", HttpStatusCode.OK, new {
+        response = await Post("api/authenticate/admin", HttpStatusCode.OK, new {
             email = "admin@admin.com"
         });
         JToken? idToken = response.GetValue("id");
@@ -95,23 +95,23 @@ public class IFYBTests
         Assert.AreNotEqual(0, clientId);
 
 
-        response = await Post($"authenticate/admin/{clientId}", HttpStatusCode.OK, new {
+        response = await Post($"api/authenticate/admin/{clientId}", HttpStatusCode.OK, new {
             password = "123456"
         });
         string? jwt = response.GetValue("jwt")?.ToString();
         Assert.IsNotNull(jwt);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
 
-        var messages = await GetArray($"admin/contact-messages", HttpStatusCode.OK);
+        var messages = await GetArray("api/admin/contact-messages", HttpStatusCode.OK);
         Assert.AreEqual(JObject.FromObject(message).ToString(), messages[0].ToString());
     }
 
     [TestMethod]
     public async Task TestClientAdminAccess()
     {
-        await Get($"reset", HttpStatusCode.OK);
+        await Get("api/reset", HttpStatusCode.OK);
         
-        var response = await Post("authenticate", HttpStatusCode.OK, new {
+        var response = await Post("api/authenticate", HttpStatusCode.OK, new {
             email = "aa@bb.cc"
         });
         JToken? idToken = response.GetValue("id");
@@ -120,13 +120,13 @@ public class IFYBTests
         Assert.AreNotEqual(0, clientId);
 
 
-        response = await Post($"authenticate/{clientId}", HttpStatusCode.OK, new {
+        response = await Post($"api/authenticate/{clientId}", HttpStatusCode.OK, new {
             password = "123456"
         });
         string? jwt = response.GetValue("jwt")?.ToString();
         Assert.IsNotNull(jwt);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
-        await GetArray($"admin/contact-messages", HttpStatusCode.Unauthorized);
+        await GetArray("api/admin/contact-messages", HttpStatusCode.Unauthorized);
     }
 
     private async Task<JObject> Get(string route, HttpStatusCode expectedStatus)

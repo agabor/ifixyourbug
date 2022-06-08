@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("admin")]
+[Route("api/admin")]
 [Authorize]
 [AdminFilter]
 public class AdminController : ControllerBase

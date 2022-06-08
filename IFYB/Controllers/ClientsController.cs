@@ -6,7 +6,7 @@ using IFYB.Filters;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("clients")]
+[Route("api/clients")]
 [Authorize]
 [ClientFilter]
 public class ClientsController : BaseController
