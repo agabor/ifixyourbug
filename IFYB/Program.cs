@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Net.Mail;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,13 @@ builder.Services.AddAuthentication(option =>
                 };
             });
 builder.Services.AddSingleton<SecurityKey>(key);
+
+
+var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);
+smtpClient.EnableSsl = true;
+smtpClient.Credentials = new NetworkCredential(builder.Configuration["AwsSmtpUserName"], builder.Configuration["AwsSmtpPassword"]);
+builder.Services.AddSingleton(smtpClient);
+
 var app = builder.Build();
 
 app.Use(async (context, next) =>
