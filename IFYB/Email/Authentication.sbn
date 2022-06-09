@@ -1,0 +1,16 @@
+<div style="max-width:600px; margin:0 auto">
+    <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+        <h1>Confirm your email address</h1>
+        <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
+        Your confirmation code is below — enter it in your open browser window and we’ll help you get signed in.
+        </p>
+    </div>
+    <div class="x_lg_margin_left_right x_xl_margin_bottom x_grey_box_container" style="background:#F5F4F5; border-radius:4px; padding:43px 23px; margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+        <div style="text-align:center; vertical-align:middle; font-size:30px">EJJ-78Q</div>
+    </div>
+    <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            If you didn’t request this email, there’s nothing to worry about — you can safely ignore it.
+        </p>
+    </div>
+</div>
