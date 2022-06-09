@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Net.Mail;
 
 namespace IFYB.Controllers;
 
@@ -12,13 +13,15 @@ namespace IFYB.Controllers;
 [Route("api/authenticate")]
 public class AuthenticationController : BaseController
 {
-    public IConfiguration Configuration { get; private set; }
-    public SecurityKey SecurityKey { get; }
+    private IConfiguration Configuration { get; }
+    private SecurityKey SecurityKey { get; }
+    private SmtpClient SmtpClient { get; }
 
-    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey) : base(dbContext)
+    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey, SmtpClient smtpClient) : base(dbContext)
     {
         Configuration = configuration;
         SecurityKey = securityKey;
+        SmtpClient = smtpClient;
     }
 
 
@@ -42,7 +45,32 @@ public class AuthenticationController : BaseController
             dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
+#if DEBUG
         client.Password = passwordHasher.HashPassword(client, "123456");
+#else
+        int charCount = 10 + 'Z' - 'A';
+        string password = string.Empty;
+        for (int i = 0; i < 6; ++i) {
+            int code = Random.Shared.Next() % charCount;
+            if (code < 10)
+            {
+                password += (char)('0' + code);
+            } else {
+                password += (char)('A' + code - 10);
+            }
+        }
+        client.Password = passwordHasher.HashPassword(client, password);
+        var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
+        var to = new MailAddress(dto.Email);
+        var message = new MailMessage(from, to);
+        message.Body = $"Hello!<br>User this code to login: {password}";
+        message.IsBodyHtml = true;
+        message.BodyEncoding = System.Text.Encoding.UTF8;
+        message.Subject = "I Fix Your Bug - Login Code";
+        message.SubjectEncoding = System.Text.Encoding.UTF8;
+
+        SmtpClient.Send(message);
+#endif
         dbContext.SaveChanges();
         return Ok(new IdDto(client.Id));
     }
