@@ -8,7 +8,7 @@
   <label v-if="isSpecificBrowser">{{ $t('browserType.label') }}</label>
   <div class="col-md-12 d-flex pe-2" v-if="isSpecificBrowser">
     <div class="form-check me-3" v-for="n in optionCount" :key="n">
-      <input class="form-check-input" type="radio" name="browserTypeRadio" :id="`browserTypeRadio${n}`" :value="n-1" v-model="browserType" @change="$emit('update:browser', browserType)">
+      <input class="form-check-input" type="radio" name="browserTypeRadio" :id="`browserTypeRadio${n}`" :value="$t(`browserType.option${n}`)" v-model="browserType" @change="$emit('update:browser', browserType)">
       <label class="form-check-label" :for="`browserTypeRadio${n}`">{{ $t(`browserType.option${n}`) }}</label>
     </div>
   </div>

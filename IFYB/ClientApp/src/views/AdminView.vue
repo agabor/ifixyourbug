@@ -15,6 +15,9 @@
               <tr>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.framework') }}</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.version') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.applicationUrl') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.specificPlatform') }}</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.specificPlatformVersion') }}</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.thirdPartyTool') }}</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.bugDescription') }}</th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.projectDescription') }}</th>
@@ -28,6 +31,15 @@
                 </td>
                 <td>
                   <span class="text-secondary text-xs font-weight-bold">{{ order.version }}</span>
+                </td>
+                <td>
+                  <span class="text-secondary text-xs font-weight-bold">{{ order.applicationUrl }}</span>
+                </td>
+                <td>
+                  <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatform }}</span>
+                </td>
+                <td>
+                  <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatformVersion }}</span>
                 </td>
                 <td class="align-middle text-center text-sm">
                   <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>

@@ -193,6 +193,14 @@ export default {
     }
 
     async function submitOrder() {
+      let specificPlatform, specificPlatformVersion;
+      if(order.value.isSpecificOpSystem) {
+        specificPlatform = order.value.os;
+        specificPlatformVersion = order.value.opSystemVersion;
+      } else if(order.value.isSpecificBrowser) {
+        specificPlatform = order.value.browser;
+        specificPlatformVersion = order.value.browserVersion;
+      }
       let orderResponse = await fetch('/api/orders', {
         method: 'POST',
         headers: {
@@ -202,6 +210,9 @@ export default {
         body: JSON.stringify({
           'framework': order.value.framework,
           'version': order.value.version,
+          'applicationUrl': order.value.availableAppUrl,
+          'specificPlatform': specificPlatform,
+          'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
           'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
           'projectDescription': order.value.projectDescription,
           'bugDescription': order.value.bugDescription,

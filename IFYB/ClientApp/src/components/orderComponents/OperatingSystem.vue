@@ -8,7 +8,7 @@
   <label v-if="isSpecificOpSystem">{{ $t('operatingSystem.label') }}</label>
   <div class="col-md-12 d-flex pe-2" v-if="isSpecificOpSystem">
     <div class="form-check me-3" v-for="n in optionCount" :key="n">
-      <input class="form-check-input" type="radio" name="osRadio" :id="`osRadio${n}`" :value="n-1" v-model="os" @change="$emit('update:operatingSystem', os)">
+      <input class="form-check-input" type="radio" name="osRadio" :id="`osRadio${n}`" :value="$t(`operatingSystem.option${n}`)" v-model="os" @change="$emit('update:operatingSystem', os)">
       <label class="form-check-label" :for="`osRadio${n}`">{{ $t(`operatingSystem.option${n}`) }}</label>
     </div>
   </div>

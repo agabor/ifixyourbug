@@ -200,6 +200,9 @@ export const messages = {
         bugDescription: 'Bug description',
         projectDescription: 'Project description',
         gitAccessId: 'Git access id',
+        applicationUrl: 'Application url',
+        specificPlatform: 'Specific platform',
+        specificPlatformVersion: 'Specific platform version',
       },
     //OrderView
       order: {

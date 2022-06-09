@@ -7,6 +7,9 @@ public class Order
     public int Id { get; set; }
     public Framework Framework { get; set; }
     public string Version { get; set; }
+    public string ApplicationUrl { get; set; }
+    public string SpecificPlatform { get; set; }
+    public string SpecificPlatformVersion { get; set; }
     public string ThirdPartyTool { get; set; }
     public string ProjectDescription { get; set; }
     public string BugDescription { get; set; }
@@ -17,10 +20,13 @@ public class Order
     public GitAccess GitAccess { get; set; } = null!;
 
 
-    public Order(Framework framework, string version, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
+    public Order(Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
     {
         Framework = framework;
         Version = version;
+        ApplicationUrl = applicationUrl;
+        SpecificPlatform = specificPlatform;
+        SpecificPlatformVersion = specificPlatformVersion;
         ThirdPartyTool = thirdPartyTool;
         ProjectDescription = projectDescription;
         BugDescription = bugDescription;
@@ -29,12 +35,12 @@ public class Order
 
     public static Order FromDto(OrderDto dto)
     {
-        return new Order(dto.Framework, dto.Version, dto.ThirdPartyTool, dto.ProjectDescription, dto.BugDescription, dto.GitAccessId);
+        return new Order(dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.ProjectDescription, dto.BugDescription, dto.GitAccessId);
     }
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Framework, Version, ThirdPartyTool, ProjectDescription, BugDescription, GitAccessId);
+        return new OrderDto(Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, ProjectDescription, BugDescription, GitAccessId);
     }
 }
 
