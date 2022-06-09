@@ -6,6 +6,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Net.Mail;
+using System.IO;
+using Scriban;
 
 namespace IFYB.Controllers;
 
@@ -62,12 +64,17 @@ public class AuthenticationController : BaseController
         client.Password = passwordHasher.HashPassword(client, password);
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(dto.Email);
-        var message = new MailMessage(from, to);
-        message.Body = $"Hello!<br>User this code to login: {password}";
-        message.IsBodyHtml = true;
+        MailMessage message = new MailMessage(from, to);
+        message.Subject = $"Confirmation code: {password}";
+        message.Body = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{password}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
         message.BodyEncoding = System.Text.Encoding.UTF8;
-        message.Subject = "I Fix Your Bug - Login Code";
         message.SubjectEncoding = System.Text.Encoding.UTF8;
+        
+        string body = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = password });
+
+        var mimeType = new System.Net.Mime.ContentType("text/html");
+        AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
+        message.AlternateViews.Add(alternate);
 
         SmtpClient.Send(message);
 #endif
