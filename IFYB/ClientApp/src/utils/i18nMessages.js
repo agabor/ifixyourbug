@@ -212,11 +212,15 @@ export const messages = {
         orderData: 'Order data',
         orderDataDes: 'Enter data from your app.',
         emailExample: "email{'@'}example.com",
-        projectDescription: 'Project description',
-        bugDescription: 'Bug description',
         successfulOrder: 'Successful order',
         successfulOrderDes: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
+      },
+    //NewOrderForm
+      newOrder: {
+        submit: 'Submit',
+        projectDescription: 'Project description',
+        bugDescription: 'Bug description',
       },
     //2FA
       twofa: {

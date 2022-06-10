@@ -14,33 +14,8 @@
             <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="order.name">
           </div>
         </carousel-item>
-        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')" :buttonText="$t('order.submit')" :error="error" @onClickBtn="trysubmitOrder()">
-          <form>
-            <div class="row text-start">
-              <div class="col-md-12 d-flex pe-2 mb-3">
-                <select-framework v-model:modelvalue="order.framework" @update:modelvalue="changeFramework"></select-framework>
-                <select-version v-model:modelvalue="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined"></select-version>
-              </div>
-              <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion"></operating-system>
-              <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion"></browser-type>
-              <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl"></online-app>
-              <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
-              <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
-              <div class="col-md-12 pe-2 mb-3">
-                <div class="form-group mb-0">
-                  <label>{{ $t('order.projectDescription') }}*</label>
-                  <text-editor id="project-description-input" v-model:modelValue="order.projectDescription" :placeholder="$t('order.projectDescription')"></text-editor>
-                </div>
-              </div>
-              <div class="col-md-12 pe-2 mb-3">
-                <div class="form-group mb-0">
-                  <label>{{ $t('order.bugDescription') }}*</label>
-                  <text-editor id="bug-description-input" v-model:modelValue="order.bugDescription" :placeholder="$t('order.bugDescription')"></text-editor>
-                </div>
-              </div>
-              <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool"></third-party-tool>
-            </div>
-          </form>
+        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')">
+          <new-order-form :jwt="jwt" :gitAccesses="gitAccesses" @toSuccessPage="page = 'success'"></new-order-form>
         </carousel-item>
         <carousel-item :class="{'active': page === 'success'}" icon="send" :title="$t('order.successfulOrder')" :subTitle="$t('order.successfulOrderDes')" :buttonText="$t('order.backToHome')" @onClickBtn="$router.push('/')"></carousel-item>
       </div>
@@ -49,48 +24,25 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { validEmail, required } from '../utils/Validate';
-import TwoFa from '../components/2FA.vue';
-import TextEditor from '../components/TextEditor.vue';
-import CarouselItem from '../components/CarouselItem.vue';
-import SelectFramework from '../components/orderComponents/SelectFramework.vue';
-import SelectVersion from '../components/orderComponents/SelectVersion.vue';
-import OperatingSystem from '../components/orderComponents/OperatingSystem.vue';
-import BrowserType from '../components/orderComponents/BrowserType.vue';
-import OnlineApp from '../components/orderComponents/OnlineApp.vue';
-import GitAccessSelector from '../components/orderComponents/GitAccessSelector.vue';
-import ProjectSharing from '../components/orderComponents/ProjectSharing.vue';
-import ThirdPartyTool from '../components/orderComponents/ThirdPartyTool.vue';
 import { useI18n } from "vue-i18n";
+import TwoFa from '../components/2FA.vue';
+import CarouselItem from '../components/CarouselItem.vue';
+import NewOrderForm from '../components/NewOrderForm.vue';
 
 export default {
   name: 'OrderView',
-  components: { TwoFa, TextEditor, CarouselItem, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, ThirdPartyTool },
+  components: { TwoFa, CarouselItem, NewOrderForm },
   setup() {
     const { tm } = useI18n();
     const page = ref('email');
     const order = ref({});
     const error = ref(null);
     const auth = ref('');
-    const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
-    const vueVersions = ['2.6', '3.0', '3.1', '3.2'];
     const gitAccesses = ref([]);
-    const selectedAccess = ref({});
     let clientId;
-    let jwt;
-    order.value.isThirdPartyTool = false;
-    order.value.isSpecificOpSystem = false;
-
-    watch(selectedAccess, () => {
-      if(selectedAccess.value) {
-        order.value.accessMode = selectedAccess.value.accessMode;
-        order.value.repoUrl = selectedAccess.value.url;
-      } else {
-        order.value.accessMode = undefined;
-        order.value.repoUrl = undefined;
-      }
-    })
+    const jwt = ref('');
 
     setJwtIfActive();
 
@@ -103,7 +55,7 @@ export default {
           }
         })
         if(authResponse.status == 200) {
-          jwt = localStorage.getItem('jwt');
+          jwt.value = localStorage.getItem('jwt');
           toNamePageOrToDataPage();
         }
       }
@@ -138,7 +90,7 @@ export default {
       } catch(e) {
         handleAuthenticationError();
       }
-      if(jwt) {
+      if(jwt.value) {
         toNamePageOrToDataPage();
       }
     }
@@ -151,13 +103,13 @@ export default {
         },
         body: JSON.stringify({'clientId': clientId, 'password': auth.value})
       });
-      jwt = (await response.json()).jwt;
-      localStorage.setItem('jwt', jwt);
+      jwt.value = (await response.json()).jwt;
+      localStorage.setItem('jwt', jwt.value);
       error.value = null;
     }
 
     function handleAuthenticationError() {
-      jwt = null;
+      jwt.value = null;
       error.value = tm('errors.wrongCode');
     }
 
@@ -174,7 +126,7 @@ export default {
       await fetch('/api/clients/name', {
         method: 'POST',
         headers: {
-          'Authorization': `bearer ${jwt}`,
+          'Authorization': `bearer ${jwt.value}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({'name': order.value.name})
@@ -183,73 +135,11 @@ export default {
       error.value = null;
     }
 
-    function trysubmitOrder() {
-      let err = getOrderFormError();        
-      if(err) {
-        error.value = err;
-      } else {
-        submitOrder();
-      }
-    }
-
-    async function submitOrder() {
-      let specificPlatform, specificPlatformVersion;
-      if(order.value.isSpecificOpSystem) {
-        specificPlatform = order.value.os;
-        specificPlatformVersion = order.value.opSystemVersion;
-      } else if(order.value.isSpecificBrowser) {
-        specificPlatform = order.value.browser;
-        specificPlatformVersion = order.value.browserVersion;
-      }
-      let orderResponse = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${jwt}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          'framework': order.value.framework,
-          'version': order.value.version,
-          'applicationUrl': order.value.availableAppUrl,
-          'specificPlatform': specificPlatform,
-          'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
-          'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
-          'projectDescription': order.value.projectDescription,
-          'bugDescription': order.value.bugDescription,
-          'gitAccessId': await getGitAccessId()
-        })
-      });
-      if(orderResponse.status == 200) {
-        page.value = 'success';
-        error.value = null;
-      } else {
-        error.value = `${tm('errors.somethingWrong')} - ${orderResponse.statusText} (${orderResponse.status})`;
-      }
-    }
-
-    async function getGitAccessId() {
-      let gitAccessId;
-      if(selectedAccess.value.id != undefined){
-        gitAccessId = selectedAccess.value.id;
-      } else {
-        let gitResponse = await fetch('/api/git-accesses', {
-          method: 'POST',
-          headers: {
-            'Authorization': `bearer ${jwt}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
-        });
-        gitAccessId = (await gitResponse.json()).id;
-      }
-      return gitAccessId;
-    }
-
     async function toNamePageOrToDataPage() {
       let nameResponse = await fetch('/api/clients/name', {
         method: 'GET',
         headers: {
-          'Authorization': `bearer ${jwt}`
+          'Authorization': `bearer ${jwt.value}`
         }
       })
       if(nameResponse.status == 404) {
@@ -258,7 +148,7 @@ export default {
         let gitResponse = await fetch('/api/git-accesses', {
           method: 'GET',
           headers: {
-            'Authorization': `bearer ${jwt}`
+            'Authorization': `bearer ${jwt.value}`
           }
         })
         gitAccesses.value = await gitResponse.json();
@@ -266,43 +156,7 @@ export default {
       }
     }
 
-    function getOrderFormError() {
-      let err =
-        required(order.value.framework, tm('errors.requiredFramework'), 'choices-framework') ||
-        required(order.value.version, tm('errors.requiredVersion'), 'choices-version');
-      if(!err && order.value.isSpecificOpSystem)
-        err =
-          required(order.value.os, tm('errors.requiredOS')) ||
-          required(order.value.opSystemVersion, tm('errors.requiredOSVersion'), 'op-system-name-input');
-      if(!err && order.value.isSpecificBrowser)
-        err =
-          required(order.value.browser, tm('errors.requiredBrowserType')) ||
-          required(order.value.browserVersion, tm('errors.requiredBrowserVersion'), 'browser-system-name-input');
-      if(!err && order.value.isAvailableApp)
-        err = required(order.value.availableAppUrl, tm('errors.requiredAppUrl'), 'app-url-input');
-      if(!err)
-        err =
-          required(order.value.repoUrl, tm('errors.requiredGitRepoUrl'), 'repo-url-input') ||
-          required(order.value.accessMode, tm('errors.requiredProjectSharing')) ||
-          required(order.value.projectDescription, tm('errors.requiredProjectDes'), 'project-description-input') ||
-          required(order.value.bugDescription, tm('errors.requiredBugDes'), 'bug-description-input');
-      if(!err && order.value.isThirdPartyTool)
-        err = required(order.value.thirdPartyTool, tm('errors.requiredThirdPartyTool'), 'third-party-tool-input');
-      return err;
-    }
-
-    function changeFramework(newFramework) {
-      order.value.framework = newFramework;
-      order.value.version = undefined;
-      order.value.os = undefined;
-      order.value.opSystemVersion = undefined;
-      order.value.isSpecificOpSystem = undefined;
-      order.value.isSpecificBrowser = undefined;
-      order.value.browser = undefined;
-      order.value.browserVersion = undefined;
-    }
-
-    return { page, error, order, auth, aspVersions, vueVersions, gitAccesses, selectedAccess, trySubmitEmail, checkAuthentication, trySetName, trysubmitOrder, changeFramework }
+    return { page, error, order, jwt, auth, trySubmitEmail, checkAuthentication, trySetName, gitAccesses }
   }
 }
 </script>
