@@ -23,6 +23,7 @@ public class OrdersController : BaseController
         var client = GetClient();
         if (client == null)
             return Forbid();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
         return base.Ok(client.Orders!.Select(o => o.ToDto()).ToList());
     }
 

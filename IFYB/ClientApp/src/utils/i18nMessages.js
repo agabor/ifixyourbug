@@ -192,17 +192,14 @@ export const messages = {
         subTitle: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
       },
-    //AdminView
-      admin: {
+    //OrderList
+      orderList: {
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
-        bugDescription: 'Bug description',
-        projectDescription: 'Project description',
         gitAccessId: 'Git access id',
         applicationUrl: 'Application url',
         specificPlatform: 'Specific platform',
-        specificPlatformVersion: 'Specific platform version',
       },
     //OrderView
       order: {

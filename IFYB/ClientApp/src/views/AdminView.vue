@@ -10,52 +10,7 @@
         </carousel-item>
         <two-fa :class="{'active': page === 'auth'}" :error="error" :modelValue="auth" @update:modelValue="checkAuthentication"></two-fa>
         <carousel-item :class="{'active': page === 'orders'}" width="col-12">
-          <table class="table align-items-center mb-0">
-            <thead>
-              <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.framework') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.version') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.applicationUrl') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.specificPlatform') }}</th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('admin.specificPlatformVersion') }}</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.thirdPartyTool') }}</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.bugDescription') }}</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.projectDescription') }}</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('admin.gitAccessId') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(order, idx) in orders" :key="idx">
-                <td>
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }}</span>
-                </td>
-                <td>
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.version }}</span>
-                </td>
-                <td>
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.applicationUrl }}</span>
-                </td>
-                <td>
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatform }}</span>
-                </td>
-                <td>
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatformVersion }}</span>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>
-                </td>
-                <td class="align-middle text-center">
-                  <text-viewer :id="`bug-description-input-${idx}`" :value="order.bugDescription"></text-viewer>
-                </td>
-                <td class="align-middle text-center">
-                  <text-viewer :id="`project-description-input-${idx}`" :value="order.projectDescription"></text-viewer>
-                </td>
-                <td class="align-middle text-center">
-                  <span class="text-secondary text-xs font-weight-bold">{{ order.gitAccessId }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <order-list :orders="orders"></order-list>
         </carousel-item>
       </div>
     </div>
@@ -67,12 +22,12 @@ import { ref } from 'vue';
 import { validEmail } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import TwoFa from '../components/2FA.vue';
-import TextViewer from '../components/TextViewer.vue';
 import CarouselItem from '../components/CarouselItem.vue';
+import OrderList from '../components/OrderList.vue';
 
 export default {
   name: 'AdminView',
-  components: { TwoFa, TextViewer, CarouselItem },
+  components: { TwoFa, CarouselItem, OrderList },
   setup() {
     const { tm } = useI18n();
     const page = ref('email');

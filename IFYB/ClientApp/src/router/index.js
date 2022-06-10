@@ -4,6 +4,7 @@ import OrderView from '../views/OrderView.vue';
 import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
 import ContactForm from '../views/ContactForm.vue';
+import OrdersView from '../views/OrdersView.vue';
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/contact-form',
     name: 'contact-form',
     component: ContactForm
+  },
+  {
+    path: '/my-orders',
+    name: 'my-orders',
+    component: OrdersView
   }
 ]
 
