@@ -102,8 +102,8 @@ export default {
         body: JSON.stringify({
           'framework': order.value.framework,
           'version': order.value.version,
-          'applicationUrl': order.value.availableAppUrl,
-          'specificPlatform': specificPlatform,
+          'applicationUrl': order.value.availableAppUrl ? order.value.availableAppUrl : '',
+          'specificPlatform': specificPlatform ? specificPlatform : '',
           'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
           'thirdPartyTool': order.value.isThirdPartyTool ? order.value.thirdPartyTool : '',
           'projectDescription': order.value.projectDescription,
