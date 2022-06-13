@@ -1,14 +1,14 @@
 <template>
   <div class="col-md-12 pe-2">
     <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="is-third-party-tool-input" :value="isTool" @change="updateIsTool">
+      <input class="form-check-input" type="checkbox" id="is-third-party-tool-input" :value="isTool" :checked="isTool" @change="updateIsTool" :disabled="!editable">
       <label class="form-check-label" for="is-third-party-tool-input">{{ $t('thirdPartyTool.isPotentially') }}</label>
     </div>
   </div>
   <div class="col-md-12 pe-2 mb-3" v-if="isTool">
     <div class="form-group mb-0">
       <label>{{ $t('thirdPartyTool.label') }}*</label>
-      <input id="third-party-tool-input" class="form-control" :placeholder="$t('thirdPartyTool.label')" type="text" :value="tool" @input="$emit('update:tool', $event.target.value)">
+      <input id="third-party-tool-input" class="form-control" :placeholder="$t('thirdPartyTool.label')" type="text" :value="tool" @input="$emit('update:tool', $event.target.value)" :disabled="!editable">
     </div>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
   emits:['update:isTool', 'update:tool'],
   props: {
     isTool: Boolean,
-    tool: String
+    tool: String,
+    editable: Boolean
   },
   setup(props, context){
     function updateIsTool(){

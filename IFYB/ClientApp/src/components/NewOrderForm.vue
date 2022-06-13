@@ -2,12 +2,12 @@
   <form>
     <div class="row text-start">
       <div class="col-md-12 d-flex pe-2 mb-3">
-        <select-framework v-model:modelvalue="order.framework" @update:modelvalue="changeFramework"></select-framework>
-        <select-version v-model:modelvalue="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined"></select-version>
+        <select-framework v-model:modelvalue="order.framework" @update:modelvalue="changeFramework" :editable="true"></select-framework>
+        <select-version v-model:modelvalue="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" :editable="true"></select-version>
       </div>
-      <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion"></operating-system>
-      <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion"></browser-type>
-      <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl"></online-app>
+      <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion" :editable="true"></operating-system>
+      <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion" :editable="true"></browser-type>
+      <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl" :editable="true"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
       <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
       <div class="col-md-12 pe-2 mb-3">
@@ -22,7 +22,7 @@
           <text-editor id="bug-description-input" v-model:modelValue="order.bugDescription" :placeholder="$t('newOrder.bugDescription')"></text-editor>
         </div>
       </div>
-      <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool"></third-party-tool>
+      <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool" :editable="true"></third-party-tool>
     </div>
   </form>
   <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">

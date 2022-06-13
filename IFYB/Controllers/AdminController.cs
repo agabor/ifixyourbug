@@ -35,4 +35,15 @@ public class AdminController : ControllerBase
         dbContext.Database.EnsureCreated();
         return base.Ok(dbContext.Orders!.Select(o => o.ToDto()).ToList());
     }
+
+    [HttpGet]
+    [Produces(typeof(IEnumerable<GitAccessDto>))]
+    [Route("git-accesses/{accessId}")]
+    public IActionResult GetGitAccesses(int accessId) {
+        dbContext.Database.EnsureCreated();
+        var access = dbContext.GitAccesses!.FirstOrDefault(o => o.Id == accessId);
+        if (access == null)
+            return NotFound();
+        return base.Ok(access.ToDto());
+    }
 }

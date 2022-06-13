@@ -27,6 +27,22 @@ public class GitAccessesController : BaseController
         return base.Ok(client.GitAccesses!.Select(o => o.ToDto()).ToList());
     }
 
+
+    [HttpGet]
+    [Produces(typeof(IEnumerable<GitAccessDto>))]
+    [Route("{accessId}")]
+    public IActionResult GetGitAccesses(int accessId) {
+        dbContext.Database.EnsureCreated();
+        var client = GetClient();
+        if (client == null)
+            return NotFound();
+        dbContext.Entry(client).Collection(c => c.GitAccesses).Load();
+        var access = client.GitAccesses!.FirstOrDefault(o => o.Id == accessId);
+        if (access == null)
+            return NotFound();
+        return base.Ok(access.ToDto());
+    }
+
     [HttpPost]
     [Produces(typeof(IdDto))]
     public IActionResult AddGitAccesses([FromBody] GitAccessDto access) {

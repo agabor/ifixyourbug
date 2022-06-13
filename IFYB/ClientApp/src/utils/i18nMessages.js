@@ -222,6 +222,10 @@ export const messages = {
         projectDescription: 'Project description',
         bugDescription: 'Bug description',
       },
+    //OrderViewer
+    orderViewer: {
+      back: 'Back to list'
+    },
     //2FA
       twofa: {
         title: '2FA Security',

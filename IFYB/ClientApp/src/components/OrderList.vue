@@ -8,6 +8,7 @@
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.specificPlatform') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.thirdPartyTool') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.gitAccessId') }}</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +31,11 @@
         <td class="align-middle text-center">
           <span class="text-secondary text-xs font-weight-bold">{{ order.gitAccessId }}</span>
         </td>
+        <td class="align-middle text-center">
+          <span class="text-secondary text-xs font-weight-bold cursor-pointer" @click="$emit('openOrder', order)">
+            <i class="ni ni-bold-right opacity-10"></i>
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -41,7 +47,8 @@ export default {
   name: 'OrderList',
   props: {
     orders: Array
-  }
+  },
+  emits: ['openOrder']
 }
 </script>
 
