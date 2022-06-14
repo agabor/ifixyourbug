@@ -3,7 +3,6 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication v-model:jwt="jwt" :checkName="true" @toTargetPage="setOrders"></authentication>
         <carousel-item :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
@@ -18,26 +17,35 @@
 <script>
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
-import Authentication from '../components/Authentication.vue';
 import OrderList from '../components/OrderList.vue';
 import OrderViewer from '../components/OrderViewer.vue';
-import { useServerError } from "../store";
+import { useServerError, useAuthentication } from "../store";
+import router from '../router'
 
 export default {
   name: 'OrdersView',
-  components: { CarouselItem, Authentication, OrderList, OrderViewer },
+  components: { CarouselItem, OrderList, OrderViewer },
   setup() {
     const { setServerError } = useServerError();
-    const page = ref('email');
-    const jwt = ref('');
+    const { authenticationPage, setAuthenticationPage } = useAuthentication();
+    const page = ref('');
     const orders = ref([]);
     const selectedOrder = ref(null);
+
+    if(!authenticationPage.value) {
+      setAuthenticationPage('/my-orders');
+      router.push('/authentication');
+    } else {
+      setAuthenticationPage(null);
+      page.value = 'orders';
+      setOrders();
+    }
 
     async function setOrders() {
       let orderResponse = await fetch('/api/orders', {
         method: 'GET',
         headers: {
-          'Authorization': `bearer ${jwt.value}`
+          'Authorization': `bearer ${localStorage.getItem('jwt')}`
         }
       })
       if(orderResponse.status == 200) {
@@ -59,7 +67,7 @@ export default {
       page.value = 'orders';
     }
 
-    return { page, jwt, orders, selectedOrder, setOrders, openOrder, closeSelectedOrder }
+    return { page, orders, selectedOrder, openOrder, closeSelectedOrder }
   }
 }
 </script>

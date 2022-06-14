@@ -52,7 +52,6 @@ export default {
   name: 'NewOrderForm',
   components: { TextEditor, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, ThirdPartyTool },
   props: {
-    jwt: String,
     gitAccesses: Array
   },
   emits: ['toSuccessPage'],
@@ -98,7 +97,7 @@ export default {
       let orderResponse = await fetch('/api/orders', {
         method: 'POST',
         headers: {
-          'Authorization': `bearer ${props.jwt}`,
+          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -130,7 +129,7 @@ export default {
         let response = await fetch('/api/git-accesses', {
           method: 'POST',
           headers: {
-            'Authorization': `bearer ${props.jwt}`,
+            'Authorization': `bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})

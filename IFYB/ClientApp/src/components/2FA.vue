@@ -24,7 +24,7 @@ export default {
   emits:['update:modelValue'],
   setup(props, context) {
     const { tm } = useI18n();
-    const auth = ref(props.modelValue.split(''));
+    const auth = ref(props.modelValue ? props.modelValue.split('') : []);
     let oldAuth = [];
     let authLength = 6;
     const codeError = ref(null);

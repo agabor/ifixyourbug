@@ -5,6 +5,8 @@ import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
 import ContactForm from '../views/ContactForm.vue';
 import OrdersView from '../views/OrdersView.vue';
+import AuthenticationView from '../views/AuthenticationView.vue';
+import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
 
 const routes = [
   {
@@ -36,6 +38,16 @@ const routes = [
     path: '/my-orders',
     name: 'my-orders',
     component: OrdersView
+  },
+  {
+    path: '/authentication',
+    name: 'authentication',
+    component: AuthenticationView
+  },
+  {
+    path: '/admin-authentication',
+    name: 'admin-authentication',
+    component: AdminAuthenticationView
   }
 ]
 

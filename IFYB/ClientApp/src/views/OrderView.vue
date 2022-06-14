@@ -3,9 +3,8 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication v-model:jwt="jwt" :checkName="true" @toTargetPage="page = 'data'" @setGitAccesses="setGitAccesses"></authentication>
         <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')">
-          <new-order-form :jwt="jwt" :gitAccesses="gitAccesses" @toSuccessPage="page = 'success'"></new-order-form>
+          <new-order-form :gitAccesses="gitAccesses" @toSuccessPage="page = 'success'"></new-order-form>
         </carousel-item>
         <carousel-item :class="{'active': page === 'success'}" icon="send" :title="$t('order.successfulOrder')" :subTitle="$t('order.successfulOrderDes')" :buttonText="$t('order.backToHome')" @onClickBtn="$router.push('/')"></carousel-item>
       </div>
@@ -17,23 +16,32 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
-import Authentication from '../components/Authentication.vue';
-import { useServerError } from "../store";
+import { useServerError, useAuthentication } from "../store";
+import router from '../router'
 
 export default {
   name: 'OrderView',
-  components: { CarouselItem, NewOrderForm, Authentication },
+  components: { CarouselItem, NewOrderForm },
   setup() {
     const { setServerError } = useServerError();
-    const page = ref('email');
+    const { authenticationPage, setAuthenticationPage } = useAuthentication();
+    const page = ref('');
     const gitAccesses = ref([]);
-    const jwt = ref('');
+
+    if(!authenticationPage.value) {
+      setAuthenticationPage('/order');
+      router.push('/authentication');
+    } else {
+      setAuthenticationPage(null);
+      page.value = 'data';
+      setGitAccesses();
+    }
 
     async function setGitAccesses() {
       let response = await fetch('/api/git-accesses', {
         method: 'GET',
         headers: {
-          'Authorization': `bearer ${jwt.value}`
+          'Authorization': `bearer ${localStorage.getItem('jwt')}`
         }
       })
       if(response.status == 200) {
@@ -44,7 +52,7 @@ export default {
       }
     }
 
-    return { page, jwt, gitAccesses, setGitAccesses }
+    return { page, gitAccesses }
   }
 }
 </script>

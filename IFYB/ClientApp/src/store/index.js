@@ -8,3 +8,12 @@ export function useServerError() {
   };
   return { serverError, setServerError };
 }
+
+const authenticationPage = ref(null);
+
+export function useAuthentication() {
+  const setAuthenticationPage = (page) => {
+    authenticationPage.value = page;
+  };
+  return { authenticationPage, setAuthenticationPage };
+}
