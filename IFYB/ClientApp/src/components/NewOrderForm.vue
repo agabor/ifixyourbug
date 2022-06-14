@@ -46,6 +46,7 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
+import { useServerError } from "../store";
 
 export default {
   name: 'NewOrderForm',
@@ -56,6 +57,7 @@ export default {
   },
   emits: ['toSuccessPage'],
   setup(props, context) {
+    const { setServerError } = useServerError();
     const { tm } = useI18n();
     const order = ref({});
     const error = ref(null);
@@ -112,10 +114,11 @@ export default {
         })
       });
       if(orderResponse.status == 200) {
+        setServerError(null);
         context.emit('toSuccessPage');
         error.value = null;
       } else {
-        error.value = `${tm('errors.somethingWrong')} - ${orderResponse.statusText} (${orderResponse.status})`;
+        setServerError(orderResponse.statusText);
       }
     }
 
@@ -124,7 +127,7 @@ export default {
       if(selectedAccess.value.id != undefined){
         gitAccessId = selectedAccess.value.id;
       } else {
-        let gitResponse = await fetch('/api/git-accesses', {
+        let response = await fetch('/api/git-accesses', {
           method: 'POST',
           headers: {
             'Authorization': `bearer ${props.jwt}`,
@@ -132,7 +135,12 @@ export default {
           },
           body: JSON.stringify({'url': order.value.repoUrl, 'accessMode': order.value.accessMode})
         });
-        gitAccessId = (await gitResponse.json()).id;
+        if(response.status == 200) {
+          setServerError(null);
+          gitAccessId = (await response.json()).id;
+        } else {
+          setServerError(response.statusText);
+        }
       }
       return gitAccessId;
     }

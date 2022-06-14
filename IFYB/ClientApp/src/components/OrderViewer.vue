@@ -39,6 +39,7 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
+import { useServerError } from "../store";
 
 export default {
   name: 'OrderViewer',
@@ -49,6 +50,7 @@ export default {
   },
   emits: ['back'],
   setup(props) {
+    const { setServerError } = useServerError();
     const gitAccess = ref(null);
     
     setGitAccess();
@@ -61,7 +63,12 @@ export default {
           'Authorization': `bearer ${localStorage.getItem('jwt')}`
         }
       })
-      gitAccess.value = await response.json();
+      if(response.status == 200) {
+        setServerError(null);
+        gitAccess.value = await response.json();
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
     return { gitAccess }

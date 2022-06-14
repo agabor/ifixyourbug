@@ -18,23 +18,30 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
 import Authentication from '../components/Authentication.vue';
+import { useServerError } from "../store";
 
 export default {
   name: 'OrderView',
   components: { CarouselItem, NewOrderForm, Authentication },
   setup() {
+    const { setServerError } = useServerError();
     const page = ref('email');
     const gitAccesses = ref([]);
     const jwt = ref('');
 
     async function setGitAccesses() {
-      let gitResponse = await fetch('/api/git-accesses', {
+      let response = await fetch('/api/git-accesses', {
         method: 'GET',
         headers: {
           'Authorization': `bearer ${jwt.value}`
         }
       })
-      gitAccesses.value = await gitResponse.json();
+      if(response.status == 200) {
+        setServerError(null);
+        gitAccesses.value = await response.json();
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
     return { page, jwt, gitAccesses, setGitAccesses }

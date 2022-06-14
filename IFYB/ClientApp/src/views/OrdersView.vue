@@ -21,11 +21,13 @@ import CarouselItem from '../components/CarouselItem.vue';
 import Authentication from '../components/Authentication.vue';
 import OrderList from '../components/OrderList.vue';
 import OrderViewer from '../components/OrderViewer.vue';
+import { useServerError } from "../store";
 
 export default {
   name: 'OrdersView',
   components: { CarouselItem, Authentication, OrderList, OrderViewer },
   setup() {
+    const { setServerError } = useServerError();
     const page = ref('email');
     const jwt = ref('');
     const orders = ref([]);
@@ -38,8 +40,13 @@ export default {
           'Authorization': `bearer ${jwt.value}`
         }
       })
-      orders.value = await orderResponse.json();
-      page.value = 'orders';
+      if(orderResponse.status == 200) {
+        setServerError(null);
+        orders.value = await orderResponse.json();
+        page.value = 'orders';
+      } else {
+        setServerError(orderResponse.statusText);
+      }
     }
 
     function openOrder(order) {
