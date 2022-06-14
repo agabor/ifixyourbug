@@ -2,6 +2,9 @@
   <carousel-item :class="{'active': page === 'email'}" icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :buttonText="$t('order.submit')" :error="error ? error: validationError" @onClickBtn="trySubmitEmail()">
     <div class="row mb-4">
       <input id="emailInput" class="form-control" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="user.email">
+      <div class="progress">
+        <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
     </div>
   </carousel-item>
   <two-fa :class="{'active': page === 'auth'}" :error="error ? error: validationError" v-model:modelValue="user.auth" @update:modelValue="tryAuthentication"></two-fa>
@@ -24,7 +27,8 @@ export default {
   components: { TwoFa, CarouselItem },
   props: {
     page: String,
-    error: String
+    error: String,
+    progress: Number
   },
   emits: [ 'submitEmail', 'authentication', 'setName' ],
   setup(props, context) {
@@ -61,3 +65,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .progress {
+    background-color: transparent;
+  }
+</style>

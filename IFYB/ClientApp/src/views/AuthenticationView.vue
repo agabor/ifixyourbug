@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" @submitEmail="submitEmail" @authentication="authentication" @setName="setName"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" @submitEmail="submitEmail" @authentication="authentication" @setName="setName"></authentication>
       </div>
     </div>
   </section>
@@ -26,6 +26,7 @@ export default {
     const page = ref('email');
     const user = ref({});
     const error = ref(null);
+    const progress = ref(0);
     let clientId;
     
     setJwtIfActive();
@@ -48,6 +49,7 @@ export default {
     }
 
     async function submitEmail(email) {
+      progress.value = 30;
       let response = await fetch('/api/authenticate', {
         method: 'POST',
         headers: {
@@ -55,12 +57,17 @@ export default {
         },
         body: JSON.stringify({'email': email})
       });
+      progress.value = 100;
       if(response.status == 200) {
         setServerError(null);
         clientId = (await response.json()).id;
-        page.value = 'auth';
-      } else{
+        setTimeout(() => {
+          page.value = 'auth';
+          progress.value = 100;
+        }, "500");
+      } else {
         setServerError(response.statusText);
+        progress.value = null;
       }
     }
 
@@ -87,7 +94,6 @@ export default {
     function handleAuthenticationError() {
       setServerError(null);
       error.value = tm('errors.wrongCode');
-      console.log(error.value);
     }
 
     async function setName(name) {
@@ -135,7 +141,7 @@ export default {
       }
     }
 
-    return { page, error, user, submitEmail, authentication, setName }
+    return { page, error, user, progress, submitEmail, authentication, setName }
   }
 }
 </script>
