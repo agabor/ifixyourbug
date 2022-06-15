@@ -44,4 +44,4 @@ public class Order
     }
 }
 
-public enum OrderState { Submitted, Accepted, Payed, Completed, Refundable }
+public enum OrderState { Submitted, Accepted, Rejected, Payed, Completed, Refundable }
