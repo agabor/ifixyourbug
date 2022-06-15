@@ -6,9 +6,7 @@
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
-        <carousel-item class="full-height" v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" width="col-12">
-          <order-viewer :order="selectedOrder" :isAdmin="true" @back="closeSelectedOrder"></order-viewer>
-        </carousel-item>
+        <order-viewer class="full-height" v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder"></order-viewer>
       </div>
     </div>
   </section>

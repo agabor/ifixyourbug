@@ -9,4 +9,18 @@ const i18n = createI18n({
   messages
 });
 
-createApp(App).use(router).use(i18n).mount('#app');
+const app = createApp(App);
+
+app.config.globalProperties.$filters = {
+  dateTimeFormat(value) {
+    let options = {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric'
+    };
+
+    const date = new Date(value);
+    return new Intl.DateTimeFormat('default', options).format(date);
+  }
+}
+
+app.use(router).use(i18n).mount('#app');

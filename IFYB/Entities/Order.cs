@@ -20,8 +20,9 @@ public class Order
     public GitAccess GitAccess { get; set; } = null!;
 
 
-    public Order(Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
+    public Order(int id, Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string projectDescription, string bugDescription, int gitAccessId)
     {
+        Id = id;
         Framework = framework;
         Version = version;
         ApplicationUrl = applicationUrl;
@@ -35,12 +36,12 @@ public class Order
 
     public static Order FromDto(OrderDto dto)
     {
-        return new Order(dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.ProjectDescription, dto.BugDescription, dto.GitAccessId);
+        return new Order(dto.Id, dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.ProjectDescription, dto.BugDescription, dto.GitAccessId);
     }
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, ProjectDescription, BugDescription, GitAccessId);
+        return new OrderDto(Id, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, ProjectDescription, BugDescription, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId);
     }
 }
 

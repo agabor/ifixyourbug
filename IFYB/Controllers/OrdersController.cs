@@ -39,7 +39,31 @@ public class OrdersController : BaseController
         var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
         return base.Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    [Produces(typeof(IdDto))]
+    [Route("{orderId}")]
+    public IActionResult AddMessage([FromBody] Message message, int orderId) {
+        dbContext.Database.EnsureCreated();
+        var client = GetClient();
+        if (client == null)
+            return NotFound();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
+        var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        dbContext.Entry(order).Collection(o => o.Messages).Load();
+        message.ClientId = client.Id;
+        message.OrderId = order.Id;
+        message.Order = order;
+        message.DateTime = DateTime.UtcNow;
+        message.FromClient = true;
+        order.Messages!.Add(message);
+        dbContext.SaveChanges();
+        return Ok(message.ToDto());
     }
 
     [HttpPost]
