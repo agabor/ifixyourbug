@@ -26,7 +26,7 @@ export default {
   components: { Editor },
   props: {
     modelValue: String,
-		placeholder: String
+	placeholder: String
   },
   emits:['update:modelValue'],
   setup(props) {

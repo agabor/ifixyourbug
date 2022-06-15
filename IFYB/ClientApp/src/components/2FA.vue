@@ -2,7 +2,7 @@
   <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
     <div class="row mb-4">
       <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in authLength" :key="i">
-        <input type="text" :id="`2fa-${idx}`" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChane($event, idx)">
+        <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChane($event, idx)">
       </div>
     </div>
   </carousel-item>
@@ -28,6 +28,11 @@ export default {
     let oldAuth = [];
     let authLength = 6;
     const codeError = ref(null);
+    const inputs = ref([]);
+
+    function focus(idx) {
+      inputs.value[idx].focus()
+    }
 
     function onPaste(event, idx) {
       let code = event.clipboardData.getData('text').split('');
@@ -47,12 +52,12 @@ export default {
           auth.value[idx] = newValue;
           oldAuth[idx] = auth.value[idx];
           if(idx+1 < authLength)
-            document.getElementById('2fa-' + (idx+1)).focus();
+            focus(idx+1);
         } else if(newValue && newValue.length == 2) {
           auth.value[idx] = newValue.replace(oldAuth[idx], '');
           oldAuth[idx] = auth.value[idx];
           if(idx+1 < authLength)
-            document.getElementById('2fa-' + (idx+1)).focus();
+            focus(idx+1);
         }
         autoCheck();
       } else {
@@ -77,7 +82,7 @@ export default {
     function deleteFromAuth(idx) {
       if(idx - 1 > -1 && (auth.value[idx] === '' || auth.value[idx] === undefined)) { 
         auth.value[idx - 1] = '';
-        document.getElementById('2fa-' + (idx-1)).focus();
+        focus(idx-1);
       }
     }
 
@@ -91,7 +96,7 @@ export default {
       }
     }
 
-    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChane }
+    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChane, inputs }
   }
 }
 </script>
