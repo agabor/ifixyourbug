@@ -192,14 +192,14 @@ export const messages = {
         subTitle: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
       },
-    //AdminView
-      admin: {
+    //OrderList
+      orderList: {
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
-        bugDescription: 'Bug description',
-        projectDescription: 'Project description',
         gitAccessId: 'Git access id',
+        applicationUrl: 'Application url',
+        specificPlatform: 'Specific platform',
       },
     //OrderView
       order: {
@@ -212,12 +212,20 @@ export const messages = {
         orderData: 'Order data',
         orderDataDes: 'Enter data from your app.',
         emailExample: "email{'@'}example.com",
-        projectDescription: 'Project description',
-        bugDescription: 'Bug description',
         successfulOrder: 'Successful order',
         successfulOrderDes: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
       },
+    //NewOrderForm
+      newOrder: {
+        submit: 'Submit',
+        projectDescription: 'Project description',
+        bugDescription: 'Bug description',
+      },
+    //OrderViewer
+    orderViewer: {
+      back: 'Back to list'
+    },
     //2FA
       twofa: {
         title: '2FA Security',

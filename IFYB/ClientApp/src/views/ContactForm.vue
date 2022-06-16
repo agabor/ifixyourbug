@@ -69,10 +69,12 @@
 import { ref } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
+import { useServerError } from "../store";
 
 export default {
   name: 'ContactForm',
   setup() {
+    const { setServerError } = useServerError();
     const { tm } = useI18n();
     const contact = ref({});
     const error = ref(null);
@@ -96,12 +98,12 @@ export default {
         },
         body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
       });
-        console.log(response.status)
       if(response.status == 200) {
+        setServerError(null);
         page.value = 'success';
         error.value = null;
       } else {
-        error.value = tm('errors.somethingWrong');
+        setServerError(response.statusText);
       }
     }
 

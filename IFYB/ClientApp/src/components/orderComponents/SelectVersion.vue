@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-6 ps-md-2">
     <label>{{ $t('frameworkVersion.label') }}</label>
-    <select v-if="versions" class="form-control" :class="{'text-black-50': version == undefined}" name="choices-version" id="choices-version" v-model="version" @change="$emit('update:modelvalue', version)">
+    <select v-if="versions" class="form-control" :class="{'text-black-50': version == undefined}" name="choices-version" id="choices-version" v-model="version" @change="$emit('update:modelValue', version)" :disabled="!editable">
       <option :value="undefined" selected hidden>{{ $t('frameworkVersion.placeholder') }}</option>
       <option :value="version" v-for="version in versions" :key="version">{{ version }}</option>
     </select>
@@ -13,13 +13,14 @@
 import { ref, watch } from 'vue'
 export default {
   name: 'SelectVersion',
-  emits:['update:modelvalue'],
+  emits:['update:modelValue'],
   props: {
-    modelvalue: String,
-    versions: Array
+    modelValue: String,
+    versions: Array,
+    editable: Boolean
   },
   setup(props) {
-    const version = ref(props.modelvalue);
+    const version = ref(props.modelValue);
 
     watch(() => [props.versions], () => {
       version.value = undefined;

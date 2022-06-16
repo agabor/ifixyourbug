@@ -1,3 +1,5 @@
+using IFYB.Models;
+
 namespace IFYB.Entities;
 
 public class Message
@@ -14,5 +16,9 @@ public class Message
     public Message(string text)
     {
         Text = text;
+    }
+    public MessageDto ToDto()
+    {
+        return new MessageDto(ClientId, OrderId, DateTime, FromClient, Text);
     }
 }

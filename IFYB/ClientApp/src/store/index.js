@@ -1,14 +1,19 @@
-import { createStore } from 'vuex'
+import { ref } from 'vue'
 
-export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+const serverError = ref(null);
+
+export function useServerError() {
+  const setServerError = (error) => {
+    serverError.value = error;
+  };
+  return { serverError, setServerError };
+}
+
+const authenticationPage = ref(null);
+
+export function useAuthentication() {
+  const setAuthenticationPage = (page) => {
+    authenticationPage.value = page;
+  };
+  return { authenticationPage, setAuthenticationPage };
+}

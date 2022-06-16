@@ -60,6 +60,9 @@ public class IFYBTests
         {
             framework = 0,
             version = "6.0",
+            applicationUrl = "app url",
+            specificPlatform = "Windows",
+            specificPlatformVersion = "10",
             thirdPartyTool = "",
             projectDescription = "hello",
             bugDescription = "bello",
