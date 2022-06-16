@@ -47,30 +47,26 @@ public class AuthenticationController : BaseController
             dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
-#if DEBUG
+#if !DEBUG
         client.Password = passwordHasher.HashPassword(client, "123456");
 #else
-        int charCount = 10 + 'Z' - 'A';
+        int charCount = 'Z' - 'A';
         string password = string.Empty;
         for (int i = 0; i < 6; ++i) {
             int code = Random.Shared.Next() % charCount;
-            if (code < 10)
-            {
-                password += (char)('0' + code);
-            } else {
-                password += (char)('A' + code - 10);
-            }
+            password += (char)('A' + code);
         }
         client.Password = passwordHasher.HashPassword(client, password);
+        string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(dto.Email);
         MailMessage message = new MailMessage(from, to);
-        message.Subject = $"Confirmation code: {password}";
-        message.Body = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{password}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
+        message.Subject = $"Confirmation code: {textPassword}";
+        message.Body = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{textPassword}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
         message.BodyEncoding = System.Text.Encoding.UTF8;
         message.SubjectEncoding = System.Text.Encoding.UTF8;
         
-        string body = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = password });
+        string body = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = textPassword });
 
         var mimeType = new System.Net.Mime.ContentType("text/html");
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);

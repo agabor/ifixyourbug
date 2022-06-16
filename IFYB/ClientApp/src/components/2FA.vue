@@ -30,12 +30,11 @@ export default {
     const codeError = ref(null);
 
     function onPaste(event, idx) {
-      let code = event.clipboardData.getData('text').split('');
+      let code = event.clipboardData.getData('text').replace('-', '').split('');
       for(let i = 0; i < authLength-idx; i++){
-        if(code[i] !== '' && code[i] !== undefined){
-          auth.value[idx+i] = code[i];
-          oldAuth[idx+i] = code[i];
-        }
+        const char = code[i];
+        auth.value[idx+i] = char;
+        oldAuth[idx+i] = char;
       }
       auth.value[idx] = code[0];
     }
