@@ -9,7 +9,7 @@
                 <i :class="`ni ni-chat-round opacity-10 mt-2`"></i>
               </div>
             </div>
-            <h2>orderMessages.title</h2>
+            <h2>{{ $t('orderMessages.title') }}</h2>
             <div class="d-flex align-items-center mb-4">
               <input id="messageInput" class="form-control" :placeholder="$t('orderMessages.newMessagePlaceholder')" type="text" @keyup.enter="trySubmitMessage()" v-model="newMessage">
               <i class="ni ni-send opacity-10 fs-4 mx-2 cursor-pointer fg-gradient-primary send-btn" @click="trySubmitMessage()"></i>

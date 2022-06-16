@@ -27,7 +27,7 @@ export default {
     const user = ref({});
     const error = ref(null);
     const progress = ref(0);
-    let clientId;
+    let adminId;
     
     setJwtIfActive();
 
@@ -60,7 +60,8 @@ export default {
       progress.value = 100;
       if(response.status == 200) {
         setServerError(null);
-        clientId = (await response.json()).id;
+        adminId = (await response.json()).id;
+        localStorage.setItem('adminId', adminId);
         error.value = null;
         setTimeout(() => {
           page.value = 'auth';
@@ -76,12 +77,12 @@ export default {
     }
 
     async function authentication(code) {
-      let response = await fetch(`/api/authenticate/admin/${clientId}`, {
+      let response = await fetch(`/api/authenticate/admin/${adminId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'clientId': clientId, 'password': code})
+        body: JSON.stringify({'adminId': adminId, 'password': code})
       });
       if(response.status == 200) {
         setServerError(null);

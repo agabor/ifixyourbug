@@ -224,7 +224,13 @@ export const messages = {
       },
     //OrderViewer
     orderViewer: {
+      title: 'Order',
       back: 'Back to list'
+    },
+    //OrderMessages
+    orderMessages: {
+      title: 'Messages',
+      newMessagePlaceholder: 'Aa'
     },
     //2FA
       twofa: {

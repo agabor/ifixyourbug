@@ -9,7 +9,7 @@
                 <i :class="`ni ni-tag opacity-10 mt-2`"></i>
               </div>
             </div>
-            <h2>Order</h2>
+            <h2>{{ $t('orderViewer.title') }}</h2>
             <form>
               <div class="row text-start">
                 <div class="col-md-12 d-flex pe-2 mb-3">

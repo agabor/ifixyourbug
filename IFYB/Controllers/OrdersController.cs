@@ -44,7 +44,7 @@ public class OrdersController : BaseController
     }
 
     [HttpPost]
-    [Produces(typeof(IdDto))]
+    [Produces(typeof(MessageDto))]
     [Route("{orderId}")]
     public IActionResult AddMessage([FromBody] Message message, int orderId) {
         dbContext.Database.EnsureCreated();
@@ -55,10 +55,9 @@ public class OrdersController : BaseController
         var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
-        dbContext.Entry(order).Collection(o => o.Messages).Load();
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
         message.ClientId = client.Id;
         message.OrderId = order.Id;
-        message.Order = order;
         message.DateTime = DateTime.UtcNow;
         message.FromClient = true;
         order.Messages!.Add(message);

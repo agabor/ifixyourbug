@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using IFYB.Filters;
@@ -34,6 +35,35 @@ public class AdminController : ControllerBase
     public IActionResult ListOrders() {
         dbContext.Database.EnsureCreated();
         return base.Ok(dbContext.Orders!.Select(o => o.ToDto()).ToList());
+    }
+
+    [HttpGet]
+    [Produces(typeof(OrderDto))]
+    [Route("orders/{orderId}")]
+    public IActionResult GetOrder(int orderId) {
+        dbContext.Database.EnsureCreated();
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
+        return base.Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    [Produces(typeof(MessageDto))]
+    [Route("orders/{orderId}")]
+    public IActionResult AddMessage([FromBody] Message message, int orderId) {
+        dbContext.Database.EnsureCreated();
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
+        message.OrderId = order.Id;
+        message.DateTime = DateTime.UtcNow;
+        message.FromClient = false;
+        order.Messages!.Add(message);
+        dbContext.SaveChanges();
+        return Ok(message.ToDto());
     }
 
     [HttpGet]

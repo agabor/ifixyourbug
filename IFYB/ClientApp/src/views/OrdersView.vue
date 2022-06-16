@@ -77,6 +77,7 @@ export default {
 
     function closeSelectedOrder() {
       selectedOrder.value = null;
+      messages.value = [];
       page.value = 'orders';
     }
 
