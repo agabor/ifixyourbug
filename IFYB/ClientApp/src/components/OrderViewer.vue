@@ -22,12 +22,6 @@
                 <project-sharing v-if="gitAccess" :accessMode="gitAccess.accessMode" :url="gitAccess.url" :visible="false"></project-sharing>
                 <div class="col-md-12 pe-2 mb-3">
                   <div class="form-group mb-0">
-                    <label>{{ $t('newOrder.projectDescription') }}*</label>
-                    <text-viewer :value="order.projectDescription"></text-viewer>
-                  </div>
-                </div>
-                <div class="col-md-12 pe-2 mb-3">
-                  <div class="form-group mb-0">
                     <label>{{ $t('newOrder.bugDescription') }}*</label>
                     <text-viewer :value="order.bugDescription"></text-viewer>
                   </div>

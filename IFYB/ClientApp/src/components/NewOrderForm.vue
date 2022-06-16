@@ -12,12 +12,6 @@
       <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
       <div class="col-md-12 pe-2 mb-3">
         <div class="form-group mb-0">
-          <label>{{ $t('newOrder.projectDescription') }}*</label>
-          <text-editor id="project-description-input" v-model="order.projectDescription" :placeholder="$t('newOrder.projectDescription')"></text-editor>
-        </div>
-      </div>
-      <div class="col-md-12 pe-2 mb-3">
-        <div class="form-group mb-0">
           <label>{{ $t('newOrder.bugDescription') }}*</label>
           <text-editor id="bug-description-input" v-model="order.bugDescription" :placeholder="$t('newOrder.bugDescription')"></text-editor>
         </div>
@@ -78,7 +72,6 @@ export default {
         isAvailableApp: false,
         accessMode: 0,
         repoUrl: null,
-        projectDescription: '',
         bugDescription: '',
         thirdPartyTool: null
     });
@@ -132,7 +125,6 @@ export default {
           'specificPlatform': specificPlatform ? specificPlatform : '',
           'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
           'thirdPartyTool': order.isThirdPartyTool ? order.thirdPartyTool : '',
-          'projectDescription': order.projectDescription,
           'bugDescription': order.bugDescription,
           'gitAccessId': await getGitAccessId()
         })
@@ -187,7 +179,6 @@ export default {
         err =
           required(order.repoUrl, tm('errors.requiredGitRepoUrl'), 'repo-url-input') ||
           required(order.accessMode, tm('errors.requiredProjectSharing')) ||
-          required(order.projectDescription, tm('errors.requiredProjectDes'), 'project-description-input') ||
           required(order.bugDescription, tm('errors.requiredBugDes'), 'bug-description-input');
       if(!err && order.isThirdPartyTool)
         err = required(order.thirdPartyTool, tm('errors.requiredThirdPartyTool'), 'third-party-tool-input');

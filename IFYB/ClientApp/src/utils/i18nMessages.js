@@ -11,7 +11,6 @@ export const messages = {
         requiredAppUrl: 'App url required',
         requiredGitRepoUrl: 'Git repo url required',
         requiredProjectSharing: 'Project sharing required',
-        requiredProjectDes: 'Project description required',
         requiredBugDes: 'Bug description required',
         requiredThirdPartyTool: 'Third party tool required',
         requiredName: 'Name required',
@@ -220,7 +219,6 @@ export const messages = {
       newOrder: {
         submit: 'Submit',
         cancel: 'Cancel',
-        projectDescription: 'Project description',
         bugDescription: 'Bug description',
       },
     //OrderViewer
