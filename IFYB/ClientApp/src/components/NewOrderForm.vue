@@ -28,8 +28,13 @@
   <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
     {{ error }}
   </div>
-  <div class="text-center">
-    <button type="button" class="btn bg-gradient-primary my-4" @click="trysubmitOrder">{{ $t('newOrder.submit') }}</button>
+  <div class="d-flex justify-content-center my-4">
+    <div class="text-center">
+      <button type="button" class="btn bg-gradient-primary mx-2" @click="trysubmitOrder">{{ $t('newOrder.submit') }}</button>
+    </div>
+    <div class="text-center">
+      <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('newOrder.cancel') }}</button>
+    </div>
   </div>
 </template>
 
@@ -47,6 +52,7 @@ import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import { useServerError } from "../store";
+import router from '../router'
 
 export default {
   name: 'NewOrderForm',
@@ -90,6 +96,10 @@ export default {
         order.repoUrl = undefined;
       }
     })
+
+    function cancelSubmit() {
+      router.push('/');
+    }
 
     function trysubmitOrder() {
       let err = getOrderFormError();        
@@ -194,7 +204,7 @@ export default {
       order.browserVersion = null;
     });
 
-    return { error, order, aspVersions, vueVersions, selectedAccess, trysubmitOrder }
+    return { error, order, aspVersions, vueVersions, selectedAccess, trysubmitOrder, cancelSubmit }
   }
 }
 </script>

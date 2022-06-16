@@ -219,6 +219,7 @@ export const messages = {
     //NewOrderForm
       newOrder: {
         submit: 'Submit',
+        cancel: 'Cancel',
         projectDescription: 'Project description',
         bugDescription: 'Bug description',
       },
