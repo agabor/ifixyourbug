@@ -22,6 +22,14 @@ export const messages = {
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
       },
+    //NavigationBar
+      navigationBar: {
+        projectName: 'I Fix Your Bug',
+        home: 'Home',
+        myOrders: 'My orders',
+        login: 'Login',
+        logout: 'Logout',
+      },
     //HomeView
       mainCard: {
         title: 'Now UI Design System.',

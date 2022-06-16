@@ -1,4 +1,5 @@
 <template>
+  <navigation-bar></navigation-bar>
   <div class="d-flex w-100 position-fixed bottom-1 justify-content-center z-index-3">
     <div class="d-flex alert alert-warning text-white font-weight-bold w-80 justify-content-center" role="alert" v-if="serverError">
       {{ serverError }}
@@ -9,13 +10,15 @@
 
 <script>
 import { useServerError } from "./store";
+import NavigationBar from "./components/NavigationBar.vue";
 
 export default {
-  name: 'AppView',
+  name: "AppView",
+  components: { NavigationBar },
   setup() {
-    const { serverError } = useServerError();
-    return { serverError }
-  }
+      const { serverError } = useServerError();
+      return { serverError };
+  },
 }
 </script>
 

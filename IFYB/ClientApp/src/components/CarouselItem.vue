@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-item">
-    <div class="container">
+    <div class="container" :class="width ? 'mt-6' : ''">
       <div class="row">
         <div :class="width ? `${width} mx-auto my-4` : 'col-lg-5 col-md-7 my-4 mx-auto'">
           <div class="card">

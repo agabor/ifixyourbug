@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage } = useAuthentication();
+    const { authenticationPage, setActiveClient } = useAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const user = ref({});
@@ -83,6 +83,7 @@ export default {
         setServerError(null);
         let jwt = (await response.json()).jwt;
         localStorage.setItem('jwt', jwt);
+        setActiveClient('user');
         toNamePageOrToTargetPage();
       } else if(response.status == 403) {
         handleAuthenticationError();

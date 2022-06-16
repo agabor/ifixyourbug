@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage } = useAuthentication();
+    const { authenticationPage, setActiveClient } = useAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const user = ref({});
@@ -62,6 +62,7 @@ export default {
         setServerError(null);
         adminId = (await response.json()).id;
         localStorage.setItem('adminId', adminId);
+        setActiveClient('admin');
         error.value = null;
         setTimeout(() => {
           page.value = 'auth';

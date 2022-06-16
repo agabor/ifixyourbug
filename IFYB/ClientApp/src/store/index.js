@@ -10,10 +10,14 @@ export function useServerError() {
 }
 
 const authenticationPage = ref(null);
+const activeClient = ref(null);
 
 export function useAuthentication() {
   const setAuthenticationPage = (page) => {
     authenticationPage.value = page;
   };
-  return { authenticationPage, setAuthenticationPage };
+  const setActiveClient = (client) => {
+    activeClient.value = client;
+  }
+  return { authenticationPage, setAuthenticationPage, activeClient, setActiveClient };
 }
