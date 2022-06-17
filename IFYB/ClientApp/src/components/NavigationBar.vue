@@ -63,7 +63,6 @@ export default {
           'Authorization': `bearer ${jwt}`
         }
       })
-      console.log('user', response);
       if(response.status == 200) {
         activeClient.value = 'user';
         return true;
@@ -78,7 +77,6 @@ export default {
           'Authorization': `bearer ${jwt}`
         }
       })
-      console.log('admin', response);
       if(response.status == 200) {
         activeClient.value = 'admin';
         return true;

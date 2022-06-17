@@ -100,7 +100,6 @@ export default {
     function handleAuthenticationError() {
       setServerError(null);
       error.value = tm('errors.wrongCode');
-      console.log(error.value);
     }
 
     function toTargetPage() {
