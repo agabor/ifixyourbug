@@ -62,7 +62,6 @@ export default {
         setServerError(null);
         adminId = (await response.json()).id;
         localStorage.setItem('adminId', adminId);
-        setActiveClient('admin');
         error.value = null;
         setTimeout(() => {
           page.value = 'auth';
@@ -86,6 +85,7 @@ export default {
         body: JSON.stringify({'adminId': adminId, 'password': code})
       });
       if(response.status == 200) {
+        setActiveClient('admin');
         setServerError(null);
         let jwt = (await response.json()).jwt;
         localStorage.setItem('jwt', jwt);
