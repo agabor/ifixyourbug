@@ -19,7 +19,6 @@ public class OrdersController : BaseController
     [HttpGet]
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return Forbid();
@@ -31,7 +30,6 @@ public class OrdersController : BaseController
     [Produces(typeof(OrderDto))]
     [Route("{orderId}")]
     public IActionResult GetOrder(int orderId) {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();
@@ -47,7 +45,6 @@ public class OrdersController : BaseController
     [Produces(typeof(MessageDto))]
     [Route("{orderId}")]
     public IActionResult AddMessage([FromBody] Message message, int orderId) {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();
@@ -68,12 +65,12 @@ public class OrdersController : BaseController
     [HttpPost]
     [Produces(typeof(IdDto))]
     public IActionResult AddOrder([FromBody] OrderDto dto) {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
         var order = Order.FromDto(dto);
+        order.Id = 0;
         client.Orders!.Add(order);
         dbContext.SaveChanges();
         return Ok(new IdDto(order.Id));

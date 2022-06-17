@@ -19,7 +19,6 @@ public class GitAccessesController : BaseController
     [HttpGet]
     [Produces(typeof(IEnumerable<GitAccessDto>))]
     public IActionResult ListGitAccesses() {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();
@@ -32,7 +31,6 @@ public class GitAccessesController : BaseController
     [Produces(typeof(IEnumerable<GitAccessDto>))]
     [Route("{accessId}")]
     public IActionResult GetGitAccesses(int accessId) {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();
@@ -46,7 +44,6 @@ public class GitAccessesController : BaseController
     [HttpPost]
     [Produces(typeof(IdDto))]
     public IActionResult AddGitAccesses([FromBody] GitAccessDto access) {
-        dbContext.Database.EnsureCreated();
         var client = GetClient();
         if (client == null)
             return NotFound();

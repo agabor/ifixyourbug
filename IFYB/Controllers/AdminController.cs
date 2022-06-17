@@ -33,7 +33,6 @@ public class AdminController : ControllerBase
     [Route("orders")]
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
-        dbContext.Database.EnsureCreated();
         return base.Ok(dbContext.Orders!.Select(o => o.ToDto()).ToList());
     }
 
@@ -41,7 +40,6 @@ public class AdminController : ControllerBase
     [Produces(typeof(OrderDto))]
     [Route("orders/{orderId}")]
     public IActionResult GetOrder(int orderId) {
-        dbContext.Database.EnsureCreated();
         var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
@@ -53,7 +51,6 @@ public class AdminController : ControllerBase
     [Produces(typeof(MessageDto))]
     [Route("orders/{orderId}")]
     public IActionResult AddMessage([FromBody] Message message, int orderId) {
-        dbContext.Database.EnsureCreated();
         var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
@@ -84,7 +81,6 @@ public class AdminController : ControllerBase
     [Produces(typeof(IEnumerable<GitAccessDto>))]
     [Route("git-accesses/{accessId}")]
     public IActionResult GetGitAccesses(int accessId) {
-        dbContext.Database.EnsureCreated();
         var access = dbContext.GitAccesses!.FirstOrDefault(o => o.Id == accessId);
         if (access == null)
             return NotFound();

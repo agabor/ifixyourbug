@@ -64,7 +64,6 @@ public class IFYBTests
             specificPlatform = "Windows",
             specificPlatformVersion = "10",
             thirdPartyTool = "",
-            projectDescription = "hello",
             bugDescription = "bello",
             gitAccessId = gitAccessId
         };
@@ -73,7 +72,10 @@ public class IFYBTests
         Assert.IsNotNull(idToken);
         int orderId = (int)idToken;
         response = await Get($"api/orders/{orderId}", HttpStatusCode.OK);
-        Assert.AreEqual(JObject.FromObject(order).ToString(), response.ToString());
+        var respObject = JObject.Parse(response.ToString());
+        respObject.Remove("id");
+        respObject.Remove("messages");
+        Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
     }
 
     [TestMethod]

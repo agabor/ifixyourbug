@@ -40,14 +40,13 @@ public class AuthenticationController : BaseController
     [Produces(typeof(IdDto))]
     public IActionResult StartSession([FromBody] EmailDto dto)
     {
-        dbContext.Database.EnsureCreated();
         var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
         if (client == null) {
             client = new Client(dto.Email);
             dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
-#if !DEBUG
+#if DEBUG
         client.Password = passwordHasher.HashPassword(client, "123456");
 #else
         int charCount = 'Z' - 'A';
@@ -83,7 +82,6 @@ public class AuthenticationController : BaseController
     [Produces(typeof(JwtDto))]
     public IActionResult Authenticate(int clientId, [FromBody] PasswordDto dto)
     {
-        dbContext.Database.EnsureCreated();
         var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
         if (client == null)
             return Forbid();
@@ -116,7 +114,6 @@ public class AuthenticationController : BaseController
     [Produces(typeof(IdDto))]
     public IActionResult StartAdminSession([FromBody] EmailDto dto)
     {
-        dbContext.Database.EnsureCreated();
         var admin = dbContext.Admins.FirstOrDefault(c => c.Email == dto.Email);
         if (admin == null) {
             return Forbid();
@@ -132,7 +129,6 @@ public class AuthenticationController : BaseController
     [Produces(typeof(JwtDto))]
     public IActionResult AuthenticateAdmin(int adminId, [FromBody] PasswordDto dto)
     {
-        dbContext.Database.EnsureCreated();
         var admin = dbContext.Admins.FirstOrDefault(c => c.Id == adminId);
         if (admin == null)
             return Forbid();
