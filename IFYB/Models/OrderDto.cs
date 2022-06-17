@@ -11,10 +11,11 @@ public class OrderDto
     public string SpecificPlatformVersion { get; set; }
     public string ThirdPartyTool { get; set; }
     public string BugDescription { get; set; }
+    public OrderState State { get; set; }
     public List<MessageDto>? Messages { get; set; }
     public int GitAccessId { get; set; }
 
-    public OrderDto(int id, Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string bugDescription, List<MessageDto>? messages, int gitAccessId)
+    public OrderDto(int id, Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId)
     {
         Id = id;
         Framework = framework;
@@ -24,6 +25,7 @@ public class OrderDto
         SpecificPlatformVersion = specificPlatformVersion;
         ThirdPartyTool = thirdPartyTool;
         BugDescription = bugDescription;
+        State = state;
         Messages = messages;
         GitAccessId = gitAccessId;
     }

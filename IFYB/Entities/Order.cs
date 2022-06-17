@@ -39,7 +39,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Id, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId);
+        return new OrderDto(Id, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId);
     }
 }
 

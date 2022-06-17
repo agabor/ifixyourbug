@@ -232,7 +232,14 @@ export const messages = {
     //OrderViewer
     orderViewer: {
       title: 'Order',
-      back: 'Back to list'
+      back: 'Back to list',
+      accept: 'Accept',
+      reject: 'Reject',
+      accepted: 'Accepted',
+      rejected: 'Rejected',
+      payed: 'Payed',
+      completed: 'Completed',
+      refundable: 'Refundable',
     },
     //OrderMessages
     orderMessages: {

@@ -66,6 +66,20 @@ public class AdminController : ControllerBase
         return Ok(message.ToDto());
     }
 
+
+    [HttpPost]
+    [Produces(typeof(OrderDto))]
+    [Route("orders/{orderId}/state")]
+    public IActionResult SetOrderState([FromBody] OrderState state, int orderId) {
+        dbContext.Database.EnsureCreated();
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        order.State = state;
+        dbContext.SaveChanges();
+        return Ok(order.ToDto());
+    }
+
     [HttpGet]
     [Produces(typeof(IEnumerable<GitAccessDto>))]
     [Route("git-accesses/{accessId}")]

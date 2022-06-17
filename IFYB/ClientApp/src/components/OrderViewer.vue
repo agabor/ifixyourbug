@@ -9,7 +9,25 @@
                 <i :class="`ni ni-tag opacity-10 mt-2`"></i>
               </div>
             </div>
-            <h2>{{ $t('orderViewer.title') }}</h2>
+            <div class="d-flex align-items-center justify-content-center">
+              <h2>{{ $t('orderViewer.title') }}</h2>
+              <div class="text-center ms-4" v-if="order.state == 0">
+                <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('acceptOrder')">{{ $t('orderViewer.accept') }}</button>
+              </div>
+              <div class="text-center ms-4" v-if="order.state == 0">
+                <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('rejectOrder')">{{ $t('orderViewer.reject') }}</button>
+              </div>
+              <div class="text-center ms-4" v-if="order.state !== 0">
+                <button type="button" class="btn bg-gradient-primary my-2">
+                  {{ order.state == 1 ? $t('orderViewer.accepted') :
+                    order.state == 2 ? $t('orderViewer.rejected') :
+                    order.state == 3 ? $t('orderViewer.payed') :
+                    order.state == 4 ? $t('orderViewer.completed') :
+                    $t('orderViewer.refundable')
+                  }}
+                </button>
+              </div>
+            </div>
             <form>
               <div class="row text-start">
                 <div class="col-md-12 d-flex pe-2 mb-3">
@@ -58,7 +76,7 @@ export default {
     order: Object,
     isAdmin: Boolean
   },
-  emits: ['back'],
+  emits: ['back', 'acceptOrder', 'rejectOrder' ],
   setup(props) {
     const { setServerError } = useServerError();
     const gitAccess = ref(null);

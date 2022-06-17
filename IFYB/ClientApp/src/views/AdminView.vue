@@ -6,7 +6,7 @@
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
-        <order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" :isAdmin="true" @back="closeSelectedOrder"></order-viewer>
+        <order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" :isAdmin="true" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder"></order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
       </div>
     </div>
@@ -72,8 +72,13 @@ export default {
           'Authorization': `bearer ${localStorage.getItem('jwt')}`
         }
       })
-      let order = await response.json();
-      messages.value = order.messages.reverse();
+      if(response.status == 200) {
+        setServerError(null);
+        let order = await response.json();
+        messages.value = order.messages.reverse();
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
     function closeSelectedOrder() {
@@ -94,11 +99,50 @@ export default {
           text: message
         })
       });
-      let newMessage = await response.json();
-      messages.value.unshift(newMessage);
+      if(response.status == 200) {
+        setServerError(null);
+        let newMessage = await response.json();
+        messages.value.unshift(newMessage);
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
-    return { page, orders, selectedOrder, messages, openOrder, closeSelectedOrder, submitMessage }
+    async function acceptOrder() {
+      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}/state`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
+        body: 1
+      });
+      if(response.status == 200) {
+        setServerError(null);
+        selectedOrder.value.state = 1;
+      } else {
+        setServerError(response.statusText);
+      }
+    }
+    
+    async function rejectOrder() {
+      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}/state`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
+        body: 2
+      });
+      if(response.status == 200) {
+        setServerError(null);
+        selectedOrder.value.state = 2;
+      } else {
+        setServerError(response.statusText);
+      }
+    }
+
+    return { page, orders, selectedOrder, messages, openOrder, closeSelectedOrder, submitMessage, acceptOrder, rejectOrder }
   }
 }
 </script>
