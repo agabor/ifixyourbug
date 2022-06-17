@@ -24,7 +24,7 @@
   </div>
   <div class="d-flex justify-content-center my-4">
     <div class="text-center">
-      <button type="button" class="btn bg-gradient-primary mx-2" @click="trysubmitOrder">{{ $t('newOrder.submit') }}</button>
+      <button type="button" class="btn bg-gradient-primary mx-2" @click="trySubmitOrder">{{ $t('newOrder.submit') }}</button>
     </div>
     <div class="text-center">
       <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('newOrder.cancel') }}</button>
@@ -59,21 +59,22 @@ export default {
     const { setServerError } = useServerError();
     const { tm } = useI18n();
     const order = reactive({
-        isThirdPartyTool: false,
-        isSpecificOpSystem: false,
-        framework: null,
-        version: null,
-        os: null,
-        opSystemVersion: null,
-        isSpecificBrowser: null,
-        browser: null,
-        browserVersion: null,
-        availableAppUrl: null,
-        isAvailableApp: false,
-        accessMode: 0,
-        repoUrl: null,
-        bugDescription: '',
-        thirdPartyTool: null
+      isThirdPartyTool: false,
+      isSpecificOpSystem: false,
+      framework: null,
+      version: null,
+      os: null,
+      opSystemVersion: null,
+      isSpecificBrowser: null,
+      browser: null,
+      browserVersion: null,
+      availableAppUrl: null,
+      isAvailableApp: false,
+      accessMode: 0,
+      repoUrl: null,
+      bugDescription: '',
+      thirdPartyTool: null,
+      selectedAccess: {}
     });
     const error = ref(null);
     const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
@@ -90,11 +91,22 @@ export default {
       }
     })
 
+    if(localStorage.getItem('order')){
+      let tempOrder = JSON.parse(localStorage.getItem('order'));
+      selectedAccess.value = tempOrder.selectedAccess;
+      Object.assign(order, tempOrder);
+    }
+
+    watch(order, () => {
+      order.selectedAccess = selectedAccess.value;
+      localStorage.setItem('order', JSON.stringify(order))
+    })
+    
     function cancelSubmit() {
       router.push('/');
     }
 
-    function trysubmitOrder() {
+    function trySubmitOrder() {
       let err = getOrderFormError();        
       if(err) {
         error.value = err;
@@ -131,6 +143,7 @@ export default {
       });
       if(orderResponse.status == 200) {
         setServerError(null);
+        localStorage.removeItem('order');
         context.emit('toSuccessPage');
         error.value = null;
       } else {
@@ -195,7 +208,7 @@ export default {
       order.browserVersion = null;
     });
 
-    return { error, order, aspVersions, vueVersions, selectedAccess, trysubmitOrder, cancelSubmit }
+    return { error, order, aspVersions, vueVersions, selectedAccess, trySubmitOrder, cancelSubmit }
   }
 }
 </script>

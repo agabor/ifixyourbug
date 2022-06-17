@@ -1,5 +1,6 @@
 <template>
-	<editor class="border-radius-lg" v-model="text" @change="$emit('update:modelValue', text)" :placeholder="placeholder"
+{{text}}
+	<editor class="border-radius-lg" v-model="text" :placeholder="placeholder"
 		:api-key="key"
 		:init="{
 			height: 300,
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Editor from '@tinymce/tinymce-vue';
 
 export default {
@@ -29,9 +30,14 @@ export default {
 	placeholder: String
   },
   emits:['update:modelValue'],
-  setup(props) {
+  setup(props, context) {
 		const text = ref(props.modelValue);
 		const key = process.env.VUE_APP_TINY_API_KEY;
+
+		watch(text, () => {
+			context.emit('update:modelValue', text);
+		})
+
 		return { text, key }
 	}
 }
