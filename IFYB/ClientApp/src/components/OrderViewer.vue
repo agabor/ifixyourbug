@@ -11,11 +11,14 @@
             </div>
             <div class="d-flex align-items-center justify-content-center">
               <h2>{{ $t('orderViewer.title') }}</h2>
-              <div class="text-center ms-4" v-if="order.state == 0">
+              <div class="text-center ms-4" v-if="order.state == 0 && isAdmin">
                 <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('acceptOrder')">{{ $t('orderViewer.accept') }}</button>
               </div>
-              <div class="text-center ms-4" v-if="order.state == 0">
+              <div class="text-center ms-4" v-if="order.state == 0 && isAdmin">
                 <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('rejectOrder')">{{ $t('orderViewer.reject') }}</button>
+              </div>
+              <div class="text-center ms-4" v-if="order.state == 0 && !isAdmin">
+                <button type="button" class="btn bg-gradient-primary my-2">{{ $t('orderViewer.submitted') }}</button>
               </div>
               <div class="text-center ms-4" v-if="order.state !== 0">
                 <button type="button" class="btn bg-gradient-primary my-2">

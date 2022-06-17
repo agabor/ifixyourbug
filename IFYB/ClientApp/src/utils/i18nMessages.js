@@ -235,6 +235,7 @@ export const messages = {
       back: 'Back to list',
       accept: 'Accept',
       reject: 'Reject',
+      submitted: 'Submitted',
       accepted: 'Accepted',
       rejected: 'Rejected',
       payed: 'Payed',
