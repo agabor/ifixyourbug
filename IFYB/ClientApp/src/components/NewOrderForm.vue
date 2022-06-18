@@ -16,7 +16,7 @@
           <text-editor id="bug-description-input" v-model="order.bugDescription" :placeholder="$t('newOrder.bugDescription')"></text-editor>
         </div>
       </div>
-      <third-party-tool v-model:isTool="order.isThirdPartyTool" v-model:tool="order.thirdPartyTool" :editable="true"></third-party-tool>
+      <third-party-tool v-model="order.thirdPartyTool" :editable="true"></third-party-tool>
     </div>
   </form>
   <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
@@ -59,7 +59,6 @@ export default {
     const { setServerError } = useServerError();
     const { tm } = useI18n();
     const order = reactive({
-      isThirdPartyTool: false,
       isSpecificOpSystem: false,
       framework: null,
       version: null,
@@ -136,7 +135,7 @@ export default {
           'applicationUrl': order.availableAppUrl ? order.availableAppUrl : '',
           'specificPlatform': specificPlatform ? specificPlatform : '',
           'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
-          'thirdPartyTool': order.isThirdPartyTool ? order.thirdPartyTool : '',
+          'thirdPartyTool': order.thirdPartyTool,
           'bugDescription': order.bugDescription,
           'gitAccessId': await getGitAccessId()
         })
