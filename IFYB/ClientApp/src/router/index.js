@@ -7,6 +7,24 @@ import ContactForm from '../views/ContactForm.vue';
 import OrdersView from '../views/OrdersView.vue';
 import AuthenticationView from '../views/AuthenticationView.vue';
 import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
+import { useUserAuthentication, useAdminAuthentication } from '@/store';
+
+const userAuth = useUserAuthentication();
+const adminAuth = useAdminAuthentication();
+
+function userAuthenticationGuard(to) {
+  if (userAuth.isLoggedIn.value)
+    return true;
+  userAuth.requestedPage.value = to;
+  return { path: '/authentication' }
+}
+
+function adminAuthenticationGuard(to) {
+  if (adminAuth.isLoggedIn.value)
+    return true;
+  adminAuth.requestedPage.value = to;
+  return { path: '/admin-authentication' }
+}
 
 const routes = [
   {
@@ -17,7 +35,8 @@ const routes = [
   {
     path: '/order',
     name: 'order',
-    component: OrderView
+    component: OrderView,
+    beforeEnter: userAuthenticationGuard
   },
   {
     path: '/faq',
@@ -27,7 +46,8 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: AdminView
+    component: AdminView,
+    beforeEnter: adminAuthenticationGuard
   },
   {
     path: '/contact-form',
@@ -37,7 +57,8 @@ const routes = [
   {
     path: '/my-orders',
     name: 'my-orders',
-    component: OrdersView
+    component: OrdersView,
+    beforeEnter: userAuthenticationGuard
   },
   {
     path: '/authentication',

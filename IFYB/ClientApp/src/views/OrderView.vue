@@ -16,34 +16,22 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
-import { useServerError, useAuthentication } from "../store";
-import router from '../router'
+import { useServerError, useUserAuthentication } from "../store";
 
 export default {
   name: 'OrderView',
   components: { CarouselItem, NewOrderForm },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage, setAuthenticationPage } = useAuthentication();
+    const { get } = useUserAuthentication();
     const page = ref('');
     const gitAccesses = ref([]);
 
-    if(!authenticationPage.value) {
-      setAuthenticationPage('/order');
-      router.push('/authentication');
-    } else {
-      setAuthenticationPage(null);
-      page.value = 'data';
-      setGitAccesses();
-    }
-
+    page.value = 'data';
+    setGitAccesses();
+    
     async function setGitAccesses() {
-      let response = await fetch('/api/git-accesses', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`
-        }
-      })
+      let response = await get('/api/git-accesses');
       if(response.status == 200) {
         setServerError(null);
         gitAccesses.value = await response.json();

@@ -18,8 +18,7 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import OrderViewer from '../components/OrderViewer.vue';
-import { useServerError, useAuthentication } from "../store";
-import router from '../router'
+import { useServerError, useUserAuthentication } from "../store";
 import OrderMessages from '../components/OrderMessages.vue';
 
 export default {
@@ -27,28 +26,17 @@ export default {
   components: { CarouselItem, OrderList, OrderViewer, OrderMessages },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage, setAuthenticationPage } = useAuthentication();
+    const { get, post } = useUserAuthentication();
     const page = ref('');
     const orders = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
 
-    if(!authenticationPage.value) {
-      setAuthenticationPage('/my-orders');
-      router.push('/authentication');
-    } else {
-      setAuthenticationPage(null);
-      page.value = 'orders';
-      setOrders();
-    }
+    page.value = 'orders';
+    setOrders();
 
     async function setOrders() {
-      let orderResponse = await fetch('/api/orders', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`
-        }
-      })
+      let orderResponse = await get('/api/orders');
       if(orderResponse.status == 200) {
         setServerError(null);
         orders.value = await orderResponse.json();
@@ -65,12 +53,7 @@ export default {
     }
 
     async function setMessages() {
-      let response = await fetch(`/api/orders/${selectedOrder.value.id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`
-        }
-      })
+      let response = await get(`/api/orders/${selectedOrder.value.id}`);
       let order = await response.json();
       messages.value = order.messages.reverse();
     }
@@ -82,16 +65,7 @@ export default {
     }
 
     async function submitMessage(message) {
-      let response = await fetch(`/api/orders/${selectedOrder.value.id}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: message
-        })
-      });
+      let response = await post(`/api/orders/${selectedOrder.value.id}`, { text: message });
       let newMessage = await response.json();
       messages.value.unshift(newMessage);
     }

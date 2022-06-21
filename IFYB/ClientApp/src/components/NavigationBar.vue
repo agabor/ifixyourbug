@@ -19,7 +19,7 @@
               {{ $t('navigationBar.home') }}
             </a>
           </li>
-          <li class="nav-item dropdown dropdown-hover mx-2" v-if="activeClient === 'user'">
+          <li class="nav-item dropdown dropdown-hover mx-2" v-if="isUserLoggedIn">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/my-orders')">
               {{ $t('navigationBar.myOrders') }}
             </a>
@@ -27,8 +27,8 @@
         </ul>
         <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
-            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="$router.push('/authentication')" v-if="activeClient == null">{{ $t('navigationBar.login') }}</a>
-            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="logOut" v-else>{{ $t('navigationBar.logout') }}</a>
+            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
+            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="logout" v-else>{{ $t('navigationBar.logout') }}</a>
           </li>
         </ul>
       </div>
@@ -38,60 +38,23 @@
 
 <script>
 import router from '../router';
-import { useAuthentication } from "../store";
+import { computed } from "@vue/reactivity";
+import { useUserAuthentication, useAdminAuthentication } from "../store";
 
 export default {
   name: 'NavigationBar',
   setup() {
-    const { activeClient, setActiveClient } = useAuthentication();
-    
-    checkIsLogged();
-    async function checkIsLogged() {
-      let jwt = localStorage.getItem('jwt');
-      if(jwt){
-        let client = await checkUserJwt(jwt);
-        if(!client) {
-          client = await checkAdminJwt(jwt);
-        }
-      }
+    const userAuth = useUserAuthentication();
+    const adminAuth = useAdminAuthentication();
+    const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
+
+    function logout() {
+      userAuth.setJwt(null);
+      adminAuth.setJwt(null);
+      router.push('/');
     }
 
-    async function checkUserJwt(jwt){
-      let response = await fetch('/api/authenticate/check-jwt', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${jwt}`
-        }
-      })
-      if(response.status == 200) {
-        activeClient.value = 'user';
-        return true;
-      }
-      return false;
-    }
-
-    async function checkAdminJwt(jwt){
-      let response = await fetch('/api/authenticate/admin/check-jwt', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${jwt}`
-        }
-      })
-      if(response.status == 200) {
-        activeClient.value = 'admin';
-        return true;
-      }
-      return false;
-    }
-
-    function logOut() {
-      setActiveClient(null);
-      localStorage.removeItem('jwt');
-      localStorage.removeItem('adminId');
-      router.push('/authentication');
-    }
-
-    return { activeClient, logOut }
+    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn }
   }
 }
 </script>

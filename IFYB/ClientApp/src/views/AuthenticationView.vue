@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useAuthentication } from "../store";
+import { useServerError, useUserAuthentication } from "../store";
 import router from '../router'
 
 export default {
@@ -21,32 +21,13 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage, setActiveClient } = useAuthentication();
+    const { requestedPage, setJwt, get, post } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const user = ref({});
     const error = ref(null);
     const progress = ref(0);
     let clientId;
-    
-    setJwtIfActive();
-
-    async function setJwtIfActive() {
-      if(localStorage.getItem('jwt')) {
-        let response = await fetch('/api/authenticate/check-jwt', {
-          method: 'GET',
-          headers: {
-            'Authorization': `bearer ${localStorage.getItem('jwt')}`
-          }
-        })
-        if(response.status == 200) {
-          setServerError(null);
-          toNamePageOrToTargetPage();
-        } else if(response.status != 403) {
-          setServerError(response.statusText);
-        }
-      }
-    }
 
     async function submitEmail(email) {
       progress.value = 30;
@@ -82,8 +63,7 @@ export default {
       if(response.status == 200) {
         setServerError(null);
         let jwt = (await response.json()).jwt;
-        localStorage.setItem('jwt', jwt);
-        setActiveClient('user');
+        setJwt(jwt);
         toNamePageOrToTargetPage();
       } else if(response.status == 403) {
         handleAuthenticationError();
@@ -98,49 +78,30 @@ export default {
     }
 
     async function setName(name) {
-      let response = await fetch('/api/clients/name', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'name': name})
-      });
+      let response = await post('/api/clients/name', {'name': name});
       if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        toTargetPage();
+        router.push(requestedPage.value);
       } else{
         setServerError(response.statusText);
       }
     }
 
     async function toNamePageOrToTargetPage() {
-      let response = await fetch('/api/clients/name', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`
-        }
-      })
+      let response = await get('/api/clients/name')
       if(response.status == 404) {
         page.value = 'name';
       } else if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        toTargetPage();
+        router.push(requestedPage.value);
       } else{
         page.value = 'name';
         setServerError(response.statusText);
       }
     }
 
-    function toTargetPage() {
-      if(authenticationPage.value) {
-        router.push(authenticationPage.value);
-      } else {
-        router.push('/');
-      }
-    }
 
     return { page, error, user, progress, submitEmail, authentication, setName }
   }

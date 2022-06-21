@@ -19,37 +19,24 @@ import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
-import { useServerError, useAuthentication } from "../store";
-import router from '../router'
+import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
   name: 'AdminView',
   components: { CarouselItem, OrderList, OrderViewer, OrderMessages },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage, setAuthenticationPage } = useAuthentication();
+    const { get, post } = useAdminAuthentication();
     const page = ref('');
     const orders = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
 
-    if(!authenticationPage.value) {
-      setAuthenticationPage('/admin');
-      router.push('/admin-authentication');
-    } else {
-      setAuthenticationPage(null);
-      page.value = 'orders';
-      setOrders();
-    }
+    page.value = 'orders';
+    setOrders();
 
     async function setOrders() {
-      let response = await fetch('/api/admin/orders', {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json'
-        }
-      })
+      let response = await get('/api/admin/orders');
       if(response.status == 200) {
         setServerError(null);
         orders.value = await response.json();
@@ -66,12 +53,7 @@ export default {
     }
 
     async function setMessages() {
-      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`
-        }
-      })
+      let response = await get(`/api/admin/orders/${selectedOrder.value.id}`);
       if(response.status == 200) {
         setServerError(null);
         let order = await response.json();
@@ -88,17 +70,10 @@ export default {
     }
 
     async function submitMessage(message) {
-      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}`, {
           clientId: localStorage.getItem('adminId'),
           text: message
-        })
-      });
+        });
       if(response.status == 200) {
         setServerError(null);
         let newMessage = await response.json();
@@ -109,14 +84,7 @@ export default {
     }
 
     async function acceptOrder() {
-      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}/state`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: 1
-      });
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, {});
       if(response.status == 200) {
         setServerError(null);
         selectedOrder.value.state = 1;
@@ -126,14 +94,7 @@ export default {
     }
     
     async function rejectOrder() {
-      let response = await fetch(`/api/admin/orders/${selectedOrder.value.id}/state`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: 2
-      });
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, {});
       if(response.status == 200) {
         setServerError(null);
         selectedOrder.value.state = 2;

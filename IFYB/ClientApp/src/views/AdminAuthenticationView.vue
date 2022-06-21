@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useAuthentication } from "../store";
+import { useServerError, useAdminAuthentication } from "../store";
 import router from '../router'
 
 export default {
@@ -21,32 +21,13 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { authenticationPage, setActiveClient } = useAuthentication();
+    const { requestedPage, setJwt } = useAdminAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const user = ref({});
     const error = ref(null);
     const progress = ref(0);
     let adminId;
-    
-    setJwtIfActive();
-
-    async function setJwtIfActive() {
-      if(localStorage.getItem('jwt')) {
-        let response = await fetch('/api/authenticate/admin/check-jwt', {
-          method: 'GET',
-          headers: {
-            'Authorization': `bearer ${localStorage.getItem('jwt')}`
-          }
-        })
-        if(response.status == 200) {
-          setServerError(null);
-          toTargetPage();
-        } else if(response.status != 403) {
-					setServerError(response.statusText);
-        }
-      }
-    }
 
     async function submitEmail(email) {
       progress.value = 30;
@@ -85,11 +66,10 @@ export default {
         body: JSON.stringify({'adminId': adminId, 'password': code})
       });
       if(response.status == 200) {
-        setActiveClient('admin');
         setServerError(null);
         let jwt = (await response.json()).jwt;
-        localStorage.setItem('jwt', jwt);
-        toTargetPage();
+        setJwt(jwt);
+        router.push(requestedPage.value);
       } else if(response.status == 403) {
         handleAuthenticationError();
       } else {
@@ -102,13 +82,6 @@ export default {
       error.value = tm('errors.wrongCode');
     }
 
-    function toTargetPage() {
-      if(authenticationPage.value) {
-        router.push(authenticationPage.value);
-      } else {
-        router.push('/admin');
-      }
-    }
 
     return { page, error, user, progress, submitEmail, authentication }
   }
