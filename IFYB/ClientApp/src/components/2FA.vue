@@ -1,8 +1,8 @@
 <template>
   <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
     <div class="row mb-4">
-      <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2" v-for="(i, idx) in authLength" :key="i">
-        <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChane($event, idx)">
+      <div class="col-lg-2 col-sm-4 col-4 ps-0 ps-md-2 py-1" v-for="(i, idx) in authLength" :key="i">
+        <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
       </div>
     </div>
   </carousel-item>
@@ -44,7 +44,7 @@ export default {
       auth.value[idx] = code[0];
     }
 
-    function onInputChane(event, idx) {
+    function onInputChange(event, idx) {
       let newValue = event.target.value;
       if(newValue.length <= 2) {
         if(newValue && newValue.length == 1) {
@@ -95,7 +95,7 @@ export default {
       }
     }
 
-    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChane, inputs }
+    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChange, inputs }
   }
 }
 </script>
