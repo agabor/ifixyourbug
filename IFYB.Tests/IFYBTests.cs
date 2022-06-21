@@ -65,6 +65,7 @@ public class IFYBTests
             specificPlatformVersion = "10",
             thirdPartyTool = "",
             bugDescription = "bello",
+            state = 0,
             gitAccessId = gitAccessId
         };
         response = await Post("api/orders", HttpStatusCode.OK, order);
