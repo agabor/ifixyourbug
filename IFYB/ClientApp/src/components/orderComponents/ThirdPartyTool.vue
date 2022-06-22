@@ -14,12 +14,11 @@
 </template>
 
 <script>
-
 import { ref, watch } from 'vue'
 
 export default {
   name: 'ThirdPartyTool',
-  emits:['update:isTool', 'update:tool'],
+  emits:['update:modelValue'],
   props: {
     modelValue: String,
     editable: Boolean

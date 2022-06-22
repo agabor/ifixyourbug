@@ -5,9 +5,9 @@
         <select-framework v-model="order.framework" :editable="true"></select-framework>
         <select-version v-model="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" :editable="true"></select-version>
       </div>
-      <operating-system v-if="order.framework == 1" v-model:isSpecificOpSystem="order.isSpecificOpSystem" v-model:operatingSystem="order.os" v-model:version="order.opSystemVersion" :editable="true"></operating-system>
-      <browser-type v-if="order.framework == 0" v-model:isSpecificBrowser="order.isSpecificBrowser" v-model:browser="order.browser" v-model:version="order.browserVersion" :editable="true"></browser-type>
-      <online-app v-model:available="order.isAvailableApp" v-model:url="order.availableAppUrl" :editable="true"></online-app>
+      <operating-system v-if="order.framework == 1" v-model="order.os" v-model:version="order.opSystemVersion" :editable="true"></operating-system>
+      <browser-type v-if="order.framework == 0" v-model="order.browser" v-model:version="order.browserVersion" :editable="true"></browser-type>
+      <online-app v-model="order.availableAppUrl" :editable="true"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
       <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
       <div class="col-md-12 pe-2 mb-3">
@@ -59,16 +59,13 @@ export default {
     const { setServerError } = useServerError();
     const { tm } = useI18n();
     const order = reactive({
-      isSpecificOpSystem: false,
       framework: null,
       version: null,
       os: null,
       opSystemVersion: null,
-      isSpecificBrowser: null,
       browser: null,
       browserVersion: null,
       availableAppUrl: null,
-      isAvailableApp: false,
       accessMode: 0,
       repoUrl: null,
       bugDescription: '',
@@ -116,10 +113,10 @@ export default {
 
     async function submitOrder() {
       let specificPlatform, specificPlatformVersion;
-      if(order.isSpecificOpSystem) {
+      if(order.os) {
         specificPlatform = order.os;
         specificPlatformVersion = order.opSystemVersion;
-      } else if(order.isSpecificBrowser) {
+      } else if(order.browser) {
         specificPlatform = order.browser;
         specificPlatformVersion = order.browserVersion;
       }
@@ -132,7 +129,7 @@ export default {
         body: JSON.stringify({
           'framework': order.framework,
           'version': order.version,
-          'applicationUrl': order.availableAppUrl ? order.availableAppUrl : '',
+          'applicationUrl': order.availableAppUrl,
           'specificPlatform': specificPlatform ? specificPlatform : '',
           'specificPlatformVersion': specificPlatformVersion ? specificPlatformVersion : '',
           'thirdPartyTool': order.thirdPartyTool,
@@ -177,22 +174,22 @@ export default {
       let err =
         required(order.framework, tm('errors.requiredFramework'), 'choices-framework') ||
         required(order.version, tm('errors.requiredVersion'), 'choices-version');
-      if(!err && order.isSpecificOpSystem)
+      if(!err && !order.os)
         err =
           required(order.os, tm('errors.requiredOS')) ||
           required(order.opSystemVersion, tm('errors.requiredOSVersion'), 'op-system-name-input');
-      if(!err && order.isSpecificBrowser)
+      if(!err && !order.browser)
         err =
           required(order.browser, tm('errors.requiredBrowserType')) ||
           required(order.browserVersion, tm('errors.requiredBrowserVersion'), 'browser-system-name-input');
-      if(!err && order.isAvailableApp)
+      if(!err && !order.availableAppUrl)
         err = required(order.availableAppUrl, tm('errors.requiredAppUrl'), 'app-url-input');
       if(!err)
         err =
           required(order.repoUrl, tm('errors.requiredGitRepoUrl'), 'repo-url-input') ||
           required(order.accessMode, tm('errors.requiredProjectSharing')) ||
           required(order.bugDescription, tm('errors.requiredBugDes'), 'bug-description-input');
-      if(!err && order.isThirdPartyTool)
+      if(!err && !order.thirdPartyTool)
         err = required(order.thirdPartyTool, tm('errors.requiredThirdPartyTool'), 'third-party-tool-input');
       return err;
     }
@@ -201,8 +198,6 @@ export default {
       order.version = null;
       order.os = null;
       order.opSystemVersion = null;
-      order.isSpecificOpSystem = null;
-      order.isSpecificBrowser = null;
       order.browser = null;
       order.browserVersion = null;
     });
