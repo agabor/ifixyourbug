@@ -9,7 +9,7 @@
       <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></browser-type>
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
-      <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
+      <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
       <div class="col-md-12 pe-2 mb-3">
         <div class="form-group mb-0">
           <label>{{ $t('newOrder.bugDescription') }}*</label>
@@ -61,12 +61,15 @@ export default {
       specificPlatformVersion: null,
       thirdPartyTool: null,
       bugDescription: '',
-      accessMode: 0,
+      accessMode: null,
       repoUrl: null,
       selectedAccess: {}
     });
     const error = ref(null);
-    const selectedAccess = ref({});
+    const selectedAccess = ref({
+      accessMode: 0,
+      url: null
+    });
     const showErrors = ref(false);
 
     watch(selectedAccess, () => {
