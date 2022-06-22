@@ -7,10 +7,10 @@ public class Order
     public int Id { get; set; }
     public Framework Framework { get; set; }
     public string Version { get; set; }
-    public string ApplicationUrl { get; set; }
-    public string SpecificPlatform { get; set; }
-    public string SpecificPlatformVersion { get; set; }
-    public string ThirdPartyTool { get; set; }
+    public string? ApplicationUrl { get; set; }
+    public string? SpecificPlatform { get; set; }
+    public string? SpecificPlatformVersion { get; set; }
+    public string? ThirdPartyTool { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
     public Client? Client { get; set; }
@@ -19,7 +19,7 @@ public class Order
     public GitAccess GitAccess { get; set; } = null!;
 
 
-    public Order(int id, Framework framework, string version, string applicationUrl, string specificPlatform, string specificPlatformVersion, string thirdPartyTool, string bugDescription, int gitAccessId)
+    public Order(int id, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
         Id = id;
         Framework = framework;
