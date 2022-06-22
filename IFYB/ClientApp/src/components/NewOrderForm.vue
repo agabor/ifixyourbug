@@ -3,7 +3,7 @@
     <div class="row text-start">
       <div class="col-md-12 d-flex pe-2 mb-3">
         <select-framework v-model="order.framework" :editable="true" :showError="showErrors"></select-framework>
-        <select-version v-model="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" :editable="true"></select-version>
+        <select-version v-model="order.version" :framework="order.framework" :editable="true" :showError="showErrors"></select-version>
       </div>
       <operating-system v-if="order.framework == 1" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true"></operating-system>
       <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true"></browser-type>
@@ -66,8 +66,6 @@ export default {
       selectedAccess: {}
     });
     const error = ref(null);
-    const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
-    const vueVersions = ['2.6', '2.7', '3.0', '3.1', '3.2'];
     const selectedAccess = ref({});
     const showErrors = ref(false);
 
@@ -154,14 +152,14 @@ export default {
       }
       return gitAccessId;
     }
-    
+
     watch(() => order.framework, () => {
       order.version = null;
       order.specificPlatform = null;
       order.specificPlatformVersion = null;
     });
 
-    return { showErrors, order, aspVersions, vueVersions, selectedAccess, trySubmitOrder, cancelSubmit }
+    return { showErrors, order, selectedAccess, trySubmitOrder, cancelSubmit }
   }
 }
 </script>
