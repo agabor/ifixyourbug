@@ -6,7 +6,7 @@
         <select-version v-model="order.version" :framework="order.framework" :editable="true" :showError="showErrors"></select-version>
       </div>
       <operating-system v-if="order.framework == 1" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></operating-system>
-      <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true"></browser-type>
+      <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></browser-type>
       <online-app v-model="order.applicationUrl" :editable="true"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
       <project-sharing v-model:accessMode="order.accessMode" v-model:url="order.repoUrl" :visible="selectedAccess.url == undefined"></project-sharing>
