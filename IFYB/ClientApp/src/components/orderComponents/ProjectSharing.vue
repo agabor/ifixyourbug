@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12 pe-2 mb-3">
     <label>{{ $t('projectSharing.urlLabel') }}</label>
-    <input class="form-control" id="repo-url-input" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" :value="url" :disabled="!visible" @input="$emit('update:url', $event.target.value)">
+    <input class="form-control" id="repo-url-input" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" v-model="urlText" :disabled="!visible">
   </div>
   <label>{{ $t('projectSharing.sharingLabel') }}</label>
   <div class="col-md-12 d-flex pe-2" :class="{'mb-3': accessMode == undefined}">
@@ -17,6 +17,10 @@
 
 <script>
 import { ref, watch } from 'vue'
+import { required } from '../../utils/Validate';
+import { useI18n } from "vue-i18n";
+import { useInputError } from "../../store";
+
 export default {
   name: 'ProjectSharing',
   emits:['update:url', 'update:accessMode'],
@@ -25,15 +29,35 @@ export default {
     url: String,
     accessMode: Number
   },
-  setup(props) {
+  setup(props, context) {
     const optionCount = 3;
     const mode = ref(props.accessMode);
+    const urlText = ref(props.modelValue ?? '');
+    const error = ref(null);
+    const { tm } = useI18n();
+    const { addInputError, removeInputError } = useInputError();
+
 
     watch(() => [props.accessMode], () => {
       mode.value = props.accessMode;
     })
+    watch(urlText, () => {
+      context.emit('update:url', urlText.value);
+      setError(required(urlText.value, tm('errors.requiredThirdPartyTool')));
+      addInputError(error.value);
+    });
 
-    return { optionCount, mode };
+    function setError(err) {
+      if(err) {
+        error.value = err;
+        addInputError(err);
+      } else {
+        removeInputError(error.value);
+        error.value = null;
+      }
+    }
+
+    return { optionCount, mode, urlText, error };
   }
 }
 </script>

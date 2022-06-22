@@ -7,21 +7,18 @@ export function validEmail(email) {
       return 'errors.requiredValidEmail';
     }
   }
-  return;
+  return null;
 }
 
-export function required(e, errorText, id) {
+export function required(e, errorText) {
   if(e === '' || e === null || e === undefined) {
-    if(id) {
-      document.getElementById(id).focus();
-    }
     return errorText;
   }
-  return;
+  return null;
 }
 
 export function min(e, i) {
   if(e.length < i)
     return ('errors.minLength');
-  return;
+  return null;
 }

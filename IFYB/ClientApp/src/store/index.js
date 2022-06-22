@@ -9,6 +9,30 @@ export function useServerError() {
   return { serverError, setServerError };
 }
 
+const inputErrors = ref({
+  framework: null,
+  version: null,
+  applicationUrl: null,
+  specificPlatform: null,
+  specificPlatformVersion: null,
+  thirdPartyTool: null,
+  bugDescription: null,
+  accessMode: null,
+  repoUrl: null,
+  selectedAccess: null
+});
+
+export function useInputError() {
+  const setInputError = (property, error) => {
+    inputErrors.value[property] = error;
+  };
+  const hasInputError = () => {
+    !Object.values(inputErrors).some(x => x !== null);
+  }
+  return { inputErrors, setInputError, hasInputError };
+}
+
+
 const requestedPage = ref(null);
 
 async function get(route, jwt) {

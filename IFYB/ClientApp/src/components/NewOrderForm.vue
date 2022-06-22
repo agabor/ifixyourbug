@@ -16,12 +16,9 @@
           <text-editor id="bug-description-input" v-model="order.bugDescription" :placeholder="$t('newOrder.bugDescription')"></text-editor>
         </div>
       </div>
-      <third-party-tool v-model="order.thirdPartyTool" :editable="true"></third-party-tool>
+      <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
     </div>
   </form>
-  <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
-    {{ error }}
-  </div>
   <div class="d-flex justify-content-center my-4">
     <div class="text-center">
       <button type="button" class="btn bg-gradient-primary mx-2" @click="trySubmitOrder">{{ $t('newOrder.submit') }}</button>
@@ -34,8 +31,6 @@
 
 <script>
 import { ref, watch, reactive } from 'vue';
-import { required } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
 import TextEditor from '../components/TextEditor.vue';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
@@ -45,7 +40,7 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
-import { useServerError } from "../store";
+import { useServerError, useInputError } from "../store";
 import router from '../router'
 
 export default {
@@ -57,7 +52,7 @@ export default {
   emits: ['toSuccessPage'],
   setup(props, context) {
     const { setServerError } = useServerError();
-    const { tm } = useI18n();
+    const { hasInputError } = useInputError();
     const order = reactive({
       framework: null,
       version: null,
@@ -74,6 +69,7 @@ export default {
     const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
     const vueVersions = ['2.6', '2.7', '3.0', '3.1', '3.2'];
     const selectedAccess = ref({});
+    const showErrors = ref(false);
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -100,10 +96,9 @@ export default {
       router.push('/');
     }
 
-    function trySubmitOrder() {
-      let err = getOrderFormError();        
-      if(err) {
-        error.value = err;
+    function trySubmitOrder() { 
+      if(hasInputError) {
+        showErrors.value = true;
       } else {
         submitOrder();
       }
@@ -160,29 +155,13 @@ export default {
       return gitAccessId;
     }
 
-    function getOrderFormError() {
-      let err =
-        required(order.framework, tm('errors.requiredFramework'), 'choices-framework') ||
-        required(order.version, tm('errors.requiredVersion'), 'choices-version');
-      if(!err && !order.applicationUrl)
-        err = required(order.applicationUrl, tm('errors.requiredAppUrl'), 'app-url-input');
-      if(!err)
-        err =
-          required(order.repoUrl, tm('errors.requiredGitRepoUrl'), 'repo-url-input') ||
-          required(order.accessMode, tm('errors.requiredProjectSharing')) ||
-          required(order.bugDescription, tm('errors.requiredBugDes'), 'bug-description-input');
-      if(!err && !order.thirdPartyTool)
-        err = required(order.thirdPartyTool, tm('errors.requiredThirdPartyTool'), 'third-party-tool-input');
-      return err;
-    }
-
     watch(() => order.framework, () => {
       order.version = null;
       order.specificPlatform = null;
       order.specificPlatformVersion = null;
     });
 
-    return { error, order, aspVersions, vueVersions, selectedAccess, trySubmitOrder, cancelSubmit }
+    return { showErrors, order, aspVersions, vueVersions, selectedAccess, trySubmitOrder, cancelSubmit }
   }
 }
 </script>
