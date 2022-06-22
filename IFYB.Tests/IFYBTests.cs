@@ -65,7 +65,6 @@ public class IFYBTests
             specificPlatformVersion = "10",
             thirdPartyTool = "",
             bugDescription = "bello",
-            state = 0,
             gitAccessId = gitAccessId
         };
         response = await Post("api/orders", HttpStatusCode.OK, order);
@@ -76,6 +75,7 @@ public class IFYBTests
         var respObject = JObject.Parse(response.ToString());
         respObject.Remove("id");
         respObject.Remove("messages");
+        respObject.Remove("state");
         Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
     }
 
