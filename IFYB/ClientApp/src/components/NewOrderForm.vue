@@ -8,7 +8,7 @@
       <operating-system v-if="order.framework == 1" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></operating-system>
       <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></browser-type>
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
-      <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
+      <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model="selectedAccess"></git-access-selector>
       <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
       <bug-description v-model="order.bugDescription" :showError="showErrors"></bug-description>
       <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
@@ -61,10 +61,7 @@ export default {
       selectedAccess: {}
     });
     const error = ref(null);
-    const selectedAccess = ref({
-      accessMode: 0,
-      url: null
-    });
+    const selectedAccess = ref({});
     const showErrors = ref(false);
 
     watch(selectedAccess, () => {
@@ -72,8 +69,8 @@ export default {
         order.accessMode = selectedAccess.value.accessMode;
         order.repoUrl = selectedAccess.value.url;
       } else {
-        order.accessMode = undefined;
-        order.repoUrl = undefined;
+        order.accessMode = null;
+        order.repoUrl = null;
       }
     })
 
@@ -92,7 +89,8 @@ export default {
       router.push('/');
     }
 
-    function trySubmitOrder() { 
+    function trySubmitOrder() {
+      console.log('trySubmitOrder', hasInputError())
       if(hasInputError()) {
         showErrors.value = true;
       } else {

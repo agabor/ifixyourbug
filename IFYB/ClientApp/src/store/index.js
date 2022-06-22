@@ -27,7 +27,7 @@ export function useInputError() {
     inputErrors.value[property] = error;
   };
   const hasInputError = () => {
-    !Object.values(inputErrors).some(x => x !== null);
+    return Object.values(inputErrors.value).some(x => x !== null);
   }
   return { inputErrors, setInputError, hasInputError };
 }

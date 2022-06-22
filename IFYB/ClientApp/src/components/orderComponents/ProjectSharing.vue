@@ -42,7 +42,8 @@ export default {
     setInputError('repoUrl', required(urlText.value, tm('errors.requiredProjectSharing')));
     setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
 
-    watch(() => [props.accessMode], () => {
+    watch(() => [props.modelValue, props.accessMode], () => {
+      urlText.value = props.modelValue;
       mode.value = props.accessMode;
     })
     watch(urlText, () => {
