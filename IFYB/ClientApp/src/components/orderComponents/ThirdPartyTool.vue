@@ -8,7 +8,7 @@
   <div class="col-md-12 pe-2 mb-3" v-if="isChecked">
     <div class="form-group mb-0">
       <label>{{ $t('thirdPartyTool.label') }}*</label>
-      <input id="third-party-tool-input" class="form-control" :class="{'is-invalid': (showError && !!inputErrors.thirdPartyTool)}" :placeholder="$t('thirdPartyTool.label')" type="text" v-model="text" :disabled="!editable">
+      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.thirdPartyTool)}" :placeholder="$t('thirdPartyTool.label')" type="text" v-model="text" :disabled="!editable">
     </div>
     <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.thirdPartyTool }}</small></em></span>
   </div>

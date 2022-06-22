@@ -2,7 +2,7 @@
   <form>
     <div class="row text-start">
       <div class="col-md-12 d-flex pe-2 mb-3">
-        <select-framework v-model="order.framework" :editable="true"></select-framework>
+        <select-framework v-model="order.framework" :editable="true" :showError="showErrors"></select-framework>
         <select-version v-model="order.version" :versions="order.framework == 0 ? vueVersions : order.framework == 1 ? aspVersions : undefined" :editable="true"></select-version>
       </div>
       <operating-system v-if="order.framework == 1" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true"></operating-system>
@@ -154,7 +154,7 @@ export default {
       }
       return gitAccessId;
     }
-
+    
     watch(() => order.framework, () => {
       order.version = null;
       order.specificPlatform = null;
