@@ -1,5 +1,4 @@
 <template>
-{{text}}
 	<editor class="border-radius-lg" v-model="text" :placeholder="placeholder"
 		:api-key="key"
 		:init="{

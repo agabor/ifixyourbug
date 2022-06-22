@@ -10,12 +10,7 @@
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model:access="selectedAccess"></git-access-selector>
       <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
-      <div class="col-md-12 pe-2 mb-3">
-        <div class="form-group mb-0">
-          <label>{{ $t('newOrder.bugDescription') }}*</label>
-          <text-editor id="bug-description-input" v-model="order.bugDescription" :placeholder="$t('newOrder.bugDescription')"></text-editor>
-        </div>
-      </div>
+      <bug-description v-model="order.bugDescription" :showError="showErrors"></bug-description>
       <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
     </div>
   </form>
@@ -31,7 +26,6 @@
 
 <script>
 import { ref, watch, reactive } from 'vue';
-import TextEditor from '../components/TextEditor.vue';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
 import OperatingSystem from './orderComponents/OperatingSystem.vue';
@@ -39,13 +33,14 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
+import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import { useServerError, useInputError } from "../store";
 import router from '../router'
 
 export default {
   name: 'NewOrderForm',
-  components: { TextEditor, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, ThirdPartyTool },
+  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool },
   props: {
     gitAccesses: Array
   },
@@ -98,7 +93,7 @@ export default {
     }
 
     function trySubmitOrder() { 
-      if(hasInputError) {
+      if(hasInputError()) {
         showErrors.value = true;
       } else {
         submitOrder();
