@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Net.Mail;
 using System.IO;
 using Scriban;
+using IFYB.Services;
 
 namespace IFYB.Controllers;
 
@@ -17,13 +18,13 @@ public class AuthenticationController : BaseController
 {
     private IConfiguration Configuration { get; }
     private SecurityKey SecurityKey { get; }
-    private SmtpClient SmtpClient { get; }
+    public EmailService EmailService { get; }
 
-    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey, SmtpClient smtpClient) : base(dbContext)
+    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey, EmailService emailService) : base(dbContext)
     {
         Configuration = configuration;
         SecurityKey = securityKey;
-        SmtpClient = smtpClient;
+        EmailService = emailService;
     }
 
 
@@ -46,33 +47,24 @@ public class AuthenticationController : BaseController
             dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
-#if DEBUG
-        client.Password = passwordHasher.HashPassword(client, "123456");
-#else
-        int charCount = 'Z' - 'A';
-        string password = string.Empty;
-        for (int i = 0; i < 6; ++i) {
-            int code = Random.Shared.Next() % charCount;
-            password += (char)('A' + code);
+        if (!bool.Parse(Configuration["SendEmails"])) {
+            client.Password = passwordHasher.HashPassword(client, "123456");
+        } else
+        {
+            int charCount = 'Z' - 'A';
+            string password = string.Empty;
+            for (int i = 0; i < 6; ++i)
+            {
+                int code = Random.Shared.Next() % charCount;
+                password += (char)('A' + code);
+            }
+            client.Password = passwordHasher.HashPassword(client, password);
+            string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
+            string subject = $"Confirmation code: {textPassword}";
+            string text = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{textPassword}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
+            string html = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = textPassword });
+            EmailService.SendEmail(dto.Email, subject, text, html);
         }
-        client.Password = passwordHasher.HashPassword(client, password);
-        string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
-        var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
-        var to = new MailAddress(dto.Email);
-        MailMessage message = new MailMessage(from, to);
-        message.Subject = $"Confirmation code: {textPassword}";
-        message.Body = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{textPassword}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
-        message.BodyEncoding = System.Text.Encoding.UTF8;
-        message.SubjectEncoding = System.Text.Encoding.UTF8;
-        
-        string body = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = textPassword });
-
-        var mimeType = new System.Net.Mime.ContentType("text/html");
-        AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
-        message.AlternateViews.Add(alternate);
-
-        SmtpClient.Send(message);
-#endif
         dbContext.SaveChanges();
         return Ok(new IdDto(client.Id));
     }

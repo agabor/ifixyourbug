@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Net.Mail;
 using System.Net;
+using IFYB.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,8 @@ var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);
 smtpClient.EnableSsl = true;
 smtpClient.Credentials = new NetworkCredential(builder.Configuration["AwsSmtpUserName"], builder.Configuration["AwsSmtpPassword"]);
 builder.Services.AddSingleton(smtpClient);
+
+builder.Services.AddScoped<EmailService>();
 
 var app = builder.Build();
 
