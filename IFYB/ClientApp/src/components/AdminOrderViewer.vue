@@ -11,10 +11,15 @@
             </div>
             <div class="d-flex align-items-center justify-content-center">
               <h2>{{ $t('orderViewer.title') }}</h2>
+              <div class="text-center ms-4" v-if="order.state == 0">
+                <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('acceptOrder')">{{ $t('orderViewer.accept') }}</button>
+              </div>
+              <div class="text-center ms-4" v-if="order.state == 0">
+                <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('rejectOrder')">{{ $t('orderViewer.reject') }}</button>
+              </div>
               <div class="text-center ms-4">
-                <button type="button" class="btn bg-gradient-primary my-2">
-                  {{ order.state == 0 ? $t('orderViewer.submitted') :
-                    order.state == 1 ? $t('orderViewer.accepted') :
+                <button type="button" class="btn bg-gradient-primary my-2" v-if="order.state != 0">
+                  {{ order.state == 1 ? $t('orderViewer.accepted') :
                     order.state == 2 ? $t('orderViewer.rejected') :
                     order.state == 3 ? $t('orderViewer.payed') :
                     order.state == 4 ? $t('orderViewer.completed') :
@@ -62,24 +67,24 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
-import { useServerError, useUserAuthentication } from "../store";
+import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
-  name: 'OrderViewer',
+  name: 'AdminOrderViewer',
   components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool },
   props: {
     order: Object,
   },
-  emits: ['back'],
+  emits: ['back', 'acceptOrder', 'rejectOrder' ],
   setup(props) {
     const { setServerError } = useServerError();
-    const { get } = useUserAuthentication();
+    const { get } = useAdminAuthentication();
     const gitAccess = ref(null);
 
     setGitAccess();
 
     async function setGitAccess() {
-      let response = await get(`/api/git-accesses/${props.order.gitAccessId}`);
+      let response = await get(`/api/admin/git-accesses/${props.order.gitAccessId}`);
       if(response.status == 200) {
         setServerError(null);
         gitAccess.value = await response.json();

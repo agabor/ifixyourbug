@@ -6,7 +6,7 @@
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
-        <order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" :isAdmin="true" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder"></order-viewer>
+        <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder"></admin-order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
       </div>
     </div>
@@ -17,13 +17,13 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
-import OrderViewer from '../components/OrderViewer.vue';
+import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
   name: 'AdminView',
-  components: { CarouselItem, OrderList, OrderViewer, OrderMessages },
+  components: { CarouselItem, OrderList, AdminOrderViewer, OrderMessages },
   setup() {
     const { setServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
