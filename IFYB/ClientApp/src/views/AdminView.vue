@@ -6,7 +6,7 @@
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
-        <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder"></admin-order-viewer>
+        <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder" @completedOrder="completedOrder" @refundableOrder="refundableOrder"></admin-order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
       </div>
     </div>
@@ -102,8 +102,28 @@ export default {
         setServerError(response.statusText);
       }
     }
+    
+    async function completedOrder() {
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 4);
+      if(response.status == 200) {
+        setServerError(null);
+        selectedOrder.value.state = 4;
+      } else {
+        setServerError(response.statusText);
+      }
+    }
+    
+    async function refundableOrder() {
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 5);
+      if(response.status == 200) {
+        setServerError(null);
+        selectedOrder.value.state = 5;
+      } else {
+        setServerError(response.statusText);
+      }
+    }
 
-    return { page, orders, selectedOrder, messages, openOrder, closeSelectedOrder, submitMessage, acceptOrder, rejectOrder }
+    return { page, orders, selectedOrder, messages, openOrder, closeSelectedOrder, submitMessage, acceptOrder, rejectOrder, completedOrder, refundableOrder }
   }
 }
 </script>

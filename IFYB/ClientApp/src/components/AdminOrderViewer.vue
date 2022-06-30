@@ -30,6 +30,14 @@
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('rejectOrder')">{{ $t('orderViewer.reject') }}</button>
                 </div>
               </div>
+              <div class="d-flex align-items-center justify-content-center" v-if="order.state == 1">
+                <div class="text-center ms-4">
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('completedOrder')">{{ $t('orderViewer.completed') }}</button>
+                </div>
+                <div class="text-center ms-4">
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('refundableOrder')">{{ $t('orderViewer.refundable') }}</button>
+                </div>
+              </div>
             </div>
             <form>
               <div class="row text-start">
@@ -78,7 +86,7 @@ export default {
   props: {
     order: Object,
   },
-  emits: ['back', 'acceptOrder', 'rejectOrder' ],
+  emits: ['back', 'acceptOrder', 'rejectOrder', 'completedOrder', 'refundableOrder' ],
   setup(props) {
     const { setServerError } = useServerError();
     const { get } = useAdminAuthentication();
