@@ -8,7 +8,6 @@
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.applicationUrl') }}</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.specificPlatform') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.thirdPartyTool') }}</th>
-        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.gitAccessId') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
       </tr>
     </thead>
@@ -31,9 +30,6 @@
         </td>
         <td class="align-middle text-center text-sm">
           <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>
-        </td>
-        <td class="align-middle text-center">
-          <span class="text-secondary text-xs font-weight-bold">{{ order.gitAccessId }}</span>
         </td>
         <td class="align-middle text-center">
           <span class="text-secondary text-xs font-weight-bold cursor-pointer" @click="$emit('openOrder', order)">

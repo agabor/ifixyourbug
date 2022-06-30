@@ -205,7 +205,6 @@ export const messages = {
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
-        gitAccessId: 'Git access id',
         applicationUrl: 'Application url',
         specificPlatform: 'Specific platform',
       },
