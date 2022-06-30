@@ -2,6 +2,7 @@
   <table class="table align-items-center mb-0">
     <thead>
       <tr>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.number') }}</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.framework') }}</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.version') }}</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.applicationUrl') }}</th>
@@ -13,6 +14,9 @@
     </thead>
     <tbody>
       <tr v-for="(order, idx) in orders" :key="idx">
+        <td>
+          <span class="text-secondary text-xs font-weight-bold">{{ order.number }}</span>
+        </td>
         <td>
           <span class="text-secondary text-xs font-weight-bold">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }}</span>
         </td>

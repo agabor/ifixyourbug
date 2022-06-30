@@ -49,6 +49,7 @@ export default {
     const { setServerError } = useServerError();
     const { hasInputError } = useInputError();
     const order = reactive({
+      number: '',
       framework: null,
       version: null,
       applicationUrl: null,
@@ -90,7 +91,6 @@ export default {
     }
 
     function trySubmitOrder() {
-      console.log('trySubmitOrder', hasInputError())
       if(hasInputError()) {
         showErrors.value = true;
       } else {
@@ -106,6 +106,7 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          'number': order.number,
           'framework': order.framework,
           'version': order.version,
           'applicationUrl': order.applicationUrl,

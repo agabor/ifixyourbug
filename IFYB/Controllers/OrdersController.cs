@@ -71,6 +71,19 @@ public class OrdersController : BaseController
         dbContext.Entry(client).Collection(c => c.Orders).Load();
         var order = Order.FromDto(dto);
         order.Id = 0;
+        string actualDate = DateTime.Now.ToString("yyMMdd");
+        if(client.Orders.Count > 0) {
+            var lastElement = client.Orders.Last();
+            string lastNumberDate = lastElement.Number.Substring(1, 6);
+            string lastNumber = lastElement.Number.Substring(7, 3);
+            if(actualDate == lastNumberDate) {
+                order.Number = "#" + actualDate + (int.Parse(lastNumber)+1).ToString("D3");
+            } else {
+                order.Number = "#" + actualDate + "001";
+            }
+        } else {
+            order.Number = "#" + actualDate + "001";
+        }
         client.Orders!.Add(order);
         dbContext.SaveChanges();
         return Ok(new IdDto(order.Id));

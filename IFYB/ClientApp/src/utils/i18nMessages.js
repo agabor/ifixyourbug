@@ -201,6 +201,7 @@ export const messages = {
       },
     //OrderList
       orderList: {
+        number: 'Order number',
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
