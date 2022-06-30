@@ -84,7 +84,7 @@ export default {
     }
 
     async function acceptOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, {});
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 1);
       if(response.status == 200) {
         setServerError(null);
         selectedOrder.value.state = 1;
@@ -94,7 +94,7 @@ export default {
     }
     
     async function rejectOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, {});
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 2);
       if(response.status == 200) {
         setServerError(null);
         selectedOrder.value.state = 2;

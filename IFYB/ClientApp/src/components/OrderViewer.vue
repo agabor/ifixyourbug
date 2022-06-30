@@ -9,18 +9,16 @@
                 <i :class="`ni ni-tag opacity-10 mt-2`"></i>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="d-flex flex-column align-items-center justify-content-center">
               <h2>{{ $t('orderViewer.title') }}</h2>
-              <div class="text-center ms-4">
-                <button type="button" class="btn bg-gradient-primary my-2">
-                  {{ order.state == 0 ? $t('orderViewer.submitted') :
-                    order.state == 1 ? $t('orderViewer.accepted') :
-                    order.state == 2 ? $t('orderViewer.rejected') :
-                    order.state == 3 ? $t('orderViewer.payed') :
-                    order.state == 4 ? $t('orderViewer.completed') :
-                    $t('orderViewer.refundable')
-                  }}
-                </button>
+              <div class="text-center my-4 py-2 px-4 bg-gradient-primary rounded-pill text-white text-uppercase">
+                {{ order.state == 0 ? $t('orderViewer.submitted') :
+                  order.state == 1 ? $t('orderViewer.accepted') :
+                  order.state == 2 ? $t('orderViewer.rejected') :
+                  order.state == 3 ? $t('orderViewer.payed') :
+                  order.state == 4 ? $t('orderViewer.completed') :
+                  $t('orderViewer.refundable')
+                }}
               </div>
             </div>
             <form>

@@ -201,12 +201,19 @@ export const messages = {
       },
     //OrderList
       orderList: {
-        number: 'Order number',
+        number: 'Number',
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
         applicationUrl: 'Application url',
         specificPlatform: 'Specific platform',
+        state: 'State',
+        submitted: 'Submitted',
+        accepted: 'Accepted',
+        rejected: 'Rejected',
+        payed: 'Payed',
+        completed: 'Completed',
+        refundable: 'Refundable',
       },
     //OrderView
       order: {

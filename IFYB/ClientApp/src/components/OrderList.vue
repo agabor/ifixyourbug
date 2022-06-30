@@ -8,6 +8,7 @@
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.applicationUrl') }}</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.specificPlatform') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.thirdPartyTool') }}</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.state') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
       </tr>
     </thead>
@@ -28,8 +29,18 @@
         <td>
           <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatform }}</span>
         </td>
-        <td class="align-middle text-center text-sm">
-          <span class="badge badge-sm badge-success">{{ order.thirdPartyTool }}</span>
+        <td>
+          <span class="text-secondary text-xs font-weight-bold">{{ order.thirdPartyTool }}</span>
+        </td>
+        <td>
+          <span class="badge badge-sm badge-success">{{
+            order.state == 0 ? $t('orderList.submitted') :
+            order.state == 1 ? $t('orderList.accepted') :
+            order.state == 2 ? $t('orderList.rejected') :
+            order.state == 3 ? $t('orderList.payed') :
+            order.state == 4 ? $t('orderList.completed') :
+            $t('orderList.refundable')
+          }}</span>
         </td>
         <td class="align-middle text-center">
           <span class="text-secondary text-xs font-weight-bold cursor-pointer" @click="$emit('openOrder', order)">
