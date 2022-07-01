@@ -2,11 +2,12 @@
   <section>
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
+      <confirmation-modal v-if="showModal" :title="$t('confirm.stateChangeTitle')" :description="$t('confirm.stateChangeDescription')" @confirm="changeOrderState" @cancel="cancelChangeOrderState"></confirmation-modal>
       <div class="carousel-inner">
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
-        <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @acceptOrder="acceptOrder" @rejectOrder="rejectOrder" @completedOrder="completedOrder" @refundableOrder="refundableOrder"></admin-order-viewer>
+        <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @changeOrderState="tryChangeOrderState"></admin-order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
       </div>
     </div>
@@ -19,11 +20,12 @@ import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
+import ConfirmationModal from '@/components/ConfirmationModal.vue';
 import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
   name: 'AdminView',
-  components: { CarouselItem, OrderList, AdminOrderViewer, OrderMessages },
+  components: { CarouselItem, OrderList, AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
     const { setServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
@@ -31,6 +33,8 @@ export default {
     const orders = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
+    const nextState = ref(null);
+    const showModal = ref(false);
 
     page.value = 'orders';
     setOrders();
@@ -83,47 +87,29 @@ export default {
       }
     }
 
-    async function acceptOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 1);
-      if(response.status == 200) {
-        setServerError(null);
-        selectedOrder.value.state = 1;
-      } else {
-        setServerError(response.statusText);
-      }
-    }
-    
-    async function rejectOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 2);
-      if(response.status == 200) {
-        setServerError(null);
-        selectedOrder.value.state = 2;
-      } else {
-        setServerError(response.statusText);
-      }
-    }
-    
-    async function completedOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 4);
-      if(response.status == 200) {
-        setServerError(null);
-        selectedOrder.value.state = 4;
-      } else {
-        setServerError(response.statusText);
-      }
-    }
-    
-    async function refundableOrder() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, 5);
-      if(response.status == 200) {
-        setServerError(null);
-        selectedOrder.value.state = 5;
-      } else {
-        setServerError(response.statusText);
-      }
+    function tryChangeOrderState(state) {
+      nextState.value = state;
+      showModal.value = true;
     }
 
-    return { page, orders, selectedOrder, messages, openOrder, closeSelectedOrder, submitMessage, acceptOrder, rejectOrder, completedOrder, refundableOrder }
+    async function changeOrderState() {
+      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, nextState.value);
+      if(response.status == 200) {
+        setServerError(null);
+        selectedOrder.value.state = nextState.value;
+        nextState.value = null;
+      } else {
+        setServerError(response.statusText);
+      }
+      showModal.value = false;
+    }
+
+    function cancelChangeOrderState() {
+      nextState.value = null;
+      showModal.value = false;
+    }
+
+    return { page, orders, selectedOrder, messages, showModal, openOrder, closeSelectedOrder, submitMessage, tryChangeOrderState, changeOrderState, cancelChangeOrderState }
   }
 }
 </script>

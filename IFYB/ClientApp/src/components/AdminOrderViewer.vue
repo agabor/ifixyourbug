@@ -24,18 +24,18 @@
               </div>
               <div class="d-flex align-items-center justify-content-center" v-if="order.state == 0">
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('acceptOrder')">{{ $t('orderViewer.accept') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1)">{{ $t('orderViewer.accept') }}</button>
                 </div>
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('rejectOrder')">{{ $t('orderViewer.reject') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2)">{{ $t('orderViewer.reject') }}</button>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center" v-if="order.state == 1">
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('completedOrder')">{{ $t('orderViewer.completed') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 4)">{{ $t('orderViewer.completed') }}</button>
                 </div>
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('refundableOrder')">{{ $t('orderViewer.refundable') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 5)">{{ $t('orderViewer.refundable') }}</button>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ export default {
   props: {
     order: Object,
   },
-  emits: ['back', 'acceptOrder', 'rejectOrder', 'completedOrder', 'refundableOrder' ],
+  emits: ['back', 'changeOrderState' ],
   setup(props) {
     const { setServerError } = useServerError();
     const { get } = useAdminAuthentication();

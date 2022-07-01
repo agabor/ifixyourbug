@@ -318,5 +318,12 @@ export const messages = {
         isPotentially: 'Is the bug potentially related to a third party library?',
         label: 'Third party library name',
       },
+    //ConfirmationModal
+      confirm: {
+        stateChangeTitle: 'Change of state',
+        stateChangeDescription: 'Do you really want to change the status of the state?',
+        cancel: 'Cancel',
+        confirm: 'Yes, got it!',
+      }
     }
   }
