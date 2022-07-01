@@ -13,15 +13,12 @@
               <div class="d-flex align-items-center justify-content-center">
                 <h2>{{ $t('orderViewer.title') }} {{ order.number }}</h2>
               </div>
-              <div class="text-center my-4 py-2 px-4 bg-gradient-primary rounded-pill text-white text-uppercase">
-                {{ order.state == 0 ? $t('orderViewer.submitted') :
-                  order.state == 1 ? $t('orderViewer.accepted') :
-                  order.state == 2 ? $t('orderViewer.rejected') :
-                  order.state == 3 ? $t('orderViewer.payed') :
-                  order.state == 4 ? $t('orderViewer.completed') :
-                  $t('orderViewer.refundable')
-                }}
-              </div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-dark" v-if="order.state == 0">{{ $t('orderList.submitted') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-info" v-else-if="order.state == 1">{{ $t('orderList.accepted') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 2">{{ $t('orderList.rejected') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light " v-else-if="order.state == 3">{{ $t('orderList.payed') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</div>
               <div class="d-flex align-items-center justify-content-center" v-if="order.state == 0">
                 <div class="text-center ms-4">
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1)">{{ $t('orderViewer.accept') }}</button>
