@@ -80,10 +80,16 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = order.Client;
         if(client != null) {
+            string link = $"https://ifyb.com/my-orders/{order.Number}";
             if(state == OrderState.Accepted){
                 string subject = $"We will process your order!";
                 string text = $"Dear {client.Name},\nWe’ve checked your order and we want to work with you. One of us will reach you out soon.\nWe accepted your order; our team is started to work on the solution for your bug.\nIf you have further questions, you can contact us.";
                 string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name });
+                EmailService.SendEmail(client.Email, subject, text, html);
+            } else if(state == OrderState.Rejected){
+                string subject = $"We rejected your order!";
+                string text = $"Dear {client.Name},\nWe're sorry, but we can't accept your order.\nThe reason is:\nIf you have further questions, you can contact us.";
+                string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
                 EmailService.SendEmail(client.Email, subject, text, html);
             }
         }
