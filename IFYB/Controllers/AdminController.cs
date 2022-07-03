@@ -64,9 +64,16 @@ public class AdminController : ControllerBase
         message.FromClient = false;
         order.Messages!.Add(message);
         dbContext.SaveChanges();
+        Client? client = order.Client;
+        if(client != null) {
+            string link = $"https://ifyb.com/my-orders/{order.Number}";
+            string subject = $"An admin sent you a message!";
+            string text = $"Dear {client.Name},\nOne of our admins has sent you a message in the {orderId} thread.\n{link}\nIf you have further questions, you can contact us.";
+            string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
+            EmailService.SendEmail(client.Email, subject, text, html);
+        }
         return Ok(message.ToDto());
     }
-
 
     [HttpPost]
     [Produces(typeof(OrderDto))]
