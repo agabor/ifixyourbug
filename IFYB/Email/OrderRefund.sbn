@@ -7,17 +7,17 @@
 <body>
     <div style="max-width:600px; margin:0 auto">
         <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
-            <h1>We can't fix your bug!</h1>
+            <h1>We can’t fix your bug!</h1>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
                 Dear {{name}},<br>
-                We're sorry to inform you that we can't fix your problem.<br>
+                We’re sorry to inform you that we can’t fix your problem.<br>
                 In this case you can start a refund process.
             </p>
             <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">Refund</span>
             </a>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
-                If you're interested, you can check out our reasons below.
+                If you’re interested, you can check out our reasons below.
             </p>
             <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">Check our results</span>

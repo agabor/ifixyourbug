@@ -9,13 +9,11 @@
         <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
             <h1>You have placed your order!</h1>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
-            Dear {{name}},<br>
-            Thank you for your order. We’ll contact you soon.
+                Dear {{name}},<br>
+                Thank you for your order. We’ll contact you soon.
             </p>
-        </div>
-        <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
             <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-            If you have further questions, you can contact us.
+                If you have further questions, you can contact us.
             </p>
         </div>
     </div>
