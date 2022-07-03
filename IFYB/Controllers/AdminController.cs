@@ -88,7 +88,7 @@ public class AdminController : ControllerBase
                 EmailService.SendEmail(client.Email, subject, text, html);
             } else if(state == OrderState.Rejected){
                 string subject = $"We rejected your order!";
-                string text = $"Dear {client.Name},\nWe're sorry, but we can't accept your order.\nThe reason is:\nIf you have further questions, you can contact us.";
+                string text = $"Dear {client.Name},\nWe're sorry, but we can't accept your order.\n{link}\nIf you have further questions, you can contact us.";
                 string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
                 EmailService.SendEmail(client.Email, subject, text, html);
             }
