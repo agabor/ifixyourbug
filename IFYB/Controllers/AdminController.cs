@@ -4,6 +4,8 @@ using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using IFYB.Filters;
 using Microsoft.EntityFrameworkCore;
+using Scriban;
+using IFYB.Services;
 
 namespace IFYB.Controllers;
 
@@ -14,10 +16,12 @@ namespace IFYB.Controllers;
 public class AdminController : ControllerBase
 {
     private ApplicationDbContext dbContext { get; }
+    public EmailService EmailService { get; }
 
-    public AdminController(ApplicationDbContext dbContext) 
+    public AdminController(ApplicationDbContext dbContext, EmailService emailService) 
     {
         this.dbContext = dbContext;
+        this.EmailService = emailService;
     }
 
 
@@ -74,6 +78,16 @@ public class AdminController : ControllerBase
             return NotFound();
         order.State = state;
         dbContext.SaveChanges();
+        Client? client = order.Client;
+        if(client != null) {
+            if(state == OrderState.Accepted){
+                string subject = $"We will process your order!";
+                string text = $"Dear {client.Name},\nWe’ve checked your order and we want to work with you. One of us will reach you out soon.\nWe accepted your order; our team is started to work on the solution for your bug.\nIf you have further questions, you can contact us.";
+                string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name });
+                EmailService.SendEmail(client.Email, subject, text, html);
+            }
+        }
+
         return Ok(order.ToDto());
     }
 
