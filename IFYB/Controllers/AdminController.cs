@@ -96,8 +96,15 @@ public class AdminController : ControllerBase
                 subject = $"We've fixed your bug!";
                 text = $"Dear {client.Name},\nWe've fixed your bug, please check it out!\n{link}\nIf you have further questions, you can contact us.";
                 html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link });
+            } else if(state == OrderState.Refundable){
+                subject = $"We can't fix your bug!";
+                text = $"Dear {client.Name},\nWe're sorry to inform you that we can't fix your problem.\nIn this case you can start a refund process.\n{link}If you're interested, you can check out our reasons below.\n{link}\nIf you have further questions, you can contact us.";
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
             }
-            EmailService.SendEmail(client.Email, subject, text, html);
+
+            if(subject != "") {
+                EmailService.SendEmail(client.Email, subject, text, html);
+            }
         }
         return Ok(order.ToDto());
     }
