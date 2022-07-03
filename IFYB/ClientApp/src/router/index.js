@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import OtherServices from '../views/OtherServices.vue';
 import OrderView from '../views/OrderView.vue';
 import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
@@ -31,6 +32,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/other-services',
+    name: 'other-services',
+    component: OtherServices
   },
   {
     path: '/order',

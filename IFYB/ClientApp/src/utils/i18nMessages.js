@@ -27,6 +27,7 @@ export const messages = {
         projectName: 'I Fix Your Bug',
         home: 'Home',
         myOrders: 'My orders',
+        otherServices: 'Other services',
         login: 'Login',
         logout: 'Logout',
       },
@@ -198,6 +199,40 @@ export const messages = {
         title: 'Thank you!',
         subTitle: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
+      },
+    //OtherServices
+      otherServices: {
+        pricing: 'Pricing',
+        title: 'See our pricing',
+        subTitle: 'You have Free Unlimited Updates and Premium Support on each package.',
+      },
+      otherCard1: {
+        title: 'Consultation',
+        price: '199',
+        element1: '1',
+        element2: '2',
+        element3: '3',
+        element4: '4',
+        button: 'Buy now'
+      },
+      otherCard2: {
+        title: 'Bug fixing',
+        price: '299',
+        element1: '1',
+        element2: '2',
+        element3: '3',
+        element4: '4',
+        element5: '5',
+        button: 'Try pro'
+      },
+      otherCard3: {
+        title: 'Code Review',
+        price: '399',
+        element1: '1',
+        element2: '2',
+        element3: '3',
+        element4: '4',
+        button: 'Buy now'
       },
     //OrderList
       orderList: {

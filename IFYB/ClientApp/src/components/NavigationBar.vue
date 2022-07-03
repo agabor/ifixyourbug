@@ -4,7 +4,8 @@
       <a class="navbar-brand font-weight-bolder cursor-pointer ms-sm-3" @click="$router.push('/')" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
         {{ $t('navigationBar.projectName') }}
       </a>
-      <a href="https://www.creative-tim.com/product/now-ui-design-system-pro#pricingCard" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 ms-auto d-lg-none d-block">Buy Now</a>
+      <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
+      <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="logout" v-else>{{ $t('navigationBar.logout') }}</a>
       <button class="navbar-toggler shadow-none ms-md-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
@@ -17,6 +18,11 @@
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/')">
               {{ $t('navigationBar.home') }}
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/other-services')">
+              {{ $t('navigationBar.otherServices') }}
             </a>
           </li>
           <li class="nav-item dropdown dropdown-hover mx-2" v-if="isUserLoggedIn">
