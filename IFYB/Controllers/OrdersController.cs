@@ -3,6 +3,8 @@ using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using IFYB.Filters;
+using Scriban;
+using IFYB.Services;
 
 namespace IFYB.Controllers;
 
@@ -12,8 +14,10 @@ namespace IFYB.Controllers;
 [ClientFilter]
 public class OrdersController : BaseController
 {
-    public OrdersController(ApplicationDbContext dbContext) : base(dbContext)
-     {
+    public EmailService EmailService { get; }
+    public OrdersController(ApplicationDbContext dbContext, EmailService emailService) : base(dbContext)
+    {
+        EmailService = emailService;
     }
 
     [HttpGet]
@@ -86,6 +90,10 @@ public class OrdersController : BaseController
         }
         client.Orders!.Add(order);
         dbContext.SaveChanges();
+        string subject = $"You have placed your order!";
+        string text = $"Dear {client.Name},\nThank you for your order. We’ll contact you soon.\nIf you have further questions, you can contact us.";
+        string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderSubmit.sbn")).Render(new { Name = client.Name });
+        EmailService.SendEmail(client.Email, subject, text, html);
         return Ok(new IdDto(order.Id));
     }
 }
