@@ -1,0 +1,4 @@
+Dear {{name}},\n
+One of our admins has sent you a message in the {{id}} thread.\n
+{{link}}\n
+If you have further questions, you can contact us.

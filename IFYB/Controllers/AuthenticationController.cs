@@ -61,7 +61,7 @@ public class AuthenticationController : BaseController
             client.Password = passwordHasher.HashPassword(client, password);
             string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
             string subject = $"Confirmation code: {textPassword}";
-            string text = $"Confirm your email address\nYour confirmation code is below — enter it in your open browser window and we’ll help you get signed in.\n\n{textPassword}\n\nIf you didn’t request this email, there’s nothing to worry about — you can safely ignore it.";
+            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/Authentication.sbn")).Render(new { Password = textPassword });
             string html = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = textPassword });
             EmailService.SendEmail(dto.Email, subject, text, html);
         }

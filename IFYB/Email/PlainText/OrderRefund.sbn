@@ -1,0 +1,7 @@
+Dear {{name}},\n
+We’re sorry to inform you that we can’t fix your problem.\n
+In this case you can start a refund process.\n
+{{link}}\n
+If you’re interested, you can check out our reasons below.\n
+{{link}}\n
+If you have further questions, you can contact us.

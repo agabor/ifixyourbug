@@ -68,7 +68,7 @@ public class AdminController : ControllerBase
         if(client != null) {
             string link = $"https://ifyb.com/my-orders/{order.Number}";
             string subject = $"An admin sent you a message!";
-            string text = $"Dear {client.Name},\nOne of our admins has sent you a message in the {orderId} thread.\n{link}\nIf you have further questions, you can contact us.";
+            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
             string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
             EmailService.SendEmail(client.Email, subject, text, html);
         }
@@ -91,21 +91,21 @@ public class AdminController : ControllerBase
             string subject = "";
             string text = "";
             string html = "";
-            if(state == OrderState.Accepted){
+            if(state == OrderState.Accepted) {
                 subject = $"We will process your order!";
-                text = $"Dear {client.Name},\nWe’ve checked your order and we want to work with you. One of us will reach you out soon.\nWe accepted your order; our team is started to work on the solution for your bug.\nIf you have further questions, you can contact us.";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name });
                 html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name });
-            } else if(state == OrderState.Rejected){
+            } else if(state == OrderState.Rejected) {
                 subject = $"We rejected your order!";
-                text = $"Dear {client.Name},\nWe're sorry, but we can't accept your order.\n{link}\nIf you have further questions, you can contact us.";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
                 html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
-            } else if(state == OrderState.Completed){
+            } else if(state == OrderState.Completed) {
                 subject = $"We've fixed your bug!";
-                text = $"Dear {client.Name},\nWe've fixed your bug, please check it out!\n{link}\nIf you have further questions, you can contact us.";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link });
                 html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link });
-            } else if(state == OrderState.Refundable){
+            } else if(state == OrderState.Refundable) {
                 subject = $"We can't fix your bug!";
-                text = $"Dear {client.Name},\nWe're sorry to inform you that we can't fix your problem.\nIn this case you can start a refund process.\n{link}If you're interested, you can check out our reasons below.\n{link}\nIf you have further questions, you can contact us.";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
                 html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
             }
 

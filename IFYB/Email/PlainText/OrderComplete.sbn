@@ -1,0 +1,4 @@
+Dear {{name}},\n
+We’ve fixed your bug, please check it out!\n
+{{link}}\n
+If you have further questions, you can contact us.
