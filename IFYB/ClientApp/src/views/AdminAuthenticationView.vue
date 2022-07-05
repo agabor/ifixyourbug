@@ -67,6 +67,7 @@ export default {
       });
       if(response.status == 200) {
         setServerError(null);
+        error.value = null;
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
         router.push(requestedPage.value);
