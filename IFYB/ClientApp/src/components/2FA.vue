@@ -45,7 +45,7 @@ export default {
     }
 
     function onInputChange(event, idx) {
-      let newValue = event.target.value;
+      let newValue = event.target.value.toUpperCase();
       if(newValue.length <= 2) {
         if(newValue && newValue.length == 1) {
           auth.value[idx] = newValue;
