@@ -14,6 +14,7 @@ public class Order
     public string? ThirdPartyTool { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
+    public int ClientId { get; set; }
     public Client? Client { get; set; }
     public List<Message>? Messages { get; set; }
     public int GitAccessId { get; set; }
@@ -41,7 +42,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Id, Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId);
+        return new OrderDto(Id, Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, ClientId);
     }
 }
 

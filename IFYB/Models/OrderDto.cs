@@ -15,8 +15,9 @@ public class OrderDto
     public OrderState State { get; set; }
     public List<MessageDto>? Messages { get; set; }
     public int GitAccessId { get; set; }
+    public int ClientId { get; set; }
 
-    public OrderDto(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId)
+    public OrderDto(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId, int clientId)
     {
         Id = id;
         Number = number;
@@ -30,6 +31,7 @@ public class OrderDto
         State = state;
         Messages = messages;
         GitAccessId = gitAccessId;
+        ClientId = clientId;
     }
 }
 

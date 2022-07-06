@@ -66,7 +66,8 @@ public class IFYBTests
             specificPlatformVersion = "10",
             thirdPartyTool = "",
             bugDescription = "bello",
-            gitAccessId = gitAccessId
+            gitAccessId = gitAccessId,
+            clientId = 1
         };
         response = await Post("api/orders", HttpStatusCode.OK, order);
         idToken = response.GetValue("id");

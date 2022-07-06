@@ -23,6 +23,10 @@ public class AdminController : ControllerBase
         this.dbContext = dbContext;
         this.EmailService = emailService;
     }
+    protected Client? GetClientById(int id)
+    {
+        return dbContext.Clients.Where(u => u.Id == id).FirstOrDefault();
+    }
 
 
     [HttpGet]
@@ -64,7 +68,7 @@ public class AdminController : ControllerBase
         message.FromClient = false;
         order.Messages!.Add(message);
         dbContext.SaveChanges();
-        Client? client = order.Client;
+        Client? client = GetClientById(order.ClientId);
         if(client != null) {
             string link = $"https://ifyb.com/my-orders/{order.Number}";
             string subject = $"An admin sent you a message!";
@@ -85,7 +89,7 @@ public class AdminController : ControllerBase
             return NotFound();
         order.State = state;
         dbContext.SaveChanges();
-        Client? client = order.Client;
+        Client? client = GetClientById(order.ClientId);
         if(client != null) {
             string link = $"https://ifyb.com/my-orders/{order.Number}";
             string subject = "";

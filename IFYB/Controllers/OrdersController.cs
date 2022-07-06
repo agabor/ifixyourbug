@@ -75,6 +75,7 @@ public class OrdersController : BaseController
         dbContext.Entry(client).Collection(c => c.Orders).Load();
         var order = Order.FromDto(dto);
         order.Id = 0;
+        order.ClientId = client.Id;
         string actualDate = DateTime.Now.ToString("yyMMdd");
         if(client.Orders.Count > 0) {
             var lastElement = client.Orders.Last();
