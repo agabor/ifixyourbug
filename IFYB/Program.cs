@@ -40,10 +40,12 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddSingleton<SecurityKey>(key);
 
 
-var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);
-smtpClient.EnableSsl = true;
-smtpClient.Credentials = new NetworkCredential(builder.Configuration["AwsSmtpUserName"], builder.Configuration["AwsSmtpPassword"]);
-builder.Services.AddSingleton(smtpClient);
+builder.Services.AddScoped<SmtpClient>(provider => {
+    var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);
+    smtpClient.EnableSsl = true;
+    smtpClient.Credentials = new NetworkCredential(builder.Configuration["AwsSmtpUserName"], builder.Configuration["AwsSmtpPassword"]);
+    return smtpClient;
+});
 
 builder.Services.AddScoped<EmailService>();
 
