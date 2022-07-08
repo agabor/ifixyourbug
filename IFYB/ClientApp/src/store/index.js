@@ -19,7 +19,8 @@ const inputErrors = ref({
   bugDescription: null,
   accessMode: null,
   repoUrl: null,
-  selectedAccess: null
+  selectedAccess: null,
+  confirmMessage: null
 });
 
 export function useInputError() {

@@ -22,6 +22,11 @@
             <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">Check our results</span>
             </a>
+            {{~ if message ~}}
+            <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
+                {{message}}
+            </p>
+            {{~ end ~}}
             <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
                 If you have further questions, you can contact us.
             </p>

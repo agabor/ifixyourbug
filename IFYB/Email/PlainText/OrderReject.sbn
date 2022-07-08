@@ -1,4 +1,7 @@
 Dear {{name}},\n
 We’re sorry, but we can’t accept your order.\n
 {{link}}\n
+{{~ if message ~}}
+{{message}}\n
+{{~ end ~}}
 If you have further questions, you can contact us.

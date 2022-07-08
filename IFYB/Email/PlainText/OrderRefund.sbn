@@ -4,4 +4,7 @@ In this case you can start a refund process.\n
 {{link}}\n
 If you’re interested, you can check out our reasons below.\n
 {{link}}\n
+{{~ if message ~}}
+{{message}}\n
+{{~ end ~}}
 If you have further questions, you can contact us.

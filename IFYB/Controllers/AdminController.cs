@@ -120,6 +120,47 @@ public class AdminController : ControllerBase
         return Ok(order.ToDto());
     }
 
+    [HttpPost]
+    [Produces(typeof(OrderDto))]
+    [Route("orders/{orderId}/state-with-msg")]
+    public IActionResult SetOrderStateWithMessage([FromBody] OrderStateWithMessageDto data, int orderId) {
+        dbContext.Database.EnsureCreated();
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        order.State = data.State;
+        dbContext.SaveChanges();
+        Client? client = GetClientById(order.ClientId);
+        if(client != null) {
+            string link = $"https://ifyb.com/my-orders/{order.Number}";
+            string subject = "";
+            string text = "";
+            string html = "";
+            if(data.State == OrderState.Accepted) {
+                subject = $"We will process your order!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message });
+            } else if(data.State == OrderState.Rejected) {
+                subject = $"We rejected your order!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+            } else if(data.State == OrderState.Completed) {
+                subject = $"We've fixed your bug!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+            } else if(data.State == OrderState.Refundable) {
+                subject = $"We can't fix your bug!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+            }
+
+            if(subject != "") {
+                EmailService.SendEmail(client.Email, subject, text, html);
+            }
+        }
+        return Ok(order.ToDto());
+    }
+
     [HttpGet]
     [Produces(typeof(IEnumerable<GitAccessDto>))]
     [Route("git-accesses/{accessId}")]

@@ -277,6 +277,7 @@ export const messages = {
       back: 'Back to list',
       accept: 'Accept',
       reject: 'Reject',
+      rejectWithMessage: 'Reject with message',
       submitted: 'Submitted',
       accepted: 'Accepted',
       rejected: 'Rejected',
@@ -357,6 +358,7 @@ export const messages = {
       confirm: {
         stateChangeTitle: 'Change of state',
         stateChangeDescription: 'Do you really want to change the status of the state?',
+        message: 'Message to the user',
         cancel: 'Cancel',
         confirm: 'Yes, got it!',
       }

@@ -21,18 +21,21 @@
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</div>
               <div class="d-flex align-items-center justify-content-center" v-if="order.state == 0">
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1)">{{ $t('orderViewer.accept') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1, false)">{{ $t('orderViewer.accept') }}</button>
                 </div>
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2)">{{ $t('orderViewer.reject') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, false)">{{ $t('orderViewer.reject') }}</button>
+                </div>
+                <div class="text-center ms-4">
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, true)">{{ $t('orderViewer.rejectWithMessage') }}</button>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center" v-if="order.state == 1">
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 4)">{{ $t('orderViewer.completed') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 4, false)">{{ $t('orderViewer.completed') }}</button>
                 </div>
                 <div class="text-center ms-4">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 5)">{{ $t('orderViewer.refundable') }}</button>
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 5, false)">{{ $t('orderViewer.refundable') }}</button>
                 </div>
               </div>
             </div>

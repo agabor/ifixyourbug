@@ -2,7 +2,7 @@
   <section>
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
-      <confirmation-modal v-if="showModal" :title="$t('confirm.stateChangeTitle')" :description="$t('confirm.stateChangeDescription')" @confirm="changeOrderState" @cancel="cancelChangeOrderState"></confirmation-modal>
+      <confirmation-modal v-if="showModal" v-model="stateMessage" :title="$t('confirm.stateChangeTitle')" :description="$t('confirm.stateChangeDescription')" :showError="showError" @confirm="changeOrderState" @cancel="cancelChangeOrderState"></confirmation-modal>
       <div class="carousel-inner">
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
@@ -34,7 +34,9 @@ export default {
     const messages = ref([]);
     const selectedOrder = ref(null);
     const nextState = ref(null);
+    const stateMessage = ref(null);
     const showModal = ref(false);
+    const showError = ref(false);
 
     page.value = 'orders';
     setOrders();
@@ -87,13 +89,29 @@ export default {
       }
     }
 
-    function tryChangeOrderState(state) {
+    function tryChangeOrderState(state, b) {
       nextState.value = state;
+      if(b) {
+        stateMessage.value = '';
+      } else {
+        stateMessage.value = null;
+      }
       showModal.value = true;
     }
 
     async function changeOrderState() {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, nextState.value);
+      console.log('stateMessage', stateMessage.value);
+      let response;
+      if(stateMessage.value !== null) {
+        if(stateMessage.value !== '') {
+          showError.value = false;
+          response = await post(`/api/admin/orders/${selectedOrder.value.id}/state-with-msg`, {state: nextState.value, message: stateMessage.value});
+        } else {
+          showError.value = true;
+        }
+      } else {
+        response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, nextState.value);
+      }
       if(response.status == 200) {
         setServerError(null);
         selectedOrder.value.state = nextState.value;
@@ -109,7 +127,7 @@ export default {
       showModal.value = false;
     }
 
-    return { page, orders, selectedOrder, messages, showModal, openOrder, closeSelectedOrder, submitMessage, tryChangeOrderState, changeOrderState, cancelChangeOrderState }
+    return { page, orders, selectedOrder, messages, showModal, stateMessage, showError, openOrder, closeSelectedOrder, submitMessage, tryChangeOrderState, changeOrderState, cancelChangeOrderState }
   }
 }
 </script>
