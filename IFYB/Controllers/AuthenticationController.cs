@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.IO;
 using Scriban;
 using IFYB.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IFYB.Controllers;
 
@@ -30,10 +31,9 @@ public class AuthenticationController : BaseController
 
     [HttpGet]
     [Route("check-jwt")]
+    [Authorize(Policy = Policies.ClientOnly)]
     public IActionResult CheckJwt()
     {
-        if (GetClient() == null)
-            return Forbid();
         return Ok();
     }
 
@@ -94,10 +94,9 @@ public class AuthenticationController : BaseController
 
     [HttpGet]
     [Route("admin/check-jwt")]
+    [Authorize(Policy = Policies.AdminOnly)]
     public IActionResult CheckAdminJwt()
     {
-        if (User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value != "admin")
-            return Forbid();
         return Ok();
     }
 
