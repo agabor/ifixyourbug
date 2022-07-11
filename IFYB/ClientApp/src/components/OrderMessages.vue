@@ -14,7 +14,13 @@
               <input id="messageInput" class="form-control" :placeholder="$t('orderMessages.newMessagePlaceholder')" type="text" @keyup.enter="trySubmitMessage()" v-model="newMessage">
               <i class="ni ni-send opacity-10 fs-4 mx-2 cursor-pointer fg-gradient-primary send-btn" @click="trySubmitMessage()"></i>
             </div>
-            <message-line :message="message.text" :isMyMessage="message.fromClient" :time="message.dateTime" v-for="message in messages" :key="message.dateTime"></message-line>
+            <message-line
+              :message="message.text"
+              :isMyMessage="message.fromClient"
+              :time="message.dateTime"
+              :prevDateTime="idx < messages.length-1 ? messages[idx+1].dateTime : null"
+              :prevIsMyMessage="idx < messages.length-1 ? messages[idx+1].fromClient : null"
+              v-for="(message, idx) in messages" :key="message.dateTime"></message-line>
           </div>
         </div>
       </div>
