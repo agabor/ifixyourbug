@@ -21,7 +21,7 @@ public class IFYBTests
     public async Task RegisterAndSendOrder()
     {
         await Get("api/reset", HttpStatusCode.OK);
-        await Get("api/authenticate/check-jwt", HttpStatusCode.Forbidden);
+        await Get("api/authenticate/check-jwt", HttpStatusCode.Unauthorized);
         
         var response = await Post("api/authenticate", HttpStatusCode.OK, new {
             email = "aa@bb.cc"
@@ -134,7 +134,7 @@ public class IFYBTests
         string? jwt = response.GetValue("jwt")?.ToString();
         Assert.IsNotNull(jwt);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
-        await GetArray("api/admin/contact-messages", HttpStatusCode.Unauthorized);
+        await GetArray("api/admin/contact-messages", HttpStatusCode.Forbidden);
     }
 
     private async Task<JObject> Get(string route, HttpStatusCode expectedStatus)

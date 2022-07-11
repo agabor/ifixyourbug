@@ -19,7 +19,7 @@ public class Order
     public List<Message>? Messages { get; set; }
     public int GitAccessId { get; set; }
     public GitAccess GitAccess { get; set; } = null!;
-
+    public string? PaymentToken { get; set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {

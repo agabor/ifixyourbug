@@ -8,8 +8,11 @@ using System.Net;
 using IFYB.Services;
 using System.Security.Claims;
 using IFYB;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
+
+StripeConfiguration.ApiKey = builder.Configuration["StripeApiKey"];
 
 // Add services to the container.
 
