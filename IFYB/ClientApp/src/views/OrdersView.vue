@@ -34,6 +34,7 @@ export default {
     const selectedOrder = ref(null);
 
     page.value = 'orders';
+    setServerError(null);
     setOrders();
 
     async function setOrders() {

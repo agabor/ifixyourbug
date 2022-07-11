@@ -86,11 +86,16 @@
 
 
 <script>
+import { useServerError } from "../store";
+
 export default {
   setup() {
     const faqBasicsCount = 5;
     const faqSettings = 5;
     const faqLicenses = 4;
+    const { setServerError } = useServerError();
+    
+    setServerError(null);
 
     return { faqBasicsCount, faqSettings, faqLicenses };
   }

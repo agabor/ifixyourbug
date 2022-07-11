@@ -97,9 +97,16 @@
 </template>
 
 <script>
+import { useServerError } from "../store";
 
 export default {
-  name: 'OtherServices'
+  name: 'OtherServices',
+  setup() {
+    const { setServerError } = useServerError();
+    setServerError(null);
+
+    return {};
+  }
 }
 </script>
 

@@ -80,6 +80,7 @@ export default {
     const error = ref(null);
     const page = ref('contact');
 
+    setServerError(null);
 
     function trySubmitMessage() {
       let err =  getFormError();

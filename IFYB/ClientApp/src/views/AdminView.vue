@@ -39,6 +39,7 @@ export default {
     const showError = ref(false);
 
     page.value = 'orders';
+    setServerError(null);
     setOrders();
 
     async function setOrders() {

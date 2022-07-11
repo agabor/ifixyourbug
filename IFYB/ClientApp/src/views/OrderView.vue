@@ -28,6 +28,7 @@ export default {
     const gitAccesses = ref([]);
 
     page.value = 'data';
+    setServerError(null);
     setGitAccesses();
     
     async function setGitAccesses() {

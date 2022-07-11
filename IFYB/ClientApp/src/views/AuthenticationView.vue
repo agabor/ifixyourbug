@@ -29,6 +29,8 @@ export default {
     const progress = ref(0);
     let clientId;
 
+    setServerError(null);
+    
     async function submitEmail(email) {
       progress.value = 30;
       let response = await fetch('/api/authenticate', {

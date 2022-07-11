@@ -28,6 +28,8 @@ export default {
     const error = ref(null);
     const progress = ref(0);
     let adminId;
+    
+    setServerError(null);
 
     async function submitEmail(email) {
       progress.value = 30;
