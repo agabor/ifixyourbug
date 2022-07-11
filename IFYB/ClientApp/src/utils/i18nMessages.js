@@ -250,6 +250,7 @@ export const messages = {
         payed: 'Payed',
         completed: 'Completed',
         refundable: 'Refundable',
+        addNewOrder: 'Add new order'
       },
     //OrderView
       order: {

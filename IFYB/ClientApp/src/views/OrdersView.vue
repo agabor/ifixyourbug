@@ -5,6 +5,7 @@
       <div class="carousel-inner">
         <carousel-item :class="{'active': page === 'orders'}" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
+          <button type="button" class="btn btn-rounded bg-gradient-primary mt-4 mb-0" @click="$router.push('/new-order')">{{ $t('orderList.addNewOrder') }}</button>
         </carousel-item>
         <order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder"></order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
