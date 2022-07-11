@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white top-0 z-index-3 shadow position-fixed py-2 start-0 end-0">
     <div class="container px-0">
-      <a class="navbar-brand font-weight-bolder cursor-pointer ms-sm-3" @click="$router.push('/')" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
+      <a class="navbar-brand font-weight-bolder cursor-pointer ms-sm-3" @click="isAdminLoggedIn ? $router.push('/admin') : $router.push('/')" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
         {{ $t('navigationBar.projectName') }}
       </a>
       <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
@@ -14,12 +14,14 @@
         </span>
       </button>
       <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
-        <ul class="navbar-nav navbar-nav-hover mx-auto">
+        <ul class="navbar-nav navbar-nav-hover mx-auto" v-if="isAdminLoggedIn">
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/')">
-              {{ $t('navigationBar.home') }}
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/admin')">
+              {{ $t('navigationBar.orders') }}
             </a>
           </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-hover mx-auto" v-else>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/other-services')">
               {{ $t('navigationBar.otherServices') }}
@@ -60,7 +62,7 @@ export default {
       router.push('/');
     }
 
-    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn }
+    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn }
   }
 }
 </script>

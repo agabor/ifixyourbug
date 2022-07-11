@@ -12,7 +12,7 @@
               <h2 class="text-dark mb-4">{{ $t('mainCard.subTitle') }}</h2>
               <p class="lead pe-md-5 me-md-5">{{ $t('mainCard.description') }}</p>
               <div class="buttons">
-                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/order')">{{ $t('mainCard.order') }}</button>
+                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/new-order')">{{ $t('mainCard.order') }}</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/faq')">{{ $t('mainCard.faq') }}</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
               </div>

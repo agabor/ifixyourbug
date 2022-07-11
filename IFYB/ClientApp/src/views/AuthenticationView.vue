@@ -83,7 +83,7 @@ export default {
       if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        router.push(requestedPage.value);
+        router.push(requestedPage.value ? requestedPage.value : '/my-orders');
       } else{
         setServerError(response.statusText);
       }
@@ -96,7 +96,7 @@ export default {
       } else if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        router.push(requestedPage.value);
+        router.push(requestedPage.value ? requestedPage.value : '/my-orders');
       } else{
         page.value = 'name';
         setServerError(response.statusText);

@@ -39,8 +39,8 @@ const routes = [
     component: OtherServices
   },
   {
-    path: '/order',
-    name: 'order',
+    path: '/new-order',
+    name: 'new-order',
     component: OrderView,
     beforeEnter: userAuthenticationGuard
   },
