@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 
@@ -25,6 +26,7 @@ public class PaymentController : BaseController
             var domain = "http://localhost:5000";
             var options = new SessionCreateOptions
             {
+                CustomerEmail = order.Client!.Email,
                 LineItems = new List<SessionLineItemOptions>
                 {
                   new SessionLineItemOptions
@@ -44,7 +46,23 @@ public class PaymentController : BaseController
             var service = new SessionService();
             Session session = service.Create(options);
 
+            string jsonString = JsonSerializer.Serialize(session);
+
+            Console.WriteLine(jsonString);
+            
+
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
+    }
+
+    [HttpPost]
+    [Route("hook")]
+    public async Task<IActionResult> OnPayment()
+    {
+      var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+      Console.WriteLine(json);
+
+      return Ok();
     }
 }
