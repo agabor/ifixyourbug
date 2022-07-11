@@ -2,14 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
-using IFYB.Filters;
 
 namespace IFYB.Controllers;
 
 [ApiController]
 [Route("api/git-accesses")]
-[Authorize]
-[ClientFilter]
+[Authorize(Policy = Policies.ClientOnly)]
 public class GitAccessesController : BaseController
 {
     public GitAccessesController(ApplicationDbContext dbContext) : base(dbContext) {

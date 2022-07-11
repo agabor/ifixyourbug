@@ -6,6 +6,8 @@ using System.Text;
 using System.Net.Mail;
 using System.Net;
 using IFYB.Services;
+using System.Security.Claims;
+using IFYB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,12 @@ builder.Services.AddAuthentication(option =>
             });
 builder.Services.AddSingleton<SecurityKey>(key);
 
+
+builder.Services.AddAuthorization(options =>
+{
+   options.AddPolicy(Policies.AdminOnly, policy => policy.RequireClaim(ClaimTypes.Role, Roles.Admin));
+   options.AddPolicy(Policies.ClientOnly, policy => policy.RequireClaim(ClaimTypes.Role, Roles.Client));
+});
 
 builder.Services.AddScoped<SmtpClient>(provider => {
     var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);

@@ -81,13 +81,13 @@ public class AuthenticationController : BaseController
         switch (passwordHasher.VerifyHashedPassword(client, client.Password, dto.Password))
         {
             case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(new Claim(ClaimTypes.Email, client.Email)));
+                return Ok(GenerateJWT(client.Email, Roles.Client));
             case PasswordVerificationResult.Failed:
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 client.Password = passwordHasher.HashPassword(client, dto.Password);
                 dbContext.SaveChanges();
-                return Ok(GenerateJWT(new Claim(ClaimTypes.Email, client.Email)));
+                return Ok(GenerateJWT(client.Email, Roles.Client));
         }
         return Forbid();
     }
@@ -128,24 +128,25 @@ public class AuthenticationController : BaseController
         switch (passwordHasher.VerifyHashedPassword(admin, admin.Password, dto.Password))
         {
             case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(new Claim(ClaimTypes.Role, "admin")));
+                return Ok(GenerateJWT(admin.Email, Roles.Admin));
             case PasswordVerificationResult.Failed:
                 return Forbid();
             case PasswordVerificationResult.SuccessRehashNeeded:
                 admin.Password = passwordHasher.HashPassword(admin, dto.Password);
                 dbContext.SaveChanges();
-                return Ok(GenerateJWT(new Claim(ClaimTypes.Role, "admin")));
+                return Ok(GenerateJWT(admin.Email, Roles.Admin));
         }
         return Forbid();
     }
 
-    private JwtDto GenerateJWT(Claim claim)
+    private JwtDto GenerateJWT(string email, string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] {
-                claim
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, role)
             }),
             Issuer = Configuration["JwtIssuer"],
             Audience = Configuration["JwtAudience"],

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
-using IFYB.Filters;
 using Microsoft.EntityFrameworkCore;
 using Scriban;
 using IFYB.Services;
@@ -11,8 +10,7 @@ namespace IFYB.Controllers;
 
 [ApiController]
 [Route("api/admin")]
-[Authorize]
-[AdminFilter]
+[Authorize(Policy = Policies.AdminOnly)]
 public class AdminController : ControllerBase
 {
     private ApplicationDbContext dbContext { get; }

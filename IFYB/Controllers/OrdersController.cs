@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
-using IFYB.Filters;
 using Scriban;
 using IFYB.Services;
 
@@ -10,8 +9,7 @@ namespace IFYB.Controllers;
 
 [ApiController]
 [Route("api/orders")]
-[Authorize]
-[ClientFilter]
+[Authorize(Policy = Policies.ClientOnly)]
 public class OrdersController : BaseController
 {
     public EmailService EmailService { get; }
