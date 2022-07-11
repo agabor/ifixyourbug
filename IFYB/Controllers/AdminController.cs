@@ -136,24 +136,27 @@ public class AdminController : ControllerBase
             string html = "";
             if(data.State == OrderState.Accepted) {
                 subject = $"We will process your order!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message });
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message.Text });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message.Text });
             } else if(data.State == OrderState.Rejected) {
                 subject = $"We rejected your order!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
             } else if(data.State == OrderState.Completed) {
                 subject = $"We've fixed your bug!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
             } else if(data.State == OrderState.Refundable) {
                 subject = $"We can't fix your bug!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message });
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
             }
-
             if(subject != "") {
                 EmailService.SendEmail(client.Email, subject, text, html);
+                dbContext.Entry(order).Collection(o => o.Messages!).Load();
+                AddMessage(data.Message, orderId);
+            } else {
+                return BadRequest();
             }
         }
         return Ok(order.ToDto());

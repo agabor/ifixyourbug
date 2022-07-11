@@ -4,9 +4,9 @@ namespace IFYB.Models;
 public class OrderStateWithMessageDto
 {
     public OrderState State { get; set; }
-    public string Message { get; set; }
+    public Message Message { get; set; }
 
-    public OrderStateWithMessageDto(OrderState state, string message)
+    public OrderStateWithMessageDto(OrderState state, Message message)
     {
         State = state;
         Message = message;

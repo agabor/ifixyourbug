@@ -105,7 +105,8 @@ export default {
       if(stateMessage.value !== null) {
         if(stateMessage.value !== '') {
           showError.value = false;
-          response = await post(`/api/admin/orders/${selectedOrder.value.id}/state-with-msg`, {state: nextState.value, message: stateMessage.value});
+          response = await post(`/api/admin/orders/${selectedOrder.value.id}/state-with-msg`, { state: nextState.value, message: { clientId: localStorage.getItem('adminId'), text: stateMessage.value }});
+          setMessages();
         } else {
           showError.value = true;
         }
