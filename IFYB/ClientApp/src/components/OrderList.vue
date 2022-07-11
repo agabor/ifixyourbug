@@ -40,8 +40,8 @@
           <span class="badge badge-sm badge-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</span>
           <span class="badge badge-sm badge-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</span>
         </td>
-        <td class="align-middle text-center">
-          <span class="text-secondary text-xs font-weight-bold cursor-pointer" @click="$emit('openOrder', order)">
+        <td class="align-middle text-center cursor-pointer" @click="$emit('openOrder', order)">
+          <span class="text-secondary text-xs font-weight-bold">
             <i class="ni ni-bold-right opacity-10"></i>
           </span>
         </td>

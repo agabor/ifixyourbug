@@ -29,6 +29,7 @@ export const messages = {
         myOrders: 'My orders',
         otherServices: 'Other services',
         orders: 'Orders',
+        clients: 'Clients',
         login: 'Login',
         logout: 'Logout',
       },
@@ -251,6 +252,12 @@ export const messages = {
         completed: 'Completed',
         refundable: 'Refundable',
         addNewOrder: 'Add new order'
+      },
+    //ClientList
+      clientList: {
+        name: 'Name',
+        email: 'Email',
+        messages: 'Messages',
       },
     //OrderView
       order: {

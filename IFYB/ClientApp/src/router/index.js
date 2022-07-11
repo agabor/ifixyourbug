@@ -6,6 +6,7 @@ import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
 import ContactForm from '../views/ContactForm.vue';
 import OrdersView from '../views/OrdersView.vue';
+import ClientsView from '../views/ClientsView.vue';
 import AuthenticationView from '../views/AuthenticationView.vue';
 import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
 import { useUserAuthentication, useAdminAuthentication } from '@/store';
@@ -53,6 +54,12 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminView,
+    beforeEnter: adminAuthenticationGuard
+  },
+  {
+    path: '/clients',
+    name: 'clients',
+    component: ClientsView,
     beforeEnter: adminAuthenticationGuard
   },
   {

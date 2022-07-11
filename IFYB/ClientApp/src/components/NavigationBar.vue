@@ -20,6 +20,11 @@
               {{ $t('navigationBar.orders') }}
             </a>
           </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/clients')">
+              {{ $t('navigationBar.clients') }}
+            </a>
+          </li>
         </ul>
         <ul class="navbar-nav navbar-nav-hover mx-auto" v-else>
           <li class="nav-item dropdown dropdown-hover mx-2">

@@ -26,7 +26,6 @@ public class AdminController : ControllerBase
         return dbContext.Clients.Where(u => u.Id == id).FirstOrDefault();
     }
 
-
     [HttpGet]
     [Route("contact-messages")]
     [Produces(typeof(ContactMessageDto))]
@@ -40,6 +39,13 @@ public class AdminController : ControllerBase
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
         return base.Ok(dbContext.Orders!.Select(o => o.ToDto()).ToList());
+    }
+
+    [HttpGet]
+    [Route("clients")]
+    [Produces(typeof(IEnumerable<Client>))]
+    public IActionResult ListClients() {
+        return base.Ok(dbContext.Clients!.Select(c => c).ToList());
     }
 
     [HttpGet]
