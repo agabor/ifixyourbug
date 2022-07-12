@@ -90,11 +90,13 @@ export function useUserAuthentication() {
 const adminJwt = ref(localStorage.getItem('adminJwt'));
 
 function setAdminJwt(jwt) {
-  if (jwt)
+  if (jwt) {
     localStorage.setItem('adminJwt', jwt);
-  else
+  } else {
     localStorage.removeItem('adminJwt');
-    adminJwt.value = jwt
+    localStorage.removeItem('adminId');
+  }
+  adminJwt.value = jwt
 }
 
 const isAdminLoggedIn = computed(() => adminJwt.value !== null);

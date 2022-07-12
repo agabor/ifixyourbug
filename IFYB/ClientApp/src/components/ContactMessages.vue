@@ -11,8 +11,8 @@
         </div>
       </div>
     </div>
-    <p v-if="!selectedClient">Select one</p>
-    <p v-else-if="messages.length == 0">Have no messages</p>
+    <p v-if="!selectedClient">{{ $t('contactMessages.select') }}</p>
+    <p v-else-if="messages.length == 0">{{ $t('contactMessages.haveNoMessages') }}</p>
     <message-line class="col-12"
       :message="message.text"
       :isMyMessage="message.fromClient"

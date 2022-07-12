@@ -196,11 +196,17 @@ export const messages = {
         howCanWeHelp: 'How can we help you?',
         problemDes: 'Describe your problem in at least 250 characters',
         sendMessage: 'Send Message',
+        createAccount: 'You are not currently logged in. If you send the message, we will create your account.'
       },
       contactSuccess: {
         title: 'Thank you!',
         subTitle: 'We will contact you shortly via email.',
         backToHome: 'Bact to home',
+      },
+    //ContactMessages
+      contactMessages: {
+        select: 'Select one client',
+        haveNoMessages: 'Have no messages'
       },
     //OtherServices
       otherServices: {

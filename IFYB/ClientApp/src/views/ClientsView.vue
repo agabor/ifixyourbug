@@ -9,7 +9,7 @@
               <client-list :clients="clients" :selectedClient="selectedClient" @selectClient="selectClient"></client-list>
             </div>
             <div class="col-9">
-              <contact-messages :messages="clientMessages" :selectedClient="selectedClient" @submitMessage="submitMessage"></contact-messages>
+              <contact-messages :messages="clientMessages" :selectedClient="selectedClient"></contact-messages>
             </div>
           </div>
         </carousel-item>
@@ -63,12 +63,7 @@ export default {
       }       
     }
 
-    async function submitMessage(message) {
-      console.log(message);
-      //later implementation
-    }
-
-    return { clients, selectedClient, clientMessages, selectClient, submitMessage }
+    return { clients, selectedClient, clientMessages, selectClient }
   }
 }
 </script>

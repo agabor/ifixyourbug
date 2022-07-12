@@ -41,4 +41,15 @@ public class ClientsController : BaseController
         dbContext.SaveChanges();
         return Ok();
     }
+
+    [HttpGet]
+    [Route("client")]
+    [Produces(typeof(ClientDto))]
+    public IActionResult GetLoggedClient()
+    {
+        var client = GetClient();
+        if (client == null || string.IsNullOrWhiteSpace(client.Name))
+            return NotFound();
+        return Ok(new ClientDto(client.Name, client.Email));
+    }
 }

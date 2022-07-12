@@ -16,13 +16,13 @@
                 <div class="col-md-6">
                   <label>{{ $t('contact.fullName') }}</label>
                   <div class="input-group mb-4">
-                    <input id="name-input" class="form-control" :placeholder="$t('contact.fullName')" type="text" v-model="contact.name" autofocus>
+                    <input id="name-input" class="form-control" :placeholder="$t('contact.fullName')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
                   </div>
                 </div>
                 <div class="col-md-6 ps-md-2">
                   <label>{{ $t('contact.email') }}</label>
                   <div class="input-group">
-                    <input type="email" id="email-input" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email">
+                    <input type="email" id="email-input" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
                   </div>
                 </div>
               </div>
@@ -33,10 +33,11 @@
               <div class="row">
                 <div class="alert alert-warning text-white font-weight-bold mt-3 mb-0" role="alert" v-if="error">
                   {{error}}
-                </div>
+                </div>                  
                 <div class="col-md-12 text-center mt-3">
                   <button type="submit" class="btn bg-gradient-primary" @click="trySubmitMessage">{{ $t('contact.sendMessage') }}</button>
                 </div>
+                <span class="text-danger text-center" v-if="!isLoggedIn"><em><small>{{ $t('contact.createAccount') }}</small></em></span>
               </div>
             </div>
           </div>
@@ -69,18 +70,35 @@
 import { ref } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
-import { useServerError } from "../store";
+import { useServerError, useUserAuthentication } from "../store";
 
 export default {
   name: 'ContactForm',
   setup() {
     const { setServerError } = useServerError();
+    const { get, isLoggedIn } = useUserAuthentication();
     const { tm } = useI18n();
-    const contact = ref({});
+    const contact = ref({
+      name: '',
+      email: ''
+    });
     const error = ref(null);
     const page = ref('contact');
 
     setServerError(null);
+    setClientContact();
+
+    async function setClientContact() {
+      let response = await get('/api/clients/client');
+      if(response.status == 200) {
+        setServerError(null);
+        let client = await response.json();
+        contact.value.name = client.name;
+        contact.value.email = client.email;
+      } else if(response.status != 401) {
+        setServerError(response.statusText);
+      }
+    }
 
     function trySubmitMessage() {
       let err =  getFormError();
@@ -121,7 +139,7 @@ export default {
       return err;
     }
 
-    return { contact, error, page, trySubmitMessage }
+    return { contact, error, page, isLoggedIn, trySubmitMessage }
   }
 }
 </script>
