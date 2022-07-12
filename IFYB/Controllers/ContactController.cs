@@ -2,6 +2,8 @@
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Scriban;
+using IFYB.Services;
 
 namespace IFYB.Controllers;
 
@@ -9,9 +11,10 @@ namespace IFYB.Controllers;
 [Route("api/contact")]
 public class ContactController : BaseController
 {
-    public ContactController(ApplicationDbContext dbContext) : base(dbContext)
+    public EmailService EmailService { get; }
+    public ContactController(ApplicationDbContext dbContext, EmailService emailService) : base(dbContext)
     {
-
+        EmailService = emailService;
     }
 
     [HttpPost]
@@ -35,6 +38,12 @@ public class ContactController : BaseController
             Client = client,
             DateTime = DateTime.UtcNow
         });
+        if(client != null) {
+            string subject = $"An admin sent you a message!";
+            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/ContactMessage.sbn")).Render(new { Name = client.Name });
+            string html = Template.Parse(System.IO.File.ReadAllText("Email/ContactMessage.sbn")).Render(new { Name = client.Name });
+            EmailService.SendEmail(client.Email, subject, text, html);
+        }
         dbContext.SaveChanges();
         return Ok();
     }
