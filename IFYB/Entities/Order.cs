@@ -20,6 +20,17 @@ public class Order
     public int GitAccessId { get; set; }
     public GitAccess GitAccess { get; set; } = null!;
     public string? PaymentToken { get; set; }
+    public string? StripeId { get; set; }
+    public string? CustomerName { get; set; }
+    public string? TaxId { get; set; }
+    public string? TaxIdType { get; set; }
+    public string? City { get; set; }
+    public string? Country { get; set; }
+    public string? Line1 { get; set; }
+    public string? Line2 { get; set; }
+    public string? PostalCode { get; set; }
+    public string? AddressState { get; set; }
+    public string? PaymentMethod { get; set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
