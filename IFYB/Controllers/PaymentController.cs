@@ -89,10 +89,6 @@ public class PaymentController : BaseController
           order.TaxIdType = taxIds[0].GetProperty("type").GetString();
           order.TaxId = taxIds[0].GetProperty("value").GetString();
         }
-        var paymentMethodTypes = customerDetails.GetProperty("payment_method_types");
-        if (paymentMethodTypes.GetArrayLength() > 0) {
-          order.PaymentMethod = paymentMethodTypes[0].GetString();
-        }
         order.State = OrderState.Payed;
         dbContext.SaveChanges();
       }
