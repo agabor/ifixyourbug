@@ -1,28 +1,8 @@
 <template>
-  <table class="table align-items-center mb-0">
-    <thead>
-      <tr>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('clientList.name') }}</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('clientList.email') }}</th>
-        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('clientList.messages') }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(client, idx) in clients" :key="idx">
-        <td>
-          <span class="text-secondary text-xs font-weight-bold">{{ client.name }}</span>
-        </td>
-        <td>
-          <span class="text-secondary text-xs font-weight-bold">{{ client.email }}</span>
-        </td>
-        <td class="align-middle text-center cursor-pointer" @click="$emit('openClient', client)">
-          <span class="text-secondary text-xs font-weight-bold">
-            <i class="ni ni-chat-round opacity-10"></i>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="text-start cursor-pointer px-2 py-1 my-1 text-truncate" :class="{'selected': selectedClient == client}" v-for="(client, idx) in clients" :key="idx" @click="$emit('selectClient', client)">
+    <p class="m-0 fw-bolder">{{ client.name }}</p>
+    <span class="text-secondary text-xs font-weight-bold">{{ client.email }}</span>
+  </div>
 </template>
 
 <script>
@@ -30,14 +10,20 @@
 export default {
   name: 'clientList',
   props: {
-    clients: Array
+    clients: Array,
+    selectedClient: Object
   },
-  emits: ['openClient']
+  emits: ['selectClient']
 }
 </script>
 
 <style scoped>
-  td > span {
-    white-space: pre-line;
+  .cursor-pointer:hover {
+    background-color:whitesmoke;
+    border-radius: 10px;
+  }
+  .selected {
+    background-color:whitesmoke;
+    border-radius: 10px;
   }
 </style>

@@ -32,7 +32,15 @@ public class AdminController : ControllerBase
     [Produces(typeof(ContactMessageDto))]
     public IActionResult GetContactMessages()
     {
-        return Ok(dbContext.Messages.Include(m => m.Client).Where(m => m.OrderId == null).Select(m => new ContactMessageDto(m.Client!.Name!, m.Client.Email, m.Text)));
+        return Ok(dbContext.Messages.Include(m => m.Client).Where(m => m.OrderId == null).Select(m => new ContactMessageDto(m.Client!.Name!, m.Client.Email, m.Text, m.DateTime)));
+    }
+
+    [HttpGet]
+    [Route("contact-messages/{clientId}")]
+    [Produces(typeof(ContactMessageDto))]
+    public IActionResult GetClientContactMessages(int clientId)
+    {
+        return Ok(dbContext.Messages.Include(m => m.Client).Where(m => m.OrderId == null && m.ClientId == clientId).Select(m => new ContactMessageDto(m.Client!.Name!, m.Client.Email, m.Text, m.DateTime)));
     }
 
     [HttpGet]
