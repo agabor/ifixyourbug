@@ -100,54 +100,17 @@ public class AdminController : ControllerBase
     [Route("orders/{orderId}/state")]
     public IActionResult SetOrderState([FromBody] OrderState state, int orderId)
     {
-        dbContext.Database.EnsureCreated();
         var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
         order.State = state;
-        Client? client = GetClientById(order.ClientId);
-        if (client == null)
-            return BadRequest();
-        
+
         if (state == OrderState.Accepted)
         {
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
         dbContext.SaveChanges();
-        string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
-        string subject = "";
-        string text = "";
-        string html = "";
-        if (state == OrderState.Accepted)
-        {
-            subject = $"We will process your order!";
-            string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
-            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
-            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
-        }
-        else if (state == OrderState.Rejected)
-        {
-            subject = $"We rejected your order!";
-            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
-            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link });
-        }
-        else if (state == OrderState.Completed)
-        {
-            subject = $"We've fixed your bug!";
-            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link });
-            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link });
-        }
-        else if (state == OrderState.Refundable)
-        {
-            subject = $"We can't fix your bug!";
-            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
-            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
-        }
-
-        if (subject != "")
-        {
-            EmailService.SendEmail(client.Email, subject, text, html);
-        }
+        EmailService.SendOrderStateEmail(order);
         return Ok(order.ToDto());
     }
 
@@ -155,43 +118,23 @@ public class AdminController : ControllerBase
     [Produces(typeof(OrderDto))]
     [Route("orders/{orderId}/state-with-msg")]
     public IActionResult SetOrderStateWithMessage([FromBody] OrderStateWithMessageDto data, int orderId) {
-        dbContext.Database.EnsureCreated();
         var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
         if (order == null)
             return NotFound();
         order.State = data.State;
-        dbContext.SaveChanges();
-        Client? client = GetClientById(order.ClientId);
-        if(client != null) {
-            string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
-            string subject = "";
-            string text = "";
-            string html = "";
-            if(data.State == OrderState.Accepted) {
-                subject = $"We will process your order!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message.Text });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, Message = data.Message.Text });
-            } else if(data.State == OrderState.Rejected) {
-                subject = $"We rejected your order!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-            } else if(data.State == OrderState.Completed) {
-                subject = $"We've fixed your bug!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-            } else if(data.State == OrderState.Refundable) {
-                subject = $"We can't fix your bug!";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link, Message = data.Message.Text });
-            }
-            if(subject != "") {
-                EmailService.SendEmail(client.Email, subject, text, html);
-                dbContext.Entry(order).Collection(o => o.Messages!).Load();
-                AddMessage(data.Message, orderId);
-            } else {
-                return BadRequest();
-            }
+
+        if (data.State == OrderState.Accepted)
+        {
+            order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
+        dbContext.SaveChanges();
+        EmailService.SendOrderStateEmail(order, data.Message.Text);
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
+        data.Message.OrderId = order.Id;
+        data.Message.DateTime = DateTime.UtcNow;
+        data.Message.FromClient = false;
+        order.Messages!.Add(data.Message);
+        dbContext.SaveChanges();
         return Ok(order.ToDto());
     }
 

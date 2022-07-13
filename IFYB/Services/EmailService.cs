@@ -1,13 +1,19 @@
 
 using System.Net.Mail;
+using IFYB.Entities;
+using Microsoft.Extensions.Options;
+using Scriban;
 
 namespace IFYB.Services;
 public class EmailService
 {
-
-    public SmtpClient SmtpClient { get; }
-    public EmailService( SmtpClient smtpClient){
-        SmtpClient = smtpClient;
+    private readonly ApplicationDbContext dbContext;
+    private readonly AppOptions appOptions;
+    private readonly SmtpClient smtpClient;
+    public EmailService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions){
+        this.smtpClient = smtpClient;
+        this.dbContext = dbContext;
+        this.appOptions = appOptions.Value;
     }
 
     public void SendEmail(string toEmail, string subject, string text, string html)
@@ -24,6 +30,48 @@ public class EmailService
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(html, mimeType);
         message.AlternateViews.Add(alternate);
 
-        SmtpClient.Send(message);
+        smtpClient.Send(message);
     }
+
+
+    public void SendOrderStateEmail(Order order, string? message = null)
+    {
+        string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
+        string subject = "";
+        string text = "";
+        string html = "";
+
+        dbContext.Entry(order).Reference(o => o.Client).Load();
+        var client = order.Client!;
+        switch (order.State)
+        {
+            case OrderState.Accepted:
+                subject = $"We will process your order!";
+                string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Message = message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Message = message });
+                break;
+            case OrderState.Rejected:
+                subject = $"We rejected your order!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderReject.sbn")).Render(new { client.Name, Link = link, Message = message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderReject.sbn")).Render(new { client.Name, Link = link, Message = message });
+                break;
+            case OrderState.Completed:
+                subject = $"We've fixed your bug!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderComplete.sbn")).Render(new { client.Name, Link = link, Message = message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderComplete.sbn")).Render(new { client.Name, Link = link, Message = message });
+                break;
+            case OrderState.Refundable:
+                subject = $"We can't fix your bug!";
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { client.Name, Link = link, Message = message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { client.Name, Link = link, Message = message });
+                break;
+        }
+
+        if (subject != "")
+        {
+            SendEmail(client.Email, subject, text, html);
+        }
+    }
+
 }

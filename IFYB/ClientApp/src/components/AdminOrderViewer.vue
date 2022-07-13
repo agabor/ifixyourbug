@@ -30,7 +30,7 @@
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, true)">{{ $t('orderViewer.rejectWithMessage') }}</button>
                 </div>
               </div>
-              <div class="d-flex align-items-center justify-content-center" v-if="order.state == 1">
+              <div class="d-flex align-items-center justify-content-center" v-if="order.state == 3">
                 <div class="text-center ms-4">
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 4, false)">{{ $t('orderViewer.completed') }}</button>
                 </div>
