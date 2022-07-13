@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Scriban;
 using IFYB.Services;
+using Microsoft.Extensions.Options;
 
 namespace IFYB.Controllers;
 
@@ -13,16 +14,16 @@ namespace IFYB.Controllers;
 [Authorize(Policy = Policies.AdminOnly)]
 public class AdminController : ControllerBase
 {
-    private readonly string baseUrl;
+    private readonly AppOptions appOptions;
 
     private ApplicationDbContext dbContext { get; }
     public EmailService EmailService { get; }
 
-    public AdminController(ApplicationDbContext dbContext, EmailService emailService, IConfiguration config) 
+    public AdminController(ApplicationDbContext dbContext, EmailService emailService, IOptions<AppOptions> appOptions) 
     {
         this.dbContext = dbContext;
         this.EmailService = emailService;
-        baseUrl = config["BaseUrl"];
+        this.appOptions = appOptions.Value;
     }
     protected Client? GetClientById(int id)
     {
@@ -85,7 +86,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            string link = $"{baseUrl}/my-orders/{order.Number}";
+            string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
             string subject = $"An admin sent you a message!";
             string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
             string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
@@ -107,15 +108,20 @@ public class AdminController : ControllerBase
         Client? client = GetClientById(order.ClientId);
         if (client == null)
             return BadRequest();
-        string link = $"{baseUrl}/my-orders/{order.Number}";
+        
+        if (state == OrderState.Accepted)
+        {
+            order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
+        }
+        dbContext.SaveChanges();
+        string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
         string subject = "";
         string text = "";
         string html = "";
         if (state == OrderState.Accepted)
         {
-            order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
             subject = $"We will process your order!";
-            string paymentLink = $"{baseUrl}/checkout/{order.PaymentToken}";
+            string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
             text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
             html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
         }
@@ -137,7 +143,6 @@ public class AdminController : ControllerBase
             text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
             html = Template.Parse(System.IO.File.ReadAllText("Email/OrderRefund.sbn")).Render(new { Name = client.Name, Link = link });
         }
-        dbContext.SaveChanges();
 
         if (subject != "")
         {
@@ -158,7 +163,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            string link = $"{baseUrl}/my-orders/{order.Number}";
+            string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
             string subject = "";
             string text = "";
             string html = "";

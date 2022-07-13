@@ -10,6 +10,7 @@ using System.IO;
 using Scriban;
 using IFYB.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 namespace IFYB.Controllers;
 
@@ -17,13 +18,16 @@ namespace IFYB.Controllers;
 [Route("api/authenticate")]
 public class AuthenticationController : BaseController
 {
-    private IConfiguration Configuration { get; }
+    private readonly AppOptions appOptions;
+    private readonly JwtOptions jwtOptions;
+
     private SecurityKey SecurityKey { get; }
     public EmailService EmailService { get; }
 
-    public AuthenticationController(ApplicationDbContext dbContext, IConfiguration configuration, SecurityKey securityKey, EmailService emailService) : base(dbContext)
+    public AuthenticationController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<JwtOptions> jwtOptions, SecurityKey securityKey, EmailService emailService) : base(dbContext)
     {
-        Configuration = configuration;
+        this.appOptions = appOptions.Value;
+        this.jwtOptions = jwtOptions.Value;
         SecurityKey = securityKey;
         EmailService = emailService;
     }
@@ -47,7 +51,7 @@ public class AuthenticationController : BaseController
             dbContext.Clients.Add(client);
         }
         var passwordHasher = new PasswordHasher<Client>();
-        if (!bool.Parse(Configuration["SendEmails"])) {
+        if (!appOptions.SendEmails) {
             client.Password = passwordHasher.HashPassword(client, "123456");
         } else
         {
@@ -147,8 +151,8 @@ public class AuthenticationController : BaseController
                 new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.Role, role)
             }),
-            Issuer = Configuration["JwtIssuer"],
-            Audience = Configuration["JwtAudience"],
+            Issuer = jwtOptions.Issuer,
+            Audience = jwtOptions.Audience,
             Expires = DateTime.UtcNow.AddDays(1),
             SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256Signature)
         };

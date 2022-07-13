@@ -2,6 +2,7 @@ using System.Text.Json;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
 
@@ -11,11 +12,13 @@ namespace IFYB.Controllers;
 [Route("api/pay")]
 public class PaymentController : BaseController
 {
-    private readonly IConfiguration config;
+    private readonly AppOptions appOptions;
+    private readonly StripeOptions stripeOptions;
 
-    public PaymentController(ApplicationDbContext dbContext, IConfiguration config) : base(dbContext)
+    public PaymentController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<StripeOptions> stripeOptions) : base(dbContext)
     {
-        this.config = config;
+        this.appOptions = appOptions.Value;
+        this.stripeOptions = stripeOptions.Value;
     }
 
     [HttpGet]
@@ -40,7 +43,6 @@ public class PaymentController : BaseController
       if (order.State != OrderState.Accepted)
         return BadRequest();
       dbContext.Entry(order).Reference(o => o.Client).Load();
-      var domain = config["BaseUrl"];
       var options = new SessionCreateOptions
       {
           CustomerEmail = order.Client!.Email,
@@ -48,7 +50,7 @@ public class PaymentController : BaseController
           {
             new SessionLineItemOptions
             {
-              Price = config["StripePriceId"],
+              Price = stripeOptions.PriceId,
               Quantity = 1,
             },
           },
@@ -57,8 +59,8 @@ public class PaymentController : BaseController
           TaxIdCollection = new SessionTaxIdCollectionOptions {
               Enabled = true
           },
-          SuccessUrl = $"{domain}/checkout-success/{paymentToken}",
-          CancelUrl = $"{domain}/checkout-failed/{paymentToken}",
+          SuccessUrl = $"{appOptions.BaseUrl}/checkout-success/{paymentToken}",
+          CancelUrl = $"{appOptions.BaseUrl}/checkout-failed/{paymentToken}",
       };
       var service = new SessionService();
       Session session = service.Create(options);
@@ -76,7 +78,7 @@ public class PaymentController : BaseController
       try
       {
           var stripeEvent = EventUtility.ConstructEvent(jsonString,
-              Request.Headers["Stripe-Signature"], config["StripeHookKey"]);
+              Request.Headers["Stripe-Signature"], stripeOptions.HookKey);
 
           if (stripeEvent.Type == Events.CheckoutSessionCompleted)
           {

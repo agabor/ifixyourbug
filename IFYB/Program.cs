@@ -12,7 +12,8 @@ using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
-StripeConfiguration.ApiKey = builder.Configuration["StripeApiKey"];
+var stripeOptions = builder.Configuration.GetSection(StripeOptions.Stripe).Get<StripeOptions>();
+StripeConfiguration.ApiKey = stripeOptions.ApiKey;
 
 // Add services to the container.
 
@@ -22,8 +23,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
-
-var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtKey"]));
+builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptions.Host));
+builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(StripeOptions.Stripe));
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
+var jwtOptions = builder.Configuration.GetSection(JwtOptions.Jwt).Get<JwtOptions>();
+var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Key));
 
 builder.Services.AddAuthentication(option =>
             {
@@ -36,8 +40,8 @@ builder.Services.AddAuthentication(option =>
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = builder.Configuration["JwtIssuer"],
-                    ValidAudience = builder.Configuration["JwtAudience"],
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = key
                 };
@@ -51,10 +55,11 @@ builder.Services.AddAuthorization(options =>
    options.AddPolicy(Policies.ClientOnly, policy => policy.RequireClaim(ClaimTypes.Role, Roles.Client));
 });
 
+var awsOptions = builder.Configuration.GetSection(AwsOptions.Aws).Get<AwsOptions>();
 builder.Services.AddScoped<SmtpClient>(provider => {
-    var smtpClient = new SmtpClient("email-smtp.eu-central-1.amazonaws.com", 587);
+    var smtpClient = new SmtpClient(awsOptions.SmtpHost, awsOptions.SmtpPort);
     smtpClient.EnableSsl = true;
-    smtpClient.Credentials = new NetworkCredential(builder.Configuration["AwsSmtpUserName"], builder.Configuration["AwsSmtpPassword"]);
+    smtpClient.Credentials = new NetworkCredential(awsOptions.SmtpUserName, awsOptions.SmtpPassword);
     return smtpClient;
 });
 
