@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Threading.Channels;
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ public class PaymentController : BaseController
 {
     private readonly AppOptions appOptions;
     private readonly StripeOptions stripeOptions;
+    private readonly Channel<Entities.Order> billingChannel;
 
-    public PaymentController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<StripeOptions> stripeOptions) : base(dbContext)
+    public PaymentController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<StripeOptions> stripeOptions, Channel<Entities.Order> billingChannel) : base(dbContext)
     {
         this.appOptions = appOptions.Value;
         this.stripeOptions = stripeOptions.Value;
+        this.billingChannel = billingChannel;
     }
 
     [HttpGet]
@@ -105,6 +108,7 @@ public class PaymentController : BaseController
               order.State = OrderState.Payed;
               order.PaymentToken = null;
               dbContext.SaveChanges();
+              billingChannel.Writer.TryWrite(order);
           }
 
           return Ok();
