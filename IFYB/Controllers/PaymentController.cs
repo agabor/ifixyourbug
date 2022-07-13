@@ -1,5 +1,6 @@
 using System.Text.Json;
 using IFYB.Entities;
+using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
@@ -19,6 +20,18 @@ public class PaymentController : BaseController
 
     [HttpGet]
     [Route("{paymentToken}")]
+    [Produces(typeof(OrderDto))]
+    public IActionResult CheckPaymentToken(string paymentToken)
+    {
+      var order = dbContext.Orders.FirstOrDefault(o => o.PaymentToken == paymentToken);
+      if (order == null)
+          return NotFound();
+      return Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    [Route("{paymentToken}")]
+    [Produces(typeof(UrlDto))]
     public IActionResult Pay(string paymentToken)
     {
       var order = dbContext.Orders.FirstOrDefault(o => o.PaymentToken == paymentToken);
@@ -27,7 +40,7 @@ public class PaymentController : BaseController
       if (order.State != OrderState.Accepted)
         return BadRequest();
       dbContext.Entry(order).Reference(o => o.Client).Load();
-      var domain = "http://localhost:5000";
+      var domain = config["BaseUrl"];
       var options = new SessionCreateOptions
       {
           CustomerEmail = order.Client!.Email,
@@ -44,21 +57,15 @@ public class PaymentController : BaseController
           TaxIdCollection = new SessionTaxIdCollectionOptions {
               Enabled = true
           },
-          SuccessUrl = domain + "/success.html",
-          CancelUrl = domain + "/cancel.html",
+          SuccessUrl = $"{domain}/checkout-success/{paymentToken}",
+          CancelUrl = $"{domain}/checkout-failed/{paymentToken}",
       };
       var service = new SessionService();
       Session session = service.Create(options);
       order.StripeId = session.Id;
       dbContext.SaveChanges();
-
-      string jsonString = JsonSerializer.Serialize(session);
-
-      Console.WriteLine(jsonString);
       
-
-      Response.Headers.Add("Location", session.Url);
-      return new StatusCodeResult(303);
+      return Ok(new UrlDto(session.Url));
     }
 
     [HttpPost]
@@ -94,6 +101,7 @@ public class PaymentController : BaseController
                 order.TaxId = taxIds.First().Value;
               }
               order.State = OrderState.Payed;
+              order.PaymentToken = null;
               dbContext.SaveChanges();
           }
 

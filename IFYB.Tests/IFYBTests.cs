@@ -111,7 +111,9 @@ public class IFYBTests
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwt);
 
         var messages = await GetArray("api/admin/contact-messages", HttpStatusCode.OK);
-        Assert.AreEqual(JObject.FromObject(message).ToString(), messages[0].ToString());
+        var remoteMessage = messages[0] as JObject;
+        remoteMessage!.Remove("dateTime");
+        Assert.AreEqual(JObject.FromObject(message).ToString(), remoteMessage.ToString());
     }
 
     [TestMethod]

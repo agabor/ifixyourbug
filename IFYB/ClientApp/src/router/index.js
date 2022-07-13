@@ -9,10 +9,22 @@ import OrdersView from '../views/OrdersView.vue';
 import ClientsView from '../views/ClientsView.vue';
 import AuthenticationView from '../views/AuthenticationView.vue';
 import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
-import { useUserAuthentication, useAdminAuthentication } from '@/store';
+import CheckoutView from '../views/CheckoutView.vue';
+import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
+import CheckoutFailureView from '../views/CheckoutFailureView.vue';
+import { useUserAuthentication, useAdminAuthentication, usePayment } from '@/store';
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
+const payment = usePayment();
+
+function paymentGuard(to) {
+  if (payment.isPaymentInProgress(to.params.token)) {
+    payment.clearPaymentToken();
+    return true
+  }
+  return { path: '/' }
+}
 
 function userAuthenticationGuard(to) {
   if (userAuth.isLoggedIn.value)
@@ -82,6 +94,23 @@ const routes = [
     path: '/admin-authentication',
     name: 'admin-authentication',
     component: AdminAuthenticationView
+  },
+  {
+    path: '/checkout/:token',
+    name: 'checkout',
+    component: CheckoutView
+  },
+  {
+    path: '/checkout-success/:token',
+    name: 'checkout-success',
+    component: CheckoutSuccessView,
+    beforeEnter: paymentGuard
+  },
+  {
+    path: '/checkout-failed/:token',
+    name: 'checkout-failed',
+    component: CheckoutFailureView,
+    beforeEnter: paymentGuard
   }
 ]
 

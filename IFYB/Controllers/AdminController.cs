@@ -13,14 +13,16 @@ namespace IFYB.Controllers;
 [Authorize(Policy = Policies.AdminOnly)]
 public class AdminController : ControllerBase
 {
+    private readonly string baseUrl;
 
     private ApplicationDbContext dbContext { get; }
     public EmailService EmailService { get; }
 
-    public AdminController(ApplicationDbContext dbContext, EmailService emailService) 
+    public AdminController(ApplicationDbContext dbContext, EmailService emailService, IConfiguration config) 
     {
         this.dbContext = dbContext;
         this.EmailService = emailService;
+        baseUrl = config["BaseUrl"];
     }
     protected Client? GetClientById(int id)
     {
@@ -83,7 +85,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            string link = $"https://ifyb.com/my-orders/{order.Number}";
+            string link = $"{baseUrl}/my-orders/{order.Number}";
             string subject = $"An admin sent you a message!";
             string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
             string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number });
@@ -105,7 +107,7 @@ public class AdminController : ControllerBase
         Client? client = GetClientById(order.ClientId);
         if (client == null)
             return BadRequest();
-        string link = $"https://ifyb.com/my-orders/{order.Number}";
+        string link = $"{baseUrl}/my-orders/{order.Number}";
         string subject = "";
         string text = "";
         string html = "";
@@ -113,8 +115,9 @@ public class AdminController : ControllerBase
         {
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
             subject = $"We will process your order!";
-            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentToken = order.PaymentToken });
-            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentToken = order.PaymentToken });
+            string paymentLink = $"{baseUrl}/checkout/{order.PaymentToken}";
+            text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
+            html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { Name = client.Name, PaymentLink = paymentLink });
         }
         else if (state == OrderState.Rejected)
         {
@@ -155,7 +158,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            string link = $"https://ifyb.com/my-orders/{order.Number}";
+            string link = $"{baseUrl}/my-orders/{order.Number}";
             string subject = "";
             string text = "";
             string html = "";

@@ -21,7 +21,7 @@
                 If you have further questions, you can contact us.
             </p>
             <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-                Payment link: {{payment_token}}
+                Payment link: <a href="{{payment_link}}">{{payment_link}}</a>
             </p>
         </div>
     </div>
