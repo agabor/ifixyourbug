@@ -1,6 +1,7 @@
 using System.Text.Json;
 using IFYB.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using Stripe.Checkout;
 
 namespace IFYB.Controllers;
@@ -65,34 +66,42 @@ public class PaymentController : BaseController
     public async Task<IActionResult> OnPayment()
     {
       var jsonString = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-
-      Console.WriteLine(jsonString);
-      var json = JsonDocument.Parse(jsonString).RootElement;
-      if (json.GetProperty("type").GetString() == "checkout.session.completed")
+      try
       {
-        var sessionObject = json.GetProperty("data").GetProperty("object");
-        var id = sessionObject.GetProperty("id").GetString();
-        var order = dbContext.Orders.FirstOrDefault(p => p.StripeId == id);
-        if (order == null)
-          return NotFound();
-        var customerDetails = sessionObject.GetProperty("customer_details");
-        var address = customerDetails.GetProperty("address");
-        order.City = address.GetProperty("city").GetString();
-        order.Country = address.GetProperty("country").GetString();
-        order.Line1 = address.GetProperty("line1").GetString();
-        order.Line2 = address.GetProperty("line2").GetString();
-        order.PostalCode = address.GetProperty("postal_code").GetString();
-        order.AddressState = address.GetProperty("state").GetString();
-        order.CustomerName = customerDetails.GetProperty("name").GetString();
-        var taxIds = customerDetails.GetProperty("tax_ids");
-        if (taxIds.GetArrayLength() > 0) {
-          order.TaxIdType = taxIds[0].GetProperty("type").GetString();
-          order.TaxId = taxIds[0].GetProperty("value").GetString();
-        }
-        order.State = OrderState.Payed;
-        dbContext.SaveChanges();
-      }
+          var stripeEvent = EventUtility.ConstructEvent(jsonString,
+              Request.Headers["Stripe-Signature"], config["StripeHookKey"]);
 
-      return Ok();
+          if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+          {
+              var sessionObject = stripeEvent.Data.Object as Stripe.Checkout.Session;
+              if (sessionObject == null)
+                return BadRequest();
+              var order = dbContext.Orders.FirstOrDefault(p => p.StripeId == sessionObject.Id);
+              if (order == null)
+                return NotFound();
+              var customerDetails = sessionObject.CustomerDetails;
+              var address = customerDetails.Address;
+              order.City = address.City;
+              order.Country = address.Country;
+              order.Line1 = address.Line1;
+              order.Line2 = address.Line2;
+              order.PostalCode = address.PostalCode;
+              order.AddressState = address.State;
+              order.CustomerName = customerDetails.Name;
+              var taxIds = customerDetails.TaxIds;
+              if (taxIds.Any()) {
+                order.TaxIdType = taxIds.First().Type;
+                order.TaxId = taxIds.First().Value;
+              }
+              order.State = OrderState.Payed;
+              dbContext.SaveChanges();
+          }
+
+          return Ok();
+      }
+      catch (StripeException)
+      {
+          return BadRequest();
+      }
     }
 }
