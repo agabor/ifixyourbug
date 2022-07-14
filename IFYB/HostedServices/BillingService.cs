@@ -13,15 +13,13 @@ public class BillingService : BackgroundService
     private readonly ILogger<BillingService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly BillingOptions billingOptions;
-    private readonly SzamlazzHuOptions szamlazzHuOptions;
 
-    public BillingService(Channel<Order> billingChanel, IOptions<SzamlazzHuOptions> szamlazzHuOptions, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider)
+    public BillingService(Channel<Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider)
     {
         this.billingChanel = billingChanel;
         this.logger = logger;
         this.serviceProvider = serviceProvider;
         this.billingOptions = billingOptions.Value;
-        this.szamlazzHuOptions = szamlazzHuOptions.Value;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -31,12 +29,13 @@ public class BillingService : BackgroundService
             try {
                 logger.Log(LogLevel.Information, "Billing started");
                 var request = new CreateInvoiceRequest();
-                request.AuthenticationData.ApiKey = szamlazzHuOptions.ApiKey;
+                request.AuthenticationData.ApiKey = billingOptions.ApiKey;
 
                 request.Header.Paid = true;
-                request.Header.PaymentType = PaymentType.CreditCard;
-                request.Header.InvoiceNumberPrefix = "NINCS";
+                request.Header.PaymentType = "credit card";
+                request.Header.InvoiceNumberPrefix = billingOptions.InvoiceNumberPrefix;
                 request.Header.Language = InvoiceLanguage.English;
+                request.Header.Currency = "EUR";
 
                 request.Customer.Name = order.CustomerName;
                 request.Customer.CustomerAddress.Country = order.Country;
