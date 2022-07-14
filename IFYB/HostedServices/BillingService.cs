@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Threading.Channels;
 using IFYB.Entities;
+using IFYB.Services;
 using Microsoft.Extensions.Options;
 using SzamlazzHu;
 
@@ -10,13 +11,15 @@ public class BillingService : BackgroundService
 {
     private readonly Channel<Order> billingChanel;
     private readonly ILogger<BillingService> logger;
+    private readonly IServiceProvider serviceProvider;
     private readonly BillingOptions billingOptions;
     private readonly SzamlazzHuOptions szamlazzHuOptions;
 
-    public BillingService(Channel<Order> billingChanel, IOptions<SzamlazzHuOptions> szamlazzHuOptions, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger)
+    public BillingService(Channel<Order> billingChanel, IOptions<SzamlazzHuOptions> szamlazzHuOptions, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider)
     {
         this.billingChanel = billingChanel;
         this.logger = logger;
+        this.serviceProvider = serviceProvider;
         this.billingOptions = billingOptions.Value;
         this.szamlazzHuOptions = szamlazzHuOptions.Value;
     }
@@ -30,13 +33,16 @@ public class BillingService : BackgroundService
                 var request = new CreateInvoiceRequest();
                 request.AuthenticationData.ApiKey = szamlazzHuOptions.ApiKey;
 
-                request.Seller.BankName = billingOptions.BankName;
-                request.Seller.BankAccount = billingOptions.BankAccount;
+                request.Header.Paid = true;
+                request.Header.PaymentType = PaymentType.CreditCard;
+                request.Header.InvoiceNumberPrefix = "NINCS";
+                request.Header.Language = InvoiceLanguage.English;
 
                 request.Customer.Name = order.CustomerName;
-                request.Customer.PostalAddress.PostalCode = order.PostalCode;
-                request.Customer.PostalAddress.City = order.City;
-                request.Customer.PostalAddress.StreetAddress = $"{order.Line1} {order.Line2}";
+                request.Customer.CustomerAddress.Country = order.Country;
+                request.Customer.CustomerAddress.PostalCode = order.PostalCode;
+                request.Customer.CustomerAddress.City = order.City;
+                request.Customer.CustomerAddress.StreetAddress = $"{order.Line1} {order.Line2}";
                 request.Customer.TaxNumber = order.TaxId;
 
                 request.Items = new List<InvoiceItem> {
@@ -54,7 +60,12 @@ public class BillingService : BackgroundService
 
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
-                logger.Log(LogLevel.Information, JsonSerializer.Serialize(response));
+                var scope = serviceProvider.CreateScope();
+                var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
+                using var stream = new MemoryStream(response.InvoicePdf);
+                emailService.SendInvoice(orderFromScope, stream, response.InvoiceNumber);
             } catch (Exception e) {
                 logger.Log(LogLevel.Error, e, e.Message);
             }

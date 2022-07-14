@@ -1,5 +1,6 @@
 
 using System.Net.Mail;
+using System.Net.Mime;
 using IFYB.Entities;
 using Microsoft.Extensions.Options;
 using Scriban;
@@ -25,6 +26,24 @@ public class EmailService
         message.Body = text;
         message.BodyEncoding = System.Text.Encoding.UTF8;
         message.SubjectEncoding = System.Text.Encoding.UTF8;
+
+        var mimeType = new System.Net.Mime.ContentType("text/html");
+        AlternateView alternate = AlternateView.CreateAlternateViewFromString(html, mimeType);
+        message.AlternateViews.Add(alternate);
+
+        smtpClient.Send(message);
+    }
+
+    public void SendEmailWithPdf(string toEmail, string subject, string text, string html, Stream file, string fileName)
+    {
+        var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
+        var to = new MailAddress(toEmail);
+        var message = new MailMessage(from, to);
+        message.Subject = subject;
+        message.Body = text;
+        message.BodyEncoding = System.Text.Encoding.UTF8;
+        message.SubjectEncoding = System.Text.Encoding.UTF8;
+        message.Attachments.Add(new Attachment(file, fileName, "application/pdf"));
 
         var mimeType = new System.Net.Mime.ContentType("text/html");
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(html, mimeType);
@@ -74,4 +93,13 @@ public class EmailService
         }
     }
 
+    internal void SendInvoice(Order order, MemoryStream stream, string invoiceNumber)
+    {
+        dbContext.Entry(order).Reference(o => o.Client).Load();
+        var client = order.Client!;
+        var subject = "Thank you for your payment!";
+        var text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderPayed.sbn")).Render(new { client.Name });
+        var html = Template.Parse(System.IO.File.ReadAllText("Email/OrderPayed.sbn")).Render(new { client.Name });
+        SendEmailWithPdf(client.Email, subject, text, html, stream, $"{invoiceNumber}.pdf");
+    }
 }

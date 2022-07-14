@@ -29,6 +29,7 @@ builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptio
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(StripeOptions.Stripe));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
 builder.Services.Configure<SzamlazzHuOptions>(builder.Configuration.GetSection(SzamlazzHuOptions.SzamlazzHu));
+builder.Services.Configure<BillingOptions>(builder.Configuration.GetSection(BillingOptions.Billing));
 var jwtOptions = builder.Configuration.GetSection(JwtOptions.Jwt).Get<JwtOptions>();
 var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Key));
 

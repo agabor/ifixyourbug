@@ -58,7 +58,7 @@ public class PaymentController : BaseController
             },
           },
           Mode = "payment",
-          BillingAddressCollection = "auto",
+          BillingAddressCollection = "required",
           TaxIdCollection = new SessionTaxIdCollectionOptions {
               Enabled = true
           },
