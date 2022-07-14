@@ -245,6 +245,8 @@ export const messages = {
     //OrderList
       orderList: {
         number: 'Number',
+        name: 'Name',
+        email: 'Email',
         framework: 'Framework',
         version: 'Version',
         thirdPartyTool: 'Third party tool',
@@ -299,6 +301,8 @@ export const messages = {
       payed: 'Payed',
       completed: 'Completed',
       refundable: 'Refundable',
+      name: 'Name',
+      email: 'Email',
     },
     //OrderMessages
     orderMessages: {

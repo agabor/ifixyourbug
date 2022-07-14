@@ -42,6 +42,19 @@
             <form>
               <div class="row text-start">
                 <div class="col-md-12 d-flex pe-2 mb-3">
+                  <div class="col-md-6">
+                    <label>{{ $t('orderViewer.name') }}</label>
+                    <div class="py-2 px-4 rounded-pill text-white bg-gradient-primary">{{ order.name }}</div>
+                  </div>
+                  <div class="col-md-6 ps-md-2">
+                    <label>{{ $t('orderViewer.email') }}</label>
+                    <div class="d-flex justify-content-between align-items-center py-2 px-4 rounded-pill text-white bg-gradient-primary">
+                      <span class="text-truncate">{{ order.email }}{{ order.email }}</span>
+                      <i class="ni ni-single-copy-04 cursor-pointer" @click="copyToClipboard(order.email)"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 d-flex pe-2 mb-3">
                   <select-framework :modelValue="order.framework" :editable="false" :showError="false"></select-framework>
                   <select-version :modelValue="order.version" :framework="order.framework" :editable="false" :showError="false"></select-version>
                 </div>
@@ -103,8 +116,16 @@ export default {
         setServerError(response.statusText);
       }
     }
-
-    return { gitAccess }
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+    }
+    return { gitAccess, copyToClipboard }
   }
 }
 </script>
+
+<style scoped>
+.cursor-pointer:hover {
+  opacity: 0.8;
+}
+</style>

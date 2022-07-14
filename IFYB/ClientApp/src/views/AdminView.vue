@@ -5,7 +5,7 @@
       <confirmation-modal v-if="showModal" v-model="stateMessage" :title="$t('confirm.stateChangeTitle')" :description="$t('confirm.stateChangeDescription')" :showError="showError" @confirm="changeOrderState" @cancel="cancelChangeOrderState"></confirmation-modal>
       <div class="carousel-inner">
         <carousel-item class="full-height" :class="{'active': page === 'orders'}" width="col-12">
-          <order-list :orders="orders" @openOrder="openOrder"></order-list>
+          <admin-order-list :orders="orders" @openOrder="openOrder"></admin-order-list>
         </carousel-item>
         <admin-order-viewer v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :order="selectedOrder" @back="closeSelectedOrder" @changeOrderState="tryChangeOrderState"></admin-order-viewer>
         <order-messages v-if="selectedOrder !== null" :class="{'active': page === 'selectedOrder'}" :messages="messages" @submitMessage="submitMessage"></order-messages>
@@ -17,7 +17,7 @@
 <script>
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
-import OrderList from '../components/OrderList.vue';
+import AdminOrderList from '../components/AdminOrderList.vue';
 import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
@@ -25,12 +25,13 @@ import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
   name: 'AdminView',
-  components: { CarouselItem, OrderList, AdminOrderViewer, OrderMessages, ConfirmationModal },
+  components: { CarouselItem, AdminOrderList, AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
     const { setServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
     const page = ref('');
     const orders = ref([]);
+    const clients = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
     const nextState = ref(null);
@@ -40,13 +41,25 @@ export default {
 
     page.value = 'orders';
     setServerError(null);
+    setClients();
     setOrders();
+
+    async function setClients() {
+      let response = await get('/api/admin/clients');
+      if(response.status == 200) {
+        setServerError(null);
+        clients.value = await response.json();
+      } else {
+        setServerError(response.statusText);
+      }       
+    }
 
     async function setOrders() {
       let response = await get('/api/admin/orders');
       if(response.status == 200) {
         setServerError(null);
-        orders.value = await response.json();
+        let data = await response.json();
+        orders.value = data.map(order => ({...order, ...clients.value.find(client => client.id === order.clientId)}));
         page.value = 'orders'; 
       } else {
         setServerError(response.statusText);
@@ -129,7 +142,7 @@ export default {
       showModal.value = false;
     }
 
-    return { page, orders, selectedOrder, messages, showModal, stateMessage, showError, openOrder, closeSelectedOrder, submitMessage, tryChangeOrderState, changeOrderState, cancelChangeOrderState }
+    return { page, orders, clients, selectedOrder, messages, showModal, stateMessage, showError, openOrder, closeSelectedOrder, submitMessage, tryChangeOrderState, changeOrderState, cancelChangeOrderState }
   }
 }
 </script>
