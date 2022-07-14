@@ -12,6 +12,7 @@ import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
 import CheckoutView from '../views/CheckoutView.vue';
 import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
 import CheckoutFailureView from '../views/CheckoutFailureView.vue';
+import CheckoutPaidView from '../views/CheckoutPaidView.vue';
 import { useUserAuthentication, useAdminAuthentication, usePayment } from '@/store';
 
 const userAuth = useUserAuthentication();
@@ -110,6 +111,12 @@ const routes = [
     path: '/checkout-failed/:token',
     name: 'checkout-failed',
     component: CheckoutFailureView,
+    beforeEnter: paymentGuard
+  },
+  {
+    path: '/checkout-paid/:token',
+    name: 'checkout-paid',
+    component: CheckoutPaidView,
     beforeEnter: paymentGuard
   }
 ]

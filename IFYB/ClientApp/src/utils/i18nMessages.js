@@ -376,6 +376,20 @@ export const messages = {
         message: 'Message to the user',
         cancel: 'Cancel',
         confirm: 'Yes, got it!',
+      },
+    //CheckoutViews
+      checkout: {
+        successTitle: 'Payment Successful!',
+        successSubTitle: 'Thank you for choosing us.',
+        failedTitle: 'Payment Failed!',
+        failedSubTitle: 'Payment failed, please try again.',
+        paidTitle: 'Already Paid!',
+        paidSubTitle: 'Thank you for choosing us.',
+        order: 'Order',
+        pay: 'Please pay so we can start work as soon as possible.',
+        loading: 'loading ...',
+        checkoutLink: 'Checkout link expired.',
+        backToHome: 'Bact to home',
       }
     }
   }
