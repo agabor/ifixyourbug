@@ -17,6 +17,7 @@ export const messages = {
         requiredEmail: 'Email required',
         requiredValidEmail: 'Valid email required.',
         requiredMessage: 'Message required',
+        requiredNewMessage: 'Message required',
         notAdministratorEmail: 'This email is not an administrator email.',
         minLength: 'Minimum character is ',
         somethingWrong: 'Something wrong',

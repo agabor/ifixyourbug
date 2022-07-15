@@ -43,10 +43,14 @@ export default {
   padding: 0.5rem 1rem;
   border-radius: 30px;
   color: white;
+  white-space: pre-wrap;
+  text-align: left;
 }
 .admin-message {
   padding: 0.5rem 1rem;
   border: 1px solid #dedede;
   border-radius: 30px;
+  white-space: pre-wrap;
+  text-align: left;
 }
 </style>

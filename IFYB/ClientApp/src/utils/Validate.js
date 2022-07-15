@@ -11,6 +11,8 @@ export function validEmail(email) {
 }
 
 export function required(e, errorText) {
+  e = e.toString().replaceAll('\n', '');
+  e = e.toString().replaceAll(' ', '');
   if(e === '' || e === null || e === undefined) {
     return errorText;
   }

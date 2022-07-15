@@ -11,7 +11,13 @@
             </div>
             <h2>{{ $t('orderMessages.title') }}</h2>
             <div class="d-flex align-items-center mb-4">
-              <input id="messageInput" class="form-control" :placeholder="$t('orderMessages.newMessagePlaceholder')" type="text" @keyup.enter="trySubmitMessage()" v-model="newMessage">
+              <textarea id="messageInput" class="form-control" :rows="rows" type="text"
+                single-line
+                v-model="newMessage"
+                :placeholder="$t('orderMessages.newMessagePlaceholder')"
+                @keyup.enter.shift.exact.prevent="addLine()"
+                @keydown.enter.exact.prevent="trySubmitMessage()">
+              </textarea>
               <i class="ni ni-send opacity-10 fs-4 mx-2 cursor-pointer fg-gradient-primary send-btn" @click="trySubmitMessage()"></i>
             </div>
             <message-line
@@ -44,16 +50,23 @@ export default {
   setup(props, context) {
     const { tm } = useI18n();
     const newMessage = ref('');
+    const rows = ref(1);
+
 
     async function trySubmitMessage() {
-      let err = required(newMessage.value, tm('errors.requiredNewMessage'), 'messageInput')
+      let err = required(newMessage.value, tm('errors.requiredNewMessage'), 'messageInput');
       if(!err) {
         context.emit('submitMessage', newMessage.value);
-        newMessage.value = '';
       }
+      newMessage.value = '';
+      rows.value = 1;
     }
 
-    return { newMessage, trySubmitMessage }
+    function addLine() {
+      rows.value++;
+    }
+
+    return { newMessage, rows, trySubmitMessage, addLine }
   }
 }
 </script>
