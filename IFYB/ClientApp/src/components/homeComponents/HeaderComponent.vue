@@ -11,12 +11,13 @@
               <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
               <h2 class="text-dark mb-4">{{ $t('mainCard.subTitle') }}</h2>
               <p class="lead pe-md-5 me-md-5">{{ $t('mainCard.description') }}</p>
-              <div class="buttons">
+              <img class="col-5 col-md-4 position-absolute bottom-0 end-0 z-index-1 header-logo" src="../../assets/logo.webp" alt="logo">
+              <div class="buttons z-index-2">
                 <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/new-order')">{{ $t('mainCard.order') }}</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/faq')">{{ $t('mainCard.faq') }}</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
               </div>
-              <div class="row mt-2">
+              <div class="row mt-2 z-index-2">
                 <div class="col-md-4 col-6 d-flex justify-content-center align-items-center p-0">
                   <img class="w-15" src="../../assets/img/logos/gray-logos/vue-logo.png" alt="logo">
                   <p class="m-0 mx-2 fw-bolder">{{ $t('mainCard.vuejs') }}</p>
@@ -47,4 +48,17 @@ export default {
     background-size: cover;
     background-position: 50%;
   }
+
+  .btn-outline-secondary {
+    background: white;
+    opacity: 0.8;
+  }
+  @media (max-width: 768px) {
+    .header-logo {
+      position: unset!important;
+      display: flex;
+      align-self: center;
+    }
+  }
+  
 </style>
