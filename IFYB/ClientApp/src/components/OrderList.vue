@@ -9,6 +9,7 @@
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.specificPlatform') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.thirdPartyTool') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.state') }}</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.pay') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
       </tr>
     </thead>
@@ -40,6 +41,12 @@
           <span class="badge badge-sm badge-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</span>
           <span class="badge badge-sm badge-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</span>
         </td>
+        <td class="align-middle text-center cursor-pointer" v-if="order.paymentToken && order.state == 1">
+          <span class="text-secondary text-xs font-weight-bold">
+            <i class="ni ni-cart opacity-10" @click="$router.push(`/checkout/${order.paymentToken}`)"></i>
+          </span>
+        </td>
+        <td class="align-middle text-center" v-else></td>
         <td class="align-middle text-center cursor-pointer" @click="$emit('openOrder', order)">
           <span class="text-secondary text-xs font-weight-bold">
             <i class="ni ni-bold-right opacity-10"></i>

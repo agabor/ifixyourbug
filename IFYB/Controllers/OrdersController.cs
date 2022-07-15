@@ -43,6 +43,20 @@ public class OrdersController : BaseController
         return base.Ok(order.ToDto());
     }
 
+    /*[HttpGet]
+    [Produces(typeof(String))]
+    [Route("{orderId}/payment-token")]
+    public IActionResult GetOrderPaymentToken(int orderId) {
+        var client = GetClient();
+        if (client == null)
+            return NotFound();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
+        var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null || order.PaymentToken == null)
+            return NotFound();
+        return base.Ok(order.PaymentToken);
+    }*/
+
     [HttpPost]
     [Produces(typeof(MessageDto))]
     [Route("{orderId}")]

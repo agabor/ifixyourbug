@@ -252,6 +252,7 @@ export const messages = {
         thirdPartyTool: 'Third party tool',
         applicationUrl: 'Application url',
         specificPlatform: 'Specific platform',
+        pay: 'Pay',
         state: 'State',
         submitted: 'Submitted',
         accepted: 'Accepted',

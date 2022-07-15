@@ -52,7 +52,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Id, Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, ClientId);
+        return new OrderDto(Id, Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId);
     }
 }
 
