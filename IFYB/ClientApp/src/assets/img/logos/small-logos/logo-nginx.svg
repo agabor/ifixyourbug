@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="177"
+   height="150"
+   viewBox="0 0 177 150"
+   version="1.1"
+   id="svg832"
+   sodipodi:docname="logo-nginx.svg"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs836" />
+  <sodipodi:namedview
+     id="namedview834"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="3.6668197"
+     inkscape:cx="9.9541301"
+     inkscape:cy="65.451815"
+     inkscape:window-width="1920"
+     inkscape:window-height="942"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg832"
+     width="177px" />
+  <title
+     id="title824">folder_type_nginx</title>
+  <path
+     d="m 86.825611,12.004749 h 0.288 a 46.884,46.884 0 0 1 4.374,2.4 q 24.431999,14.045999 48.863999,28.109999 a 3.564,3.564 0 0 1 1.866,3.546 c -0.036,19.752 0,39.491998 0,59.238002 a 3.66,3.66 0 0 1 -1.602,2.286 l -51.959999,29.898 a 2.64,2.64 0 0 1 -2.958,0.168 q -26.01,-14.904 -51.972,-29.886 a 3.132,3.132 0 0 1 -1.8,-3 q 0,-29.616004 0,-59.232002 a 3.12,3.12 0 0 1 1.74,-3 q 24.42,-14.034 48.816,-28.085999 c 1.452,-0.828 2.868,-1.704 4.386,-2.4"
+     style="fill:#019639;stroke-width:6"
+     id="path828" />
+  <path
+     d="m 54.509611,50.404748 q 0,24.431998 0,48.863998 a 6.792,6.792 0 0 0 1.926,4.890004 7.41,7.41 0 0 0 9.27,0.93 7.038,7.038 0 0 0 3.084,-5.820004 c 0,-11.79 0,-23.58 0,-35.399998 q 16.128,19.307998 32.315999,38.556002 a 12.744,12.744 0 0 0 11.724,3.522 7.026,7.026 0 0 0 5.634,-6.168004 q 0.036,-24.936 0,-49.865998 a 7.116,7.116 0 0 0 -14.184,0 c 0,12 -0.072,23.945998 0,35.921998 C 93.719613,73.390746 83.279611,60.832748 72.791611,48.340748 a 12.678,12.678 0 0 0 -12,-4.734 7.104,7.104 0 0 0 -6.282,6.798 z"
+     style="fill:#ffffff;stroke-width:6"
+     id="path830" />
+  <metadata
+     id="metadata1014">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>folder_type_nginx</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

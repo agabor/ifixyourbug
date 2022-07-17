@@ -28,7 +28,8 @@ export const messages = {
         projectName: 'I Fix Your Bug',
         home: 'Home',
         myOrders: 'My orders',
-        otherServices: 'Other services',
+        services: 'Services',
+        faq: 'FAQ',
         orders: 'Orders',
         clients: 'Clients',
         login: 'Login',
@@ -36,11 +37,9 @@ export const messages = {
       },
     //HomeView
       mainCard: {
-        title: 'Now UI Design System.',
-        subTitle: 'Choose the best',
-        description: 'Find the story of Creative Tim&#39;s most complex design system and all the work that make this design available.',
+        title: 'I Fix Your Bug',
+        description: 'ASP.NET Core and Vue.js bugfixing service. For when you need a second pair of eyes.',
         order: 'New order',
-        faq: 'FAQ',
         contact: 'Contact',
         asp: 'ASP.NET Core',
         vuejs: 'Vue.js',

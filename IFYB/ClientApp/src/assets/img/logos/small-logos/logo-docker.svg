@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="177"
+   height="150"
+   viewBox="0 -190.5 177 150"
+   version="1.1"
+   preserveAspectRatio="xMidYMid"
+   id="svg828"
+   sodipodi:docname="logo-docker.svg"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs832" />
+  <sodipodi:namedview
+     id="namedview830"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     width="177px"
+     inkscape:zoom="1.3902192"
+     inkscape:cx="61.501095"
+     inkscape:cy="198.52985"
+     inkscape:window-width="1920"
+     inkscape:window-height="942"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg828" />
+  <path
+     d="m 134.34057,-150.4032 3.4887,2.52591 c 6.06732,4.89396 9.55603,10.41939 10.31445,16.73417 6.52236,-1.26296 14.86493,-0.31573 18.50532,2.21018 v 0 l 3.33702,2.0523 -0.60673,1.26295 c -1.06178,2.36805 -1.36514,2.99953 -1.51683,3.31527 -5.91563,11.84021 -17.59522,11.99808 -23.05581,11.84021 -13.80315,34.573426 -43.22964,53.675643 -82.970593,53.675643 -18.353643,0 -32.308478,-5.841177 -41.712823,-17.365651 C 7.6852673,-89.307695 7.6852673,-109.04138 8.7470482,-115.35616 v 0 l 0.303366,-1.26296 H 118.71721 c 5.76395,0 10.16276,-1.5787 12.28633,-2.84165 -2.27525,-3.47314 -3.03366,-7.41987 -3.18535,-9.63004 -0.45505,-6.31479 1.06178,-12.9453 4.09544,-17.68139 v 0 z m -96.773752,14.83973 v 15.78696 H 20.881689 v -15.78696 z m 19.71879,0 v 15.78696 h -16.68513 v -15.78696 z m 19.718789,0 v 15.78696 h -16.68513 v -15.78696 z m 19.718791,0 v 15.78696 H 80.038056 v -15.78696 z m 19.718782,0 v 15.78696 H 99.756845 v -15.78696 z m -19.718782,-18.94434 v 15.78696 H 80.038056 v -15.78696 z m -19.718791,0 v 15.78696 h -16.68513 v -15.78696 z m -19.718789,0 v 15.78696 h -16.68513 v -15.78696 z m 39.43758,-18.94434 v 15.78695 H 80.038056 v -15.78695 z"
+     fill="#2396ed"
+     id="path824"
+     sodipodi:nodetypes="cccscccccscsccsccsccccccccccccccccccccccccccccccccccccccccccccccc"
+     style="opacity:1;stroke-width:0.896311" />
+</svg>
