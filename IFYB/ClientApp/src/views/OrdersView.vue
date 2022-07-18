@@ -33,9 +33,9 @@ export default {
     const messages = ref([]);
     const selectedOrder = ref(null);
 
-    page.value = 'orders';
-    setServerError(null);
     setOrders();
+    setServerError(null);
+    page.value = 'orders';
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');

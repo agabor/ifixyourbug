@@ -23,6 +23,10 @@ export const messages = {
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
       },
+    //SearchBar.vue
+      searchBar: {
+        search: 'Search...'
+      },
     //NavigationBar
       navigationBar: {
         projectName: 'I Fix Your Bug',
