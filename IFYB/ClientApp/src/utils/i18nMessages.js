@@ -22,6 +22,7 @@ export const messages = {
         minLength: 'Minimum character is ',
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
+        noResult: 'No result'
       },
     //SearchBar.vue
       searchBar: {

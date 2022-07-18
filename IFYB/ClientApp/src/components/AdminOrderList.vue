@@ -1,5 +1,5 @@
 <template>
-  <search-bar v-model:modelValue="filteredOrders" :data="orders"></search-bar>
+  <search-bar v-model:modelValue="filteredOrders" :data="orders" :properties="properties"></search-bar>
   <table class="table align-items-center mb-0">
     <thead>
       <tr>
@@ -57,6 +57,7 @@
       </tr>
     </tbody>
   </table>
+  <p class="m-2" v-if="filteredOrders.length == 0">{{ $t('errors.noResult') }}</p>
 </template>
 
 <script>
@@ -72,12 +73,13 @@ export default {
   emits: ['openOrder'],
   setup(props) {
     const filteredOrders = ref(props.orders ?? []);
+    const properties = ['nuber', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state', 'name', 'email'];
     
     watch(props, () => {
       filteredOrders.value = props.orders;
     });
 
-    return { filteredOrders }
+    return { filteredOrders, properties }
   }
 }
 </script>

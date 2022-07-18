@@ -10,7 +10,8 @@ export default {
   name: 'SearchBar',
   props: {
     modelValue: Array,
-    data: Array
+    data: Array,
+    properties: Array
   },
   emits: ['update:modelValue'],
   setup(props, context) {
@@ -24,7 +25,7 @@ export default {
           let addElement = false;
           for(const property in props.data[i]) {
             let element = props.data[i][property] ? props.data[i][property].toString() : '';
-            if(property == 'specificPlatformVersion' || property == 'bugDescription' || property == 'messages' || property == 'gitAccessId' || property == 'paymentToken' || property == 'clientId' || property == 'id'){
+            if(!props.properties.includes(property)){
               continue;
             }
             if(property == 'framework') {
@@ -33,6 +34,28 @@ export default {
               else 
                 element = tm('framework.option1');
             }
+            if(property == 'state') {
+              switch (element) {
+                case '1':
+                  element = tm('orderList.accepted');
+                  break;
+                case '2':
+                  element = tm('orderList.rejected');
+                  break;
+                case '3':
+                  element = tm('orderList.payed');
+                  break;
+                case '4':
+                  element = tm('orderList.completed');
+                  break;
+                case '6':
+                  element = tm('orderList.refundable');
+                  break;
+                default:
+                  element = tm('orderList.submitted');
+              }
+            }
+            console.log(property, element)
             if(element.toUpperCase().includes(searchText.value.toUpperCase())) {
               addElement = true;
               break;

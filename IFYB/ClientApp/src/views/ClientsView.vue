@@ -6,7 +6,9 @@
         <carousel-item class="full-height active" width="col-12">
           <div class="row">
             <div class="col-3 border-primary border border-end-1 border-start-0 border-top-0 border-bottom-0">
-              <client-list :clients="clients" :selectedClient="selectedClient" @selectClient="selectClient"></client-list>
+              <search-bar v-model:modelValue="filteredClients" :data="clients" :properties="properties"></search-bar>
+              <client-list :clients="filteredClients" :selectedClient="selectedClient" @selectClient="selectClient"></client-list>
+              <p class="m-2" v-if="filteredClients.length == 0">{{ $t('errors.noResult') }}</p>
             </div>
             <div class="col-9">
               <contact-messages :messages="clientMessages" :selectedClient="selectedClient"></contact-messages>
@@ -23,17 +25,20 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import ClientList from '../components/ClientList.vue';
 import ContactMessages from '../components/ContactMessages.vue';
+import SearchBar from '../components/SearchBar.vue';
 import { useServerError, useAdminAuthentication } from "../store";
 
 export default {
   name: 'ClientsView',
-  components: { CarouselItem, ClientList, ContactMessages },
+  components: { CarouselItem, ClientList, ContactMessages, SearchBar },
   setup() {
     const { get } = useAdminAuthentication();
     const { setServerError } = useServerError();
     const clients = ref([]);
     const selectedClient = ref(null);
     const clientMessages = ref([]);
+    const filteredClients = ref([]);
+    const properties = ['name', 'email' ];
 
     setServerError(null);
     setClients();
@@ -43,6 +48,7 @@ export default {
       if(response.status == 200) {
         setServerError(null);
         clients.value = await response.json();
+        filteredClients.value = clients.value;
       } else {
         setServerError(response.statusText);
       }       
@@ -63,7 +69,7 @@ export default {
       }       
     }
 
-    return { clients, selectedClient, clientMessages, selectClient }
+    return { clients, filteredClients, properties, selectedClient, clientMessages, selectClient }
   }
 }
 </script>
