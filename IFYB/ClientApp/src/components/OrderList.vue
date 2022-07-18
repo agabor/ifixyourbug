@@ -73,7 +73,6 @@ export default {
     const filteredOrders = ref(props.orders ?? []);
     
     watch(props, () => {
-      console.log('changeProps', props.orders);
       filteredOrders.value = props.orders;
     });
 

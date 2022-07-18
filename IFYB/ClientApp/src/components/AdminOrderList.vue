@@ -1,4 +1,5 @@
 <template>
+  <search-bar v-model:modelValue="filteredOrders" :data="orders"></search-bar>
   <table class="table align-items-center mb-0">
     <thead>
       <tr>
@@ -15,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(order, idx) in orders" :key="idx">
+      <tr v-for="(order, idx) in filteredOrders" :key="idx">
         <td>
           <span class="text-secondary text-xs font-weight-bold">{{ order.number }}</span>
         </td>
@@ -59,11 +60,25 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue';
+import SearchBar from '../components/SearchBar.vue';
+
 export default {
   name: 'AdminOrderList',
+  components: { SearchBar },
   props: {
     orders: Array
   },
+  emits: ['openOrder'],
+  setup(props) {
+    const filteredOrders = ref(props.orders ?? []);
+    
+    watch(props, () => {
+      filteredOrders.value = props.orders;
+    });
+
+    return { filteredOrders }
+  }
 }
 </script>
 

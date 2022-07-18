@@ -114,7 +114,6 @@ export default {
     }
 
     async function changeOrderState() {
-      console.log('stateMessage', stateMessage.value);
       let response;
       if(stateMessage.value !== null) {
         if(stateMessage.value !== '') {

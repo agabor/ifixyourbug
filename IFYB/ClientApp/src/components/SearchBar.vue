@@ -33,7 +33,6 @@ export default {
               else 
                 element = tm('framework.option1');
             }
-            console.log(property, element);
             if(element.toUpperCase().includes(searchText.value.toUpperCase())) {
               addElement = true;
               break;
@@ -44,10 +43,8 @@ export default {
           }
         }
         context.emit('update:modelValue', filteredData);
-        console.log('emit', filteredData);
       } else {
         context.emit('update:modelValue', props.data);
-        console.log('emit', props.data);
       }
     }
 
