@@ -38,7 +38,8 @@
               </div>
             </form>
             <div class="text-center">
-              <button type="button" class="btn bg-gradient-primary my-4" @click="$emit('back')">{{ $t('orderViewer.back') }}</button>
+              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="$emit('back')">{{ $t('orderViewer.back') }}</button>
+              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="$router.push(`/checkout/${order.paymentToken}`)" v-if="order.state == 1">{{ $t('orderViewer.pay') }}</button>
             </div>
           </div>
         </div>

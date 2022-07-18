@@ -301,6 +301,7 @@ export const messages = {
       accept: 'Accept',
       reject: 'Reject',
       rejectWithMessage: 'Reject with message',
+      pay: 'Pay',
       submitted: 'Submitted',
       accepted: 'Accepted',
       rejected: 'Rejected',
