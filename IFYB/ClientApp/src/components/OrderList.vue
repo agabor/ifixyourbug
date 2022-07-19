@@ -93,7 +93,6 @@ export default {
       const asc = orderAsc.value;
       if (orderBy.value !== '')
         filteredOrders.value.sort((a, b) => {
-          console.log(a[ordBy], b[ordBy]);
           if (a[ordBy] < b[ordBy] ^ asc)
             return 1;
           if (a[ordBy] > b[ordBy] ^ asc)

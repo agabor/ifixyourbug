@@ -55,7 +55,6 @@ export default {
                   element = tm('orderList.submitted');
               }
             }
-            console.log(property, element)
             if(element.toUpperCase().includes(searchText.value.toUpperCase())) {
               addElement = true;
               break;
