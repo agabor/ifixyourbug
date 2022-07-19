@@ -10,9 +10,9 @@
             <h1>An admin sent you a message!</h1>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
                 Dear {{name}},<br>
-                One of our admins has sent you a message in the {{id}} thread.
+                One of our admins has sent you a message in the <a href="{{link}}">{{id}}</a> thread.
             </p>
-            <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
+            <a target="_blank" href="{{link}}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">View the message</span>
             </a>
             <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">

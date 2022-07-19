@@ -13,13 +13,13 @@
                 We’re sorry to inform you that we can’t fix your problem.<br>
                 In this case you can start a refund process.
             </p>
-            <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
+            <a target="_blank" href="{{link}}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">Refund</span>
             </a>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
                 If you’re interested, you can check out our reasons below.
             </p>
-            <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
+            <a target="_blank" href="{{link}}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
                 <span style="mso-text-raise: 15pt;">Check our results</span>
             </a>
             {{~ if message ~}}

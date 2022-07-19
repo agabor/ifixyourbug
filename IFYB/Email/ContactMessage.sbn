@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>I Fix Your Bug - Placed your order</title>
+  <title>I Fix Your Bug - Placed your message</title>
   <meta charset="UTF-8" />
 </head>
 <body>
     <div style="max-width:600px; margin:0 auto">
         <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
-            <h1>You have placed your order!</h1>
+            <h1>You have placed your message!</h1>
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
                 Dear {{name}},<br>
                 Thank you for your message. We’ll contact you soon.

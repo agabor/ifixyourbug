@@ -55,7 +55,7 @@ public class EmailService
 
     public void SendOrderStateEmail(Order order, string? message = null)
     {
-        string link = $"{appOptions.BaseUrl}/my-orders/{order.Number}";
+        string link = $"{appOptions.BaseUrl}/my-orders/{order.Number.Remove(0,1)}";
         string subject = "";
         string text = "";
         string html = "";
@@ -67,8 +67,8 @@ public class EmailService
             case OrderState.Accepted:
                 subject = $"We will process your order!";
                 string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
-                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Message = message });
-                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Message = message });
+                text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Link = link, Message = message });
+                html = Template.Parse(System.IO.File.ReadAllText("Email/OrderAccept.sbn")).Render(new { client.Name, PaymentLink = paymentLink, Link = link, Message = message });
                 break;
             case OrderState.Rejected:
                 subject = $"We rejected your order!";

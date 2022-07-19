@@ -5,4 +5,4 @@ We accepted your order; our team is started to work on the solution for your bug
 {{message}}\n
 {{~ end ~}}
 If you have further questions, you can contact us.
-Payment link: {{payment_link}}
+{{payment_link}}

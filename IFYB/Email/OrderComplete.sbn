@@ -12,8 +12,8 @@
                 Dear {{name}},<br>
                 We’ve fixed your bug, please check it out!
             </p>
-            <a target="_blank" :href="link" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
-                <span style="mso-text-raise: 15pt;">view our solution</span>
+            <a target="_blank" href="{{link}}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
+                <span style="mso-text-raise: 15pt;">View our solution</span>
             </a>
             {{~ if message ~}}
             <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
