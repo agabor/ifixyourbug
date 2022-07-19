@@ -273,7 +273,7 @@ export const messages = {
         email: 'Email',
         messages: 'Messages',
       },
-    //OrderView
+    //NewOrderView
       order: {
         email: 'Email',
         emailDes: 'Enter your email.',

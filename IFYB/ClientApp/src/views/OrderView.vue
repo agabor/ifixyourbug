@@ -3,10 +3,8 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <carousel-item class="full-height" :class="{'active': page === 'data'}" width="col-lg-9 col-md-11" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')">
-          <new-order-form :gitAccesses="gitAccesses" @toSuccessPage="page = 'success'"></new-order-form>
-        </carousel-item>
-        <carousel-item :class="{'active': page === 'success'}" icon="send" :title="$t('order.successfulOrder')" :subTitle="$t('order.successfulOrderDes')" :buttonText="$t('order.backToHome')" @onClickBtn="$router.push('/')"></carousel-item>
+        <order-viewer v-if="selectedOrder !== null" class="active" :order="selectedOrder" @back="closeSelectedOrder"></order-viewer>
+        <order-messages v-if="selectedOrder !== null" class="active" :messages="messages" @submitMessage="submitMessage"></order-messages>
       </div>
     </div>
   </section>
@@ -14,47 +12,69 @@
 
 <script>
 import { ref } from 'vue';
-import CarouselItem from '../components/CarouselItem.vue';
-import NewOrderForm from '../components/NewOrderForm.vue';
+import { useRoute } from 'vue-router'
 import { useServerError, useUserAuthentication } from "../store";
+import OrderViewer from '../components/OrderViewer.vue';
+import OrderMessages from '../components/OrderMessages.vue';
+import router from '@/router';
 
 export default {
   name: 'OrderView',
-  components: { CarouselItem, NewOrderForm },
+  components: { OrderViewer, OrderMessages },
   setup() {
     const { setServerError } = useServerError();
-    const { get } = useUserAuthentication();
-    const page = ref('');
-    const gitAccesses = ref([]);
+    const { get, post } = useUserAuthentication();
+    const orders = ref([]);
+    const messages = ref([]);
+    const selectedOrder = ref(null);
+    const route = useRoute();
 
-    page.value = 'data';
     setServerError(null);
-    setGitAccesses();
-    
-    async function setGitAccesses() {
-      let response = await get('/api/git-accesses');
-      if(response.status == 200) {
+    setSelectedOrder();
+
+    async function setSelectedOrder() {
+      let orderResponse = await get(`/api/orders/by-number/${route.params.number}`);
+      if(orderResponse.status == 200) {
         setServerError(null);
-        gitAccesses.value = await response.json();
+        selectedOrder.value = await orderResponse.json();
+        setMessages();
       } else {
-        setServerError(response.statusText);
+        setServerError(orderResponse.statusText);
       }
     }
 
-    return { page, gitAccesses }
+    async function setMessages() {
+      let response = await get(`/api/orders/${selectedOrder.value.id}`);
+      let order = await response.json();
+      messages.value = order.messages.reverse();
+    }
+
+    function closeSelectedOrder() {
+      selectedOrder.value = null;
+      messages.value = [];
+      router.push('/my-orders');
+    }
+
+    async function submitMessage(message) {
+      let response = await post(`/api/orders/${selectedOrder.value.id}`, { text: message });
+      let newMessage = await response.json();
+      messages.value.unshift(newMessage);
+    }
+
+    return { orders, messages, selectedOrder, closeSelectedOrder, submitMessage }
   }
 }
 </script>
 
-<style>
+<style scoped>
 #carousel-testimonials {
   position: fixed;
   height: 100vh;
   width: 100vw;
   background-image: url('../assets/img/pricing3.jpg');
 }
-.full-height{
+.carousel-inner {
+  height: 100%;
   overflow: auto;
-  height: 100vh;
 }
 </style>

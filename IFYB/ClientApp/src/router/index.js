@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import OtherServices from '../views/OtherServices.vue';
-import OrderView from '../views/OrderView.vue';
+import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
 import ContactForm from '../views/ContactForm.vue';
 import OrdersView from '../views/OrdersView.vue';
+import OrderView from '../views/OrderView.vue';
 import ClientsView from '../views/ClientsView.vue';
 import AuthenticationView from '../views/AuthenticationView.vue';
 import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
@@ -55,7 +56,7 @@ const routes = [
   {
     path: '/new-order',
     name: 'new-order',
-    component: OrderView,
+    component: NewOrderView,
     beforeEnter: userAuthenticationGuard
   },
   {
@@ -84,6 +85,12 @@ const routes = [
     path: '/my-orders',
     name: 'my-orders',
     component: OrdersView,
+    beforeEnter: userAuthenticationGuard
+  },
+  {
+    path: '/my-orders/:number',
+    name: 'my-order',
+    component: OrderView,
     beforeEnter: userAuthenticationGuard
   },
   {
