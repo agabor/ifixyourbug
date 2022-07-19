@@ -24,6 +24,12 @@ export const messages = {
         wrongCode: 'Wrong code.',
         noResult: 'No result'
       },
+    //Policies
+      policies: {
+        iAcceptAndRead: 'I have read and accept',
+        privacyPolicy: 'the privacy policy',
+        requiredPrivacyPolicy: 'Approval of the privacy policy is required',
+      },
     //SearchBar.vue
       searchBar: {
         search: 'Search...'

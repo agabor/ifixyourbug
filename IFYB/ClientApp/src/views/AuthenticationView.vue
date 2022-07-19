@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" @submitEmail="submitEmail" @authentication="authentication" @setName="setName"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setName"></authentication>
       </div>
     </div>
   </section>
@@ -24,9 +24,11 @@ export default {
     const { requestedPage, setJwt, get, post } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
-    const user = ref({});
     const error = ref(null);
     const progress = ref(0);
+    const showPolicy = ref(false);
+    const acceptedPolicy = ref(false);
+    const showRequired = ref(false);
     let clientId;
 
     setServerError(null);
@@ -38,7 +40,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'email': email})
+        body: JSON.stringify({'email': email, 'privacyPolicyAccepted': acceptedPolicy.value})
       });
       progress.value = 100;
       if(response.status == 200) {
@@ -48,10 +50,21 @@ export default {
           page.value = 'auth';
           progress.value = 100;
         }, "500");
+      } else if(response.status == 401) {
+        if(showPolicy.value) {
+          showRequired.value = true;
+        }
+        showPolicy.value = true;
+        progress.value = 0;
       } else {
         setServerError(response.statusText);
         progress.value = null;
       }
+    }
+
+    function changePolicy(accepted) {
+      acceptedPolicy.value = accepted;
+      showRequired.value = false;
     }
 
     async function authentication(code) {
@@ -106,7 +119,7 @@ export default {
     }
 
 
-    return { page, error, user, progress, submitEmail, authentication, setName }
+    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setName }
   }
 }
 </script>

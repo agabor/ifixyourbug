@@ -47,8 +47,12 @@ public class AuthenticationController : BaseController
     {
         var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
         if (client == null) {
-            client = new Client(dto.Email);
-            dbContext.Clients.Add(client);
+            if(dto.PrivacyPolicyAccepted) {
+                client = new Client(dto.Email);
+                dbContext.Clients.Add(client);
+            } else {
+                return Unauthorized();
+            }
         }
         var passwordHasher = new PasswordHasher<Client>();
         if (!appOptions.SendEmails) {

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import OtherServices from '../views/OtherServices.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
@@ -48,6 +49,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/privacy-policy',
+    name: 'privacy-policy',
+    component: PrivacyPolicy
   },
   {
     path: '/other-services',

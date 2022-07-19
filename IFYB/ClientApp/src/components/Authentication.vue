@@ -5,6 +5,13 @@
       <div class="progress">
         <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
+      <div v-if="showPolicy">
+      <div class="form-check d-flex align-items-center justify-content-center mt-3">
+        <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('changePolicy', !acceptedPolicy)">
+        <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+      </div>
+      <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
+      </div>
     </div>
   </carousel-item>
   <two-fa :class="{'active': page === 'auth'}" :error="error ? error: validationError" v-model:modelValue="user.auth" @update:modelValue="tryAuthentication"></two-fa>
@@ -28,14 +35,17 @@ export default {
   props: {
     page: String,
     error: String,
-    progress: Number
+    progress: Number,
+    showPolicy: Boolean,
+    acceptedPolicy: Boolean,
+    showRequired: Boolean
   },
-  emits: [ 'submitEmail', 'authentication', 'setName' ],
+  emits: [ 'submitEmail', 'changePolicy', 'authentication', 'setName' ],
   setup(props, context) {
     const { tm } = useI18n();
     const user = ref({});
     const validationError = ref(null);
-    
+
     function trySubmitEmail() {
       let err = validEmail(user.value.email);
       if(err) {
@@ -44,6 +54,10 @@ export default {
         validationError.value = null;
         context.emit('submitEmail', user.value.email);
       }
+    }
+    
+    function toPrivacyPolicy() {
+      window.open('/privacy-policy', '_blank');
     }
 
     async function tryAuthentication(code) {
@@ -61,7 +75,7 @@ export default {
       }
     }
 
-    return { validationError, user, trySubmitEmail, tryAuthentication, trySetName }
+    return { validationError, user, trySubmitEmail, toPrivacyPolicy, tryAuthentication, trySetName }
   }
 }
 </script>
