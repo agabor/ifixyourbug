@@ -61,10 +61,31 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet]
+    [Route("clients/{id}")]
+    [Produces(typeof(ClientDto))]
+    public IActionResult GetClient(int id) {
+        var client = dbContext.Clients!.FirstOrDefault(c => c.Id == id);
+        if (client == null || string.IsNullOrWhiteSpace(client.Name))
+            return NotFound();
+        return Ok(new ClientDto(client.Name, client.Email));
+    }
+
+    [HttpGet]
     [Produces(typeof(OrderDto))]
     [Route("orders/{orderId}")]
     public IActionResult GetOrder(int orderId) {
         var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        if (order == null)
+            return NotFound();
+        dbContext.Entry(order).Collection(o => o.Messages!).Load();
+        return base.Ok(order.ToDto());
+    }
+
+    [HttpGet]
+    [Produces(typeof(OrderDto))]
+    [Route("orders/by-number/{number}")]
+    public IActionResult GetOrderByNumber(string number) {
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Number == $"#{number}");
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();

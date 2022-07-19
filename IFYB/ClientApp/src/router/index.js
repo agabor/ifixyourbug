@@ -4,6 +4,7 @@ import OtherServices from '../views/OtherServices.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
 import AdminView from '../views/AdminView.vue';
+import AdminOrderView from '../views/AdminOrderView.vue';
 import ContactForm from '../views/ContactForm.vue';
 import OrdersView from '../views/OrdersView.vue';
 import OrderView from '../views/OrderView.vue';
@@ -68,6 +69,12 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminView,
+    beforeEnter: adminAuthenticationGuard
+  },
+  {
+    path: '/admin/:number',
+    name: 'order',
+    component: AdminOrderView,
     beforeEnter: adminAuthenticationGuard
   },
   {
