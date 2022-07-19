@@ -3,13 +3,13 @@
   <table class="table align-items-center mb-0">
     <thead>
       <tr>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.number') }}</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.framework') }}</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.version') }}</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.applicationUrl') }}</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ $t('orderList.specificPlatform') }}</th>
-        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.thirdPartyTool') }}</th>
-        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.state') }}</th>
+        <sortable-th title="number" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="framework" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="version" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="applicationUrl" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="specificPlatform" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="thirdPartyTool" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+        <sortable-th title="state" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ $t('orderList.pay') }}</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
       </tr>
@@ -62,23 +62,45 @@
 <script>
 import { ref, watch } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
+import SortableTh from './SortableTh.vue';
 
 export default {
   name: 'OrderList',
-  components: { SearchBar },
+  components: { SearchBar, SortableTh },
   props: {
     orders: Array
   },
   emits: ['openOrder'],
   setup(props) {
     const filteredOrders = ref(props.orders ?? []);
-    const properties = ['nuber', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state'];
+    const properties = ['number', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state'];
+    const orderBy = ref('');
+    const orderAsc = ref(true);
     
     watch(props, () => {
       filteredOrders.value = props.orders;
     });
 
-    return { filteredOrders, properties }
+    function sort(propName) {
+      if (orderBy.value === propName) {
+        orderAsc.value = !orderAsc.value;
+      } else {
+        orderBy.value = propName;
+      }
+      const ordBy = orderBy.value;
+      const asc = orderAsc.value;
+      if (orderBy.value !== '')
+        filteredOrders.value.sort((a, b) => {
+          console.log(a[ordBy], b[ordBy]);
+          if (a[ordBy] < b[ordBy] ^ asc)
+            return 1;
+          if (a[ordBy] > b[ordBy] ^ asc)
+            return -1;
+          return 0
+        });
+    }
+
+    return { filteredOrders, properties, orderBy, orderAsc, sort }
   }
 }
 </script>
