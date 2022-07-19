@@ -12,7 +12,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router';
 import { useServerError, useUserAuthentication } from "../store";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
@@ -45,8 +45,13 @@ export default {
 
     async function setMessages() {
       let response = await get(`/api/orders/${selectedOrder.value.id}`);
-      let order = await response.json();
-      messages.value = order.messages.reverse();
+      if(response.status == 200) {
+        setServerError(null);
+        let order = await response.json();
+        messages.value = order.messages.reverse();
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
     function closeSelectedOrder() {
@@ -57,8 +62,13 @@ export default {
 
     async function submitMessage(message) {
       let response = await post(`/api/orders/${selectedOrder.value.id}`, { text: message });
-      let newMessage = await response.json();
-      messages.value.unshift(newMessage);
+      if(response.status == 200) {
+        setServerError(null);
+        let newMessage = await response.json();
+        messages.value.unshift(newMessage);
+      } else {
+        setServerError(response.statusText);
+      }
     }
 
     return { orders, messages, selectedOrder, closeSelectedOrder, submitMessage }
