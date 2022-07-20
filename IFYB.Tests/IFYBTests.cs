@@ -24,7 +24,8 @@ public class IFYBTests
         await Get("api/authenticate/check-jwt", HttpStatusCode.Unauthorized);
         
         var response = await Post("api/authenticate", HttpStatusCode.OK, new {
-            email = "aa@bb.cc"
+            email = "aa@bb.cc",
+            privacyPolicyAccepted = true
         });
         JToken? idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
@@ -78,6 +79,7 @@ public class IFYBTests
         respObject.Remove("id");
         respObject.Remove("messages");
         respObject.Remove("state");
+        respObject.Remove("paymentToken");
         Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
     }
 
@@ -122,7 +124,8 @@ public class IFYBTests
         await Get("api/reset", HttpStatusCode.OK);
         
         var response = await Post("api/authenticate", HttpStatusCode.OK, new {
-            email = "aa@bb.cc"
+            email = "aa@bb.cc",
+            privacyPolicyAccepted = true
         });
         JToken? idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
