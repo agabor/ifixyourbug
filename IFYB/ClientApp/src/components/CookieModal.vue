@@ -26,8 +26,8 @@
                       <button type="button" class="btn bg-gradient-primary" @click="customizeCookies">{{ $t('cookie.customise') }}</button>
                     </div>
                     <div class="modal-footer" v-else>
-                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="acceptCookies">{{ $t('cookie.acceptAll') }}</button>
-                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="rejectCookies">R{{ $t('cookie.rejectAll') }}</button>
+                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="acceptAllCookies">{{ $t('cookie.acceptAll') }}</button>
+                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="rejectAllCookies">R{{ $t('cookie.rejectAll') }}</button>
                       <button type="button" class="btn bg-gradient-primary" @click="save">{{ $t('cookie.save') }}</button>
                     </div>
                   </div>
@@ -65,10 +65,14 @@ export default {
       cookieConsentAnswered.value = true;
     }
 
-    function rejectCookies() {
-      localStorage.setItem('cookieConsentAnswered', true);
-      localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: false, advertisement: false }));
-      cookieConsentAnswered.value = true;
+    function rejectAllCookies() {
+      analytics.value = false;
+      advertisement.value = false;
+    }
+
+    function acceptAllCookies() {
+      analytics.value = true;
+      advertisement.value = true;
     }
 
     function customizeCookies() {
@@ -81,7 +85,7 @@ export default {
       cookieConsentAnswered.value = true;
     }
 
-    return { cookieConsentAnswered, showCustomize, analytics, advertisement, acceptCookies, rejectCookies, customizeCookies, save };
+    return { cookieConsentAnswered, showCustomize, analytics, advertisement, acceptCookies, rejectAllCookies, acceptAllCookies, customizeCookies, save };
   },
 }
 </script>
