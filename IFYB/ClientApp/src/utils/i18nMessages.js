@@ -407,6 +407,18 @@ export const messages = {
         loading: 'loading ...',
         checkoutLink: 'Checkout link expired.',
         backToHome: 'Bact to home',
+      },
+    //CookieModal
+      cookie: {
+        title: "Cookies!",
+        subtitle: "We use cookies to make your experience better",
+        analytics: "Analytics",
+        advertisement: "Advertisement",
+        accept: "Accept",
+        customise: "Customise",
+        acceptAll: "Accept all",
+        rejectAll: "Reject all",
+        save: "Save",
       }
     }
   }
