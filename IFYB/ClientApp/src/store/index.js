@@ -20,7 +20,8 @@ const inputErrors = ref({
   accessMode: null,
   repoUrl: null,
   selectedAccess: null,
-  confirmMessage: null
+  confirmMessage: null,
+  acceptTerms: null,
 });
 
 export function useInputError() {

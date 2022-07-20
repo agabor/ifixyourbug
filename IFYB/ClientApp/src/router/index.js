@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
+import TermsAndConditions from '../views/TermsAndConditions.vue';
 import OtherServices from '../views/OtherServices.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
@@ -54,6 +55,11 @@ const routes = [
     path: '/privacy-policy',
     name: 'privacy-policy',
     component: PrivacyPolicy
+  },
+  {
+    path: '/terms-and-conditions',
+    name: 'terms-and-conditions',
+    component: TermsAndConditions
   },
   {
     path: '/other-services',

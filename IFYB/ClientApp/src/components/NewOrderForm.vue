@@ -12,6 +12,7 @@
       <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
       <bug-description v-model="order.bugDescription" :showError="showErrors"></bug-description>
       <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
+      <accept-terms :showError="showErrors"></accept-terms>
     </div>
   </form>
   <div class="d-flex justify-content-center my-4">
@@ -37,10 +38,11 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import { useServerError, useInputError } from "../store";
 import router from '../router'
+import AcceptTerms from './orderComponents/AcceptTerms.vue';
 
 export default {
   name: 'NewOrderForm',
-  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool },
+  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms },
   props: {
     gitAccesses: Array
   },

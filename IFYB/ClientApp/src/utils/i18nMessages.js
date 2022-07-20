@@ -22,13 +22,15 @@ export const messages = {
         minLength: 'Minimum character is ',
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
-        noResult: 'No result'
+        noResult: 'No result',
+        acceptTerms: 'You must accept the terms and conditions'
       },
     //Policies
       policies: {
         iAcceptAndRead: 'I have read and accept',
         privacyPolicy: 'the privacy policy',
         requiredPrivacyPolicy: 'Approval of the privacy policy is required',
+        termsAndConditions: 'the terms and conditions',
       },
     //SearchBar.vue
       searchBar: {
