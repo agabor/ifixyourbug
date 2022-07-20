@@ -69,7 +69,7 @@ export default {
     function logout() {
       userAuth.setJwt(null);
       adminAuth.setJwt(null);
-      router.push('/');
+      router.push('/authentication');
     }
 
     return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn }

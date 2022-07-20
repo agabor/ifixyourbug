@@ -57,16 +57,24 @@ async function post(route, body, jwt) {
 }
 
 const userJwt = ref(localStorage.getItem('jwt'));
+const isUserLoggedIn = ref(false);
 
 function setUserJwt(jwt) {
   if (jwt)
     localStorage.setItem('jwt', jwt);
   else
     localStorage.removeItem('jwt');
-  userJwt.value = jwt
+  userJwt.value = jwt;
+  checkLoggedIn();
 }
 
-const isUserLoggedIn = computed(() => userJwt.value !== null);
+async function checkLoggedIn() {
+  let response = await userGet('/api/clients/name');
+  if(response.status == 200)
+    isUserLoggedIn.value = true;
+  else
+    isUserLoggedIn.value = false;
+}
 
 function userGet(route) {
   return get(route, userJwt.value)
@@ -85,7 +93,7 @@ if (userJwt.value) {
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'setJwt': setUserJwt, 'isLoggedIn': isUserLoggedIn, 'get': userGet, 'post': userPost };
+  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'isLoggedIn': isUserLoggedIn, 'get': userGet, 'post': userPost };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));

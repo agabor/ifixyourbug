@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { requestedPage, setJwt, get, post } = useUserAuthentication();
+    const { requestedPage, jwt, setJwt, get, post } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -32,7 +32,10 @@ export default {
     let clientId;
 
     setServerError(null);
-    
+    if(jwt.value) {
+      toNamePageOrToTargetPage();
+    }
+
     async function submitEmail(email) {
       progress.value = 30;
       let response = await fetch('/api/authenticate', {
