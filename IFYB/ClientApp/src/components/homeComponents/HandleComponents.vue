@@ -9,7 +9,6 @@
             </div>
           </div>
           <h3 class="mb-0 mt-4">{{ $t('handle.title1') }}</h3>
-          <h3>{{ $t('handle.title2') }}</h3>
           <p>{{ $t('handle.subTitle') }}</p>
         </div>
       </div>
