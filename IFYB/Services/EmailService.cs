@@ -19,6 +19,8 @@ public class EmailService
 
     public void SendEmail(string toEmail, string subject, string text, string html)
     {
+        if (!appOptions.SendEmails)
+            return;
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(toEmail);
         var message = new MailMessage(from, to);
@@ -36,6 +38,8 @@ public class EmailService
 
     public void SendEmailWithPdf(string toEmail, string subject, string text, string html, Stream file, string fileName)
     {
+        if (!appOptions.SendEmails)
+            return;
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(toEmail);
         var message = new MailMessage(from, to);
