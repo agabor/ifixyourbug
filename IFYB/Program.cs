@@ -13,6 +13,7 @@ using System.Threading.Channels;
 using IFYB.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSystemd(); 
 
 var stripeOptions = builder.Configuration.GetSection(StripeOptions.Stripe).Get<StripeOptions>();
 StripeConfiguration.ApiKey = stripeOptions.ApiKey;
