@@ -55,8 +55,6 @@ export default {
     setShowModal();
 
     function setShowModal() {
-      console.log('acceptedCookies', localStorage.getItem('acceptedCookies'));
-      console.log('cookieConsentAnswered', JSON.parse(localStorage.getItem('cookieConsentAnswered')));
       if(localStorage.getItem('cookieConsentAnswered'))
         cookieConsentAnswered.value = localStorage.getItem('cookieConsentAnswered');
     }
