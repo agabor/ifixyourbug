@@ -16,7 +16,7 @@
                 v-model="newMessage"
                 :placeholder="$t('orderMessages.newMessagePlaceholder')"
                 @keyup.enter.shift.exact.prevent="addLine()"
-                @keydown.enter.exact.prevent="trySubmitMessage()">
+                @keyup.enter.exact.prevent="addLine()">
               </textarea>
               <i class="ni ni-send opacity-10 fs-4 mx-2 cursor-pointer fg-gradient-primary send-btn" @click="trySubmitMessage()"></i>
             </div>
