@@ -5,7 +5,6 @@
       <div class="carousel-inner">
         <carousel-item class="active" width="col-12">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
-          <button type="button" class="btn btn-rounded bg-gradient-primary mt-4 mb-0" @click="$router.push('/new-order')">{{ $t('orderList.addNewOrder') }}</button>
         </carousel-item>
       </div>
     </div>

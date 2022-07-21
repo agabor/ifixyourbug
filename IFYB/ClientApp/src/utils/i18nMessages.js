@@ -272,7 +272,8 @@ export const messages = {
         payed: 'Payed',
         completed: 'Completed',
         refundable: 'Refundable',
-        addNewOrder: 'Add new order'
+        addNewOrder: 'Add new order',
+        details: 'Details'
       },
     //ClientList
       clientList: {
