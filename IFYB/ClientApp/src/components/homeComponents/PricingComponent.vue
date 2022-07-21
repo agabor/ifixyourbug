@@ -1,5 +1,5 @@
 <template>
-  <section class="py-lg-7">
+  <section class="py-lg-7" id="pricing">
     <div class="container">
       <div class="row">
         <div class="col-md-6 mx-auto text-center mb-5">
@@ -60,7 +60,7 @@
                 <h1 class="mt-0">
                   <small>$</small>399
                 </h1>
-                <button type="button" class="btn bg-gradient-info btn-lg mt-2">{{ $t('pricing.getAccess') }}</button>
+                <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.getAccess') }}</button>
                 <p class="text-sm">{{ $t('pricing.getFree') }}</p>
               </div>
             </div>

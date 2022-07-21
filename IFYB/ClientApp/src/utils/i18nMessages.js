@@ -52,7 +52,7 @@ export const messages = {
       mainCard: {
         title: 'I Fix Your Bug',
         description: 'ASP.NET Core and Vue.js bugfixing service. For when you need a second pair of eyes.',
-        order: 'New order',
+        pricing: 'Pricing',
         contact: 'Contact',
         asp: 'ASP.NET Core',
         vuejs: 'Vue.js',

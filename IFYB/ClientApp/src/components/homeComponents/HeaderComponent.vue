@@ -16,7 +16,7 @@
                 </div>
               </div>
               <div class="buttons z-index-2">
-                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="$router.push('/new-order')">{{ $t('mainCard.order') }}</button>
+                <button type="button" class="btn btn-rounded bg-gradient-primary mt-4" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
                 <button type="button" class="btn btn-rounded btn-outline-secondary mt-4 ms-2" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
               </div>
             </div>
@@ -30,6 +30,13 @@
 <script>
 export default {
   name: 'HeaderComponent',
+  setup() {
+    function toPricing() {
+      document.getElementById('pricing').scrollIntoView();
+    }
+
+    return { toPricing }
+  }
 }
 </script>
 
