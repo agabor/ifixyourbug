@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { requestedPage, jwt, setJwt, get, post } = useUserAuthentication();
+    const { requestedPage, jwt, setJwt, get, post, checkLoggedIn } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -101,22 +101,23 @@ export default {
       if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        router.push(requestedPage.value ? requestedPage.value : '/my-orders');
+        await checkLoggedIn();
+        router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
       } else{
         setServerError(response.statusText);
       }
     }
 
     async function toNamePageOrToTargetPage() {
-      let response = await get('/api/clients/name')
+      let response = await get('/api/clients/name');
       if(response.status == 404) {
         page.value = 'name';
       } else if(response.status == 200) {
         setServerError(null);
         page.value = '';
-        router.push(requestedPage.value ? requestedPage.value : '/my-orders');
+        await checkLoggedIn();
+        router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
       } else{
-        page.value = 'name';
         setServerError(response.statusText);
       }
     }

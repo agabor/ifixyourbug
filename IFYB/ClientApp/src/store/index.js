@@ -93,7 +93,7 @@ if (userJwt.value) {
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'isLoggedIn': isUserLoggedIn, 'get': userGet, 'post': userPost };
+  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'isLoggedIn': isUserLoggedIn, checkLoggedIn, 'get': userGet, 'post': userPost };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));

@@ -72,7 +72,7 @@ export default {
         error.value = null;
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
-        router.push(requestedPage.value);
+        router.push(requestedPage.value ? requestedPage.value.fullPath : '/admin');
       } else if(response.status == 403) {
         handleAuthenticationError();
       } else {
