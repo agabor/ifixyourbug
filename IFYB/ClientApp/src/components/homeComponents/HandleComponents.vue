@@ -48,7 +48,7 @@
         </div>
       </div>
       <hr class="dark my-md-6 mt-2 mx-7">
-      <div class="row">
+      <div class="row my-5">
         <div class="col-md-5 ms-auto my-auto">
           <div class="p-3 info-horizontal d-flex">
             <div>
