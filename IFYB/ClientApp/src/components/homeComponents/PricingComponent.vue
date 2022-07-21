@@ -57,9 +57,13 @@
             <div class="col-lg-4 my-auto">
               <div class="card-body text-center">
                 <h6 class="mt-sm-4 mt-0 mb-0">{{ $t('pricing.payOne') }}</h6>
-                <h1 class="mt-0">
-                  <small>$</small>399
-                </h1>
+                <h3 class="mt-0">
+                  <small>$</small> 99.90
+                </h3>
+                <h4><small>or</small></h4>
+                <h3>
+                  <small>€</small> 99.90
+                </h3>
                 <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
               </div>
             </div>

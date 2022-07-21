@@ -53,7 +53,7 @@ public class PaymentController : BaseController
           {
             new SessionLineItemOptions
             {
-              Price = stripeOptions.PriceId,
+              Price = stripeOptions.EurPriceId,
               Quantity = 1,
             },
           },

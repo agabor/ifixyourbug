@@ -11,6 +11,7 @@ using IFYB;
 using Stripe;
 using System.Threading.Channels;
 using IFYB.HostedServices;
+using IFYB.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSystemd(); 
@@ -30,6 +31,18 @@ builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptio
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(StripeOptions.Stripe));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
 builder.Services.Configure<BillingOptions>(builder.Configuration.GetSection(BillingOptions.Billing));
+
+var priceService = new PriceService();
+var eurPrice = priceService.Get(stripeOptions.EurPriceId);
+var usdPrice = priceService.Get(stripeOptions.UsdPriceId);
+var offer = new OfferDto
+{
+    EurPrice = eurPrice.UnitAmountDecimal!.Value / 100,
+    UsdPrice = usdPrice.UnitAmountDecimal!.Value / 100
+}; 
+
+builder.Services.AddSingleton(offer);
+
 var jwtOptions = builder.Configuration.GetSection(JwtOptions.Jwt).Get<JwtOptions>();
 var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Key));
 

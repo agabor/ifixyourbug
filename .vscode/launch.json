@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/IFYB/bin/Debug/net6.0/IFYB.dll",
-            "args": [],
+            "args": ["--urls=http://localhost:5000"],
             "cwd": "${workspaceFolder}/IFYB",
             "stopAtEntry": false,
             "serverReadyAction": {
