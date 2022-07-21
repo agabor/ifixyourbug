@@ -29,20 +29,20 @@
         <div class="col-md-5 me-auto my-auto ms-md-5">
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.searchTitle1') }}</h5>
-              <p>{{ $t('handle.searchDes1') }}</p>
+              <h5>{{ $t('handle.workflowTitle1') }}</h5>
+              <p>{{ $t('handle.workflowDescription1') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.searchTitle2') }}</h5>
-              <p>{{ $t('handle.searchDes2') }}</p>
+              <h5>{{ $t('handle.workflowTitle2') }}</h5>
+              <p>{{ $t('handle.workflowDescription2') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.searchTitle3') }}</h5>
-              <p>{{ $t('handle.searchDes3') }}</p>
+              <h5>{{ $t('handle.workflowTitle3') }}</h5>
+              <p>{{ $t('handle.workflowDescription3') }}</p>
             </div>
           </div>
         </div>
@@ -52,20 +52,20 @@
         <div class="col-md-5 ms-auto my-auto">
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.visitorsTitle1') }}</h5>
-              <p>{{ $t('handle.visitorsDes1') }}</p>
+              <h5>{{ $t('handle.workflowTitle4') }}</h5>
+              <p>{{ $t('handle.workflowDescription4') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.visitorsTitle2') }}</h5>
-              <p>{{ $t('handle.visitorsDes2') }}</p>
+              <h5>{{ $t('handle.workflowTitle5') }}</h5>
+              <p>{{ $t('handle.workflowDescription5') }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
             <div>
-              <h5>{{ $t('handle.visitorsTitle3') }}</h5>
-              <p>{{ $t('handle.visitorsDes3') }}</p>
+              <h5>{{ $t('handle.workflowTitle6') }}</h5>
+              <p>{{ $t('handle.workflowDescription6') }}</p>
             </div>
           </div>
         </div>
