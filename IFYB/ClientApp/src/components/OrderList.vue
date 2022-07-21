@@ -1,10 +1,7 @@
 <template>
   <search-bar v-model:modelValue="filteredOrders" :data="orders" :properties="properties"></search-bar>
-  <button type="button" class="btn bg-gradient-primary mt-4 d-flex align-items-center ms-2" @click="$router.push('/new-order')">
+  <button type="button" class="btn bg-gradient-primary mt-4" @click="$router.push('/new-order')">
     {{ $t('orderList.addNewOrder') }}
-    <span class="text-white text-xs font-weight-bold ms-2">
-      <i class="ni ni-fat-add opacity-10"></i>
-    </span>
   </button>
   <div class="row">
     <div class="col-12">
