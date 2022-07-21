@@ -60,8 +60,7 @@
                 <h1 class="mt-0">
                   <small>$</small>399
                 </h1>
-                <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.getAccess') }}</button>
-                <p class="text-sm">{{ $t('pricing.getFree') }}</p>
+                <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
               </div>
             </div>
           </div>
