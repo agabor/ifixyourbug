@@ -1,7 +1,7 @@
 <template>
   <section class="pb-md-7 pb-5">
     <div class="author-header min-vh-25">
-      <span class="mask bg-gradient-primary opacity-8"></span>
+      <span class="mask bg-gradient-primary opacity-5"></span>
     </div>
     <div class="container">
       <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
@@ -44,3 +44,12 @@ export default {
   name: 'NameCard',
 }
 </script>
+
+<style>
+  .author-header {
+    background-image: url('../../assets/img/bg2.webp');
+    position: relative;
+    background-size: cover;
+    background-position: top;
+  }
+</style>

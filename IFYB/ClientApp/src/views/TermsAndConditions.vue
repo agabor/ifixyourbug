@@ -181,6 +181,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/pricing3.jpg');
+  background-image: url('../assets/img/bg3.webp');
 }
 </style>

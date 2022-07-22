@@ -52,7 +52,7 @@ export default {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-image: url('../assets/img/pricing3.jpg');
+  background-image: url('../assets/img/bg3.webp');
 }
 .carousel-inner {
   height: 100%;

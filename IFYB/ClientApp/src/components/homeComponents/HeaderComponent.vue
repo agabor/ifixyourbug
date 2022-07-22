@@ -2,7 +2,7 @@
  <header>
     <div class="page-header min-vh-85">
       <div>
-        <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../../assets/img/pricing3.jpg" alt="image">
+        <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../../assets/img/bg5.webp" alt="image">
       </div>
       <div class="container">
         <div class="row">
@@ -41,13 +41,6 @@ export default {
 </script>
 
 <style>
-  .author-header {
-    background-image: url('../../assets/img/bg45.jpg');
-    position: relative;
-    background-size: cover;
-    background-position: 50%;
-  }
-
   .btn-outline-secondary {
     background: white;
     opacity: 0.8;
