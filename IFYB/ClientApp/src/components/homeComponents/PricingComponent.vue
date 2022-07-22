@@ -13,7 +13,7 @@
             <div class="col-lg-8">
               <div class="card-body">
                 <h3 class="text-info">{{ $t('pricing.title') }}</h3>
-                <p>{{ $t('pricing.description') }}</p>
+                <p>{{ $t('pricing.description', { workdays: workdays }) }}</p>
                 <div class="row mt-5 mb-2">
                   <div class="col-lg-3 col-12">
                     <h6 class="text-dark tet-uppercase">{{ $t('pricing.whatsincluded') }}</h6>
@@ -58,11 +58,11 @@
               <div class="card-body text-center">
                 <h6 class="mt-sm-4 mt-0 mb-0">{{ $t('pricing.payOne') }}</h6>
                 <h3 class="mt-0">
-                  <small>$</small> 99.90
+                  <small>$</small> {{ usdPrice }}
                 </h3>
                 <h4><small>or</small></h4>
                 <h3>
-                  <small>€</small> 99.90
+                  <small>€</small> {{ eurPrice }}
                 </h3>
                 <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
               </div>
@@ -75,7 +75,14 @@
 </template>
 
 <script>
+import { useOfferData } from "../../store";
+
 export default {
   name: 'PricingComponent',
+  setup() {
+    const { eurPrice, usdPrice, workdays } = useOfferData();
+
+    return { eurPrice, usdPrice, workdays }
+  }
 }
 </script>

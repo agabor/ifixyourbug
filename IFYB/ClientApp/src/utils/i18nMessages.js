@@ -95,7 +95,7 @@ export const messages = {
         mainTitle: 'Best no-tricks pricing',
         mainSubTitle: 'Fix price for all bugs.',
         title: 'Single Bugfix',
-        description: 'ASP.NET Core and Vue.js bugfixing within 3 workdays',
+        description: 'ASP.NET Core and Vue.js bugfixing within {workdays} workdays',
         whatsincluded: 'What’s included',
         include1: 'ASP.NET Core',
         include2: 'Vue.js',
@@ -401,6 +401,8 @@ export const messages = {
         loading: 'loading ...',
         checkoutLink: 'Checkout link expired.',
         backToHome: 'Bact to home',
+        notfound: 'Order not found',
+        back: 'Back'
       },
     //CookieModal
       cookie: {

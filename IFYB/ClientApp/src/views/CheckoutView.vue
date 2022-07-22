@@ -2,14 +2,14 @@
   <section>
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
-      <div class="carousel-inner">
-        <carousel-item class="full-height active" width="col-lg-9 col-md-11" icon="cart" :title="($t('checkout.order') + ' ' + order.number)">
+      <div class="carousel-inner" v-if="order">
+        <carousel-item class="active" width="col-lg-9 col-md-11" icon="cart" :title="($t('checkout.order') + ' ' + order.number)">
           <p v-if="loading">{{ $t('checkout.loading') }}</p>
-          <div v-if="order">
+          <div>
             <p>{{ $t('checkout.payDescription') }}</p>
             <div class="d-flex justify-content-center">
-              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} $99.90</a>
-              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €99.90</a>
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} ${{ usdPrice }}</a>
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €{{ eurPrice }}</a>
             </div>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -18,19 +18,25 @@
           <p v-if="!order && !loading">{{ $t('checkout.checkoutLink') }}</p>
         </carousel-item>
       </div>
+      <div class="carousel-inner" v-else>
+        <carousel-item class="active" width="col-12" icon="cart" :title="$t('checkout.notfound')">
+          <a class="btn btn bg-gradient-primary btn-round mx-1" @click="$router.go(-1)">{{ $t('checkout.back') }}</a>
+        </carousel-item>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { usePayment } from '@/store'
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { usePayment, useOfferData } from '@/store';
 import CarouselItem from '../components/CarouselItem.vue';
 
 export default {
   components: { CarouselItem },
   setup() {
+    const { eurPrice, usdPrice } = useOfferData();
     const loading = ref(true);
     const order = ref(null);
     const route = useRoute();
@@ -53,7 +59,7 @@ export default {
         progress.value = 100;
       });
     }
-    return { loading, order, route, progress, pay };
+    return { eurPrice, usdPrice, loading, order, route, progress, pay };
   }
 }
 </script>

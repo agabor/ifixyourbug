@@ -1,5 +1,21 @@
 import { ref, computed } from 'vue';
 
+const eurPrice = ref(null);
+const usdPrice = ref(null);
+const workdays = ref(null);
+
+fetch('/api/offer').then(resp => {
+  resp.json().then(data => {
+    eurPrice.value = data.eurPrice;
+    usdPrice.value = data.usdPrice;
+    workdays.value = data.workdays;
+  });
+});
+
+export function useOfferData() {
+  return { eurPrice, usdPrice, workdays };
+}
+
 const serverError = ref(null);
 
 const setServerError = (error) => {
