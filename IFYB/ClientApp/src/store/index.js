@@ -1,11 +1,12 @@
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
 const serverError = ref(null);
 
+const setServerError = (error) => {
+  serverError.value = error;
+};
+
 export function useServerError() {
-  const setServerError = (error) => {
-    serverError.value = error;
-  };
   return { serverError, setServerError };
 }
 
@@ -35,7 +36,6 @@ export function useInputError() {
 }
 
 
-const requestedPage = ref(null);
 
 async function get(route, jwt) {
   return await fetch(route, {
@@ -56,8 +56,11 @@ async function post(route, body, jwt) {
   })
 }
 
+const requestedPage = ref(null);
 const userJwt = ref(localStorage.getItem('jwt'));
 const isUserLoggedIn = ref(false);
+const userName = ref(null);
+const userEmail = ref(null);
 
 function setUserJwt(jwt) {
   if (jwt)
@@ -65,15 +68,37 @@ function setUserJwt(jwt) {
   else
     localStorage.removeItem('jwt');
   userJwt.value = jwt;
-  checkLoggedIn();
+  setName();
 }
 
-async function checkLoggedIn() {
-  let response = await userGet('/api/clients/name');
-  if(response.status == 200)
-    isUserLoggedIn.value = true;
-  else
-    isUserLoggedIn.value = false;
+async function setName(name) {
+  if(!name){
+    let response = await userGet('/api/clients/name');
+    if(response.status == 200){
+      let user = await response.json();
+      userName.value = user.name;
+      userEmail.value = user.email;
+      isUserLoggedIn.value = true;
+    } else {
+      userName.value = null;
+      userEmail.value = null;
+      isUserLoggedIn.value = false;
+    }
+  } else {
+    let response = await userPost('/api/clients/name', {'name': name});
+    if(response.status == 200) {
+      setServerError(null);
+      let user = await (await userGet('/api/clients/name')).json();
+      userName.value = user.name;
+      userEmail.value = user.email;
+      isUserLoggedIn.value = true;
+    } else {
+      setServerError(response.statusText);
+      userName.value = null;
+      userEmail.value = null;
+      isUserLoggedIn.value = false;
+    }
+  }
 }
 
 function userGet(route) {
@@ -93,7 +118,7 @@ if (userJwt.value) {
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'isLoggedIn': isUserLoggedIn, checkLoggedIn, 'get': userGet, 'post': userPost };
+  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));

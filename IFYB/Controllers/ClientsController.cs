@@ -19,13 +19,13 @@ public class ClientsController : BaseController
 
     [HttpGet]
     [Route("name")]
-    [Produces(typeof(NameDto))]
+    [Produces(typeof(ClientDto))]
     public IActionResult GetName()
     {
         var client = GetClient();
         if (client == null || string.IsNullOrWhiteSpace(client.Name))
             return NotFound();
-        return Ok(new NameDto(client.Name));
+        return Ok(new ClientDto(client.Name, client.Email));
     }
 
     [HttpPost]

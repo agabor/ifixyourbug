@@ -43,6 +43,14 @@
             </a>
           </li>
         </ul>
+        <ul class="navbar-nav d-block mx-2 text-center">
+          <li class="nav-item small fw-bold">
+            {{name}}
+          </li>
+          <li class="nav-item small fw-light">
+            {{email}}
+          </li>
+        </ul>
         <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
             <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
@@ -72,7 +80,7 @@ export default {
       router.push('/authentication');
     }
 
-    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn }
+    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': userAuth.name, 'email': userAuth.email }
   }
 }
 </script>

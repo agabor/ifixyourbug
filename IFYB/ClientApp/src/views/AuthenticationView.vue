@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setName"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName"></authentication>
       </div>
     </div>
   </section>
@@ -14,14 +14,14 @@ import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
 import { useServerError, useUserAuthentication } from "../store";
-import router from '../router'
+import router from '../router';
 
 export default {
   name: 'AuthenticationView',
   components: { Authentication },
   setup() {
     const { setServerError } = useServerError();
-    const { requestedPage, jwt, setJwt, get, post, checkLoggedIn } = useUserAuthentication();
+    const { requestedPage, jwt, name, setJwt, setName } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -96,34 +96,23 @@ export default {
       error.value = tm('errors.wrongCode');
     }
 
-    async function setName(name) {
-      let response = await post('/api/clients/name', {'name': name});
-      if(response.status == 200) {
-        setServerError(null);
-        page.value = '';
-        await checkLoggedIn();
+    async function setUserName(n) {
+      await setName(n);
+      if(name.value) {
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
-      } else{
-        setServerError(response.statusText);
       }
     }
 
     async function toNamePageOrToTargetPage() {
-      let response = await get('/api/clients/name');
-      if(response.status == 404) {
-        page.value = 'name';
-      } else if(response.status == 200) {
-        setServerError(null);
-        page.value = '';
-        await checkLoggedIn();
+      await setName();
+      if(name.value) {
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
-      } else{
-        setServerError(response.statusText);
+      } else {
+        page.value = 'name';
       }
     }
 
-
-    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setName }
+    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setUserName }
   }
 }
 </script>
