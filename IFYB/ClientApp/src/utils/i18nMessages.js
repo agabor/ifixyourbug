@@ -151,7 +151,7 @@ export const messages = {
         question1: 'Is my code safe with you?',
         answer1: 'When you submit your order, you provide access to your git repository. When your order is competed, you are free to revoke my access. I will delete my local copy of your repository when your order is completed.',
         question2: 'Can you sign an NDA?',
-        answer2: 'Yes, please send an e-mail to gabor@ifixyourbug.com to discuss the details.',
+        answer2: "Yes, please send an e-mail to gabor{'@'}ifixyourbug.com to discuss the details.",
       },
       faqOrders: {
         title: 'Orders',
@@ -165,12 +165,12 @@ export const messages = {
       faqRefunds: {
         title: 'Refunds',
         question1: 'How do I get a refund?',
-        answer1: 'If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will autiomatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messageing feature on you order page, or send an e-mail to gabor@ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim.',
+        answer1: "If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will autiomatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messageing feature on you order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim.",
       },
     //ContactForm
       contact: {
         title: 'Contact us',
-        subTitle: "For further questions, including partnership opportunities, please email info{'@'}codesharp.hu or contact using our contact form.",
+        subTitle: "For further questions, including partnership opportunities, please email gabor{'@'}ifixyourbug.com or contact using our contact form.",
         fullName: 'Full Name',
         email: 'Email',
         emailPlaceholder: "info{'@'}codesharp.hu",
@@ -345,12 +345,12 @@ export const messages = {
         urlLabel: 'Git repo url*',
         urlPlaceholder: 'https://..',
         sharingLabel: 'Project sharing with*',
-        option1: 'Public repo',
-        option2: 'Invite',
-        option3: 'User account',
-        option1Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 0',
-        option2Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 1',
-        option3Des: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem, itaque sunt voluptatum unde repellendus nostrum distinctio eveniet quidem maxime animi repellat quasi quam officia provident possimus voluptate aliquam cum a. 2',
+        option1: 'Public repository',
+        option2: 'Invite to repository',
+        option3: 'Create account for repository',
+        description1: 'Use this option if your project is hosted publicly. (For example on GitHub, GitLab or Bitbucket.)',
+        description2: "Use this option if your project is hosted privately, and you wish to invite me. If your project is hosted on GitHub, GitLab or Bitbucket, please invite the following user: agabor (gabor{'@'}ifixyourbug.com). If your project is hosted elsewhere, please send an invitation link to this e-mail address.",
+        description3: 'Use this option if your project is hosted privately, and you wish to create an account for me. Please include the user credentials in the bug description. If you want to use an SSH key, please use the following public key:',
       },
     //ThirdPartyTool
       thirdPartyTool: {
