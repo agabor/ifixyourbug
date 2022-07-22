@@ -6,10 +6,11 @@
         <carousel-item class="full-height active" width="col-lg-9 col-md-11" icon="cart" :title="($t('checkout.order') + ' ' + order.number)">
           <p v-if="loading">{{ $t('checkout.loading') }}</p>
           <div v-if="order">
-            <p>{{ $t('checkout.pay') }}</p>
-            <form :action="`/api/pay/${route.params.token}`" method="post">
-                <a class="btn btn bg-gradient-primary btn-round" @click="pay">Pay</a>
-            </form>
+            <p>{{ $t('checkout.payDescription') }}</p>
+            <div class="d-flex justify-content-center">
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} $99.90</a>
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €99.90</a>
+            </div>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
@@ -42,9 +43,9 @@ export default {
         loading.value = false;
       });
     });
-    function pay() {
+    function pay(isEur) {
       progress.value = 30;
-      fetch(`/api/pay/${route.params.token}`, { method: 'post' }).then(resp => {
+      fetch(`/api/pay/${route.params.token}/${isEur}`, { method: 'post' }).then(resp => {
         payment.setPaymentToken(route.params.token)
         resp.json().then(data => {
           window.location.href = data.url
