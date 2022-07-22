@@ -33,20 +33,19 @@ export default {
   components: { CarouselItem, ClientList, ContactMessages, SearchBar },
   setup() {
     const { get } = useAdminAuthentication();
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const clients = ref([]);
     const selectedClient = ref(null);
     const clientMessages = ref([]);
     const filteredClients = ref([]);
     const properties = ['name', 'email' ];
 
-    setServerError(null);
     setClients();
 
     async function setClients() {
       let response = await get('/api/admin/clients');
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         clients.value = await response.json();
         filteredClients.value = clients.value;
       } else {
@@ -62,7 +61,7 @@ export default {
     async function setClientsMessages() {
       let response = await get(`/api/admin/contact-messages/${selectedClient.value.id}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         clientMessages.value = await response.json();
       } else {
         setServerError(response.statusText);

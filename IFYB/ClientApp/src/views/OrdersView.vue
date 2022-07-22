@@ -22,17 +22,16 @@ export default {
   name: 'OrdersView',
   components: { CarouselItem, OrderList },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const orders = ref([]);
 
     setOrders();
-    setServerError(null);
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');
       if(orderResponse.status == 200) {
-        setServerError(null);
+        resetServerError();
         orders.value = await orderResponse.json();
       } else {
         setServerError(orderResponse.statusText);

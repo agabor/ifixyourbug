@@ -22,19 +22,18 @@ export default {
   name: 'NewOrderView',
   components: { CarouselItem, NewOrderForm },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const page = ref('');
     const gitAccesses = ref([]);
 
     page.value = 'data';
-    setServerError(null);
     setGitAccesses();
     
     async function setGitAccesses() {
       let response = await get('/api/git-accesses');
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         gitAccesses.value = await response.json();
       } else {
         setServerError(response.statusText);

@@ -24,7 +24,7 @@ export default {
   name: 'AdminOrderView',
   components: { AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
     const clients = ref([]);
     const messages = ref([]);
@@ -35,13 +35,12 @@ export default {
     const showError = ref(false);
     const route = useRoute();
 
-    setServerError(null);
     setSelectedOrder();
 
     async function setSelectedOrder() {
       let orderResponse = await get(`/api/admin/orders/by-number/${route.params.number}`);
       if(orderResponse.status == 200) {
-        setServerError(null);
+        resetServerError();
         selectedOrder.value = await orderResponse.json();
         setClient();
         setMessages();
@@ -53,7 +52,7 @@ export default {
     async function setClient() {
       let response = await get(`/api/admin/clients/${selectedOrder.value.clientId}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let client = await response.json();
         selectedOrder.value.name = client.name;
         selectedOrder.value.email = client.email;
@@ -65,7 +64,7 @@ export default {
     async function setMessages() {
       let response = await get(`/api/admin/orders/${selectedOrder.value.id}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let order = await response.json();
         messages.value = order.messages.reverse();
       } else {
@@ -85,7 +84,7 @@ export default {
           text: message
         });
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let newMessage = await response.json();
         messages.value.unshift(newMessage);
       } else {
@@ -117,7 +116,7 @@ export default {
         response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, nextState.value);
       }
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         selectedOrder.value.state = nextState.value;
         nextState.value = null;
       } else {

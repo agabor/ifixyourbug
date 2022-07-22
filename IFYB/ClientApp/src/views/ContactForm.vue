@@ -75,7 +75,7 @@ import { useServerError, useUserAuthentication } from "../store";
 export default {
   name: 'ContactForm',
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get, isLoggedIn } = useUserAuthentication();
     const { tm } = useI18n();
     const contact = ref({
@@ -85,13 +85,12 @@ export default {
     const error = ref(null);
     const page = ref('contact');
 
-    setServerError(null);
     setClientContact();
 
     async function setClientContact() {
       let response = await get('/api/clients/client');
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let client = await response.json();
         contact.value.name = client.name;
         contact.value.email = client.email;
@@ -118,7 +117,7 @@ export default {
         body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
       });
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         page.value = 'success';
         error.value = null;
       } else {

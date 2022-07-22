@@ -22,19 +22,18 @@ export default {
   name: 'AdminView',
   components: { CarouselItem, AdminOrderList },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const orders = ref([]);
     const clients = ref([]);
 
-    setServerError(null);
     setClients();
     setOrders();
 
     async function setClients() {
       let response = await get('/api/admin/clients');
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         clients.value = await response.json();
       } else {
         setServerError(response.statusText);
@@ -44,7 +43,7 @@ export default {
     async function setOrders() {
       let response = await get('/api/admin/orders');
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let data = await response.json();
         orders.value = data.map(order => ({...order, ...clients.value.find(client => client.id === order.clientId)}));
       } else {

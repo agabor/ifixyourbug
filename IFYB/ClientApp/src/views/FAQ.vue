@@ -61,17 +61,11 @@
 
 
 <script>
-import { useServerError } from "../store";
-
 export default {
   setup() {
     const faqSecurityCount = 2;
     const faqOrders = 3;
     const faqRefunds = 1;
-    const { setServerError } = useServerError();
-    
-    setServerError(null);
-
     return { faqSecurityCount, faqOrders, faqRefunds };
   }
 }

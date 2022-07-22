@@ -16,16 +16,9 @@ import HeaderComponent from '../components/homeComponents/HeaderComponent.vue';
 import NameCard from '../components/homeComponents/NameCard.vue';
 import PricingComponent from '../components/homeComponents/PricingComponent.vue';
 import WorkWithUs from '../components/homeComponents/WorkWithUs.vue';
-import { useServerError } from "../store";
 
 export default {
   name: 'HomeView',
   components: { FooterComponent, HandleComponents, PricingComponent, WorkWithUs, NameCard, FeaturesComponent, HeaderComponent },
-  setup() {
-    const { setServerError } = useServerError();
-    setServerError(null);
-
-    return {};
-  }
 }
 </script>

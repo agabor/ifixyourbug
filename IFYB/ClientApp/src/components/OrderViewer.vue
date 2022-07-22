@@ -68,7 +68,7 @@ export default {
   },
   emits: ['back'],
   setup(props) {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const gitAccess = ref(null);
 
@@ -77,7 +77,7 @@ export default {
     async function setGitAccess() {
       let response = await get(`/api/git-accesses/${props.order.gitAccessId}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         gitAccess.value = await response.json();
       } else {
         setServerError(response.statusText);

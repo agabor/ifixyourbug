@@ -192,17 +192,8 @@
 
 
 <script>
-import { useServerError } from "../store";
-
 export default {
   name: 'PrivacyPolicy',
-  setup() {
-    const { setServerError } = useServerError();
-    
-    setServerError(null);
-
-    return { };
-  }
 }
 </script>
 

@@ -101,7 +101,7 @@ export default {
   },
   emits: ['back', 'changeOrderState' ],
   setup(props) {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const gitAccess = ref(null);
 
@@ -110,7 +110,7 @@ export default {
     async function setGitAccess() {
       let response = await get(`/api/admin/git-accesses/${props.order.gitAccessId}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         gitAccess.value = await response.json();
       } else {
         setServerError(response.statusText);

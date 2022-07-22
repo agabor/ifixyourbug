@@ -166,17 +166,9 @@
 
 
 <script>
-import { useServerError } from "../store";
 
 export default {
   name: 'TermsAndConditions',
-  setup() {
-    const { setServerError } = useServerError();
-    
-    setServerError(null);
-
-    return { };
-  }
 }
 </script>
 

@@ -22,20 +22,19 @@ export default {
   name: 'OrderView',
   components: { OrderViewer, OrderMessages },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useUserAuthentication();
     const orders = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
     const route = useRoute();
 
-    setServerError(null);
     setSelectedOrder();
 
     async function setSelectedOrder() {
       let orderResponse = await get(`/api/orders/by-number/${route.params.number}`);
       if(orderResponse.status == 200) {
-        setServerError(null);
+        resetServerError();
         selectedOrder.value = await orderResponse.json();
         setMessages();
       } else {
@@ -46,7 +45,7 @@ export default {
     async function setMessages() {
       let response = await get(`/api/orders/${selectedOrder.value.id}`);
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let order = await response.json();
         messages.value = order.messages.reverse();
       } else {
@@ -63,7 +62,7 @@ export default {
     async function submitMessage(message) {
       let response = await post(`/api/orders/${selectedOrder.value.id}`, { text: message });
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         let newMessage = await response.json();
         messages.value.unshift(newMessage);
       } else {

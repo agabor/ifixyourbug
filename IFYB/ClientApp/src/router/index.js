@@ -17,11 +17,12 @@ import CheckoutView from '../views/CheckoutView.vue';
 import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
 import CheckoutFailureView from '../views/CheckoutFailureView.vue';
 import CheckoutPaidView from '../views/CheckoutPaidView.vue';
-import { useUserAuthentication, useAdminAuthentication, usePayment } from '@/store';
+import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError } from '@/store';
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
+const { resetServerError } = useServerError();
 
 function paymentGuard(to) {
   if (payment.isPaymentInProgress(to.params.token)) {
@@ -150,6 +151,12 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+
+router.beforeEach((to, from, next) => {
+  resetServerError();
+  next();
 })
 
 export default router

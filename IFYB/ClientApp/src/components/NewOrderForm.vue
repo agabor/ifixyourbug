@@ -48,7 +48,7 @@ export default {
   },
   emits: ['toSuccessPage'],
   setup(props, context) {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
     const order = reactive({
       number: '',
@@ -120,7 +120,7 @@ export default {
         })
       });
       if(orderResponse.status == 200) {
-        setServerError(null);
+        resetServerError();
         localStorage.removeItem('order');
         context.emit('toSuccessPage');
         error.value = null;
@@ -143,7 +143,7 @@ export default {
           body: JSON.stringify({'url': order.repoUrl, 'accessMode': order.accessMode})
         });
         if(response.status == 200) {
-          setServerError(null);
+          resetServerError();
           gitAccessId = (await response.json()).id;
         } else {
           setServerError(response.statusText);

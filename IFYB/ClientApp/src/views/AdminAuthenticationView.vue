@@ -20,7 +20,7 @@ export default {
   name: 'AdminAuthenticationView',
   components: { Authentication },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { requestedPage, setJwt } = useAdminAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
@@ -29,8 +29,6 @@ export default {
     const progress = ref(0);
     let adminId;
     
-    setServerError(null);
-
     async function submitEmail(email) {
       progress.value = 30;
       let response = await fetch('/api/authenticate/admin', {
@@ -42,7 +40,7 @@ export default {
       });
       progress.value = 100;
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         adminId = (await response.json()).id;
         localStorage.setItem('adminId', adminId);
         error.value = null;
@@ -68,7 +66,7 @@ export default {
         body: JSON.stringify({'adminId': adminId, 'password': code})
       });
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         error.value = null;
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
@@ -81,11 +79,10 @@ export default {
     }
 
     function handleAuthenticationError() {
-      setServerError(null);
+      resetServerError();
       error.value = tm('errors.wrongCode');
     }
-
-
+    
     return { page, error, user, progress, submitEmail, authentication }
   }
 }

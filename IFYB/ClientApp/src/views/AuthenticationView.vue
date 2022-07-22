@@ -20,7 +20,7 @@ export default {
   name: 'AuthenticationView',
   components: { Authentication },
   setup() {
-    const { setServerError } = useServerError();
+    const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, setJwt, setName } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
@@ -31,7 +31,6 @@ export default {
     const showRequired = ref(false);
     let clientId;
 
-    setServerError(null);
     if(jwt.value) {
       toNamePageOrToTargetPage();
     }
@@ -47,7 +46,7 @@ export default {
       });
       progress.value = 100;
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         clientId = (await response.json()).id;
         setTimeout(() => {
           page.value = 'auth';
@@ -79,7 +78,7 @@ export default {
         body: JSON.stringify({'clientId': clientId, 'password': code})
       });
       if(response.status == 200) {
-        setServerError(null);
+        resetServerError();
         error.value = null;
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
@@ -92,7 +91,7 @@ export default {
     }
 
     function handleAuthenticationError() {
-      setServerError(null);
+      resetServerError();
       error.value = tm('errors.wrongCode');
     }
 

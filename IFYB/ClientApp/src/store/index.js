@@ -22,8 +22,12 @@ const setServerError = (error) => {
   serverError.value = error;
 };
 
+const resetServerError = () => {
+  serverError.value = null;
+};
+
 export function useServerError() {
-  return { serverError, setServerError };
+  return { serverError, setServerError, resetServerError };
 }
 
 const inputErrors = ref({
@@ -103,7 +107,7 @@ async function setName(name) {
   } else {
     let response = await userPost('/api/clients/name', {'name': name});
     if(response.status == 200) {
-      setServerError(null);
+      resetServerError();
       let user = await (await userGet('/api/clients/name')).json();
       userName.value = user.name;
       userEmail.value = user.email;
