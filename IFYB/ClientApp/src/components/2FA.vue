@@ -1,7 +1,7 @@
 <template>
   <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
-    <div class="row mb-4">
-      <div class="col-lg-2 col-sm-4 col-4 ps-0 ps-md-2 py-1" v-for="(i, idx) in authLength" :key="i">
+    <div class="row mb-4 mx-xl-4">
+      <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
         <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
       </div>
     </div>

@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <carousel-item class="active" width="col-12">
+        <carousel-item class="active" width="col-10">
           <order-list :orders="orders" @openOrder="openOrder"></order-list>
         </carousel-item>
       </div>
