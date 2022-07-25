@@ -59,7 +59,7 @@ export default {
       specificPlatformVersion: null,
       thirdPartyTool: null,
       bugDescription: '',
-      accessMode: null,
+      accessMode: 0,
       repoUrl: null,
       selectedAccess: {}
     });

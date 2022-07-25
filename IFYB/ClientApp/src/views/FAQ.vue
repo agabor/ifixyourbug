@@ -38,8 +38,25 @@
                 </div>
               </div>
             </div>
-            <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRefunds.title') }}</h4>
+            <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRepos.title') }}</h4>
             <div class="accordion" id="accordionFaq3">
+              <div class="accordion-item" v-for="n in faqRepos" :key="n">
+                <h6 class="accordion-header" :id="`headingSettings${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${n}`" aria-expanded="false" :aria-controls="`collapseRepos${n}`">
+                    {{ $t(`faqRepos.question${n}`) }}
+                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
+                  </button>
+                </h6>
+                <div :id="`collapseRepos${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${n}`" data-bs-parent="#accordionFaq3">
+                  <div class="accordion-body text-sm opacity-8">
+                    <span v-html=" $t(`faqRepos.answer${n}`)"></span>
+                  <ssh-key-preview v-if="n === 4"></ssh-key-preview>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRefunds.title') }}</h4>
+            <div class="accordion" id="accordionFaq4">
               <div class="accordion-item" v-for="n in faqRefunds" :key="n">
                 <h6 class="accordion-header" :id="`headingLicenses${n}`">
                   <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
@@ -47,7 +64,7 @@
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
                 </h6>
-                <div :id="`collapseLicenses${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingLicenses${n}`" data-bs-parent="#accordionFaq3">
+                <div :id="`collapseLicenses${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingLicenses${n}`" data-bs-parent="#accordionFaq4">
                   <div class="accordion-body text-sm opacity-8">{{ $t(`faqRefunds.answer${n}`) }}</div>
                 </div>
               </div>
@@ -61,12 +78,15 @@
 
 
 <script>
+import SshKeyPreview from '@/components/SshKeyPreview.vue'
 export default {
+  components: {SshKeyPreview},
   setup() {
     const faqSecurityCount = 2;
     const faqOrders = 3;
+    const faqRepos = 4;
     const faqRefunds = 1;
-    return { faqSecurityCount, faqOrders, faqRefunds };
+    return { faqSecurityCount, faqOrders, faqRepos, faqRefunds };
   }
 }
 </script>

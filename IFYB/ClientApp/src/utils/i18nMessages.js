@@ -140,6 +140,17 @@ export const messages = {
         question2: 'Can you sign an NDA?',
         answer2: "Yes, please send an e-mail to gabor{'@'}ifixyourbug.com to discuss the details.",
       },
+      faqRepos: {
+        title: 'Repositories',
+        question1: 'I have a private repository on GitHub, that I would like to submit a bug for. How do I share the code with you?',
+        answer1: 'Please invite me to to your repo, you find my account <a href="https://github.com/agabor" target="_blank">here.</a>',
+        question2: 'I have a private repository on BitBucket, that I would like to submit a bug for. How do I share the code with you?',
+        answer2: 'Please invite me to to your repo, you find my account <a href="https://bitbucket.org/agabor" target="_blank">here.</a>',
+        question3: 'I have a private repository on GitLab, that I would like to submit a bug for. How do I share the code with you?',
+        answer3: 'Please invite me to to your repo, you find my account <a href="https://gitlab.com/agabor" target="_blank">here.</a>',
+        question4: 'I have a self hosted repository, that I would like to submit a bug for. How do I share the code with you?',
+        answer4: "You can either invite me by e-mail, or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like co create an account for me, than please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:",
+      },
       faqOrders: {
         title: 'Orders',
         question1: 'How long does it take to process my order?',
