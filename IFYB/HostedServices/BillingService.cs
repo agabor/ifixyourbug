@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Threading.Channels;
 using IFYB.Entities;
+using IFYB.Models;
 using IFYB.Services;
 using Microsoft.Extensions.Options;
 using SzamlazzHu;
@@ -12,13 +13,15 @@ public class BillingService : BackgroundService
     private readonly Channel<Order> billingChanel;
     private readonly ILogger<BillingService> logger;
     private readonly IServiceProvider serviceProvider;
+    private readonly OfferDto offer;
     private readonly BillingOptions billingOptions;
 
-    public BillingService(Channel<Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider)
+    public BillingService(Channel<Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer)
     {
         this.billingChanel = billingChanel;
         this.logger = logger;
         this.serviceProvider = serviceProvider;
+        this.offer = offer;
         this.billingOptions = billingOptions.Value;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -44,16 +47,20 @@ public class BillingService : BackgroundService
                 request.Customer.CustomerAddress.StreetAddress = $"{order.Line1} {order.Line2}";
                 request.Customer.TaxNumber = order.TaxId;
 
+                decimal price = request.Header.Currency == "EUR" ? offer.EurPrice : offer.UsdPrice;
+                string vatRate = GetVatRate(order);
+                decimal vatAmount = vatRate == "27" ? price * 0.27M : 0M;
+
                 request.Items = new List<InvoiceItem> {
                     new InvoiceItem {
                         Name = "Bug Fixing Service",
                         Quantity = 1,
                         UnitOfQuantity = "piece",
-                        UnitPrice = billingOptions.UnitPrice,
-                        VatRate = "EU",
-                        NetPrice = billingOptions.UnitPrice,
-                        VatAmount = 0,
-                        GrossAmount = billingOptions.UnitPrice
+                        UnitPrice = price,
+                        VatRate = vatRate,
+                        NetPrice = price,
+                        VatAmount = vatAmount,
+                        GrossAmount = price + vatAmount
                     }
                 };
 
@@ -70,5 +77,20 @@ public class BillingService : BackgroundService
             }
         }
         logger.Log(LogLevel.Information, "BillingService finished");
+    }
+
+    private string GetVatRate(Order order)
+    {
+        if (order.Country?.ToUpper() == "HU")
+            return "27";
+        if (!string.IsNullOrWhiteSpace(order.TaxIdType)) {
+            if (order.TaxIdType == "eu_vat")
+                return "EUT";
+            return "TEHK";
+        }
+        var euCountryCodes = new List<string> { "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" };
+        if (euCountryCodes.Contains(order.Country?.ToUpper() ?? ""))
+            return "EUT";
+        return "TEHK";
     }
 }
