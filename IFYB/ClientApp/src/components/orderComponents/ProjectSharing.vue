@@ -15,9 +15,7 @@
   <div class="col-md-12 pe-2">
     <span>{{ $t(`projectSharing.description${mode+1}`) }}</span>
   </div>
-   <div class="code" v-if="mode === 2">
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDwHzC3IIDEObmM2v/Vo+YcAgwAEfAOmxIY1dfbjzBvbBoHAkL4k6U9Gi2yVoC10DKXqCwwJTIRqIwRKTIYRq18w8/WOoY7JX+DTHXu2W3GvV6AcKQwxHVZWYm2HLTrIQVhHuj0uZi/pIGS98W1TF4OXjM1YZiL+rodIWA3uJsryVryveFeIdH/CU3YLxHfXtldWg9lOtu3eJCogpUq1boSgsxH4DC+2UcVVGhlEJq8c6qiDJ9qqnWUHimypzalC3rnA7I+kPJF9iJpEockOlyo4PYoEA4Mw4wdE6GabZ5Ns5gkE53Kqi2OM8PDBZae/GBq7hVIm5ySq5IX9jwgt5AahpI6E4mLGrG1ImgarJYNNuaiF75VolulWZVxwpTnwEHipagTTPmSU1baIVuqNDkAIk62pvjdenk2O6VoWEorugMYkVrniTkC7WgQ8u1p9NHwXbibGpht/sEzZJmdDq4NMfmQFbI+aQwl/AoDdQ9SS21Z+dqlIIV8HXZbFp4LdCU= agabor@Gabors-Mac-mini.local
-   </div>
+  <ssh-key-preview v-if="mode === 2"></ssh-key-preview>
 </template>
 
 <script>
@@ -25,6 +23,7 @@ import { ref, watch } from 'vue'
 import { required } from '../../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useInputError } from "../../store";
+import SshKeyPreview from '../SshKeyPreview.vue';
 
 export default {
   name: 'ProjectSharing',
@@ -35,6 +34,7 @@ export default {
     visible: Boolean,
     showError: Boolean,
   },
+  components: { SshKeyPreview },
   setup(props, context) {
     const optionCount = 3;
     const mode = ref(props.accessMode);
@@ -62,11 +62,3 @@ export default {
   }
 }
 </script>
-<style>
-.code {
-  font-family: monospace;
-  font-size: smaller;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-</style>

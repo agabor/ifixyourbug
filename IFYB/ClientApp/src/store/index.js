@@ -190,3 +190,11 @@ function isPaymentInProgress(token) {
 export function usePayment() {
   return { setPaymentToken, clearPaymentToken, isPaymentInProgress };
 }
+
+const sshKey = ref('');
+
+fetch('id_ed25519.pub').then(resp => resp.text().then(k => sshKey.value = k));
+
+export function useSshKey() {
+  return { sshKey }
+}
