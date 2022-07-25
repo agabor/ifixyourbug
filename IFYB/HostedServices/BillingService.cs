@@ -35,7 +35,7 @@ public class BillingService : BackgroundService
                 request.Header.PaymentType = "credit card";
                 request.Header.InvoiceNumberPrefix = billingOptions.InvoiceNumberPrefix;
                 request.Header.Language = InvoiceLanguage.English;
-                request.Header.Currency = "EUR";
+                request.Header.Currency = order.Currency?.ToUpper() ?? "EUR";
 
                 request.Customer.Name = order.CustomerName;
                 request.Customer.CustomerAddress.Country = order.Country;

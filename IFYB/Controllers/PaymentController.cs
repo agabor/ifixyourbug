@@ -105,6 +105,7 @@ public class PaymentController : BaseController
                 order.TaxIdType = taxIds.First().Type;
                 order.TaxId = taxIds.First().Value;
               }
+              order.Currency = sessionObject.Currency;
               order.State = OrderState.Payed;
               order.PaymentToken = null;
               dbContext.SaveChanges();
