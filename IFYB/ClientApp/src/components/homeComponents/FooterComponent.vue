@@ -6,22 +6,6 @@
           <h6 class="text-white font-weight-bolder text-uppercase mb-2">{{ $t('footer.title') }}</h6>
           <p class="text-white">{{ $t('footer.copyright') }}</p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-12 ms-md-auto text-lg-start text-center mb-sm-0 mb-4">
-          <div>
-            <h6 class="text-white text-sm mb-1">{{ $t('footer.company') }}</h6>
-            <ul class="flex-column ms-lg-n3 nav">
-              <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.aboutUs') }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.careers') }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.press') }}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
         <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
             <h6 class="text-white text-sm mb-1">{{ $t('footer.pages') }}</h6>
@@ -30,26 +14,36 @@
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/">{{ $t('footer.home') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/order">{{ $t('footer.order') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/my-orders">{{ $t('footer.myOrders') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/other-services">{{ $t('footer.services') }}</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
-            <h6 class="text-white text-sm mb-1">{{ $t('footer.products') }}</h6>
+            <h6 class="text-white text-sm mb-1">&nbsp;</h6>
             <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.free') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.pro') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/design-view">{{ $t('footer.design') }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
+          <div>
+            <h6 class="text-white text-sm mb-1">{{ $t('footer.reader') }}</h6>
+            <ul class="flex-column ms-lg-n3 nav">
+              <li class="nav-item">
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/terms-and-conditions" target="_blank">{{ $t('footer.terms') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="javascript:;" target="_blank">{{ $t('footer.latest') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/privacy-policy" target="_blank">{{ $t('footer.privacyPolicy') }}</a>
               </li>
             </ul>
           </div>

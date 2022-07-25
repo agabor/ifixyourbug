@@ -1,7 +1,7 @@
 <template>
 <span class="bg"></span>
 <span class="mask bg-gradient-dark opacity-4"></span>
-  <section class="pt-3 pt-md-5 pt-lg-7 pb-md-5 pb-lg-7">
+  <section class="pt-7 pb-md-3">
     <div class="container">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="card">

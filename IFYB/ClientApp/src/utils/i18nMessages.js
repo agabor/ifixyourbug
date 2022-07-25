@@ -76,16 +76,6 @@ export const messages = {
         description: 'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality). Choose the path that leaves you more equanimous.',
         more: 'More about me',
       },
-      blog: {
-        title: 'From nothing to something',
-        titleDes: 'The highest status people in human history are those that asked for nothing and gave everything',
-        quote: '"Over the span of the satellite record, Arctic sea ice has been declining significantly, while sea ice in the Antarctichas increased very slightly"',
-        quoteAuthor: '-NOAA',
-        subTitle: 'So what does the new record for the lowest level of winter ice actually mean',
-        paragraph1: 'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens with climate change. Even if the Arctic continues to be one of the fastest-warming regions of the world, it will always be plunged into bitterly cold polar dark every winter. And year-by-year, for all kinds of natural reasons, there’s huge variety of the state of the ice.',
-        paragraph2: 'For a start, it does not automatically follow that a record amount of ice will melt this summer. More important for determining the size of the annual thaw is the state of the weather as the midnight sun approaches and temperatures rise. But over the more than 30 years of satellite records, scientists have observed a clear pattern of decline, decade-by-decade.',
-        paragraph3: 'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens with climate change. Even if the Arctic continues to be one of the fastest-warming regions of the world, it will always be plunged into bitterly cold polar dark every winter. And year-by-year, for all kinds of natural reasons, there’s huge variety of the state of the ice.',
-      },
       workWithUs: {
         title: 'Technologies',
         subTitle: 'More than full-stack',
@@ -128,18 +118,15 @@ export const messages = {
       footer: {
         title: 'I Fix Your Bug',
         copyright: 'Copyright © 2022 I Fix Your Bug by CodeSharp Kft.',
-        company: 'Company',
-        aboutUs: 'About Us',
-        careers: 'Careers',
-        press: 'Press',
         pages: 'Pages',
         home: 'Home',
-        order: 'Order',
+        myOrders: 'My orders',
+        services: 'Services',
+        design: 'Design',
         faq: 'FAQ',
-        products: 'Products',
-        free: 'Free',
-        pro: 'PRO',
-        latest: 'Latest',
+        reader: 'Reader',
+        terms: 'Terms & conditions',
+        privacyPolicy: 'Privacy policy',
       },
     //FAQ
       faqCard: {
@@ -166,6 +153,13 @@ export const messages = {
         title: 'Refunds',
         question1: 'How do I get a refund?',
         answer1: "If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will autiomatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messageing feature on you order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim.",
+      },
+    //DesignView
+      design: {
+        title: 'Designed by',
+        lastModified: 'Last modified: {date}',
+        images: 'Images',
+        webDesign: 'Web Design',
       },
     //ContactForm
       contact: {

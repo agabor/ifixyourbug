@@ -5,6 +5,7 @@ import TermsAndConditions from '../views/TermsAndConditions.vue';
 import OtherServices from '../views/OtherServices.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
+import DesignView from '../views/DesignView.vue';
 import AdminView from '../views/AdminView.vue';
 import AdminOrderView from '../views/AdminOrderView.vue';
 import ContactForm from '../views/ContactForm.vue';
@@ -77,6 +78,11 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQ
+  },
+  {
+    path: '/design-view',
+    name: 'design-view',
+    component: DesignView
   },
   {
     path: '/admin',
