@@ -1,11 +1,10 @@
 <template>
-  <search-bar v-model:modelValue="filteredOrders" :data="orders" :properties="properties"></search-bar>
   <button type="button" class="btn bg-gradient-primary mt-4" @click="$router.push('/new-order')">
     {{ $t('orderList.addNewOrder') }}
   </button>
   <div class="row">
     <div class="col-12">
-      <div class="card mt-3" v-for="(order, idx) in filteredOrders" :key="idx">
+      <div class="card mt-3" v-for="(order, idx) in sortedOrders" :key="idx">
         <div class="row">
           <div class="col-lg-9 col-md-8 col-12 ps-lg-0 my-auto">
             <div class="card-body text-start">
@@ -44,32 +43,30 @@
       </div>
     </div>
   </div>
-  <p class="m-2" v-if="filteredOrders.length == 0">{{ $t('errors.noResult') }}</p>
+  <p class="m-2" v-if="sortedOrders.length == 0">{{ $t('errors.noResult') }}</p>
 </template>
 
 <script>
 import { ref, watch } from 'vue';
-import SearchBar from '../components/SearchBar.vue';
 
 export default {
   name: 'OrderList',
-  components: { SearchBar },
   props: {
     orders: Array
   },
   emits: ['openOrder'],
   setup(props) {
-    const filteredOrders = ref(props.orders ?? []);
+    const sortedOrders = ref(props.orders ?? []);
     const properties = ['number', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state'];
     
     watch(props, () => {
-      filteredOrders.value = props.orders;
+      sortedOrders.value = props.orders;
       sort('number', false);
     });
 
     function sort(propName, asc) {
       if (propName !== '')
-        filteredOrders.value.sort((a, b) => {
+        sortedOrders.value.sort((a, b) => {
           if (a[propName] < b[propName] ^ asc)
             return 1;
           if (a[propName] > b[propName] ^ asc)
@@ -78,7 +75,7 @@ export default {
         });
     }
 
-    return { filteredOrders, properties }
+    return { sortedOrders, properties }
   }
 }
 </script>
