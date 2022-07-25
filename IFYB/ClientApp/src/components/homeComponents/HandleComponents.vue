@@ -16,7 +16,7 @@
         <div class="col-md-4 ms-auto my-auto">
           <div class="cursor-pointer">
             <div class="card card-background">
-              <img class="full-background" src="../../assets/img/bg3.webp" alt="image">
+              <img class="full-background fit-cover" src="../../assets/img/bg3.webp" alt="image">
               <div class="card-body pt-7 pb-6 text-center">
                 <i class="ni ni-books mb-3 h3 text-white"></i>
                 <a href="javascript:;" class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('handle.searchAndDiscover') }}</a>
@@ -72,7 +72,7 @@
         <div class="col-md-4 me-auto my-auto ms-md-5">
           <div class="cursor-pointer">
             <div class="card card-background">
-              <img class="full-background" src="../../assets/img/bg4.webp" alt="image">
+              <img class="full-background fit-cover" src="../../assets/img/bg4.webp" alt="image">
               <div class="card-body pt-7 pb-6 text-center">
                 <i class="ni ni-planet mb-3 h3 text-white"></i>
                 <a class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('handle.talAndMeet') }}</a>

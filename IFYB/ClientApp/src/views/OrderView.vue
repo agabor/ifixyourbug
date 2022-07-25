@@ -81,6 +81,7 @@ export default {
   height: 100vh;
   width: 100vw;
   background-image: url('../assets/img/bg3.webp');
+  object-fit: cover;
 }
 .carousel-inner {
   height: 100%;

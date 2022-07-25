@@ -1,7 +1,7 @@
 <template>
   <div class="page-header min-vh-85">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/bg2.webp" alt="image">
+      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover" src="../assets/img/bg2.webp" alt="image">
     </div>
     <div class="container" v-if="page == 'contact'">
       <div class="row">

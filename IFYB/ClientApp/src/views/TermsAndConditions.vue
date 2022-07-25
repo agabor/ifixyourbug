@@ -182,5 +182,6 @@ export default {
   width: 100%;
   height: 100%;
   background-image: url('../assets/img/bg3.webp');
+  object-fit: cover;
 }
 </style>

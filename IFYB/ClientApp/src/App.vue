@@ -33,4 +33,7 @@ export default {
 nav a.router-link-exact-active {
   color: #ed3269;
 }
+.fit-cover {
+  object-fit: cover;
+}
 </style>
