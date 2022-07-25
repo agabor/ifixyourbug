@@ -51,43 +51,51 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: { title: 'Home' },
   },
   {
     path: '/privacy-policy',
     name: 'privacy-policy',
-    component: PrivacyPolicy
+    component: PrivacyPolicy,
+    meta: { title: 'Privacy Policy' },
   },
   {
     path: '/terms-and-conditions',
     name: 'terms-and-conditions',
-    component: TermsAndConditions
+    component: TermsAndConditions,
+    meta: { title: 'Terms And Conditions' },
   },
   {
     path: '/other-services',
     name: 'other-services',
-    component: OtherServices
+    component: OtherServices,
+    meta: { title: 'Services' },
   },
   {
     path: '/new-order',
     name: 'new-order',
     component: NewOrderView,
+    meta: { title: 'New Order' },
     beforeEnter: userAuthenticationGuard
   },
   {
     path: '/faq',
     name: 'faq',
-    component: FAQ
+    component: FAQ,
+    meta: { title: 'FAQ' },
   },
   {
     path: '/design-view',
     name: 'design-view',
-    component: DesignView
+    component: DesignView,
+    meta: { title: 'Design' },
   },
   {
     path: '/admin',
     name: 'admin',
     component: AdminView,
+    meta: { title: 'Admin' },
     beforeEnter: adminAuthenticationGuard
   },
   {
@@ -100,17 +108,20 @@ const routes = [
     path: '/clients',
     name: 'clients',
     component: ClientsView,
+    meta: { title: 'Clients' },
     beforeEnter: adminAuthenticationGuard
   },
   {
     path: '/contact-form',
     name: 'contact-form',
-    component: ContactForm
+    component: ContactForm,
+    meta: { title: 'Contact Form' },
   },
   {
     path: '/my-orders',
     name: 'my-orders',
     component: OrdersView,
+    meta: { title: 'My Orders' },
     beforeEnter: userAuthenticationGuard
   },
   {
@@ -122,34 +133,40 @@ const routes = [
   {
     path: '/authentication',
     name: 'authentication',
-    component: AuthenticationView
+    component: AuthenticationView,
+    meta: { title: 'Authentication' },
   },
   {
     path: '/admin-authentication',
     name: 'admin-authentication',
-    component: AdminAuthenticationView
+    component: AdminAuthenticationView,
+    meta: { title: 'Admin Authentication' },
   },
   {
     path: '/checkout/:token',
     name: 'checkout',
-    component: CheckoutView
+    component: CheckoutView,
+    meta: { title: 'Checkout' },
   },
   {
     path: '/checkout-success/:token',
     name: 'checkout-success',
     component: CheckoutSuccessView,
+    meta: { title: 'Checkout Success' },
     beforeEnter: paymentGuard
   },
   {
     path: '/checkout-failed/:token',
     name: 'checkout-failed',
     component: CheckoutFailureView,
+    meta: { title: 'Checkout Failure' },
     beforeEnter: paymentGuard
   },
   {
     path: '/checkout-paid/:token',
     name: 'checkout-paid',
     component: CheckoutPaidView,
+    meta: { title: 'Checkout Paid' },
     beforeEnter: paymentGuard
   }
 ]
@@ -162,6 +179,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   resetServerError();
+    if(to.params[0])
+      document.title = `I Fix Your Bug - ${to.params[0]}`;
+    else
+      document.title = to.meta.title ? `I Fix Your Bug - ${to.meta.title}` : 'I Fix Your Bug';
   next();
 })
 
