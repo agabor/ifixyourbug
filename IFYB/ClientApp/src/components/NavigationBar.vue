@@ -43,7 +43,7 @@
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav d-block mx-2 text-center">
+        <ul class="navbar-nav d-block mx-2 text-center" v-if="isUserLoggedIn">
           <li class="nav-item small fw-bold">
             {{name}}
           </li>

@@ -25,7 +25,7 @@ public class ClientsController : BaseController
         var client = GetClient();
         if (client == null || string.IsNullOrWhiteSpace(client.Name))
             return NotFound();
-        return Ok(new ClientDto(client.Name, client.Email));
+        return Ok(new NameDto(client.Name));
     }
 
     [HttpPost]

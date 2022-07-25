@@ -56,7 +56,6 @@ export function useInputError() {
 }
 
 
-
 async function get(route, jwt) {
   return await fetch(route, {
     method: 'GET',
@@ -82,42 +81,44 @@ const isUserLoggedIn = ref(false);
 const userName = ref(null);
 const userEmail = ref(null);
 
-function setUserJwt(jwt) {
-  if (jwt)
-    localStorage.setItem('jwt', jwt);
-  else
-    localStorage.removeItem('jwt');
+setUserJwt(localStorage.getItem('jwt'));
+
+async function setUserJwt(jwt) {
   userJwt.value = jwt;
-  setName();
+  if (jwt) {
+    localStorage.setItem('jwt', jwt);
+    await setUserData();
+  } else {
+    localStorage.removeItem('jwt');
+    userName.value = null;
+    userEmail.value = null;
+    isUserLoggedIn.value = false;
+  }
+}
+
+async function setUserData () {
+  let response = await userGet('/api/clients/client');
+  if(response.status == 200){
+    let user = await response.json();
+    userName.value = user.name;
+    userEmail.value = user.email;
+    isUserLoggedIn.value = true;
+  } else {
+    userName.value = null;
+    isUserLoggedIn.value = false;
+  }
 }
 
 async function setName(name) {
-  if(!name){
-    let response = await userGet('/api/clients/name');
-    if(response.status == 200){
-      let user = await response.json();
-      userName.value = user.name;
-      userEmail.value = user.email;
-      isUserLoggedIn.value = true;
-    } else {
-      userName.value = null;
-      userEmail.value = null;
-      isUserLoggedIn.value = false;
-    }
+  let response = await userPost('/api/clients/name', {'name': name});
+  if(response.status == 200) {
+    resetServerError();
+    userName.value = name;
+    isUserLoggedIn.value = true;
   } else {
-    let response = await userPost('/api/clients/name', {'name': name});
-    if(response.status == 200) {
-      resetServerError();
-      let user = await (await userGet('/api/clients/name')).json();
-      userName.value = user.name;
-      userEmail.value = user.email;
-      isUserLoggedIn.value = true;
-    } else {
-      setServerError(response.statusText);
-      userName.value = null;
-      userEmail.value = null;
-      isUserLoggedIn.value = false;
-    }
+    setServerError(response.statusText);
+    userName.value = null;
+    isUserLoggedIn.value = false;
   }
 }
 

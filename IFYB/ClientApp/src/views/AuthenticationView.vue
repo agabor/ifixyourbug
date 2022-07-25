@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
 import { useServerError, useUserAuthentication } from "../store";
@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { requestedPage, jwt, name, setJwt, setName } = useUserAuthentication();
+    const { requestedPage, jwt, name, email, setJwt, setName } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -35,16 +35,21 @@ export default {
       toNamePageOrToTargetPage();
     }
 
-    async function submitEmail(email) {
+    watch(name, () => {
+      toNamePageOrToTargetPage();
+    });
+
+    async function submitEmail(e) {
       progress.value = 30;
       let response = await fetch('/api/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'email': email, 'privacyPolicyAccepted': acceptedPolicy.value})
+        body: JSON.stringify({'email': e, 'privacyPolicyAccepted': acceptedPolicy.value})
       });
       progress.value = 100;
+      email.value = e;
       if(response.status == 200) {
         resetServerError();
         clientId = (await response.json()).id;
@@ -60,6 +65,7 @@ export default {
         progress.value = 0;
       } else {
         setServerError(response.statusText);
+        email.value = null;
         progress.value = null;
       }
     }
@@ -80,8 +86,8 @@ export default {
       if(response.status == 200) {
         resetServerError();
         error.value = null;
-        let jwt = (await response.json()).jwt;
-        setJwt(jwt);
+        let newJwt = (await response.json()).jwt;
+        await setJwt(newJwt);
         toNamePageOrToTargetPage();
       } else if(response.status == 403) {
         handleAuthenticationError();
@@ -103,7 +109,6 @@ export default {
     }
 
     async function toNamePageOrToTargetPage() {
-      await setName();
       if(name.value) {
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
       } else {
