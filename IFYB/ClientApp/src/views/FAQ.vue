@@ -49,7 +49,8 @@
                 </h6>
                 <div :id="`collapseRepos${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${n}`" data-bs-parent="#accordionFaq3">
                   <div class="accordion-body text-sm opacity-8">
-                    <span v-html=" $t(`faqRepos.answer${n}`)"></span>
+                    <span>{{$t(`faqRepos.answer${n}`)}}</span>
+                    <a :href="$t(`faqRepos.link${n}`)" target="_blank" v-if="n < 4">here.</a>
                   <ssh-key-preview v-if="n === 4"></ssh-key-preview>
                   </div>
                 </div>
