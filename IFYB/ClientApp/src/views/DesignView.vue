@@ -11,12 +11,12 @@
           </div>
           <div class="card-body p-sm-5 pt-0">
             <h4 class="my-4">{{ $t('design.images') }}</h4>
-            <a href="https://unsplash.com/photos/Lks7vei-eAg" target="_blank">https://unsplash.com/photos/Lks7vei-eAg</a><br />
-            <a href="https://unsplash.com/photos/DuHKoV44prg" target="_blank">https://unsplash.com/photos/DuHKoV44prg</a><br />
-            <a href="https://unsplash.com/photos/cBUTPbTeDB0" target="_blank">https://unsplash.com/photos/cBUTPbTeDB0</a><br />
-            <a href="https://unsplash.com/photos/Q1p7bh3SHj8" target="_blank">https://unsplash.com/photos/Q1p7bh3SHj8</a>
+            <a class="text-bolder pe-2" href="https://unsplash.com/@charlesdeluvio">@charlesdeluvio</a><a href="https://unsplash.com/photos/Lks7vei-eAg" target="_blank">man using MacBook photo</a><br />
+            <a class="text-bolder pe-2" href="https://unsplash.com/@ffstop">@ffstop</a><a href="https://unsplash.com/photos/DuHKoV44prg" target="_blank">black computer keyboard photo</a><br />
+            <a class="text-bolder pe-2" href="https://unsplash.com/@lazizli">@lazizli</a><a href="https://unsplash.com/photos/cBUTPbTeDB0" target="_blank">group of people sitting on chair in front of table with macbook photo</a><br />
+            <a class="text-bolder pe-2" href="https://unsplash.com/@nasa">@nasa</a><a href="https://unsplash.com/photos/Q1p7bh3SHj8" target="_blank">photo of outer space photo</a>
             <h4 class="my-4">{{ $t('design.webDesign') }}</h4>
-            <a href="https://demos.creative-tim.com/now-ui-design-system-pro/pages/case-study.html" target="_blank">https://demos.creative-tim.com/now-ui-design-system-pro/pages/case-study.html</a>
+            <a href="https://www.creative-tim.com/product/now-ui-design-system-pro" target="_blank">Creative Tim</a>
           </div>
         </div>
       </div>
@@ -24,9 +24,11 @@
   </section>
 </template>
 
-
-
-
+<script>
+export default {
+  name: 'DesignView',
+}
+</script>
 
 <style scoped>
 .bg {
