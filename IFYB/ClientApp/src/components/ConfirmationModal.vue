@@ -37,7 +37,7 @@ export default {
     description: String,
     showError: Boolean
   },
-  emits: ['confirm', 'cancel' ],
+  emits: ['update:modelValue', 'confirm', 'cancel'],
   setup (props, context) {
     const text = ref(props.modelValue ?? '');
     const { tm } = useI18n();

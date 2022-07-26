@@ -12,7 +12,7 @@
 import { ref } from 'vue'
 export default {
   name: 'GitAccessSelector',
-  emits:['update:access'],
+  emits:['update:modelValue'],
   props: {
     modelValue: Object,
     accesses: Array

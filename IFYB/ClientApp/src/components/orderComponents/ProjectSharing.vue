@@ -12,7 +12,7 @@
     </div>
   </div>
   <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
-  <div class="col-md-12 pe-2">
+  <div class="col-md-12 pe-2" v-if="mode > -1">
     <span>{{ $t(`projectSharing.description${mode+1}`) }}</span>
   </div>
   <ssh-key-preview v-if="mode === 2"></ssh-key-preview>
@@ -27,7 +27,7 @@ import SshKeyPreview from '../SshKeyPreview.vue';
 
 export default {
   name: 'ProjectSharing',
-  emits:['update:url', 'update:accessMode'],
+  emits:['update:modelValue', 'update:accessMode'],
   props: {
     modelValue: String,
     accessMode: Number,

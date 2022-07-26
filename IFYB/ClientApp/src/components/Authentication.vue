@@ -77,6 +77,7 @@ export default {
 
     function cancel() {
       user.value = {};
+      validationError.value = null;
       context.emit('cancel');
     }
 
