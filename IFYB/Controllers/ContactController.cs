@@ -39,10 +39,7 @@ public class ContactController : BaseController
             DateTime = DateTime.UtcNow
         });
         if(client != null) {
-            string subject = $"An admin sent you a message!";
-            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/ContactMessage.sbn")).Render(new { Name = client.Name });
-            string html = Template.Parse(System.IO.File.ReadAllText("Email/ContactMessage.sbn")).Render(new { Name = client.Name });
-            EmailService.SendEmail(client.Email, subject, text, html);
+            EmailService.SendEmail(client.Email, "ContactMessage", null, new { Name = client.Name });
         }
         dbContext.SaveChanges();
         return Ok();

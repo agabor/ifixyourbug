@@ -68,10 +68,7 @@ public class AuthenticationController : BaseController
             }
             client.Password = passwordHasher.HashPassword(client, password);
             string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
-            string subject = $"Confirmation code: {textPassword}";
-            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/Authentication.sbn")).Render(new { Password = textPassword });
-            string html = Template.Parse(System.IO.File.ReadAllText("Email/Authentication.sbn")).Render(new { Password = textPassword });
-            EmailService.SendEmail(dto.Email, subject, text, html);
+            EmailService.SendEmail(dto.Email, "Authentication", null, new { Password = textPassword });
         }
         dbContext.SaveChanges();
         return Ok(new IdDto(client.Id));

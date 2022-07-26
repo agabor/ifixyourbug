@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>I Fix Your Bug - {{ title }}</title>
+  <meta charset="UTF-8" />
+</head>
+<body>
+    <div style="max-width:600px; margin:0 auto">
+        <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+        {{~ for item in content ~}}
+        {{~ if item.type == "header" ~}}
+        <h1>{{ item.text }}</h1>
+        {{~ end ~}}
+        {{~ if item.type == "hero" ~}}
+        <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
+            {{ item.text }}
+        </p>
+        {{~ end ~}}
+        {{~ if item.type == "box" ~}}
+        </div>
+        <div class="x_lg_margin_left_right x_xl_margin_bottom x_grey_box_container" style="background:#F5F4F5; border-radius:4px; padding:43px 23px; margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+            <div style="text-align:center; vertical-align:middle; font-size:30px">{{ item.text }}</div>
+        </div>
+        <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
+        {{~ end ~}}
+        {{~ if item.type == "content" ~}}
+        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            {{ item.text }}
+        </p>
+        {{~ end ~}}
+        {{~ if item.type == "button" ~}}
+        <a target="_blank" href="{{ item.link }}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
+            <span style="mso-text-raise: 15pt;">{{ item.text }}</span>
+        </a>
+        {{~ end ~}}
+        {{~ end ~}}
+        {{~ if order_link ~}}
+        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            See your order at the following link: <a target="_blank" href="{{order_link}}">{{order_link}}</a>.
+        </p>
+        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            Best Regards,<br>
+            Gabor Angyal
+        </p>
+        {{~ end ~}}
+    </div>
+    <div style="font-size:12px; opacity:0.5; color:#696969; text-align:left; line-height:15px; margin-bottom:50px; text-align:left">
+    <div>©2022 Code Sharp Kft<br aria-hidden="true">Pécs, Budai Nagy Antal u. 1, 7624 Hungary</div>
+    </div>
+</body>
+</html>

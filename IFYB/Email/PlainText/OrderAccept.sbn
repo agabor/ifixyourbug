@@ -1,8 +1,0 @@
-Dear {{name}},\n
-We’ve checked your order and we want to work with you. One of us will reach you out soon.\n
-We accepted your order; our team is started to work on the solution for your bug.\n
-{{~ if message ~}}
-{{message}}\n
-{{~ end ~}}
-If you have further questions, you can contact us.
-{{payment_link}}

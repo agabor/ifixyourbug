@@ -1,32 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>I Fix Your Bug - Rejected order</title>
-  <meta charset="UTF-8" />
-</head>
-<body>
-    <div style="max-width:600px; margin:0 auto">
-        <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
-            <h1>We rejected your order!</h1>
-            <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
-                Dear {{name}},<br>
-                We’re sorry, but we can’t accept your <a href="{{link}}">order</a>.
-            </p>
-            <a target="_blank" href="{{link}}" style="background-color: #ed3269; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 30px;">
-                <span style="mso-text-raise: 15pt;">View reason</span>
-            </a>
-            {{~ if message ~}}
-            <p class="x_hero_paragraph" style="font-size:20px; line-height:28px; letter-spacing:-0.2px; margin-bottom:28px; word-break:break-word">
-                {{message}}
-            </p>
-            {{~ end ~}}
-            <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-                If you have further questions, you can contact us.
-            </p>
-        </div>
-    </div>
-    <div style="font-size:12px; opacity:0.5; color:#696969; text-align:left; line-height:15px; margin-bottom:50px; text-align:left">
-    <div>©2022 Gabor Angyal<br aria-hidden="true">Pécs, Budai Nagy Antal u. 1, 7624 Hungary</div>
-    </div>
-</body>
-</html>
+{
+    "title": "Rejected order",
+    "content": [
+        {
+            "type": "header",
+            "text": "We rejected your order!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I am sorry, but I can not accept your order."
+        },
+        {
+            "type": "hero",
+            "text": "{{message}}"
+        },
+        {
+            "type": "content",
+            "text": "If you have further questions, you can contact us."
+        }
+    ]
+}

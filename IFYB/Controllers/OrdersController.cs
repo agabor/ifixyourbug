@@ -104,10 +104,7 @@ public class OrdersController : BaseController
         }
         client.Orders!.Add(order);
         dbContext.SaveChanges();
-        string subject = $"You have placed your order!";
-        string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderSubmit.sbn")).Render(new { Name = client.Name });
-        string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderSubmit.sbn")).Render(new { Name = client.Name });
-        EmailService.SendEmail(client.Email, subject, text, html);
+        EmailService.SendEmail(client.Email, "orderSubmit", order, new { client.Name });
         return Ok(new IdDto(order.Id));
     }
 }

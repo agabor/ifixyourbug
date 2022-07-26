@@ -107,11 +107,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            string link = $"{appOptions.BaseUrl}/my-orders/{order.Number.Remove(0,1)}";
-            string subject = $"An admin sent you a message!";
-            string text = Template.Parse(System.IO.File.ReadAllText("Email/PlainText/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number, Link = link });
-            string html = Template.Parse(System.IO.File.ReadAllText("Email/OrderMessage.sbn")).Render(new { Name = client.Name, Id = order.Number, Link = link });
-            EmailService.SendEmail(client.Email, subject, text, html);
+            EmailService.SendEmail(client.Email, "orderMessage", order, new { Name = client.Name });
         }
         return Ok(message.ToDto());
     }
