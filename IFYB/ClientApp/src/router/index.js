@@ -179,8 +179,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   resetServerError();
-    if(to.params[0])
-      document.title = `I Fix Your Bug - ${to.params[0]}`;
+    if(to.params.number)
+      document.title = `I Fix Your Bug - #${to.params.number}`;
     else
       document.title = to.meta.title ? `I Fix Your Bug - ${to.meta.title}` : 'I Fix Your Bug';
   next();
