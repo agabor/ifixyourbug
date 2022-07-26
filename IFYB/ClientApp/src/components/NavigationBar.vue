@@ -77,6 +77,8 @@ export default {
     function logout() {
       userAuth.setJwt(null);
       adminAuth.setJwt(null);
+      userAuth.requestedPage.value = null;
+      adminAuth.requestedPage.value = null;
       router.push('/authentication');
     }
 
