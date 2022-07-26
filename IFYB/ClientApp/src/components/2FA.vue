@@ -1,5 +1,5 @@
 <template>
-  <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()">
+  <carousel-item icon="atom" :cancelable="true" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()" @cancel="cancel">
     <div class="row mb-4 mx-xl-4">
       <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
         <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
@@ -21,7 +21,7 @@ export default {
     modelValue: String,
     error: String
   },
-  emits:['update:modelValue'],
+  emits:['update:modelValue', 'cancel'],
   setup(props, context) {
     const { tm } = useI18n();
     const auth = ref(props.modelValue ? props.modelValue.split('') : []);
@@ -95,7 +95,13 @@ export default {
       }
     }
 
-    return { auth, codeError, authLength, deleteFromAuth, checkValidCode, onPaste, onInputChange, inputs }
+    function cancel() {
+      auth.value = [];
+      oldAuth.value = [];
+      codeError.value = null;
+      context.emit('cancel');
+    }
+    return { auth, codeError, authLength, inputs, deleteFromAuth, checkValidCode, onPaste, onInputChange, cancel }
   }
 }
 </script>

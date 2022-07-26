@@ -14,8 +14,8 @@
       </div>
     </div>
   </carousel-item>
-  <two-fa :class="{'active': page === 'auth'}" :error="error ? error: validationError" v-model:modelValue="user.auth" @update:modelValue="tryAuthentication"></two-fa>
-  <carousel-item :class="{'active': page === 'name'}" icon="badge" :title="$t('order.name')" :subTitle="$t('order.nameDes')" :buttonText="$t('order.save')" :error="error ? error: validationError" @onClickBtn="trySetName()">
+  <two-fa :class="{'active': page === 'auth'}" :error="error ? error: validationError" v-model:modelValue="user.auth" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
+  <carousel-item :class="{'active': page === 'name'}" icon="badge" :cancelable="true" :title="$t('order.name')" :subTitle="$t('order.nameDes')" :buttonText="$t('order.save')" :error="error ? error: validationError" @onClickBtn="trySetName()" @cancel="cancel">
     <div class="row mb-4">
       <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="user.name">
     </div>
@@ -40,7 +40,7 @@ export default {
     acceptedPolicy: Boolean,
     showRequired: Boolean
   },
-  emits: [ 'submitEmail', 'changePolicy', 'authentication', 'setName' ],
+  emits: [ 'submitEmail', 'changePolicy', 'authentication', 'setName', 'cancel' ],
   setup(props, context) {
     const { tm } = useI18n();
     const user = ref({});
@@ -75,7 +75,12 @@ export default {
       }
     }
 
-    return { validationError, user, trySubmitEmail, toPrivacyPolicy, tryAuthentication, trySetName }
+    function cancel() {
+      user.value = {};
+      context.emit('cancel');
+    }
+
+    return { validationError, user, trySubmitEmail, toPrivacyPolicy, tryAuthentication, trySetName, cancel }
   }
 }
 </script>

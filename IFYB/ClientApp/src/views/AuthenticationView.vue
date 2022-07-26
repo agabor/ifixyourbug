@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
       </div>
     </div>
   </section>
@@ -116,7 +116,18 @@ export default {
       }
     }
 
-    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setUserName }
+    async function cancelLogin() {
+      progress.value = 0;
+      acceptedPolicy.value = false;
+      showPolicy.value = false;
+      error.value = null;
+      name.value = null;
+      email.value = null;
+      await setJwt(null);
+      page.value = 'email';
+    }
+
+    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setUserName, cancelLogin }
   }
 }
 </script>

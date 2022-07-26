@@ -17,7 +17,8 @@
                 {{ error }}
               </div>
               <div class="text-center" v-if="buttonText">
-                <button type="button" class="btn bg-gradient-primary my-4" @click="$emit('onClickBtn')">{{ buttonText }}</button>
+                <button type="button" class="btn bg-gradient-primary my-4 mx-1" @click="$emit('onClickBtn')">{{ buttonText }}</button>
+                <button v-if="cancelable" type="button" class="btn btn-outline-secondary my-4 mx-1" @click="$emit('cancel')">Cancel</button>
               </div>
             </div>
           </div>
@@ -33,10 +34,12 @@ export default {
   props: {
     width: String,
     icon: String,
+    cancelable: Boolean,
     subTitle: String,
     title: String,
     buttonText: String,
     error: String
-  }
+  },
+  emits: [ 'onClickBtn', 'cancel' ],
 }
 </script>

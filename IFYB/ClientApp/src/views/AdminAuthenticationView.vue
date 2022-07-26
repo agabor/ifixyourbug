@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" @submitEmail="submitEmail" @authentication="authentication"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" @submitEmail="submitEmail" @authentication="authentication" @cancel="cancelLogin"></authentication>
       </div>
     </div>
   </section>
@@ -82,8 +82,16 @@ export default {
       resetServerError();
       error.value = tm('errors.wrongCode');
     }
+
+    function cancelLogin() {
+      progress.value = 0;
+      error.value = null;
+      user.value = {};
+      setJwt(null);
+      page.value = 'email';
+    }
     
-    return { page, error, user, progress, submitEmail, authentication }
+    return { page, error, user, progress, submitEmail, authentication, cancelLogin }
   }
 }
 </script>
