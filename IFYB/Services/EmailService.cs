@@ -68,7 +68,7 @@ public class EmailService
     public void SendEmail(string toEmail, string jsonTemplate, Order? order, object data, Stream? file = null, string? fileName = null) {
         string? link = order != null ? $"{appOptions.BaseUrl}/my-orders/{order.Number.Remove(0,1)}" : null;
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
-        var emailContent = JsonSerializer.Deserialize<EmailContent>(json);
+        var emailContent = JsonSerializer.Deserialize<EmailContent>(json, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
         if (emailContent == null) {
             logger.Log(LogLevel.Error, "Could not parse e-mail content.");
             return;

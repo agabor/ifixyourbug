@@ -1,10 +1,12 @@
 {{~ for item in content ~}}
-{{~ if item.type == "header" ~}}
+{{~ if item.type == "header" || item.type == "box" ~}}
+
 {{ item.text }}
 
 {{~ else if item.type == "button" ~}}
-{{~ else ~}}
 {{ item.link }}
+{{~ else ~}}
+{{ item.text }}
 {{~ end ~}}
 {{~ end ~}}
 
