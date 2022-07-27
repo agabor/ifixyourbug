@@ -81,16 +81,18 @@ public class BillingService : BackgroundService
 
     private string GetVatRate(Order order)
     {
-        if (order.Country?.ToUpper() == "HU")
-            return "27";
         if (!string.IsNullOrWhiteSpace(order.TaxIdType)) {
+            if (order.Country?.ToUpper() == "HU")
+                return billingOptions.VatHunCompany;
             if (order.TaxIdType == "eu_vat")
-                return "EUT";
-            return "TEHK";
+                return billingOptions.VatEuCompany;
+            return billingOptions.Vat3rdCompany;
         }
+        if (order.Country?.ToUpper() == "HU")
+            return billingOptions.VatHunPrivate;
         var euCountryCodes = new List<string> { "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" };
         if (euCountryCodes.Contains(order.Country?.ToUpper() ?? ""))
-            return "EUT";
-        return "TEHK";
+            return billingOptions.VatEuPrivate;
+        return billingOptions.Vat3rdPrivate;
     }
 }

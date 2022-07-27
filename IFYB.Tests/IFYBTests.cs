@@ -119,6 +119,14 @@ public class IFYBTests
     }
 
     [TestMethod]
+    public void TestDecimalMultiplication()
+    {
+        decimal price = 99.9M;
+        decimal vatAmount =  price * 0.27M;
+        Assert.AreEqual(126.873M, price + vatAmount);
+    }
+
+    [TestMethod]
     public async Task TestClientAdminAccess()
     {
         await Get("api/reset", HttpStatusCode.OK);
