@@ -1,8 +1,7 @@
 <template>
 	<editor
-		:api-key="key"
 		:disabled=true
-		:init= "{  }"
+		:init= "{ }"
 		:initial-value="value"
 		:inline=true
 		tag-name="div"
@@ -17,10 +16,6 @@ export default {
   components: { Editor },
   props: {
     value: String
-  },
-  setup() {
-		const key = process.env.VUE_APP_TINY_API_KEY;
-    return { key }
   }
 }
 </script>
