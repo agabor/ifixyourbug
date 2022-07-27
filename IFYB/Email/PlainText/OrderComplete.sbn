@@ -1,7 +1,0 @@
-Dear {{name}},\n
-We’ve fixed your bug, please check it out!\n
-{{link}}\n
-{{~ if message ~}}
-{{message}}\n
-{{~ end ~}}
-If you have further questions, you can contact us.

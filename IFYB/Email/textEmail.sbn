@@ -1,0 +1,20 @@
+{{~ for item in content ~}}
+{{~ if item.type == "header" || item.type == "box" ~}}
+
+{{ item.text }}
+
+{{~ else if item.type == "button" ~}}
+{{ item.link }}
+{{~ else ~}}
+{{ item.text }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if order_link ~}}
+See your order at the following link: {{order_link}}.
+{{~ end ~}}
+
+Best Regards,
+Gabor Angyal
+
+2022 Code Sharp Kft Pécs, Budai Nagy Antal u. 1, 7624 Hungary

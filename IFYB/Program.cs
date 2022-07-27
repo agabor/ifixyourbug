@@ -28,13 +28,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptions.Host));
-builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection(StripeOptions.Stripe));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
 builder.Services.Configure<BillingOptions>(builder.Configuration.GetSection(BillingOptions.Billing));
 
 var priceService = new PriceService();
-var eurPrice = priceService.Get(stripeOptions.EurPriceId);
-var usdPrice = priceService.Get(stripeOptions.UsdPriceId);
+var prices = priceService.List();
+var eurPrice = prices.First(p => p.Currency == "eur");
+var usdPrice = prices.First(p => p.Currency == "usd");
+stripeOptions.EurPriceId = eurPrice.Id;
+stripeOptions.UsdPriceId = usdPrice.Id;
+
 var offer = new OfferDto
 {
     EurPrice = eurPrice.UnitAmountDecimal!.Value / 100,
@@ -42,6 +45,10 @@ var offer = new OfferDto
 }; 
 
 builder.Services.AddSingleton(offer);
+var configSection = builder.Configuration.GetSection(StripeOptions.Stripe);
+configSection["EurPriceId"] = eurPrice.Id;
+configSection["UsdPriceId"] = usdPrice.Id;
+builder.Services.Configure<StripeOptions>(configSection);
 
 var jwtOptions = builder.Configuration.GetSection(JwtOptions.Jwt).Get<JwtOptions>();
 var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Key));
