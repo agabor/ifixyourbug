@@ -1,5 +1,5 @@
 <template>
-  <section class="py-lg-7" id="pricing">
+  <section id="pricing">
     <div class="container">
       <div class="row">
         <div class="col-md-6 mx-auto text-center mb-5">

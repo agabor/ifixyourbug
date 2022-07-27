@@ -1,5 +1,5 @@
 <template>
-  <section class="pb-md-7 pb-5">
+  <section class="pb-7">
     <div class="author-header min-vh-25">
       <span class="mask bg-gradient-primary opacity-5"></span>
     </div>

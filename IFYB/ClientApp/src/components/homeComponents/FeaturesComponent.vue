@@ -1,5 +1,5 @@
 <template>
-  <section class="py-md-7 pb-5">
+  <section class="py-5">
     <div class="container">
       <div class="row text-center">
         <div class="col-lg-3 col-md-6">

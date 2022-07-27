@@ -1,6 +1,6 @@
 <template>
   <section class="bg-dark position-relative overflow-hidden mt-7">
-    <div class="container py-lg-8 py-7">
+    <div class="container py-lg-6 py-3">
       <div class="row">
         <div class="col-lg-6 d-flex justify-content-center flex-column">
           <div id="carouselExampleIndicator" class="carousel slide py-7" data-bs-ride="carousel">
