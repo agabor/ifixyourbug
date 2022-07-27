@@ -51,16 +51,16 @@ public class EmailService
         {
             case OrderState.Accepted:
                 string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
-                SendEmail(client.Email, "orderAccept", order, new { client.Name, PaymentLink = paymentLink });
+                SendEmail(client.Email, "OrderAccept", order, new { client.Name, PaymentLink = paymentLink });
                 break;
             case OrderState.Rejected:
-                SendEmail(client.Email, "orderReject", order, new { client.Name, Message = message });
+                SendEmail(client.Email, "OrderReject", order, new { client.Name, Message = message });
                 break;
             case OrderState.Completed:
-                SendEmail(client.Email, "orderComplete", order, new { client.Name });
+                SendEmail(client.Email, "OrderComplete", order, new { client.Name });
                 break;
             case OrderState.Refundable:
-                SendEmail(client.Email, "orderRefund", order, new { client.Name });
+                SendEmail(client.Email, "OrderRefund", order, new { client.Name });
                 break;
         }
     }

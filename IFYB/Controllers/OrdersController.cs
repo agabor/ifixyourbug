@@ -104,7 +104,7 @@ public class OrdersController : BaseController
         }
         client.Orders!.Add(order);
         dbContext.SaveChanges();
-        EmailService.SendEmail(client.Email, "orderSubmit", order, new { client.Name });
+        EmailService.SendEmail(client.Email, "OrderSubmit", order, new { client.Name });
         return Ok(new IdDto(order.Id));
     }
 }
