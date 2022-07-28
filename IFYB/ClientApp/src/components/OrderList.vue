@@ -24,14 +24,14 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-4 col-12 pe-4">
-            <div class="d-flex justify-content-end">
-              <button type="button" class="btn btn-outline-secondary my-4 d-flex align-items-center" @click="$router.push(`/checkout/${order.paymentToken}`)" v-if="order.paymentToken && order.state == 1">
+            <div class="d-flex justify-content-end flex-wrap">
+              <button type="button" class="btn btn-outline-secondary my-2 d-flex align-items-center" @click="$router.push(`/checkout/${order.paymentToken}`)" v-if="order.paymentToken && order.state == 1">
                 {{ $t('orderList.pay') }}
                 <span class="text-secondary text-xs font-weight-bold ms-2">
                   <i class="ni ni-cart opacity-10"></i>
                 </span>
               </button>
-              <button type="button" class="btn bg-gradient-primary my-4 d-flex align-items-center ms-2" @click="$emit('openOrder', order)">
+              <button type="button" class="btn bg-gradient-primary my-2 d-flex align-items-center ms-2" @click="$emit('openOrder', order)">
                 {{ $t('orderList.details') }}
                 <span class="text-white text-xs font-weight-bold ms-2">
                   <i class="ni ni-bold-right opacity-10"></i>
