@@ -6,7 +6,7 @@
           <h6 class="text-white font-weight-bolder text-uppercase mb-2">{{ $t('footer.title') }}</h6>
           <p class="text-white">{{ $t('footer.copyright') }}</p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
+        <div class="col-lg-2 col-sm-6 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
             <h6 class="text-white text-sm mb-1">{{ $t('footer.pages') }}</h6>
             <ul class="flex-column ms-lg-n3 nav">
@@ -19,13 +19,6 @@
               <li class="nav-item">
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/other-services">{{ $t('footer.services') }}</a>
               </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
-          <div>
-            <h6 class="text-white text-sm mb-1">&nbsp;</h6>
-            <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
               </li>
