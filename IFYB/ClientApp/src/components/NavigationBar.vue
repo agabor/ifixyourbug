@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-white top-0 z-index-3 shadow position-fixed py-2 start-0 end-0">
+  <nav class="navbar navbar-expand-lg bg-white top-0 z-index-3 shadow position-fixed py-2 start-0 end-0 row px-lg-6 px-4">
     <div class="container px-0">
       <a class="navbar-brand font-weight-bolder cursor-pointer ms-sm-3" @click="isAdminLoggedIn ? $router.push('/admin') : $router.push('/')" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
         {{ $t('navigationBar.projectName') }}
@@ -26,7 +26,7 @@
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav navbar-nav-hover mx-auto" v-else>
+        <ul class="navbar-nav navbar-nav-hover me-auto" v-else>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/other-services')">
               {{ $t('navigationBar.services') }}
@@ -86,3 +86,10 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+a:hover {
+  color: #f05f3e;
+}
+</style>
