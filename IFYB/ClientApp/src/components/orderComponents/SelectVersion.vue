@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 ps-md-2">
+  <div class="col-md-6 col-12 ps-md-1">
     <label>{{ $t('frameworkVersion.label') }}</label>
     <select v-if="versions" class="form-control" :class="{'text-black-50': version == undefined}" name="choices-version" id="choices-version" v-model="version" :disabled="!editable">
       <option :value="null" selected hidden>{{ $t('frameworkVersion.placeholder') }}</option>

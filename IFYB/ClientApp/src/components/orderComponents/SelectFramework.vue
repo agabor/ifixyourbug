@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6">
+  <div class="col-md-6 col-12 pe-md-1">
     <label>{{ $t('framework.label') }}</label>
     <select class="form-control" :class="{'text-black-50': framework == undefined}" name="choices-framework" id="choices-framework" v-model="framework" :disabled="!editable">
       <option :value="null" selected hidden>{{ $t('framework.placeholder') }}</option>

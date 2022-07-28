@@ -1,16 +1,18 @@
 <template>
-  <div class="col-md-12 pe-2">
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="available-app-input" v-model="isChecked" :disabled="!editable">
-      <label class="form-check-label" for="available-app-input">{{ $t('onlineApp.isAvailable') }}</label>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="available-app-input" v-model="isChecked" :disabled="!editable">
+        <label class="form-check-label" for="available-app-input">{{ $t('onlineApp.isAvailable') }}</label>
+      </div>
     </div>
-  </div>
-  <div class="col-md-12 pe-2 mb-3" v-if="isChecked">
-    <div class="form-group mb-0">
-      <label>{{ $t('onlineApp.appUrl') }}*</label>
-      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.applicationUrl)}" :placeholder="$t('onlineApp.appUrl')" type="text" v-model="text" :disabled="!editable">
+    <div class="col-12 mb-3" v-if="isChecked">
+      <div class="form-group mb-0">
+        <label>{{ $t('onlineApp.appUrl') }}*</label>
+        <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.applicationUrl)}" :placeholder="$t('onlineApp.appUrl')" type="text" v-model="text" :disabled="!editable">
+      </div>
+      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.applicationUrl }}</small></em></span>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.applicationUrl }}</small></em></span>
   </div>
 </template>
 

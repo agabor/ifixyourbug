@@ -1,7 +1,7 @@
 <template>
   <form>
-    <div class="row text-start">
-      <div class="col-md-12 d-flex pe-2 mb-3">
+    <div class="text-start">
+      <div class="row mb-3">
         <select-framework v-model="order.framework" :editable="true" :showError="showErrors"></select-framework>
         <select-version v-model="order.version" :framework="order.framework" :editable="true" :showError="showErrors"></select-version>
       </div>
@@ -36,9 +36,9 @@ import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
+import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useServerError, useInputError } from "../store";
 import router from '../router'
-import AcceptTerms from './orderComponents/AcceptTerms.vue';
 
 export default {
   name: 'NewOrderForm',

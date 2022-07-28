@@ -4,11 +4,11 @@
       <div class="col-12 mx-auto">
         <div class="d-flex flex-column align-items-start justify-content-start my-1" v-if="isMyMessage">
           <p class="m-0 mx-2 fw-lighter small" v-if="diffMinutes() > 5 || prevIsMyMessage !==isMyMessage || $filters.dateFormat(prevDateTime) !== $filters.dateFormat(time)">{{ $filters.timeFormat(time) }}</p>
-          <p class="bg-gradient-primary m-0 my-message" data-bs-toggle="tooltip" data-bs-placement="right" :title="$filters.dateTimeFormat(time)">{{ message }}</p>
+          <p class="bg-gradient-primary m-0 my-message text-break" data-bs-toggle="tooltip" data-bs-placement="right" :title="$filters.dateTimeFormat(time)">{{ message }}</p>
         </div>
         <div class="d-flex flex-column align-items-end justify-content-end my-1" v-else>
           <p class="m-0 mx-2 fw-lighter small" v-if="diffMinutes() > 5 || prevIsMyMessage !==isMyMessage || $filters.dateFormat(prevDateTime) !== $filters.dateFormat(time)">{{ $filters.timeFormat(time) }}</p>
-          <p class="m-0 admin-message" data-bs-toggle="tooltip" data-bs-placement="right" :title="$filters.dateTimeFormat(time)">{{ message }}</p>
+          <p class="m-0 admin-message text-break" data-bs-toggle="tooltip" data-bs-placement="right" :title="$filters.dateTimeFormat(time)">{{ message }}</p>
         </div>
       </div>
     </div>

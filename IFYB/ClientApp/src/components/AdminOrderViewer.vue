@@ -40,8 +40,8 @@
               </div>
             </div>
             <form>
-              <div class="row text-start">
-                <div class="col-md-12 d-flex pe-2 mb-3">
+              <div class="text-start">
+                <div class="row mb-3">
                   <div class="col-md-6">
                     <label>{{ $t('orderViewer.name') }}</label>
                     <div class="py-2 px-4 rounded-pill text-white bg-gradient-primary">{{ order.name }}</div>
@@ -54,7 +54,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12 d-flex pe-2 mb-3">
+                <div class="row mb-3">
                   <select-framework :modelValue="order.framework" :editable="false" :showError="false"></select-framework>
                   <select-version :modelValue="order.version" :framework="order.framework" :editable="false" :showError="false"></select-version>
                 </div>
@@ -62,7 +62,7 @@
                 <browser-type v-if="order.framework == 0" :modelValue="order.specificPlatform" :version="order.specificPlatformVersion" :editable="false" :showError="false"></browser-type>
                 <online-app :modelValue="order.applicationUrl" :editable="false" :showError="false"></online-app>
                 <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
-                <div class="col-md-12 pe-2 mb-3">
+                <div class="col-md-12 mb-3">
                   <div class="form-group mb-0">
                     <label>{{ $t('newOrder.bugDescription') }}*</label>
                     <text-viewer :value="order.bugDescription"></text-viewer>

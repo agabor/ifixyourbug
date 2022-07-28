@@ -1,24 +1,26 @@
 <template>
-  <div class="col-md-12 pe-2">
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="specific-browser-input" v-model="isChecked" :disabled="!editable">
-      <label class="form-check-label" for="specific-browser-input">{{ $t('browserType.isSpecific') }}</label>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="specific-browser-input" v-model="isChecked" :disabled="!editable">
+        <label class="form-check-label" for="specific-browser-input">{{ $t('browserType.isSpecific') }}</label>
+      </div>
     </div>
-  </div>
-  <label v-if="isChecked">{{ $t('browserType.label') }}</label>
-  <div class="col-md-12 d-flex pe-2" v-if="isChecked">
-    <div class="form-check me-3" v-for="n in optionCount" :key="n">
-      <input class="form-check-input" type="radio" name="browserRadio" :id="`browserRadio${n}`" :value="$t(`browserType.option${n}`)" v-model="browser" :disabled="!editable">
-      <label class="form-check-label" :for="`browserRadio${n}`">{{ $t(`browserType.option${n}`) }}</label>
+    <label v-if="isChecked">{{ $t('browserType.label') }}</label>
+    <div class="col-12 d-flex flex-wrap" v-if="isChecked">
+      <div class="form-check me-3" v-for="n in optionCount" :key="n">
+        <input class="form-check-input" type="radio" name="browserRadio" :id="`browserRadio${n}`" :value="$t(`browserType.option${n}`)" v-model="browser" :disabled="!editable">
+        <label class="form-check-label" :for="`browserRadio${n}`">{{ $t(`browserType.option${n}`) }}</label>
+      </div>
     </div>
-  </div>
-  <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
-  <div class="col-md-12 pe-2 mb-3" v-if="isChecked">
-    <div class="form-group mb-0">
-      <label>{{ $t('browserType.version') }}*</label>
-      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.specificPlatformVersion)}" :placeholder="$t('browserType.version')" type="text" v-model="browserVersion" :disabled="!editable">
+    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
+    <div class="col-12 mb-3" v-if="isChecked">
+      <div class="form-group mb-0">
+        <label>{{ $t('browserType.version') }}*</label>
+        <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.specificPlatformVersion)}" :placeholder="$t('browserType.version')" type="text" v-model="browserVersion" :disabled="!editable">
+      </div>
+      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
   </div>
 </template>
 

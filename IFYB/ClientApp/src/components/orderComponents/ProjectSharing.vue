@@ -1,19 +1,21 @@
 <template>
-  <div class="col-md-12 pe-2 mb-3">
-    <label>{{ $t('projectSharing.urlLabel') }}</label>
-    <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" v-model="urlText" :disabled="!visible">
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.repoUrl }}</small></em></span>
-  </div>
-  <label>{{ $t('projectSharing.sharingLabel') }}</label>
-  <div class="col-md-12 d-flex pe-2">
-    <div class="form-check me-3" v-for="n in optionCount" :key="n">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`flexRadioDefault${n}`" :value="n-1" v-model="mode" :disabled="!visible">
-      <label class="form-check-label" :for="`flexRadioDefault${n}`">{{ $t(`projectSharing.option${n}`) }}</label>
+  <div class="row">
+    <div class="col-12 mb-3">
+      <label>{{ $t('projectSharing.urlLabel') }}</label>
+      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" v-model="urlText" :disabled="!visible">
+      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.repoUrl }}</small></em></span>
     </div>
-  </div>
-  <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
-  <div class="col-md-12 pe-2" v-if="mode > -1">
-    <span>{{ $t(`projectSharing.description${mode+1}`) }}</span>
+    <label>{{ $t('projectSharing.sharingLabel') }}</label>
+    <div class="col-12 d-flex flex-wrap">
+      <div class="form-check me-3" v-for="n in optionCount" :key="n">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`flexRadioDefault${n}`" :value="n-1" v-model="mode" :disabled="!visible">
+        <label class="form-check-label" :for="`flexRadioDefault${n}`">{{ $t(`projectSharing.option${n}`) }}</label>
+      </div>
+    </div>
+    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
+    <div class="col-12" v-if="mode > -1">
+      <span>{{ $t(`projectSharing.description${mode+1}`) }}</span>
+    </div>
   </div>
   <ssh-key-preview v-if="mode === 2"></ssh-key-preview>
 </template>

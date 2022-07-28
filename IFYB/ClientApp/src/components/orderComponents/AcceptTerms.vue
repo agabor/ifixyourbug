@@ -1,10 +1,12 @@
 <template>
-  <div class="col-md-12 pe-2">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="accept-terms" v-model="isChecked">
-      <label class="form-check-label" for="accept-terms">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toTerms">{{ $t('policies.termsAndConditions') }}</a></label>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="accept-terms" v-model="isChecked">
+        <label class="form-check-label" for="accept-terms">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toTerms">{{ $t('policies.termsAndConditions') }}</a></label>
+      </div>
+      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.acceptTerms }}</small></em></span>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.acceptTerms }}</small></em></span>
   </div>
 </template>
 

@@ -1,24 +1,26 @@
 <template>
-  <div class="col-md-12 pe-2">
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="specific-op-system-input" v-model="isChecked" :disabled="!editable">
-      <label class="form-check-label" for="specific-op-system-input">{{ $t('operatingSystem.isSpecific') }}</label>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="specific-op-system-input" v-model="isChecked" :disabled="!editable">
+        <label class="form-check-label" for="specific-op-system-input">{{ $t('operatingSystem.isSpecific') }}</label>
+      </div>
     </div>
-  </div>
-  <label v-if="isChecked">{{ $t('operatingSystem.label') }}</label>
-  <div class="col-md-12 d-flex pe-2" v-if="isChecked">
-    <div class="form-check me-3" v-for="n in optionCount" :key="n">
-      <input class="form-check-input" type="radio" name="osRadio" :id="`osRadio${n}`" :value="$t(`operatingSystem.option${n}`)" v-model="os" :disabled="!editable">
-      <label class="form-check-label" :for="`osRadio${n}`">{{ $t(`operatingSystem.option${n}`) }}</label>
+    <label v-if="isChecked">{{ $t('operatingSystem.label') }}</label>
+    <div class="col-12 d-flex flex-wrap" v-if="isChecked">
+      <div class="form-check me-3" v-for="n in optionCount" :key="n">
+        <input class="form-check-input" type="radio" name="osRadio" :id="`osRadio${n}`" :value="$t(`operatingSystem.option${n}`)" v-model="os" :disabled="!editable">
+        <label class="form-check-label" :for="`osRadio${n}`">{{ $t(`operatingSystem.option${n}`) }}</label>
+      </div>
     </div>
-  </div>
-  <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
-  <div class="col-md-12 pe-2 mb-3" v-if="isChecked">
-    <div class="form-group mb-0">
-      <label>{{ $t('operatingSystem.version') }}*</label>
-      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.specificPlatformVersion)}" :placeholder="$t('operatingSystem.version')" type="text" v-model="osVersion" :disabled="!editable">
+    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
+    <div class="col-12 mb-3" v-if="isChecked">
+      <div class="form-group mb-0">
+        <label>{{ $t('operatingSystem.version') }}*</label>
+        <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.specificPlatformVersion)}" :placeholder="$t('operatingSystem.version')" type="text" v-model="osVersion" :disabled="!editable">
+      </div>
+      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
   </div>
 </template>
 
