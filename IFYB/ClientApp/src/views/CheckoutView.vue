@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner" v-if="order">
-        <carousel-item class="active" width="col-lg-9 col-md-11" icon="cart" :title="($t('checkout.order') + ' ' + order.number)">
+        <carousel-item class="active" width="col-lg-10 col-12" icon="cart" :title="($t('checkout.order') + ' ' + order.number)">
           <p v-if="loading">{{ $t('checkout.loading') }}</p>
           <div>
             <p>{{ $t('checkout.payDescription') }}</p>

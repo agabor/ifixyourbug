@@ -3,7 +3,7 @@
 <span class="mask bg-gradient-dark opacity-4"></span>
   <section class="pt-7 pb-md-3">
     <div class="container">
-      <div class="col-lg-8 col-md-10 mx-auto">
+      <div class="col-lg-10 col-12 mx-auto">
         <div class="card">
           <div class="card-header bg-gradient-primary p-5 position-relative">
             <h3 class="text-white mb-0">{{ $t('design.title') }}</h3>
