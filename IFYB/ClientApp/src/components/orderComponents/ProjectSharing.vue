@@ -3,7 +3,7 @@
     <div class="col-12 mb-3">
       <label>{{ $t('projectSharing.urlLabel') }}</label>
       <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" v-model="urlText" :disabled="!visible">
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.repoUrl }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.repoUrl"><em><small>{{ $t(`${inputErrors.repoUrl}`) }}</small></em></span>
     </div>
     <label>{{ $t('projectSharing.sharingLabel') }}</label>
     <div class="col-12 d-flex flex-wrap">
@@ -22,7 +22,7 @@
 
 <script>
 import { ref, watch } from 'vue'
-import { required } from '../../utils/Validate';
+import { required, validGitUrl } from '../../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useInputError } from "../../store";
 import SshKeyPreview from '../SshKeyPreview.vue';
@@ -44,7 +44,7 @@ export default {
     const { tm } = useI18n();
     const { inputErrors, setInputError } = useInputError();
 
-    setInputError('repoUrl', required(urlText.value, tm('errors.requiredProjectSharing')));
+    setInputError('repoUrl', validGitUrl(urlText.value));
     setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
 
     watch(() => [props.modelValue, props.accessMode], () => {
@@ -53,7 +53,7 @@ export default {
     })
     watch(urlText, () => {
       context.emit('update:modelValue', urlText.value);
-      setInputError('repoUrl', required(urlText.value, tm('errors.requiredProjectSharing')));
+      setInputError('repoUrl', validGitUrl(urlText.value));
     });
     watch(mode, () => {
       context.emit('update:accessMode', mode.value);

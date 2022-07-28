@@ -23,7 +23,8 @@ export const messages = {
         somethingWrong: 'Something wrong',
         wrongCode: 'Wrong code.',
         noResult: 'No result',
-        acceptTerms: 'You must accept the terms and conditions'
+        acceptTerms: 'You must accept the terms and conditions',
+        badSharingUrl: 'URL must be valid',
       },
     //Policies
       policies: {
