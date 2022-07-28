@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-sm-n8 mt-n7">
+    <div class="mt-n7">
       <div class="container">
         <div class="row">
           <div class="col-lg-3 mb-lg-auto mb-4 my-auto p-md-0 ms-auto">
