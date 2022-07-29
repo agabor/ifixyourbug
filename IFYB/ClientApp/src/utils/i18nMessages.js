@@ -250,6 +250,7 @@ export const messages = {
         payed: 'Payed',
         completed: 'Completed',
         refundable: 'Refundable',
+        canceled: 'Canceled',
         addNewOrder: 'Add new order',
         details: 'Details'
       },
@@ -294,6 +295,7 @@ export const messages = {
       payed: 'Payed',
       completed: 'Completed',
       refundable: 'Refundable',
+      canceled: 'Canceled',
       name: 'Name',
       email: 'Email',
     },

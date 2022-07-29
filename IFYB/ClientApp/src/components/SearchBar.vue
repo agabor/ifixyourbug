@@ -48,8 +48,11 @@ export default {
                 case '4':
                   element = tm('orderList.completed');
                   break;
-                case '6':
+                case '5':
                   element = tm('orderList.refundable');
+                  break;
+                case '6':
+                  element = tm('orderList.canceled');
                   break;
                 default:
                   element = tm('orderList.submitted');

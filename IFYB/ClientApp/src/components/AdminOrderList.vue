@@ -49,6 +49,7 @@
             <span class="badge badge-sm badge-light " v-else-if="order.state == 3">{{ $t('orderList.payed') }}</span>
             <span class="badge badge-sm badge-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</span>
             <span class="badge badge-sm badge-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</span>
+            <span class="badge badge-sm badge-light" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</span>
           </td>
           <td class="align-middle text-center cursor-pointer" @click="$emit('openOrder', order)">
             <span class="text-secondary text-xs font-weight-bold">

@@ -21,6 +21,7 @@
               <span class="badge badge-sm badge-light mt-3" v-else-if="order.state == 3">{{ $t('orderList.payed') }}</span>
               <span class="badge badge-sm badge-success mt-3" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</span>
               <span class="badge badge-sm badge-warning mt-3" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</span>
+              <span class="badge badge-sm badge-light mt-3" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</span>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 col-12 pe-4">
