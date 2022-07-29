@@ -130,6 +130,7 @@ public class PaymentController : BaseController
               order.AmountTotal = sessionObject.AmountTotal;
               order.AmountSubtotal = sessionObject.AmountSubtotal;
               order.AmountTax = sessionObject.TotalDetails.AmountTax;
+              order.PayedAt = DateTime.UtcNow;
               dbContext.Entry(order).Reference(o => o.Client).Load();
               order.Client!.StripeId = sessionObject.CustomerId;
               dbContext.SaveChanges();

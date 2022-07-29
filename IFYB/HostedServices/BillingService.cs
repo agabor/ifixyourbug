@@ -70,7 +70,7 @@ public class BillingService : BackgroundService
                 var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
                 var tax = customer.Tax;
 
-                if (tax.AutomaticTax != "supported")
+                if (order.TaxIdType != "eu_vat" && tax.AutomaticTax != "supported")
                     request.Header.Comment = "VAT reverse charge";
 
                 var api = new SzamlazzHuApi();
@@ -81,6 +81,8 @@ public class BillingService : BackgroundService
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
                 orderFromScope.TaxCountry = tax.Location.Country;
                 orderFromScope.TaxState = tax.Location.State;
+                orderFromScope.AutomaticTax = tax.AutomaticTax;
+                orderFromScope.InvoiceNumber = response.InvoiceNumber;
                 dbContext.SaveChanges();
 
 

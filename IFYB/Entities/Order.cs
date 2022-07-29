@@ -40,6 +40,9 @@ public class Order
     public long? AmountTax { get; set; }
     public string? TaxCountry { get; internal set; }
     public string? TaxState { get; internal set; }
+    public string? AutomaticTax { get; internal set; }
+    public string? InvoiceNumber { get; internal set; }
+    public DateTime? PayedAt { get; internal set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
