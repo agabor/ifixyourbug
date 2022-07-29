@@ -35,10 +35,21 @@ public class PaymentController : BaseController
       return Ok(order.ToDto());
     }
 
+    [HttpGet]
+    [Route("orders/{orderId}")]
+    [Produces(typeof(PriceDto))]
+    public IActionResult GetPriceDataOffer(int orderId)
+    {
+      var order = dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
+      if (order == null || order.EurPriceId == null || order.UsdPriceId == null || order.EurPrice == null || order.UsdPrice == null)
+          return NotFound();
+      return Ok(new PriceDto(order.EurPriceId, order.UsdPriceId, (decimal)order.EurPrice, (decimal)order.UsdPrice));
+    }
+
     [HttpPost]
-    [Route("{paymentToken}/{isEur}")]
+    [Route("{paymentToken}/{priceId}")]
     [Produces(typeof(UrlDto))]
-    public IActionResult Pay(string paymentToken, bool isEur)
+    public IActionResult Pay(string paymentToken, string priceId)
     {
       var order = dbContext.Orders.FirstOrDefault(o => o.PaymentToken == paymentToken);
       if (order == null)
@@ -53,7 +64,7 @@ public class PaymentController : BaseController
           {
             new SessionLineItemOptions
             {
-              Price = isEur ? stripeOptions.EurPriceId : stripeOptions.UsdPriceId,
+              Price = priceId,
               Quantity = 1,
             },
           },

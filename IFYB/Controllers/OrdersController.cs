@@ -4,6 +4,7 @@ using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Scriban;
 using IFYB.Services;
+using Microsoft.Extensions.Options;
 
 namespace IFYB.Controllers;
 
@@ -13,9 +14,13 @@ namespace IFYB.Controllers;
 public class OrdersController : BaseController
 {
     public EmailService EmailService { get; }
-    public OrdersController(ApplicationDbContext dbContext, EmailService emailService) : base(dbContext)
+    private readonly StripeOptions stripeOptions;
+    private readonly OfferDto offer;
+    public OrdersController(ApplicationDbContext dbContext, EmailService emailService, IOptions<StripeOptions> stripeOptions, OfferDto offer) : base(dbContext)
     {
         EmailService = emailService;
+        this.stripeOptions = stripeOptions.Value;
+        this.offer = offer;
     }
 
     [HttpGet]
@@ -102,6 +107,10 @@ public class OrdersController : BaseController
         } else {
             order.Number = "#" + actualDate + "001";
         }
+        order.EurPriceId = stripeOptions.EurPriceId;
+        order.UsdPriceId = stripeOptions.UsdPriceId;
+        order.EurPrice = offer.EurPrice;
+        order.UsdPrice = offer.UsdPrice;
         client.Orders!.Add(order);
         dbContext.SaveChanges();
         EmailService.SendEmail(client.Email, "OrderSubmit", order, new { client.Name });

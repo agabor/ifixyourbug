@@ -31,6 +31,10 @@ public class Order
     public string? PostalCode { get; set; }
     public string? AddressState { get; set; }
     public string? Currency { get; set; }
+    public string? EurPriceId { get; set; }
+    public string? UsdPriceId { get; set; }
+    public decimal? EurPrice { get; set; }
+    public decimal? UsdPrice { get; set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
