@@ -57,9 +57,16 @@ public class PaymentController : BaseController
       if (order.State != OrderState.Accepted)
         return BadRequest();
       dbContext.Entry(order).Reference(o => o.Client).Load();
+      
       var options = new SessionCreateOptions
       {
-          CustomerEmail = order.Client!.Email,
+          CustomerEmail = order.Client!.StripeId != null ? null : order.Client!.Email,
+          Expand = new List<string> {"customer", "customer.tax"},
+          AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
+          Customer = order.Client!.StripeId,
+          CustomerUpdate = new SessionCustomerUpdateOptions {
+            Name = "auto"
+          },
           LineItems = new List<SessionLineItemOptions>
           {
             new SessionLineItemOptions
@@ -89,6 +96,7 @@ public class PaymentController : BaseController
     public async Task<IActionResult> OnPayment()
     {
       var jsonString = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+      
       try
       {
           var stripeEvent = EventUtility.ConstructEvent(jsonString,
@@ -119,7 +127,14 @@ public class PaymentController : BaseController
               order.Currency = sessionObject.Currency;
               order.State = OrderState.Payed;
               order.PaymentToken = null;
+              order.AmountTotal = sessionObject.AmountTotal;
+              order.AmountSubtotal = sessionObject.AmountSubtotal;
+              order.AmountTax = sessionObject.TotalDetails.AmountTax;
+              dbContext.Entry(order).Reference(o => o.Client).Load();
+              order.Client!.StripeId = sessionObject.CustomerId;
               dbContext.SaveChanges();
+
+
               billingChannel.Writer.TryWrite(order);
           }
 

@@ -1,22 +1,24 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Threading.Channels;
 using IFYB.Entities;
 using IFYB.Models;
 using IFYB.Services;
 using Microsoft.Extensions.Options;
+using Stripe;
 using SzamlazzHu;
 
 namespace IFYB.HostedServices;
 
 public class BillingService : BackgroundService
 {
-    private readonly Channel<Order> billingChanel;
+    private readonly Channel<Entities.Order> billingChanel;
     private readonly ILogger<BillingService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly OfferDto offer;
     private readonly BillingOptions billingOptions;
 
-    public BillingService(Channel<Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer)
+    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer)
     {
         this.billingChanel = billingChanel;
         this.logger = logger;
@@ -48,16 +50,16 @@ public class BillingService : BackgroundService
                 request.Customer.TaxNumber = order.TaxId;
 
                 decimal price = request.Header.Currency == "EUR" ? offer.EurPrice : offer.UsdPrice;
-                string vatRate = GetVatRate(order);
-                decimal vatAmount = vatRate == "27" ? price * 0.27M : 0M;
+                decimal vatAmount = (decimal)order.AmountTax! / 100M;
+                double vatPercentage = ((double)order.AmountTax / (double)order.AmountSubtotal!) * 100.0;
 
-                request.Items = new List<InvoiceItem> {
-                    new InvoiceItem {
+                request.Items = new List<SzamlazzHu.InvoiceItem> {
+                    new SzamlazzHu.InvoiceItem {
                         Name = "Bug Fixing Service",
                         Quantity = 1,
                         UnitOfQuantity = "piece",
                         UnitPrice = price,
-                        VatRate = vatRate,
+                        VatRate = vatPercentage.ToString("F1",  CultureInfo.InvariantCulture),
                         NetPrice = price,
                         VatAmount = vatAmount,
                         GrossAmount = price + vatAmount
@@ -70,29 +72,21 @@ public class BillingService : BackgroundService
                 var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
+
+                var customerService = new CustomerService();
+                var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
+                var tax = customer.Tax;
+                orderFromScope.TaxCountry = tax.Location.Country;
+                orderFromScope.TaxState = tax.Location.State;
+                dbContext.SaveChanges();
+
                 using var stream = new MemoryStream(response.InvoicePdf);
+              
                 emailService.SendInvoice(orderFromScope, stream, response.InvoiceNumber);
             } catch (Exception e) {
                 logger.Log(LogLevel.Error, e, e.Message);
             }
         }
         logger.Log(LogLevel.Information, "BillingService finished");
-    }
-
-    private string GetVatRate(Order order)
-    {
-        if (!string.IsNullOrWhiteSpace(order.TaxIdType)) {
-            if (order.Country?.ToUpper() == "HU")
-                return billingOptions.VatHunCompany;
-            if (order.TaxIdType == "eu_vat")
-                return billingOptions.VatEuCompany;
-            return billingOptions.Vat3rdCompany;
-        }
-        if (order.Country?.ToUpper() == "HU")
-            return billingOptions.VatHunPrivate;
-        var euCountryCodes = new List<string> { "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE" };
-        if (euCountryCodes.Contains(order.Country?.ToUpper() ?? ""))
-            return billingOptions.VatEuPrivate;
-        return billingOptions.Vat3rdPrivate;
     }
 }

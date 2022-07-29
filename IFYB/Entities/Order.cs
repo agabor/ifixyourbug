@@ -35,6 +35,11 @@ public class Order
     public string? UsdPriceId { get; set; }
     public decimal? EurPrice { get; set; }
     public decimal? UsdPrice { get; set; }
+    public long? AmountTotal { get; set; }
+    public long? AmountSubtotal { get; set; }
+    public long? AmountTax { get; set; }
+    public string? TaxCountry { get; internal set; }
+    public string? TaxState { get; internal set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
