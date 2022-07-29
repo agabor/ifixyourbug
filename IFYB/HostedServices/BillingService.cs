@@ -66,19 +66,23 @@ public class BillingService : BackgroundService
                     }
                 };
 
+                var customerService = new CustomerService();
+                var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
+                var tax = customer.Tax;
+
+                if (tax.AutomaticTax != "supported")
+                    request.Header.Comment = "VAT reverse charge";
+
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
                 var scope = serviceProvider.CreateScope();
                 var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
-
-                var customerService = new CustomerService();
-                var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
-                var tax = customer.Tax;
                 orderFromScope.TaxCountry = tax.Location.Country;
                 orderFromScope.TaxState = tax.Location.State;
                 dbContext.SaveChanges();
+
 
                 using var stream = new MemoryStream(response.InvoicePdf);
               

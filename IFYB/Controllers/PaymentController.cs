@@ -64,7 +64,7 @@ public class PaymentController : BaseController
           Expand = new List<string> {"customer", "customer.tax"},
           AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
           Customer = order.Client!.StripeId,
-          CustomerUpdate = new SessionCustomerUpdateOptions {
+          CustomerUpdate = order.Client!.StripeId == null ? null : new SessionCustomerUpdateOptions {
             Name = "auto"
           },
           LineItems = new List<SessionLineItemOptions>
