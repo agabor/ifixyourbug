@@ -83,6 +83,6 @@ public class EmailService
     {
         dbContext.Entry(order).Reference(o => o.Client).Load();
         var client = order.Client!;
-        SendEmail(client.Email, "orderPayed", order, new { client.Name }, stream, $"{invoiceNumber}.pdf");
+        SendEmail(client.Email, "OrderPayed", order, new { client.Name }, stream, $"{invoiceNumber}.pdf");
     }
 }
