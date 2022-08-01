@@ -19,7 +19,7 @@
     <PackageReference Include="Scriban" Version="5.4.6" />
     <PackageReference Include="Stripe.net" Version="39.122.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="szamlazz-hu-sdk" Version="1.3.2" />
+    <PackageReference Include="szamlazz-hu-sdk" Version="1.3.3" />
   </ItemGroup>
   <ItemGroup> 
     <Content Include="Email\**"> 

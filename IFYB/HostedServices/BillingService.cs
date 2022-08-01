@@ -43,7 +43,8 @@ public class BillingService : BackgroundService
                 request.Header.Currency = order.Currency?.ToUpper() ?? "EUR";
 
                 request.Customer.Name = order.CustomerName;
-                request.Customer.CustomerAddress.Country = order.Country;
+                if (order.Country != null)
+                    request.Customer.CustomerAddress.Country = new RegionInfo(order.Country).EnglishName;
                 request.Customer.CustomerAddress.PostalCode = order.PostalCode;
                 request.Customer.CustomerAddress.City = order.City;
                 request.Customer.CustomerAddress.StreetAddress = $"{order.Line1} {order.Line2}";
