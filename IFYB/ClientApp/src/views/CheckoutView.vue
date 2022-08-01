@@ -43,9 +43,7 @@ export default {
     const progress = ref(0);
     const paymentData = ref({
       eurPrice: null,
-      eurPriceId: null,
       usdPrice: null,
-      usdPriceId: null,
     })
 
     fetch(`/api/pay/${route.params.token}`).then(resp => {
@@ -62,7 +60,7 @@ export default {
 
     function pay(isEur) {
       progress.value = 30;
-      fetch(`/api/pay/${route.params.token}/${isEur ? paymentData.value.eurPriceId : paymentData.value.usdPriceId}`, { method: 'post' }).then(resp => {
+      fetch(`/api/pay/${route.params.token}/${isEur}`, { method: 'post' }).then(resp => {
         payment.setPaymentToken(route.params.token)
         resp.json().then(data => {
           window.location.href = data.url

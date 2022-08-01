@@ -41,15 +41,15 @@ public class PaymentController : BaseController
     public IActionResult GetPriceDataOffer(int orderId)
     {
       var order = dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
-      if (order == null || order.EurPriceId == null || order.UsdPriceId == null || order.EurPrice == null || order.UsdPrice == null)
+      if (order == null || order.EurPrice == null || order.UsdPrice == null)
           return NotFound();
-      return Ok(new PriceDto(order.EurPriceId, order.UsdPriceId, (decimal)order.EurPrice, (decimal)order.UsdPrice));
+      return Ok(new PriceDto((decimal)order.EurPrice, (decimal)order.UsdPrice));
     }
 
     [HttpPost]
     [Route("{paymentToken}/{priceId}")]
     [Produces(typeof(UrlDto))]
-    public IActionResult Pay(string paymentToken, string priceId)
+    public IActionResult Pay(string paymentToken, bool isEur)
     {
       var order = dbContext.Orders.FirstOrDefault(o => o.PaymentToken == paymentToken);
       if (order == null)
@@ -71,7 +71,7 @@ public class PaymentController : BaseController
           {
             new SessionLineItemOptions
             {
-              Price = priceId,
+              Price = isEur ? order.EurPriceId : order.UsdPriceId,
               Quantity = 1,
             },
           },
