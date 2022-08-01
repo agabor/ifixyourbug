@@ -8,8 +8,8 @@
           <div>
             <p>{{ $t('checkout.payDescription') }}</p>
             <div class="d-flex justify-content-center">
-              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} ${{ paymentData.usdPrice }}</a>
-              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €{{ paymentData.eurPrice }}</a>
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} ${{ order.usdPrice }}</a>
+              <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €{{ order.eurPrice }}</a>
             </div>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -41,20 +41,11 @@ export default {
     const route = useRoute();
     const payment = usePayment();
     const progress = ref(0);
-    const paymentData = ref({
-      eurPrice: null,
-      usdPrice: null,
-    })
 
     fetch(`/api/pay/${route.params.token}`).then(resp => {
       resp.json().then(data => {
         order.value = data;
         loading.value = false;
-        fetch(`/api/pay/orders/${order.value.id}`).then(resp => {
-          resp.json().then(data => {
-            paymentData.value = data;
-          });
-        });
       });
     });    
 
@@ -68,7 +59,7 @@ export default {
         progress.value = 100;
       });
     }
-    return { paymentData, loading, order, route, progress, pay };
+    return { loading, order, route, progress, pay };
   }
 }
 </script>

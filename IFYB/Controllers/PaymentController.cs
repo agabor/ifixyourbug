@@ -35,17 +35,6 @@ public class PaymentController : BaseController
       return Ok(order.ToDto());
     }
 
-    [HttpGet]
-    [Route("orders/{orderId}")]
-    [Produces(typeof(PriceDto))]
-    public IActionResult GetPriceDataOffer(int orderId)
-    {
-      var order = dbContext.Orders.FirstOrDefault(o => o.Id == orderId);
-      if (order == null || order.EurPrice == null || order.UsdPrice == null)
-          return NotFound();
-      return Ok(new PriceDto((decimal)order.EurPrice, (decimal)order.UsdPrice));
-    }
-
     [HttpPost]
     [Route("{paymentToken}/{priceId}")]
     [Produces(typeof(UrlDto))]

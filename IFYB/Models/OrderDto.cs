@@ -17,8 +17,10 @@ public class OrderDto
     public int GitAccessId { get; set; }
     public string? PaymentToken { get; set; }
     public int ClientId { get; set; }
+    public decimal EurPrice { get; set; }
+    public decimal UsdPrice { get; set; }
 
-    public OrderDto(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId, string? paymentToken, int clientId)
+    public OrderDto(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId, string? paymentToken, int clientId, decimal eurPrice, decimal usdPrice)
     {
         Id = id;
         Number = number;
@@ -34,6 +36,8 @@ public class OrderDto
         GitAccessId = gitAccessId;
         PaymentToken = paymentToken;
         ClientId = clientId;
+        EurPrice = eurPrice;
+        UsdPrice = usdPrice;
     }
 }
 
