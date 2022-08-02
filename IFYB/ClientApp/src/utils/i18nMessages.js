@@ -93,7 +93,8 @@ export const messages = {
         include3: 'Bugfix delivered as pull request',
         include4: 'Explaination of the bugfix',
         payOne: 'One time payment, no hidden costs',
-        orderNow: 'Order Now'
+        orderNow: 'Order Now',
+        excludeVat: 'The price does not include VAT.'
       },
       handle: {
         title1: 'How It Works',

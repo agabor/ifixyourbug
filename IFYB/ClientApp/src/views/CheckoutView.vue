@@ -11,6 +11,7 @@
               <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(false)">{{ $t('checkout.pay') }} ${{ order.usdPrice }}</a>
               <a class="btn btn bg-gradient-primary btn-round mx-1" @click="pay(true)">{{ $t('checkout.pay') }} €{{ order.eurPrice }}</a>
             </div>
+            <p>{{$t('pricing.excludeVat')}}</p>
             <div class="progress">
               <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>

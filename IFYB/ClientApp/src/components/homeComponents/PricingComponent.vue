@@ -65,6 +65,7 @@
                   <small>€</small> {{ eurPrice }}
                 </h3>
                 <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
+                <p>{{$t('pricing.excludeVat')}}</p>
               </div>
             </div>
           </div>
