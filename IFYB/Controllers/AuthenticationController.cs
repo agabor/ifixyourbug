@@ -21,15 +21,17 @@ public class AuthenticationController : BaseController
     private readonly AppOptions appOptions;
     private readonly JwtOptions jwtOptions;
 
-    private SecurityKey SecurityKey { get; }
-    public EmailService EmailService { get; }
+    private readonly  SecurityKey securityKey;
+    private readonly  EmailCreationService emailService;
+    private readonly  EmailSenderService emailSenderService;
 
-    public AuthenticationController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<JwtOptions> jwtOptions, SecurityKey securityKey, EmailService emailService) : base(dbContext)
+    public AuthenticationController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<JwtOptions> jwtOptions, SecurityKey securityKey, EmailCreationService emailService, EmailSenderService emailSenderService) : base(dbContext)
     {
         this.appOptions = appOptions.Value;
         this.jwtOptions = jwtOptions.Value;
-        SecurityKey = securityKey;
-        EmailService = emailService;
+        this.securityKey = securityKey;
+        this.emailService = emailService;
+        this.emailSenderService = emailSenderService;
     }
 
 
@@ -68,7 +70,8 @@ public class AuthenticationController : BaseController
             }
             client.Password = passwordHasher.HashPassword(client, password);
             string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
-            EmailService.SendEmail(dto.Email, "Authentication", null, new { Password = textPassword });
+            var email = emailService.CreateEmail(dto.Email, "Authentication", null, new { Password = textPassword });
+            emailSenderService.SendEmail(email!);
         }
         dbContext.SaveChanges();
         return Ok(new IdDto(client.Id));
@@ -155,7 +158,7 @@ public class AuthenticationController : BaseController
             Issuer = jwtOptions.Issuer,
             Audience = jwtOptions.Audience,
             Expires = DateTime.UtcNow.AddDays(1),
-            SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return new JwtDto(tokenHandler.WriteToken(token));

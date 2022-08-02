@@ -87,7 +87,8 @@ builder.Services.AddScoped<SmtpClient>(provider => {
     return smtpClient;
 });
 
-builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<EmailCreationService>();
+builder.Services.AddScoped<EmailSenderService>();
 builder.Services.AddSingleton<Channel<IFYB.Entities.Order>>(Channel.CreateUnbounded<IFYB.Entities.Order>());
 builder.Services.AddHostedService<BillingService>();
 

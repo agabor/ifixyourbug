@@ -17,9 +17,9 @@ public class AdminController : ControllerBase
     private readonly AppOptions appOptions;
 
     private ApplicationDbContext dbContext { get; }
-    public EmailService EmailService { get; }
+    public EmailCreationService EmailService { get; }
 
-    public AdminController(ApplicationDbContext dbContext, EmailService emailService, IOptions<AppOptions> appOptions) 
+    public AdminController(ApplicationDbContext dbContext, EmailCreationService emailService, IOptions<AppOptions> appOptions) 
     {
         this.dbContext = dbContext;
         this.EmailService = emailService;
@@ -107,7 +107,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            EmailService.SendEmail(client.Email, "OrderMessage", order, new { Name = client.Name });
+            EmailService.CreateEmail(client.Email, "OrderMessage", order, new { Name = client.Name });
         }
         return Ok(message.ToDto());
     }
@@ -127,7 +127,7 @@ public class AdminController : ControllerBase
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
         dbContext.SaveChanges();
-        EmailService.SendOrderStateEmail(order);
+        EmailService.CreateOrderStateEmail(order);
         return Ok(order.ToDto());
     }
 
@@ -145,7 +145,7 @@ public class AdminController : ControllerBase
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
         dbContext.SaveChanges();
-        EmailService.SendOrderStateEmail(order, data.Message.Text);
+        EmailService.CreateOrderStateEmail(order, data.Message.Text);
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
         data.Message.OrderId = order.Id;
         data.Message.DateTime = DateTime.UtcNow;

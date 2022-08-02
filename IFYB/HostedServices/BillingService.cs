@@ -13,18 +13,20 @@ namespace IFYB.HostedServices;
 public class BillingService : BackgroundService
 {
     private readonly Channel<Entities.Order> billingChanel;
+    private readonly Channel<Email> emailChanel;
     private readonly ILogger<BillingService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly OfferDto offer;
     private readonly BillingOptions billingOptions;
 
-    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer)
+    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer, Channel<Email> emailChanel)
     {
         this.billingChanel = billingChanel;
         this.logger = logger;
         this.serviceProvider = serviceProvider;
         this.offer = offer;
         this.billingOptions = billingOptions.Value;
+        this.emailChanel = emailChanel;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -78,7 +80,7 @@ public class BillingService : BackgroundService
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
                 var scope = serviceProvider.CreateScope();
-                var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
+                var emailCreationService = scope.ServiceProvider.GetRequiredService<EmailCreationService>();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
                 orderFromScope.TaxCountry = tax.Location.Country;
@@ -89,8 +91,13 @@ public class BillingService : BackgroundService
 
 
                 using var stream = new MemoryStream(response.InvoicePdf);
-              
-                emailService.SendInvoice(orderFromScope, stream, response.InvoiceNumber);
+                
+                dbContext.Entry(orderFromScope).Reference(o => o.Client).Load();
+                var client = orderFromScope.Client!;
+                var email = emailCreationService.CreateEmail(client.Email, "OrderPayed", orderFromScope, new { client.Name });
+                email!.File = stream;
+                email!.FileName = $"{response.InvoiceNumber}.pdf";
+                emailChanel.Writer.TryWrite(email);
             } catch (Exception e) {
                 logger.Log(LogLevel.Error, e, e.Message);
             }
