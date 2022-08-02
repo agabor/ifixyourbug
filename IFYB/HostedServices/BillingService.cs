@@ -71,8 +71,9 @@ public class BillingService : BackgroundService
                 var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
                 var tax = customer.Tax;
 
+                request.Header.Comment = "Paid";
                 if (order.TaxIdType != "eu_vat" && tax.AutomaticTax != "supported")
-                    request.Header.Comment = "VAT reverse charge";
+                    request.Header.Comment += "\nVAT reverse charge";
 
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
