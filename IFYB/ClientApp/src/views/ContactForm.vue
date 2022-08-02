@@ -34,8 +34,8 @@
                 <div class="alert alert-warning text-white font-weight-bold mt-3 mb-0" role="alert" v-if="error">
                   {{error}}
                 </div>                  
-                <div class="col-md-12 text-center mt-3">
-                  <button type="submit" class="btn bg-gradient-primary" @click="trySubmitMessage">{{ $t('contact.sendMessage') }}</button>
+                <div class="col-md-12 d-flex justify-content-center mt-3">
+                  <one-click-btn v-model:active="activeBtn" :text="$t('contact.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmitMessage()"></one-click-btn>
                 </div>
                 <span class="text-danger text-center" v-if="!isLoggedIn"><em><small>{{ $t('contact.createAccount') }}</small></em></span>
               </div>
@@ -71,9 +71,11 @@ import { ref } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useServerError, useUserAuthentication } from "../store";
+import OneClickBtn from '@/components/OneClickBtn.vue';
 
 export default {
   name: 'ContactForm',
+  components: { OneClickBtn },
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { get, isLoggedIn } = useUserAuthentication();
@@ -84,30 +86,32 @@ export default {
     });
     const error = ref(null);
     const page = ref('contact');
-
+    const activeBtn = ref(true);
+    
     setClientContact();
-
+    
     async function setClientContact() {
       let response = await get('/api/clients/client');
       if(response.status == 200) {
-        resetServerError();
-        let client = await response.json();
-        contact.value.name = client.name;
-        contact.value.email = client.email;
-      } else if(response.status != 401) {
-        setServerError(response.statusText);
-      }
+            resetServerError();
+            let client = await response.json();
+            contact.value.name = client.name;
+            contact.value.email = client.email;
+        } else if(response.status != 401) {
+            setServerError(response.statusText);
+        }
     }
 
     function trySubmitMessage() {
       let err =  getFormError();
       if(err) {
         error.value = err;
+        activeBtn.value = true;
       } else {
         submitMessage();
       }
     }
-
+    
     async function submitMessage() {
       let response = await fetch('/api/contact', {
         method: 'POST',
@@ -122,6 +126,7 @@ export default {
         error.value = null;
       } else {
         setServerError(response.statusText);
+        activeBtn.value = true;
       }
     }
 
@@ -138,7 +143,7 @@ export default {
       return err;
     }
 
-    return { contact, error, page, isLoggedIn, trySubmitMessage }
-  }
+    return { contact, error, page, isLoggedIn, activeBtn, trySubmitMessage };
+    }
 }
 </script>

@@ -1,10 +1,7 @@
 <template>
-  <carousel-item :class="{'active': page === 'email'}" icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :buttonText="$t('order.submit')" :error="error ? error: validationError" @onClickBtn="trySubmitEmail()">
+  <carousel-item :class="{'active': page === 'email'}" icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :buttonText="$t('order.submit')" :error="error ? error: validationError" :progress="progress" @onClickBtn="trySubmitEmail()">
     <div class="row mb-4">
       <input id="emailInput" class="form-control" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="user.email" @input="user.email = $event.target.value.toLowerCase()">
-      <div class="progress">
-        <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
       <div v-if="showPolicy">
       <div class="form-check d-flex align-items-center justify-content-center mt-3">
         <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('changePolicy', !acceptedPolicy)">
@@ -85,9 +82,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .progress {
-    background-color: transparent;
-  }
-</style>

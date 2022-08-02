@@ -15,8 +15,8 @@
           </div>
         </div>
         <div class="modal-footer justify-content-between">
-          <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal" @click="$emit('cancel')">{{ $t('confirm.cancel') }}</button>
-          <button type="button" class="btn bg-gradient-primary" @click="$emit('confirm')">{{ $t('confirm.confirm') }}</button>
+          <one-click-btn v-model:active="activeBtn" :text="$t('confirm.cancel')" class="bg-gradient-dark" @click="$emit('cancel')"></one-click-btn>
+          <one-click-btn v-model:active="activeBtn" :text="$t('confirm.confirm')" class="bg-gradient-primary" @click="$emit('confirm')"></one-click-btn>
         </div>
       </div>
     </div>
@@ -28,29 +28,32 @@ import { ref, watch } from 'vue';
 import { required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useInputError } from "../store";
+import OneClickBtn from './OneClickBtn.vue';
 
 export default {
   name: 'ConfirmationModal',
+  components: { OneClickBtn },
   props: {
-    modelValue: String,
-    title: String,
-    description: String,
-    showError: Boolean
+      modelValue: String,
+      title: String,
+      description: String,
+      showError: Boolean
   },
   emits: ['update:modelValue', 'confirm', 'cancel'],
-  setup (props, context) {
+  setup(props, context) {
     const text = ref(props.modelValue ?? '');
     const { tm } = useI18n();
     const { inputErrors, setInputError } = useInputError();
-    
+    const activeBtn = ref(true);
+
     setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
 
     watch(text, () => {
       context.emit('update:modelValue', text.value);
       setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
     });
-
-    return { text, inputErrors }
+    
+    return { text, inputErrors, activeBtn };
   }
 }
 </script>

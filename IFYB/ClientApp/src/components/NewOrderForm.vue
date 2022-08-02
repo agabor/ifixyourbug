@@ -16,12 +16,13 @@
     </div>
   </form>
   <div class="d-flex justify-content-center my-4">
-    <div class="text-center">
-      <button type="button" class="btn bg-gradient-primary mx-2" @click="trySubmitOrder">{{ $t('newOrder.submit') }}</button>
-    </div>
+    <one-click-btn v-model:active="activeBtn" :text="$t('newOrder.submit')" class="bg-gradient-primary mx-2" @click="trySubmitOrder"></one-click-btn>
     <div class="text-center">
       <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('newOrder.cancel') }}</button>
     </div>
+  </div>
+  <div class="progress">
+    <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
 </template>
 
@@ -39,10 +40,11 @@ import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useServerError, useInputError } from "../store";
 import router from '../router'
+import OneClickBtn from './OneClickBtn.vue';
 
 export default {
   name: 'NewOrderForm',
-  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms },
+  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
   props: {
     gitAccesses: Array
   },
@@ -66,6 +68,8 @@ export default {
     const error = ref(null);
     const selectedAccess = ref({});
     const showErrors = ref(false);
+    const activeBtn = ref(true);
+    const progress = ref(0);
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -95,8 +99,11 @@ export default {
     function trySubmitOrder() {
       if(hasInputError()) {
         showErrors.value = true;
+        activeBtn.value = true;
       } else {
+        progress.value = 30;
         submitOrder();
+        progress.value = 100;
       }
     }
 
@@ -125,6 +132,7 @@ export default {
         context.emit('toSuccessPage');
         error.value = null;
       } else {
+        progress.value = 0;
         setServerError(orderResponse.statusText);
       }
     }
@@ -158,7 +166,7 @@ export default {
       order.specificPlatformVersion = null;
     });
 
-    return { showErrors, order, selectedAccess, trySubmitOrder, cancelSubmit }
+    return { showErrors, order, selectedAccess, activeBtn, progress, trySubmitOrder, cancelSubmit }
   }
 }
 </script>

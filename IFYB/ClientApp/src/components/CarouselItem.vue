@@ -20,6 +20,9 @@
                 <button type="button" class="btn bg-gradient-primary my-4 mx-1" @click="$emit('onClickBtn')">{{ buttonText }}</button>
                 <button v-if="cancelable" type="button" class="btn btn-outline-secondary my-4 mx-1" @click="$emit('cancel')">Cancel</button>
               </div>
+              <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" :style="`width: ${progress}%`" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -38,8 +41,15 @@ export default {
     subTitle: String,
     title: String,
     buttonText: String,
-    error: String
+    error: String,
+    progress: Number
   },
   emits: [ 'onClickBtn', 'cancel' ],
 }
 </script>
+
+<style>
+  .progress {
+    background-color: transparent;
+  }
+</style>
