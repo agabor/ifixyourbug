@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
       </div>
     </div>
   </section>
@@ -29,6 +29,7 @@ export default {
     const showPolicy = ref(false);
     const acceptedPolicy = ref(false);
     const showRequired = ref(false);
+    const activeBtn = ref(true);
     let clientId;
 
     if(jwt.value) {
@@ -56,6 +57,7 @@ export default {
         setTimeout(() => {
           page.value = 'auth';
           progress.value = 100;
+          activeBtn.value = true;
         }, "500");
       } else if(response.status == 401) {
         if(showPolicy.value) {
@@ -63,10 +65,12 @@ export default {
         }
         showPolicy.value = true;
         progress.value = 0;
+        activeBtn.value = true;
       } else {
         setServerError(response.statusText);
         email.value = null;
         progress.value = null;
+        activeBtn.value = true;
       }
     }
 
@@ -94,6 +98,7 @@ export default {
       } else {
         setServerError(response.statusText);
       }
+      activeBtn.value = true;
     }
 
     function handleAuthenticationError() {
@@ -106,6 +111,7 @@ export default {
       if(name.value) {
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
       }
+      activeBtn.value = true;
     }
 
     async function toNamePageOrToTargetPage() {
@@ -117,6 +123,7 @@ export default {
     }
 
     async function cancelLogin() {
+      activeBtn.value = true;
       progress.value = 0;
       acceptedPolicy.value = false;
       showPolicy.value = false;
@@ -127,7 +134,7 @@ export default {
       page.value = 'email';
     }
 
-    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, submitEmail, changePolicy, authentication, setUserName, cancelLogin }
+    return { page, error, progress, showPolicy, acceptedPolicy, showRequired, activeBtn, submitEmail, changePolicy, authentication, setUserName, cancelLogin }
   }
 }
 </script>

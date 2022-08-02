@@ -1,60 +1,48 @@
 <template>
-  <carousel-item :class="{'active': page === 'email'}" icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :buttonText="$t('order.submit')" :error="error ? error: validationError" :progress="progress" @onClickBtn="trySubmitEmail()">
-    <div class="row mb-4">
-      <input id="emailInput" class="form-control" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="user.email" @input="user.email = $event.target.value.toLowerCase()">
-      <div v-if="showPolicy">
-      <div class="form-check d-flex align-items-center justify-content-center mt-3">
-        <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('changePolicy', !acceptedPolicy)">
-        <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
-      </div>
-      <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
-      </div>
-    </div>
-  </carousel-item>
-  <two-fa :class="{'active': page === 'auth'}" :error="error ? error: validationError" v-model:modelValue="user.auth" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
-  <carousel-item :class="{'active': page === 'name'}" icon="badge" :cancelable="true" :title="$t('order.name')" :subTitle="$t('order.nameDes')" :buttonText="$t('order.save')" :error="error ? error: validationError" @onClickBtn="trySetName()" @cancel="cancel">
-    <div class="row mb-4">
-      <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="user.name">
-    </div>
-  </carousel-item>
+  <email-form :class="{'active': page === 'email'}" v-model:modelValue="user.email" v-model:activeButton="activeButton" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="accepted" :showRequired="showRequired" @update:modelValue="submitEmail"></email-form>
+  <two-fa :class="{'active': page === 'auth'}" v-model:modelValue="user.auth" :error="error" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
+  <name-form :class="{'active': page === 'name'}" v-model:modelValue="user.name" v-model:activeButton="activeButton" :error="error" @update:modelValue="setName" @cancel="cancel"></name-form>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { validEmail, required } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
+import { ref, watch } from 'vue';
+import EmailForm from '../components/EmailForm.vue';
 import TwoFa from '../components/2FA.vue';
-import CarouselItem from '../components/CarouselItem.vue';
+import NameForm from '../components/NameForm.vue';
 
 export default {
   name: 'AuthenticationForm',
-  components: { TwoFa, CarouselItem },
+  components: { EmailForm, TwoFa, NameForm },
   props: {
     page: String,
     error: String,
     progress: Number,
     showPolicy: Boolean,
     acceptedPolicy: Boolean,
-    showRequired: Boolean
+    showRequired: Boolean,
+    activeBtn: Boolean
   },
-  emits: [ 'submitEmail', 'changePolicy', 'authentication', 'setName', 'cancel' ],
+  emits: [ 'submitEmail', 'changePolicy', 'authentication', 'setName', 'cancel', 'update:activeBtn' ],
   setup(props, context) {
-    const { tm } = useI18n();
     const user = ref({});
-    const validationError = ref(null);
+    const accepted = ref(props.acceptedPolicy);
+    const activeButton = ref(props.activeBtn ?? true);
 
-    function trySubmitEmail() {
-      let err = validEmail(user.value.email);
-      if(err) {
-        validationError.value = tm(err);
-      } else {
-        validationError.value = null;
-        context.emit('submitEmail', user.value.email);
-      }
-    }
-    
-    function toPrivacyPolicy() {
-      window.open('/privacy-policy', '_blank');
+    watch(props, () => {
+      activeButton.value = props.activeBtn;
+    })
+
+    watch(activeButton, () => {
+      context.emit('update:activeBtn', activeButton.value);
+    })
+
+    watch(accepted, () => {
+      context.emit('changePolicy', accepted.value);
+    })
+
+    function submitEmail(email) {
+      user.value.email = email;
+      context.emit('submitEmail', email);
     }
 
     async function tryAuthentication(code) {
@@ -62,23 +50,17 @@ export default {
       context.emit('authentication', user.value.auth);
     }
 
-    function trySetName() {
-      let err = required(user.value.name, tm('errors.requiredName'), 'name-input');
-      if(err) {
-        validationError.value = err;
-      } else {
-        validationError.value = null;
-        context.emit('setName', user.value.name);
-      }
+    function setName(name) {
+      user.value.name = name;
+      context.emit('setName', name);
     }
 
     function cancel() {
       user.value = {};
-      validationError.value = null;
       context.emit('cancel');
     }
 
-    return { validationError, user, trySubmitEmail, toPrivacyPolicy, tryAuthentication, trySetName, cancel }
+    return { user, accepted, activeButton, submitEmail, tryAuthentication, setName, cancel }
   }
 }
 </script>

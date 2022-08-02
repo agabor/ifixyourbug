@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { min } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from './CarouselItem.vue';
@@ -38,6 +38,10 @@ export default {
     const codeError = ref(null);
     const inputs = ref([]);
     const activeBtn = ref(true);
+
+    watch(props, () => {
+      auth.value = props.modelValue ? props.modelValue.split('') : [];
+    })
 
     function focus(idx) {
       inputs.value[idx].focus()
