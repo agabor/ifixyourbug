@@ -54,7 +54,8 @@ public class PaymentController : BaseController
           AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
           Customer = order.Client!.StripeId,
           CustomerUpdate = order.Client!.StripeId == null ? null : new SessionCustomerUpdateOptions {
-            Name = "auto"
+            Name = "auto",
+            Address = "auto"
           },
           LineItems = new List<SessionLineItemOptions>
           {
