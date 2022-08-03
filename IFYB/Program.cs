@@ -91,6 +91,7 @@ builder.Services.AddScoped<EmailCreationService>();
 builder.Services.AddScoped<EmailSenderService>();
 builder.Services.AddScoped<EmailDispatchService>();
 builder.Services.AddSingleton<Channel<IFYB.Entities.Order>>(Channel.CreateUnbounded<IFYB.Entities.Order>());
+builder.Services.AddSingleton<Channel<IFYB.Entities.Email>>(Channel.CreateUnbounded<IFYB.Entities.Email>());
 builder.Services.AddHostedService<BillingService>();
 
 var app = builder.Build();

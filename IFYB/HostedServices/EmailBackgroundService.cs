@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using IFYB.Entities;
 using IFYB.Services;
 
 namespace IFYB.HostedServices;

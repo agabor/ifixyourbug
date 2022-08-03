@@ -1,5 +1,6 @@
 
 using System.Net.Mail;
+using IFYB.Entities;
 using Microsoft.Extensions.Options;
 
 namespace IFYB.Services;

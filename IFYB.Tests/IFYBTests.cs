@@ -76,10 +76,12 @@ public class IFYBTests
         int orderId = (int)idToken;
         response = await Get($"api/orders/{orderId}", HttpStatusCode.OK);
         var respObject = JObject.Parse(response.ToString());
-        respObject.Remove("id");
-        respObject.Remove("messages");
-        respObject.Remove("state");
-        respObject.Remove("paymentToken");
+        Assert.IsTrue(respObject.Remove("id"));
+        Assert.IsTrue(respObject.Remove("messages"));
+        Assert.IsTrue(respObject.Remove("state"));
+        Assert.IsTrue(respObject.Remove("paymentToken"));
+        Assert.IsTrue(respObject.Remove("eurPrice"));
+        Assert.IsTrue(respObject.Remove("usdPrice"));
         Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
     }
 
