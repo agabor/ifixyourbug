@@ -13,12 +13,12 @@ namespace IFYB.Controllers;
 [Authorize(Policy = Policies.ClientOnly)]
 public class OrdersController : BaseController
 {
-    private readonly  EmailCreationService emailCreationService;
+    private readonly  EmailDispatchService emailDispatchService;
     private readonly StripeOptions stripeOptions;
     private readonly OfferDto offer;
-    public OrdersController(ApplicationDbContext dbContext, EmailCreationService emailService, IOptions<StripeOptions> stripeOptions, OfferDto offer) : base(dbContext)
+    public OrdersController(ApplicationDbContext dbContext, EmailDispatchService emailDispatchService, IOptions<StripeOptions> stripeOptions, OfferDto offer) : base(dbContext)
     {
-        this.emailCreationService = emailService;
+        this.emailDispatchService = emailDispatchService;
         this.stripeOptions = stripeOptions.Value;
         this.offer = offer;
     }
@@ -113,7 +113,7 @@ public class OrdersController : BaseController
         order.UsdPrice = offer.UsdPrice;
         client.Orders!.Add(order);
         dbContext.SaveChanges();
-        emailCreationService.CreateEmail(client.Email, "OrderSubmit", order, new { client.Name });
+        emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
         return Ok(new IdDto(order.Id));
     }
 }

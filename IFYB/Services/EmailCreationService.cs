@@ -9,12 +9,10 @@ public class EmailCreationService
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<EmailCreationService> logger;
-    private readonly EmailSenderService emailSenderService;
     private readonly AppOptions appOptions;
-    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailCreationService> logger, EmailSenderService emailSenderService) {
+    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailCreationService> logger) {
         this.dbContext = dbContext;
         this.logger = logger;
-        this.emailSenderService = emailSenderService;
         this.appOptions = appOptions.Value;
     }
 
@@ -39,7 +37,7 @@ public class EmailCreationService
         return null;
     }
 
-    public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data, Stream? file = null, string? fileName = null) {
+    public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data) {
         string? link = order != null ? $"{appOptions.BaseUrl}/my-orders/{order.Number.Remove(0,1)}" : null;
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
         var emailContent = JsonSerializer.Deserialize<EmailContent>(json, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });

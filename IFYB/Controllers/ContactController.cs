@@ -11,10 +11,10 @@ namespace IFYB.Controllers;
 [Route("api/contact")]
 public class ContactController : BaseController
 {
-    public EmailCreationService EmailService { get; }
-    public ContactController(ApplicationDbContext dbContext, EmailCreationService emailService) : base(dbContext)
+    private readonly EmailDispatchService emailDispatchService;
+    public ContactController(ApplicationDbContext dbContext, EmailDispatchService emailDispatchService) : base(dbContext)
     {
-        EmailService = emailService;
+        this.emailDispatchService = emailDispatchService;
     }
 
     [HttpPost]
@@ -39,7 +39,7 @@ public class ContactController : BaseController
             DateTime = DateTime.UtcNow
         });
         if(client != null) {
-            EmailService.CreateEmail(client.Email, "ContactMessage", null, new { Name = client.Name });
+            emailDispatchService.DispatchEmail(client.Email, "ContactMessage", null, new { Name = client.Name });
         }
         dbContext.SaveChanges();
         return Ok();

@@ -15,14 +15,13 @@ namespace IFYB.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly AppOptions appOptions;
+    private readonly ApplicationDbContext dbContext;
+    private readonly EmailDispatchService emailDispatchService;
 
-    private ApplicationDbContext dbContext { get; }
-    public EmailCreationService EmailService { get; }
-
-    public AdminController(ApplicationDbContext dbContext, EmailCreationService emailService, IOptions<AppOptions> appOptions) 
+    public AdminController(ApplicationDbContext dbContext, EmailDispatchService emailService, IOptions<AppOptions> appOptions) 
     {
         this.dbContext = dbContext;
-        this.EmailService = emailService;
+        this.emailDispatchService = emailService;
         this.appOptions = appOptions.Value;
     }
     protected Client? GetClientById(int id)
@@ -107,7 +106,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            EmailService.CreateEmail(client.Email, "OrderMessage", order, new { Name = client.Name });
+            emailDispatchService.DispatchEmail(client.Email, "OrderMessage", order, new { Name = client.Name });
         }
         return Ok(message.ToDto());
     }
@@ -127,7 +126,7 @@ public class AdminController : ControllerBase
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
         dbContext.SaveChanges();
-        EmailService.CreateOrderStateEmail(order);
+        emailDispatchService.DispatchOrderStateEmail(order);
         return Ok(order.ToDto());
     }
 
@@ -145,7 +144,7 @@ public class AdminController : ControllerBase
             order.PaymentToken = Guid.NewGuid().ToString().Replace("-", "");
         }
         dbContext.SaveChanges();
-        EmailService.CreateOrderStateEmail(order, data.Message.Text);
+        emailDispatchService.DispatchOrderStateEmail(order, data.Message.Text);
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
         data.Message.OrderId = order.Id;
         data.Message.DateTime = DateTime.UtcNow;
