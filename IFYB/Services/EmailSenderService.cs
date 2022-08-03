@@ -1,5 +1,6 @@
 
 using System.Net.Mail;
+using System.Threading.Channels;
 using IFYB.Entities;
 using Microsoft.Extensions.Options;
 
@@ -8,20 +9,22 @@ namespace IFYB.Services;
 public class EmailSenderService
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<EmailCreationService> logger;
+    private readonly ILogger<EmailSenderService> logger;
+    private readonly Channel<Email> emailChannel;
     private readonly AppOptions appOptions;
     private readonly SmtpClient smtpClient;
-    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailCreationService> logger) {
+    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailSenderService> logger, Channel<Email> emailChannel) {
         this.smtpClient = smtpClient;
         this.dbContext = dbContext;
         this.logger = logger;
+        this.emailChannel = emailChannel;
         this.appOptions = appOptions.Value;
     }
 
-    public void SendEmail(Email email)
+    public bool SendEmail(Email email)
     {
         if (!appOptions.SendEmails)
-            return;
+            return false;
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(email.ToEmail);
         var message = new MailMessage(from, to);
@@ -36,8 +39,19 @@ public class EmailSenderService
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(email.Html, mimeType);
         message.AlternateViews.Add(alternate);
 
-        smtpClient.Send(message);
+        try {
+            smtpClient.Send(message);
+        } catch (Exception e) {
+            logger.Log(LogLevel.Warning, e, e.Message);
+            if (email.RetryCount < 3) {
+                email.RetryCount += 1;
+                logger.Log(LogLevel.Information, $"Retry to send e-mail - {email.RetryCount}");
+                emailChannel.Writer.TryWrite(email);
+            }
+            return false;
+        }
         email.Sent = true;
         dbContext.SaveChanges();
+        return true;
     }
 }

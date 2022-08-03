@@ -10,6 +10,7 @@ public class Email
     public string Html {get; set; }
     public bool Sent {get; set; }
     public DateTime Created {get; set; }
+    public int RetryCount { get; set; }
 
     [NotMapped]
     public Stream? File {get; set; }

@@ -79,7 +79,7 @@ public class BillingService : BackgroundService
 
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
-                var scope = serviceProvider.CreateScope();
+                using var scope = serviceProvider.CreateScope();
                 var emailCreationService = scope.ServiceProvider.GetRequiredService<EmailCreationService>();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
