@@ -8,8 +8,8 @@
           <div>
             <p>{{ $t('checkout.payDescription') }}</p>
             <div class="d-flex justify-content-center">
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${paymentData.usdPrice}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${paymentData.eurPrice}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
+              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${order.usdPrice}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
+              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${order.eurPrice}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
             </div>
             <p>{{$t('pricing.excludeVat')}}</p>
           </div>
@@ -40,17 +40,15 @@ export default {
     const route = useRoute();
     const payment = usePayment();
     const progress = ref(0);
-    const paymentData = ref({
-      eurPrice: null,
-      usdPrice: null,
-    })
     const activeBtn = ref(true);
 
     fetch(`/api/pay/${route.params.token}`).then(resp => {
-      resp.json().then(data => {
-        order.value = data;
-        loading.value = false;
-      });
+      if (resp.status == 200) {
+        resp.json().then(data => {
+          order.value = data;
+          loading.value = false;
+        });
+      }
     });    
 
     function pay(isEur) {
@@ -63,7 +61,7 @@ export default {
         progress.value = 100;
       });
     }
-    return { paymentData, loading, order, route, progress, activeBtn, pay };
+    return { loading, order, route, progress, activeBtn, pay };
   }
 }
 </script>
