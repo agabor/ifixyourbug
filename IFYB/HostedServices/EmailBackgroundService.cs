@@ -19,14 +19,26 @@ public class EmailBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        var emails = new List<Email>();
         await foreach(var email in emailChanel.Reader.ReadAllAsync(stoppingToken))
         {
-            using var scope = serviceProvider.CreateScope();
-            var emailSenderService = scope.ServiceProvider.GetRequiredService<EmailSenderService>();
+            emails.Add(email);
+            if (emailChanel.Reader.CanCount && emailChanel.Reader.Count > 0)
+                continue;
+            SendEmails(emails);
+            emails.Clear();
+        }
+    }
+
+    private void SendEmails(List<Email> emails)
+    {
+        logger.Log(LogLevel.Information, $"Sending {emails.Count} email(s).");
+        using var scope = serviceProvider.CreateScope();
+        var emailSenderService = scope.ServiceProvider.GetRequiredService<EmailSenderService>();
+        foreach(var email in emails)
             if (!emailSenderService.SendEmail(email))
             {
                 logger.Log(LogLevel.Warning, "Failed to send e-mail.");
             }
-        }
     }
 }
