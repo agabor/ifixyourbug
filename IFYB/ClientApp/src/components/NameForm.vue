@@ -1,0 +1,62 @@
+<template>
+  <carousel-item icon="badge" :title="$t('order.name')" :subTitle="$t('order.nameDes')">
+    <div class="row mb-4">
+      <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
+    </div>
+    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
+      {{ error ? error: validationError }}
+    </div>
+    <div class="d-flex justify-content-center">
+      <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
+      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+    </div>
+  </carousel-item>
+</template>
+
+<script>
+import { ref, watch } from 'vue';
+import { required } from '../utils/Validate';
+import { useI18n } from "vue-i18n";
+import CarouselItem from '../components/CarouselItem.vue';
+import OneClickBtn from '../components/OneClickBtn.vue';
+
+export default {
+  name: 'NameForm',
+  components: { CarouselItem, OneClickBtn },
+  props: {
+    modelValue: String,
+    error: String,
+    activeButton: Boolean
+  },
+  emits: [ 'update:modelValue', 'cancel', 'update:activeButton' ],
+  setup(props, context) {
+    const { tm } = useI18n();
+    const name = ref(props.modelValue ?? '');
+    const validationError = ref(null);
+    const activeBtn = ref(props.activeButton ?? true);
+
+    watch(props, () => {
+      activeBtn.value = props.activeButton;
+      name.value = props.modelValue;
+    })
+
+    function trySetName() {
+      let err = required(name.value, tm('errors.requiredName'), 'name-input');
+      if(err) {
+        validationError.value = err;
+        activeBtn.value = true;
+      } else {
+        validationError.value = null;
+        context.emit('update:activeButton', activeBtn.value);
+        context.emit('update:modelValue', name.value);
+      }
+    }
+
+    function cancel() {
+      context.emit('cancel');
+    }
+
+    return { validationError, name, activeBtn, trySetName, cancel }
+  }
+}
+</script>

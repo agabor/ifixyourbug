@@ -1,22 +1,30 @@
 <template>
-  <carousel-item icon="atom" :cancelable="true" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')" :buttonText="$t('twofa.buttonText')" :error="codeError ? codeError : error" @onClickBtn="checkValidCode()" @cancel="cancel">
+  <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')">
     <div class="row mb-4 mx-xl-4">
       <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
         <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" @keyup.enter="checkValidCode" @keyup.delete="deleteFromAuth(idx)" v-model="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
       </div>
     </div>
+    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : error">
+      {{ codeError ? codeError : error }}
+    </div>
+    <div class="text-center d-flex justify-content-center">
+      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.buttonText')" class="bg-gradient-primary mx-2" @click="checkValidCode()"></one-click-btn>
+      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+    </div>
   </carousel-item>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { min } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from './CarouselItem.vue';
+import OneClickBtn from './OneClickBtn.vue';
 
 export default {
   name: '2FA',
-  components: { CarouselItem },
+  components: { CarouselItem, OneClickBtn },
   props: {
     modelValue: String,
     error: String
@@ -29,6 +37,11 @@ export default {
     let authLength = 6;
     const codeError = ref(null);
     const inputs = ref([]);
+    const activeBtn = ref(true);
+
+    watch(props, () => {
+      auth.value = props.modelValue ? props.modelValue.split('') : [];
+    })
 
     function focus(idx) {
       inputs.value[idx].focus()
@@ -89,6 +102,7 @@ export default {
       let err = min(auth.value.join(''), authLength);
       if(err) {
         codeError.value = tm(err) + authLength;
+        activeBtn.value = true;
       } else {
         context.emit('update:modelValue', auth.value.join(''));
         codeError.value = null;
@@ -99,9 +113,10 @@ export default {
       auth.value = [];
       oldAuth.value = [];
       codeError.value = null;
+      activeBtn.value = true;
       context.emit('cancel');
     }
-    return { auth, codeError, authLength, inputs, deleteFromAuth, checkValidCode, onPaste, onInputChange, cancel }
+    return { auth, codeError, authLength, inputs, activeBtn, deleteFromAuth, checkValidCode, onPaste, onInputChange, cancel }
   }
 }
 </script>

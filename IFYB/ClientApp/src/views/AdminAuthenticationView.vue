@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" @submitEmail="submitEmail" @authentication="authentication" @cancel="cancelLogin"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @authentication="authentication" @cancel="cancelLogin"></authentication>
       </div>
     </div>
   </section>
@@ -27,6 +27,7 @@ export default {
     const user = ref({});
     const error = ref(null);
     const progress = ref(0);
+    const activeBtn = ref(true);
     let adminId;
     
     async function submitEmail(email) {
@@ -47,13 +48,16 @@ export default {
         setTimeout(() => {
           page.value = 'auth';
           progress.value = 100;
+          activeBtn.value = true;
         }, "500");
       } else if(response.status == 403) {
 				error.value = tm('errors.notAdministratorEmail');
         progress.value = null;
+        activeBtn.value = true;
 			}  else {
         setServerError(response.statusText);
         progress.value = null;
+        activeBtn.value = true;
       }
     }
 
@@ -76,6 +80,7 @@ export default {
       } else {
         setServerError(response.statusText);
       }
+      activeBtn.value = true;
     }
 
     function handleAuthenticationError() {
@@ -84,6 +89,7 @@ export default {
     }
 
     function cancelLogin() {
+      activeBtn.value = true;
       progress.value = 0;
       error.value = null;
       user.value = {};
@@ -91,7 +97,7 @@ export default {
       page.value = 'email';
     }
     
-    return { page, error, user, progress, submitEmail, authentication, cancelLogin }
+    return { page, error, user, progress, activeBtn, submitEmail, authentication, cancelLogin }
   }
 }
 </script>

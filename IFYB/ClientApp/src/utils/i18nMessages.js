@@ -310,6 +310,7 @@ export const messages = {
         title: '2FA Security',
         subTitle: 'Enter 6-digits code from your athenticatior app.',
         buttonText: 'Check',
+        cancel: 'Cancel'
       },
     //SelectFramework
       framework: {
