@@ -88,8 +88,16 @@ builder.Services.AddScoped<SmtpClient>(provider => {
     return smtpClient;
 });
 
+
+var appOptions = builder.Configuration.GetSection(AppOptions.Host).Get<AppOptions>();
+
 builder.Services.AddScoped<EmailCreationService>();
-builder.Services.AddScoped<EmailSenderService>();
+
+if (appOptions.SendEmails)
+    builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
+else
+    builder.Services.AddScoped<IEmailSenderService, FakeEmailSenderService>();
+
 builder.Services.AddScoped<EmailDispatchService>();
 builder.Services.AddScoped<ErrorHandlerService>();
 builder.Services.AddSingleton<Channel<IFYB.Entities.Order>>(Channel.CreateUnbounded<IFYB.Entities.Order>());

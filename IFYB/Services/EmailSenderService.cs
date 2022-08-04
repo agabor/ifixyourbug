@@ -2,31 +2,31 @@
 using System.Net.Mail;
 using System.Threading.Channels;
 using IFYB.Entities;
-using Microsoft.Extensions.Options;
 
 namespace IFYB.Services;
 
-public class EmailSenderService
+public interface IEmailSenderService
+{
+    bool SendEmail(Email email);
+}
+
+public class EmailSenderService : IEmailSenderService
 {
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<EmailSenderService> logger;
     private readonly Channel<Email> emailChannel;
     private readonly ErrorHandlerService errorHandlerService;
-    private readonly AppOptions appOptions;
     private readonly SmtpClient smtpClient;
-    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailSenderService> logger, Channel<Email> emailChannel, ErrorHandlerService errorHandlerService) {
+    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, ILogger<EmailSenderService> logger, Channel<Email> emailChannel, ErrorHandlerService errorHandlerService) {
         this.smtpClient = smtpClient;
         this.dbContext = dbContext;
         this.logger = logger;
         this.emailChannel = emailChannel;
         this.errorHandlerService = errorHandlerService;
-        this.appOptions = appOptions.Value;
     }
 
     public bool SendEmail(Email email)
     {
-        if (!appOptions.SendEmails)
-            return false;
         var from = new MailAddress("gabor@ifixyourbug.com", "I Fix Your Bug", System.Text.Encoding.UTF8);
         var to = new MailAddress(email.ToEmail);
         var message = new MailMessage(from, to);
@@ -60,6 +60,14 @@ public class EmailSenderService
         }
         email.Sent = true;
         dbContext.SaveChanges();
+        return true;
+    }
+}
+
+public class FakeEmailSenderService : IEmailSenderService
+{
+    public bool SendEmail(Email email)
+    {
         return true;
     }
 }
