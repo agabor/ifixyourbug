@@ -12,7 +12,7 @@ namespace IFYB.Services;
             this.dbContext = dbContext;
         }
 
-        public void OnException(Exception e, string data)
+        public void OnException(Exception e, string? data)
         {
             ServerError error = e.InnerException == null ? ExceptionToError(e) : ExceptionToError(e.InnerException);
             error.Data = data;

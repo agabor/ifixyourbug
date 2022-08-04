@@ -11,5 +11,5 @@ public class ServerError
     public int Line { get; init; }
     public string? Source { get; init; }
     public int HResult { get; init; }
-    public string Data { get; set; } = string.Empty;
+    public string? Data { get; set; }
 }

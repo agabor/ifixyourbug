@@ -104,9 +104,13 @@ app.UseExceptionHandler(builder => {
             var service = context.RequestServices.GetRequiredService<ErrorHandlerService>();
             var handler = context.Features.Get<IExceptionHandlerFeature>();
             var exception = handler?.Error;
-            context.Request.Body.Seek(0, SeekOrigin.Begin);
             if (exception != null) {
-                service.OnException(exception, await new StreamReader(context.Request.Body).ReadToEndAsync());
+                string? body = null;
+                if (context.Request.Body.CanSeek) {
+                    context.Request.Body.Seek(0, SeekOrigin.Begin);
+                    body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                }
+                service.OnException(exception, body);
             }
         });
 });
