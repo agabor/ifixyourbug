@@ -11,12 +11,10 @@ public class Email
     public bool Sent {get; set; }
     public DateTime Created {get; set; }
     public int RetryCount { get; set; }
-
-    [NotMapped]
-    public Stream? File {get; set; }
-
-    [NotMapped]
     public string? FileName {get; set; }
+
+    [NotMapped]
+    public byte[]? File {get; set; }
 
     public Email(string toEmail, string subject, string text, string html)
     {

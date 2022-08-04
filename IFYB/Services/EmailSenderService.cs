@@ -32,15 +32,20 @@ public class EmailSenderService
         message.Body = email.Text;
         message.BodyEncoding = System.Text.Encoding.UTF8;
         message.SubjectEncoding = System.Text.Encoding.UTF8;
-        if (email.File != null)
-            message.Attachments.Add(new Attachment(email.File, email.FileName, "application/pdf"));
-
         var mimeType = new System.Net.Mime.ContentType("text/html");
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(email.Html, mimeType);
         message.AlternateViews.Add(alternate);
 
+
         try {
-            smtpClient.Send(message);
+            if (email.File != null)
+            {
+                using var stream = new MemoryStream(email.File);
+                message.Attachments.Add(new Attachment(stream, email.FileName, "application/pdf"));
+                smtpClient.Send(message);
+            } else {
+                smtpClient.Send(message);
+            }
         } catch (Exception e) {
             logger.Log(LogLevel.Warning, e, e.Message);
             if (email.RetryCount < 3) {

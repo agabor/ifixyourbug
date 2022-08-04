@@ -88,14 +88,11 @@ public class BillingService : BackgroundService
                 orderFromScope.AutomaticTax = tax.AutomaticTax;
                 orderFromScope.InvoiceNumber = response.InvoiceNumber;
                 dbContext.SaveChanges();
-
-
-                using var stream = new MemoryStream(response.InvoicePdf);
                 
                 dbContext.Entry(orderFromScope).Reference(o => o.Client).Load();
                 var client = orderFromScope.Client!;
                 var email = emailCreationService.CreateEmail(client.Email, "OrderPayed", orderFromScope, new { client.Name });
-                email!.File = stream;
+                email!.File = response.InvoicePdf;
                 email!.FileName = $"{response.InvoiceNumber}.pdf";
                 emailChanel.Writer.TryWrite(email);
             } catch (Exception e) {
