@@ -40,7 +40,9 @@ public class AuthenticationController : BaseController
     [Authorize(Policy = Policies.ClientOnly)]
     public IActionResult CheckJwt()
     {
-        return Ok();
+        if (GetClient() != null)
+            return Ok();
+        return Unauthorized();
     }
 
     [HttpPost]
