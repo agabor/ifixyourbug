@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Admin> Admins { get; set; } = null!;
     public DbSet<Email> Emails { get; set; } = null!;
     public DbSet<ServerError> ServerErrors { get; set; } = null!;
+    public DbSet<ClientError> ClientErrors { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {

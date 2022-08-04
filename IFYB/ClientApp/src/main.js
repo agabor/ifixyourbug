@@ -40,3 +40,21 @@ app.config.globalProperties.$filters = {
 }
 
 app.use(router).use(i18n).mount('#app');
+
+function reportError(obj) {
+  fetch('api/errors', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj)
+  })
+}
+
+app.config.errorHandler = function (err, vm, info) {
+  reportError({ ...err, info, vm })
+};
+
+window.onerror = function(event, source, lineno, colno, error) {
+  reportError({ ...error, event, lineno, colno, source })
+ };
