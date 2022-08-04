@@ -4,7 +4,7 @@ using IFYB.Entities;
 
 namespace IFYB.Services;
 
-class ErrorHandlerService
+public class ErrorHandlerService
 {
     private readonly ApplicationDbContext dbContext;
 

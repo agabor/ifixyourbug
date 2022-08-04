@@ -11,13 +11,15 @@ public class EmailSenderService
     private readonly ApplicationDbContext dbContext;
     private readonly ILogger<EmailSenderService> logger;
     private readonly Channel<Email> emailChannel;
+    private readonly ErrorHandlerService errorHandlerService;
     private readonly AppOptions appOptions;
     private readonly SmtpClient smtpClient;
-    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailSenderService> logger, Channel<Email> emailChannel) {
+    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailSenderService> logger, Channel<Email> emailChannel, ErrorHandlerService errorHandlerService) {
         this.smtpClient = smtpClient;
         this.dbContext = dbContext;
         this.logger = logger;
         this.emailChannel = emailChannel;
+        this.errorHandlerService = errorHandlerService;
         this.appOptions = appOptions.Value;
     }
 
@@ -47,6 +49,7 @@ public class EmailSenderService
                 smtpClient.Send(message);
             }
         } catch (Exception e) {
+            errorHandlerService.OnException(e, null);
             logger.Log(LogLevel.Warning, e, e.Message);
             if (email.RetryCount < 3) {
                 email.RetryCount += 1;

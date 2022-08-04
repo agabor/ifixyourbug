@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Threading.Channels;
 using IFYB.Entities;
 using IFYB.Models;
+using IFYB.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
@@ -16,12 +17,14 @@ public class PaymentController : BaseController
     private readonly AppOptions appOptions;
     private readonly StripeOptions stripeOptions;
     private readonly Channel<Entities.Order> billingChannel;
+    private readonly ErrorHandlerService errorHandlerService;
 
-    public PaymentController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<StripeOptions> stripeOptions, Channel<Entities.Order> billingChannel) : base(dbContext)
+    public PaymentController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<StripeOptions> stripeOptions, Channel<Entities.Order> billingChannel, ErrorHandlerService errorHandlerService) : base(dbContext)
     {
         this.appOptions = appOptions.Value;
         this.stripeOptions = stripeOptions.Value;
         this.billingChannel = billingChannel;
+        this.errorHandlerService = errorHandlerService;
     }
 
     [HttpGet]
@@ -131,8 +134,9 @@ public class PaymentController : BaseController
 
           return Ok();
       }
-      catch (StripeException)
+      catch (StripeException e)
       {
+          errorHandlerService.OnException(e, jsonString);
           return BadRequest();
       }
     }

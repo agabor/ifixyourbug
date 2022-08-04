@@ -33,6 +33,7 @@ public class BillingService : BackgroundService
         logger.Log(LogLevel.Information, "BillingService started");
         await foreach(var order in billingChanel.Reader.ReadAllAsync(stoppingToken))
         {
+            using var scope = serviceProvider.CreateScope();
             try {
                 logger.Log(LogLevel.Information, "Billing started");
                 var request = new CreateInvoiceRequest();
@@ -79,7 +80,6 @@ public class BillingService : BackgroundService
 
                 var api = new SzamlazzHuApi();
                 var response = await api.CreateInvoice(request);
-                using var scope = serviceProvider.CreateScope();
                 var emailCreationService = scope.ServiceProvider.GetRequiredService<EmailCreationService>();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var orderFromScope = dbContext.Orders.First(o => o.Id == order.Id);
@@ -96,6 +96,8 @@ public class BillingService : BackgroundService
                 email!.FileName = $"{response.InvoiceNumber}.pdf";
                 emailChanel.Writer.TryWrite(email);
             } catch (Exception e) {
+                var errorHandlerService = scope.ServiceProvider.GetRequiredService<ErrorHandlerService>();
+                errorHandlerService.OnException(e, null);
                 logger.Log(LogLevel.Error, e, e.Message);
             }
         }
