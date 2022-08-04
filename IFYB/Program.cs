@@ -12,6 +12,7 @@ using Stripe;
 using System.Threading.Channels;
 using IFYB.HostedServices;
 using IFYB.Models;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSystemd(); 
@@ -90,12 +91,25 @@ builder.Services.AddScoped<SmtpClient>(provider => {
 builder.Services.AddScoped<EmailCreationService>();
 builder.Services.AddScoped<EmailSenderService>();
 builder.Services.AddScoped<EmailDispatchService>();
+builder.Services.AddScoped<ErrorHandlerService>();
 builder.Services.AddSingleton<Channel<IFYB.Entities.Order>>(Channel.CreateUnbounded<IFYB.Entities.Order>());
 builder.Services.AddSingleton<Channel<IFYB.Entities.Email>>(Channel.CreateUnbounded<IFYB.Entities.Email>());
 builder.Services.AddHostedService<BillingService>();
 builder.Services.AddHostedService<EmailBackgroundService>();
 
 var app = builder.Build();
+
+app.UseExceptionHandler(builder => {
+    builder.Run(async context => {
+            var service = context.RequestServices.GetRequiredService<ErrorHandlerService>();
+            var handler = context.Features.Get<IExceptionHandlerFeature>();
+            var exception = handler?.Error;
+            context.Request.Body.Seek(0, SeekOrigin.Begin);
+            if (exception != null) {
+                service.OnException(exception, await new StreamReader(context.Request.Body).ReadToEndAsync());
+            }
+        });
+});
 
 app.Use(async (context, next) =>
 {

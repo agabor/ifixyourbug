@@ -10,6 +10,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Message> Messages { get; set; } = null!;
     public DbSet<Admin> Admins { get; set; } = null!;
     public DbSet<Email> Emails { get; set; } = null!;
+    public DbSet<ServerError> ServerErrors { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
