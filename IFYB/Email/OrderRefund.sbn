@@ -1,21 +1,17 @@
 {
-    "title": "Refund order",
+    "title": "Refund",
     "content": [
         {
             "type": "header",
-            "text": "We can't fix your bug!"
+            "text": "I could not fix your bug"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>We're sorry to inform you that we can't fix your problem.<br>In this case you can start a refund process."
+            "text": "Dear {{name}},<br>I am sorry to inform you that I could not fix your bug.<br>In this case you can start a refund process."
         },
         {
             "type": "content",
             "text": "Your payment has been refunded with Stripe. Please check your bank account, and contact me if you have any problem with the transaction."
-        },
-        {
-            "type": "content",
-            "text": "If you have further questions, you can contact us."
         }
     ]
 }

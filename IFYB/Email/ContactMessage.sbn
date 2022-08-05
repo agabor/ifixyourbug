@@ -1,17 +1,13 @@
 {
-    "title": "Placed your message",
+    "title": "Thank you for your message!",
     "content": [
         {
             "type": "header",
-            "text": "You have placed your message!"
+            "text": "Thank you for your message!"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>Thank you for your message. We'll contact you soon."
-        },
-        {
-            "type": "content",
-            "text": "If you have further questions, you can contact us."
+            "text": "Dear {{name}},<br>Thank you for your message. I will reply as soon as I can."
         }
     ]
 }

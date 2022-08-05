@@ -1,18 +1,18 @@
 {
-    "title": "Accepted order",
+    "title": "Your order is accepted",
     "content": [
         {
             "type": "header",
-            "text": "We will process your order!"
+            "text": "Your order is accepted!"
         },
         {
             "type": "hero",
-            "text": "We have checked your order and we want to work with you. One of us will reach you out soon.<br>We accepted your order; our team is started to work on the solution for your bug."
+            "text": "Dear {{name}},<br>I have checked your order, and I think that I can fix your bug."
         },
         {
             "type": "content",
-            "text": "If you have further questions, you can contact us."
-        },
+            "text": "Please go to the checkout page, and complete the payment. You will receive the bug fix within 3 workdays after the payment is completed."
+        }
         {
             "type": "button",
             "link": "{{payment_link}}",

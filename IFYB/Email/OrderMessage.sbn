@@ -1,13 +1,13 @@
 {
-    "title": "Message to order",
+    "title": "You have a new message",
     "content": [
         {
             "type": "header",
-            "text": "An admin sent you a message!"
+            "text": "You have a new message!"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br> One of our admins has sent you a message."
+            "text": "Dear {{name}},<br> You have a new message on the I Fix Your Bug portal:"
         },
         {
             "type": "content",

@@ -1,17 +1,13 @@
 {
-    "title": "Fixed order",
+    "title": "I have fixed your bug",
     "content": [
         {
             "type": "header",
-            "text": "We havve fixed your bug!"
+            "text": "I have fixed your bug!"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>We have fixed your bug, please check it out!"
-        },
-        {
-            "type": "content",
-            "text": "If you have further questions, you can contact us."
+            "text": "Dear {{name}},<br>I am happy to inform you, that I have fixed your bug, please check the pull request on your git reporitory!"
         }
     ]
 }
