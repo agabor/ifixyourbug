@@ -23,9 +23,9 @@ public class AuthenticationController : BaseController
 
     private readonly  SecurityKey securityKey;
     private readonly  EmailCreationService emailService;
-    private readonly  EmailSenderService emailSenderService;
+    private readonly  IEmailSenderService emailSenderService;
 
-    public AuthenticationController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<JwtOptions> jwtOptions, SecurityKey securityKey, EmailCreationService emailService, EmailSenderService emailSenderService) : base(dbContext)
+    public AuthenticationController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, IOptions<JwtOptions> jwtOptions, SecurityKey securityKey, EmailCreationService emailService, IEmailSenderService emailSenderService) : base(dbContext)
     {
         this.appOptions = appOptions.Value;
         this.jwtOptions = jwtOptions.Value;

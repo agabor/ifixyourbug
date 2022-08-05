@@ -34,7 +34,7 @@ public class EmailBackgroundService : BackgroundService
     {
         logger.Log(LogLevel.Information, $"Sending {emails.Count} email(s).");
         using var scope = serviceProvider.CreateScope();
-        var emailSenderService = scope.ServiceProvider.GetRequiredService<EmailSenderService>();
+        var emailSenderService = scope.ServiceProvider.GetRequiredService<IEmailSenderService>();
         foreach(var email in emails)
             if (!emailSenderService.SendEmail(email))
             {

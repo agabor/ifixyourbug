@@ -39,7 +39,7 @@ export default {
     }
 
     function openOrder(order) {
-      router.push(`/my-orders/${order.number.substring(1)}`)
+      router.push(`/my-orders/${order.number}`)
     }
 
     return { orders, openOrder }

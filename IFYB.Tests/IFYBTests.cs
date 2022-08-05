@@ -59,7 +59,7 @@ public class IFYBTests
         Assert.AreNotEqual(0, gitAccessId);
         var order = new
         {
-            number = "#" + DateTime.Now.ToString("yyMMdd") + "001",
+            number = DateTime.Now.ToString("yyMMdd") + "001",
             framework = 0,
             version = "6.0",
             applicationUrl = "app url",
