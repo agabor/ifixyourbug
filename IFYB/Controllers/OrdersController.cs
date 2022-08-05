@@ -56,7 +56,7 @@ public class OrdersController : BaseController
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
-        var order = client.Orders!.FirstOrDefault(o => o.Number == $"#{number}");
+        var order = client.Orders!.FirstOrDefault(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
@@ -94,19 +94,9 @@ public class OrdersController : BaseController
         var order = Order.FromDto(dto);
         order.Id = 0;
         order.ClientId = client.Id;
-        string actualDate = DateTime.Now.ToString("yyMMdd");
-        if(client.Orders.Count > 0) {
-            var lastElement = client.Orders.Last();
-            string lastNumberDate = lastElement.Number.Substring(1, 6);
-            string lastNumber = lastElement.Number.Substring(7, 3);
-            if(actualDate == lastNumberDate) {
-                order.Number = "#" + actualDate + (int.Parse(lastNumber)+1).ToString("D3");
-            } else {
-                order.Number = "#" + actualDate + "001";
-            }
-        } else {
-            order.Number = "#" + actualDate + "001";
-        }
+        var today = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
+        var ordersToday = dbContext.Orders.Where(o => o.CreationDay == today).Count();
+        order.Number = DateTime.UtcNow.ToString("yyMMdd") + (ordersToday+1).ToString("D3");
         order.EurPriceId = stripeOptions.EurPriceId;
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = offer.EurPrice;
