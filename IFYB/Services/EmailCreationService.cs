@@ -46,8 +46,8 @@ public class EmailCreationService
             return null;
         }
         emailContent.OrderLink = link;
-        var text = Template.Parse(System.IO.File.ReadAllText("Email/textEmail.sbn")).Render(emailContent);
-        var html = Template.Parse(System.IO.File.ReadAllText("Email/htmlEmail.sbn")).Render(emailContent);
+        var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent);
+        var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);
         var email = new Email(toEmail, emailContent.Title, text, html);
         email = dbContext.Emails.Add(email).Entity;
         dbContext.SaveChanges();
