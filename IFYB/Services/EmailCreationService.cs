@@ -38,13 +38,14 @@ public class EmailCreationService
     }
 
     public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data) {
-        string? link = order != null ? $"{appOptions.BaseUrl}/my-orders/{order.Number.Remove(0,1)}" : null;
+        string? link = order != null ? $"{appOptions.BaseUrl}/my-orders/{order.Number}" : null;
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
         var emailContent = JsonSerializer.Deserialize<EmailContent>(json, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
         if (emailContent == null) {
             logger.Log(LogLevel.Error, "Could not parse e-mail content.");
             return null;
         }
+        emailContent.OrderNumber = order?.Number;
         emailContent.OrderLink = link;
         var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent);
         var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);

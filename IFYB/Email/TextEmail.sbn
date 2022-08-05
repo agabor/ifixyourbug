@@ -10,8 +10,11 @@
 {{~ end ~}}
 {{~ end ~}}
 
+{{~ if order_number ~}}
+Order number: {{order_number}}
+{{~ end ~}}
 {{~ if order_link ~}}
-See your order at the following link: {{order_link}}.
+Order details: {{order_link}}.
 {{~ end ~}}
 
 Best Regards,

@@ -6,6 +6,8 @@ public class Order
 {
     public int Id { get; set; }
     public string Number { get; set; }
+    public DateTime CreationTime { get; set; }
+    public int CreationDay { get; set; }
     public Framework Framework { get; set; }
     public string Version { get; set; }
     public string? ApplicationUrl { get; set; }
@@ -38,11 +40,11 @@ public class Order
     public long? AmountTotal { get; set; }
     public long? AmountSubtotal { get; set; }
     public long? AmountTax { get; set; }
-    public string? TaxCountry { get; internal set; }
-    public string? TaxState { get; internal set; }
-    public string? AutomaticTax { get; internal set; }
-    public string? InvoiceNumber { get; internal set; }
-    public DateTime? PayedAt { get; internal set; }
+    public string? TaxCountry { get; set; }
+    public string? TaxState { get; set; }
+    public string? AutomaticTax { get; set; }
+    public string? InvoiceNumber { get; set; }
+    public DateTime? PayedAt { get; set; }
 
     public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
@@ -56,6 +58,8 @@ public class Order
         ThirdPartyTool = thirdPartyTool;
         BugDescription = bugDescription;
         GitAccessId = gitAccessId;
+        CreationTime = DateTime.UtcNow;
+        CreationDay = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
     }
 
     public static Order FromDto(OrderDto dto)
