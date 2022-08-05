@@ -11,7 +11,7 @@
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
               <div class="d-flex align-items-center justify-content-center">
-                <h2>{{ $t('orderViewer.title') }} {{ order.number }}</h2>
+                <h2>{{ $t('orderViewer.title') }} #{{ order.number }}</h2>
               </div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-dark" v-if="order.state == 0">{{ $t('orderList.submitted') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-info" v-else-if="order.state == 1">{{ $t('orderList.accepted') }}</div>

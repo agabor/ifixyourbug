@@ -19,7 +19,7 @@
       <tbody>
         <tr v-for="(order, idx) in filteredOrders" :key="idx">
           <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ order.number }}</span>
+            <span class="text-secondary text-xs font-weight-bold">#{{ order.number }}</span>
           </td>
           <td>
             <span class="text-secondary text-xs font-weight-bold">{{ order.name }}</span>

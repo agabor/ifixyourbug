@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-lg-9 col-md-8 col-12 ps-lg-0 my-auto">
             <div class="card-body text-start">
-              <h5 class="mb-0">Order number: {{ order.number }}</h5>
+              <h5 class="mb-0">Order number: #{{ order.number }}</h5>
               <div class="d-flex">
                 <h6 class="text-info mb-0">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }} {{ order.version }}</h6>
                 <p class="mx-1 mb-0" v-if="order.specificPlatform">| {{ order.specificPlatform }}</p>
