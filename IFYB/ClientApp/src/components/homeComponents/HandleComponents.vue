@@ -5,7 +5,7 @@
         <div class="col-lg-5 ms-auto me-auto text-center">
           <div class="p-3 info-hover-warning">
             <div class="icon icon-shape bg-gradient-warning icon-shape-circle text-primary">
-              <i class="ni ni-chart-bar-32  opacity-10"></i>
+              <i class="ni ni-bulb-61 opacity-10"></i>
             </div>
           </div>
           <h3 class="mb-0 mt-4">{{ $t('handle.title1') }}</h3>

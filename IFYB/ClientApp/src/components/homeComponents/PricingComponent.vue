@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-lg-8">
               <div class="card-body">
-                <h3 class="text-info">{{ $t('pricing.title') }}</h3>
+                <h3 class="text-primary">{{ $t('pricing.title') }}</h3>
                 <p>{{ $t('pricing.description', { workdays: workdays }) }}</p>
                 <div class="row mt-5 mb-2">
                   <div class="col-lg-3 col-12">
@@ -64,7 +64,7 @@
                 <h3>
                   <small>€</small> {{ eurPrice }}
                 </h3>
-                <button type="button" class="btn bg-gradient-info btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
+                <button type="button" class="btn bg-gradient-primary btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
                 <p>{{$t('pricing.excludeVat')}}</p>
               </div>
             </div>
