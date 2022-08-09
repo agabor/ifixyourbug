@@ -3,8 +3,7 @@ namespace IFYB.Models;
 
 public class OrderDto
 {
-    public int Id { get; set; }
-    public string Number { get; set; }
+    public int Number { get; set; }
     public Framework Framework { get; set; }
     public string Version { get; set; }
     public string? ApplicationUrl { get; set; }
@@ -20,9 +19,8 @@ public class OrderDto
     public decimal EurPrice { get; set; }
     public decimal UsdPrice { get; set; }
 
-    public OrderDto(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId, string? paymentToken, int clientId, decimal eurPrice, decimal usdPrice)
+    public OrderDto(int number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, int gitAccessId, string? paymentToken, int clientId, decimal eurPrice, decimal usdPrice)
     {
-        Id = id;
         Number = number;
         Framework = framework;
         Version = version;

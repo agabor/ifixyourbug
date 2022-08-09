@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -57,9 +56,9 @@ public class IFYBTests
         Assert.IsNotNull(idToken);
         int gitAccessId = (int)idToken;
         Assert.AreNotEqual(0, gitAccessId);
+        int orderNumber = int.Parse(DateTime.Now.ToString("yyMMdd") + "001");
         var order = new
         {
-            number = DateTime.Now.ToString("yyMMdd") + "001",
             framework = 0,
             version = "6.0",
             applicationUrl = "app url",
@@ -74,9 +73,9 @@ public class IFYBTests
         idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);
         int orderId = (int)idToken;
-        response = await Get($"api/orders/{orderId}", HttpStatusCode.OK);
+        response = await Get($"api/orders/{orderNumber}", HttpStatusCode.OK);
         var respObject = JObject.Parse(response.ToString());
-        Assert.IsTrue(respObject.Remove("id"));
+        Assert.IsTrue(respObject.Remove("number"));
         Assert.IsTrue(respObject.Remove("messages"));
         Assert.IsTrue(respObject.Remove("state"));
         Assert.IsTrue(respObject.Remove("paymentToken"));

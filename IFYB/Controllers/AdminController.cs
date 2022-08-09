@@ -71,20 +71,9 @@ public class AdminController : ControllerBase
 
     [HttpGet]
     [Produces(typeof(OrderDto))]
-    [Route("orders/{orderId}")]
-    public IActionResult GetOrder(int orderId) {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
-        if (order == null)
-            return NotFound();
-        dbContext.Entry(order).Collection(o => o.Messages!).Load();
-        return base.Ok(order.ToDto());
-    }
-
-    [HttpGet]
-    [Produces(typeof(OrderDto))]
-    [Route("orders/by-number/{number}")]
-    public IActionResult GetOrderByNumber(string number) {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Number == number);
+    [Route("orders/{number}")]
+    public IActionResult GetOrderByNumber(int number) {
+        var order = dbContext.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
@@ -93,9 +82,9 @@ public class AdminController : ControllerBase
 
     [HttpPost]
     [Produces(typeof(MessageDto))]
-    [Route("orders/{orderId}")]
-    public IActionResult AddMessage([FromBody] Message message, int orderId) {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+    [Route("orders/{number}")]
+    public IActionResult AddMessage([FromBody] Message message, int number) {
+        var order = dbContext.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
@@ -113,10 +102,10 @@ public class AdminController : ControllerBase
 
     [HttpPost]
     [Produces(typeof(OrderDto))]
-    [Route("orders/{orderId}/state")]
-    public IActionResult SetOrderState([FromBody] OrderState state, int orderId)
+    [Route("orders/{number}/state")]
+    public IActionResult SetOrderState([FromBody] OrderState state, int number)
     {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+        var order = dbContext.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         order.State = state;
@@ -132,9 +121,9 @@ public class AdminController : ControllerBase
 
     [HttpPost]
     [Produces(typeof(OrderDto))]
-    [Route("orders/{orderId}/state-with-msg")]
-    public IActionResult SetOrderStateWithMessage([FromBody] OrderStateWithMessageDto data, int orderId) {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Id == orderId);
+    [Route("orders/{number}/state-with-msg")]
+    public IActionResult SetOrderStateWithMessage([FromBody] OrderStateWithMessageDto data, int number) {
+        var order = dbContext.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         order.State = data.State;

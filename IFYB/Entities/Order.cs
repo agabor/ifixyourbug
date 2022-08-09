@@ -5,7 +5,7 @@ namespace IFYB.Entities;
 public class Order
 {
     public int Id { get; set; }
-    public string Number { get; set; }
+    public int Number { get; set; }
     public DateTime CreationTime { get; set; }
     public int CreationDay { get; set; }
     public Framework Framework { get; set; }
@@ -46,9 +46,8 @@ public class Order
     public string? InvoiceNumber { get; set; }
     public DateTime? PayedAt { get; set; }
 
-    public Order(int id, string number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
+    public Order(int number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
     {
-        Id = id;
         Number = number;
         Framework = framework;
         Version = version;
@@ -64,12 +63,12 @@ public class Order
 
     public static Order FromDto(OrderDto dto)
     {
-        return new Order(dto.Id, dto.Number, dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.BugDescription, dto.GitAccessId);
+        return new Order(dto.Number, dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.BugDescription, dto.GitAccessId);
     }
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Id, Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
+        return new OrderDto(Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
     }
 }
 

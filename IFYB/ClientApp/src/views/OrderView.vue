@@ -32,7 +32,7 @@ export default {
     setSelectedOrder();
 
     async function setSelectedOrder() {
-      let orderResponse = await get(`/api/orders/by-number/${route.params.number}`);
+      let orderResponse = await get(`/api/orders/${route.params.number}`);
       if(orderResponse.status == 200) {
         resetServerError();
         selectedOrder.value = await orderResponse.json();
@@ -43,7 +43,7 @@ export default {
     }
 
     async function setMessages() {
-      let response = await get(`/api/orders/${selectedOrder.value.id}`);
+      let response = await get(`/api/orders/${selectedOrder.value.number}`);
       if(response.status == 200) {
         resetServerError();
         let order = await response.json();
@@ -60,7 +60,7 @@ export default {
     }
 
     async function submitMessage(message) {
-      let response = await post(`/api/orders/${selectedOrder.value.id}`, { text: message });
+      let response = await post(`/api/orders/${selectedOrder.value.number}`, { text: message });
       if(response.status == 200) {
         resetServerError();
         let newMessage = await response.json();

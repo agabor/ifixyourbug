@@ -38,7 +38,7 @@ export default {
     setSelectedOrder();
 
     async function setSelectedOrder() {
-      let orderResponse = await get(`/api/admin/orders/by-number/${route.params.number}`);
+      let orderResponse = await get(`/api/admin/orders/${route.params.number}`);
       if(orderResponse.status == 200) {
         resetServerError();
         selectedOrder.value = await orderResponse.json();
@@ -62,7 +62,7 @@ export default {
     }
 
     async function setMessages() {
-      let response = await get(`/api/admin/orders/${selectedOrder.value.id}`);
+      let response = await get(`/api/admin/orders/${selectedOrder.value.number}`);
       if(response.status == 200) {
         resetServerError();
         let order = await response.json();
@@ -79,7 +79,7 @@ export default {
     }
 
     async function submitMessage(message) {
-      let response = await post(`/api/admin/orders/${selectedOrder.value.id}`, {
+      let response = await post(`/api/admin/orders/${selectedOrder.value.number}`, {
           clientId: localStorage.getItem('adminId'),
           text: message
         });
@@ -107,13 +107,13 @@ export default {
       if(stateMessage.value !== null) {
         if(stateMessage.value !== '') {
           showError.value = false;
-          response = await post(`/api/admin/orders/${selectedOrder.value.id}/state-with-msg`, { state: nextState.value, message: { clientId: localStorage.getItem('adminId'), text: stateMessage.value }});
+          response = await post(`/api/admin/orders/${selectedOrder.value.number}/state-with-msg`, { state: nextState.value, message: { clientId: localStorage.getItem('adminId'), text: stateMessage.value }});
           setMessages();
         } else {
           showError.value = true;
         }
       } else {
-        response = await post(`/api/admin/orders/${selectedOrder.value.id}/state`, nextState.value);
+        response = await post(`/api/admin/orders/${selectedOrder.value.number}/state`, nextState.value);
       }
       if(response.status == 200) {
         resetServerError();

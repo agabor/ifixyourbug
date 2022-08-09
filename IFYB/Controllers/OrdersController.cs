@@ -35,28 +35,13 @@ public class OrdersController : BaseController
 
     [HttpGet]
     [Produces(typeof(OrderDto))]
-    [Route("{orderId}")]
-    public IActionResult GetOrder(int orderId) {
+    [Route("{number}")]
+    public IActionResult GetOrderByNumber(int number) {
         var client = GetClient();
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
-        var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
-        if (order == null)
-            return NotFound();
-        dbContext.Entry(order).Collection(o => o.Messages!).Load();
-        return base.Ok(order.ToDto());
-    }
-
-    [HttpGet]
-    [Produces(typeof(OrderDto))]
-    [Route("by-number/{number}")]
-    public IActionResult GetOrderByNumber(string number) {
-        var client = GetClient();
-        if (client == null)
-            return NotFound();
-        dbContext.Entry(client).Collection(c => c.Orders).Load();
-        var order = client.Orders!.FirstOrDefault(o => o.Number == number);
+        var order = client.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
@@ -65,13 +50,13 @@ public class OrdersController : BaseController
 
     [HttpPost]
     [Produces(typeof(MessageDto))]
-    [Route("{orderId}")]
-    public IActionResult AddMessage([FromBody] Message message, int orderId) {
+    [Route("{number}")]
+    public IActionResult AddMessage([FromBody] Message message, int number) {
         var client = GetClient();
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
-        var order = client.Orders!.FirstOrDefault(o => o.Id == orderId);
+        var order = client.Orders!.Single(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
@@ -96,7 +81,7 @@ public class OrdersController : BaseController
         order.ClientId = client.Id;
         var today = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
         var ordersToday = dbContext.Orders.Where(o => o.CreationDay == today).Count();
-        order.Number = DateTime.UtcNow.ToString("yyMMdd") + (ordersToday+1).ToString("D3");
+        order.Number = int.Parse(DateTime.UtcNow.ToString("yyMMdd") + (ordersToday+1).ToString("D3"));
         order.EurPriceId = stripeOptions.EurPriceId;
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = offer.EurPrice;
