@@ -69,13 +69,8 @@ export const messages = {
         refundableDescription: 'Either get a bugfix within 3 workdays, or get your money back.',
       },
       nameCard: {
-        name: 'Michael Roven',
-        follow: 'Follow',
-        followers: 'Followers',
-        following: 'Following',
-        posts: 'Posts',
-        description: 'Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality). Choose the path that leaves you more equanimous.',
-        more: 'More about me',
+        name: 'Gabor Angyal',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       },
       workWithUs: {
         title: 'Technologies',

@@ -11,27 +11,17 @@
         <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h4 class="mb-0">{{ $t('nameCard.name') }}</h4>
-            <div class="d-block">
-              <button type="button" class="btn btn-sm btn-outline-primary text-nowrap mb-0">{{ $t('nameCard.follow') }}</button>
-            </div>
           </div>
           <div class="row mb-4">
             <div class="col-auto">
-              <span class="h6">323</span>
-              <span>{{ $t('nameCard.posts') }}</span>
+              <a href="https://github.com/agabor" target="_blank"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
             </div>
             <div class="col-auto">
-              <span class="h6">3.5k</span>
-              <span>{{ $t('nameCard.followers') }}</span>
-            </div>
-            <div class="col-auto">
-              <span class="h6">260</span>
-              <span>{{ $t('nameCard.following') }}</span>
+              <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank"><i class="fab fa-stack-overflow" aria-hidden="true"></i> Stack Overflow</a>
             </div>
           </div>
           <p class="text-lg mb-0">
             {{ $t('nameCard.description') }}
-            <br><a href="javascript:;" class="text-primary text-decoration-underline-hover">{{ $t('nameCard.more') }}</a>
           </p>
         </div>
       </div>
