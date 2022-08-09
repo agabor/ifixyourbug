@@ -11,7 +11,7 @@
 {{~ end ~}}
 
 {{~ if order_number ~}}
-Order number: {{order_number}}
+Order number: #{{order_number}}
 {{~ end ~}}
 {{~ if order_link ~}}
 Order details: {{order_link}}.

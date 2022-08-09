@@ -10,7 +10,7 @@
             "text": "Dear {{name}},<br> You have a new message on the I Fix Your Bug portal:"
         },
         {
-            "type": "content",
+            "type": "quote",
             "text": "{{message}}"
         }
     ]

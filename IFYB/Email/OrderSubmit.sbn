@@ -1,17 +1,13 @@
 {
-    "title": "Placed your order",
+    "title": "Thank you for your order",
     "content": [
         {
             "type": "header",
-            "text": "You have placed your order!"
+            "text": "Thank you for your order!"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>Thank you for your order. We'll contact you soon."
-        },
-        {
-            "type": "content",
-            "text": "If you have further questions, you can contact us."
+            "text": "Dear {{name}},<br>Thank you for your order. I will review your submission, and contact you as soon as possible."
         }
     ]
 }

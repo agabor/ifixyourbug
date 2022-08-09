@@ -3,19 +3,15 @@
     "content": [
         {
             "type": "header",
-            "text": "We rejected your order!"
+            "text": "Your order has been rejected"
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>I am sorry, but I can not accept your order."
+            "text": "Dear {{name}},<br>I am sorry to inform you, that I can not accept your order. The reason is the following:"
         },
         {
-            "type": "hero",
+            "type": "quote",
             "text": "{{message}}"
-        },
-        {
-            "type": "content",
-            "text": "If you have further questions, you can contact us."
         }
     ]
 }

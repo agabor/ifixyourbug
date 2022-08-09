@@ -12,7 +12,7 @@
         {
             "type": "content",
             "text": "Please go to the checkout page, and complete the payment. You will receive the bug fix within 3 workdays after the payment is completed."
-        }
+        },
         {
             "type": "button",
             "link": "{{payment_link}}",

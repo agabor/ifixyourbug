@@ -84,7 +84,7 @@ public class AdminController : ControllerBase
     [Produces(typeof(OrderDto))]
     [Route("orders/by-number/{number}")]
     public IActionResult GetOrderByNumber(string number) {
-        var order = dbContext.Orders!.FirstOrDefault(o => o.Number == $"#{number}");
+        var order = dbContext.Orders!.FirstOrDefault(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();

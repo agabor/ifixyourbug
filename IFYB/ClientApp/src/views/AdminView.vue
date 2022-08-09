@@ -52,7 +52,7 @@ export default {
     }
 
     function openOrder(order) {
-      router.push(`/admin/${order.number.substring(1)}`)
+      router.push(`/admin/${order.number}`)
     }
 
     return { orders, openOrder  }

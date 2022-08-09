@@ -6,8 +6,8 @@
             "text": "I could not fix your bug"
         },
         {
-            "type": "hero",
-            "text": "Dear {{name}},<br>I am sorry to inform you that I could not fix your bug.<br>In this case you can start a refund process."
+            "type": "content",
+            "text": "Dear {{name}},<br>I am sorry to inform you that I could not fix your bug."
         },
         {
             "type": "content",

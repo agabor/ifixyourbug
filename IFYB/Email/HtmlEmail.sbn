@@ -24,8 +24,15 @@
         <div class="x_lg_margin_left_right x_xl_margin_bottom" style="margin-left:50px; margin-right:50px; margin-bottom:72px; margin-bottom:30px">
         {{~ end ~}}
         {{~ if item.type == "content" ~}}
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             {{ item.text }}
+        </p>
+        {{~ end ~}}
+        {{~ if item.type == "quote" ~}}
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px background:#F5F4F5; border-radius:4px; padding:43px 23px; ">
+            <em>
+            {{ item.text }}
+            </em>
         </p>
         {{~ end ~}}
         {{~ if item.type == "button" ~}}
@@ -35,23 +42,23 @@
         {{~ end ~}}
         {{~ end ~}}
         {{~ if order_number ~}}
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-            Order number: <strong>{{order_number}}</strong>
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            Order number: <strong>#{{order_number}}</strong>
         </p>
         {{~ end ~}}
         {{~ if order_link ~}}
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             Order details: <a target="_blank" href="{{order_link}}">{{order_link}}</a>.
         </p>
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             If you have any question, you can use the message function on the order details page, or you can simply reply to this e-mail.
         </p>
         {{~ else ~}}
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             If you have any question, you can simply reply to this e-mail.
         </p>
         {{~ end ~}}
-        <p class="x_content_paragraph" style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             Best Regards,<br>
             Gabor Angyal
         </p>
