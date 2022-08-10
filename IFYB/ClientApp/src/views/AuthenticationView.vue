@@ -93,18 +93,20 @@ export default {
         let newJwt = (await response.json()).jwt;
         await setJwt(newJwt);
         toNamePageOrToTargetPage();
-      } else if(response.status == 403) {
-        handleAuthenticationError();
+      } else if(response.status == 401) {
+        const passwordExpired = (await response.json()).passwordExpired;
+        if (!passwordExpired) {
+          resetServerError();
+          error.value = tm('errors.wrongCode');
+        } else {
+          page.value = 'failed';
+        }
       } else {
         setServerError(response.statusText);
       }
       activeBtn.value = true;
     }
 
-    function handleAuthenticationError() {
-      resetServerError();
-      error.value = tm('errors.wrongCode');
-    }
 
     async function setUserName(n) {
       await setName(n);

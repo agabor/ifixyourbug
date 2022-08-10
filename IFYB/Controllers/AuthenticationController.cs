@@ -50,18 +50,31 @@ public class AuthenticationController : BaseController
     public IActionResult StartSession([FromBody] EmailDto dto)
     {
         var client = dbContext.Clients.FirstOrDefault(c => c.Email == dto.Email);
-        if (client == null) {
-            if(dto.PrivacyPolicyAccepted) {
+        if (client == null)
+        {
+            if (dto.PrivacyPolicyAccepted)
+            {
                 client = new Client(dto.Email);
+                client.RegistrationTime = DateTime.UtcNow;
                 dbContext.Clients.Add(client);
-            } else {
+            }
+            else
+            {
                 return Unauthorized();
             }
         }
-        var passwordHasher = new PasswordHasher<Client>();
-        if (!appOptions.SendEmails) {
-            client.Password = passwordHasher.HashPassword(client, "123456");
-        } else
+        CreatePassword(dto, client);
+        return Ok(new IdDto(client.Id));
+    }
+
+    private void CreatePassword<T>(EmailDto dto, T user) where T : class, IAunthenticable
+    {
+        var passwordHasher = new PasswordHasher<T>();
+        if (!appOptions.SendEmails)
+        {
+            user.Password = passwordHasher.HashPassword(user, "123456");
+        }
+        else
         {
             int charCount = 'Z' - 'A';
             string password = string.Empty;
@@ -70,13 +83,12 @@ public class AuthenticationController : BaseController
                 int code = Random.Shared.Next() % charCount;
                 password += (char)('A' + code);
             }
-            client.Password = passwordHasher.HashPassword(client, password);
+            user.Password = passwordHasher.HashPassword(user, password);
             string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
             var email = emailService.CreateEmail(dto.Email, "Authentication", null, new { Password = textPassword });
             emailSenderService.SendEmail(email!);
         }
         dbContext.SaveChanges();
-        return Ok(new IdDto(client.Id));
     }
 
     [HttpPost]
@@ -85,21 +97,31 @@ public class AuthenticationController : BaseController
     public IActionResult Authenticate(int clientId, [FromBody] PasswordDto dto)
     {
         var client = dbContext.Clients.FirstOrDefault(c => c.Id == clientId);
-        if (client == null)
-            return Forbid();
-        var passwordHasher = new PasswordHasher<Client>();
-        switch (passwordHasher.VerifyHashedPassword(client, client.Password, dto.Password))
+        if (client == null || string.IsNullOrWhiteSpace(client?.Password))
+            return BadRequest();
+        JwtDto? jwtDto = TryAuthenticate(dto, client, Roles.Client);
+        if (jwtDto != null)
+            return Ok(jwtDto);
+        return new UnauthorizedObjectResult(new { PasswordExpired = ExpirePasswordIfNeeded(client) });
+    }
+
+    private bool ExpirePasswordIfNeeded(IAunthenticable client)
+    {
+        client.FailedLoginAtemptCount += 1;
+        if (client.FailedLoginAtemptCount == 3)
         {
-            case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(client.Email, Roles.Client));
-            case PasswordVerificationResult.Failed:
-                return Forbid();
-            case PasswordVerificationResult.SuccessRehashNeeded:
-                client.Password = passwordHasher.HashPassword(client, dto.Password);
-                dbContext.SaveChanges();
-                return Ok(GenerateJWT(client.Email, Roles.Client));
+            ResetPassword(client);
+            return true;
         }
-        return Forbid();
+        dbContext.SaveChanges();
+        return false;
+    }
+
+    private void ResetPassword(IAunthenticable user)
+    {
+        user.FailedLoginAtemptCount = 0;
+        user.Password = null;
+        dbContext.SaveChanges();
     }
 
     [HttpGet]
@@ -119,9 +141,7 @@ public class AuthenticationController : BaseController
         if (admin == null) {
             return Forbid();
         }
-        var passwordHasher = new PasswordHasher<Admin>();
-        admin.Password = passwordHasher.HashPassword(admin, "123456");
-        dbContext.SaveChanges();
+        CreatePassword(dto, admin);
         return Ok(new IdDto(admin.Id));
     }
 
@@ -131,21 +151,32 @@ public class AuthenticationController : BaseController
     public IActionResult AuthenticateAdmin(int adminId, [FromBody] PasswordDto dto)
     {
         var admin = dbContext.Admins.FirstOrDefault(c => c.Id == adminId);
-        if (admin == null)
-            return Forbid();
-        var passwordHasher = new PasswordHasher<Admin>();
+        if (admin == null || string.IsNullOrWhiteSpace(admin?.Password))
+            return BadRequest();
+        JwtDto? jwtDto = TryAuthenticate(dto, admin, Roles.Admin);
+        if (jwtDto != null)
+            return Ok(jwtDto);
+        return new UnauthorizedObjectResult(new { PasswordExpired = ExpirePasswordIfNeeded(admin) });
+    }
+
+    private JwtDto? TryAuthenticate<T>(PasswordDto dto, T admin, string role) where T : class, IAunthenticable
+    {
+        var passwordHasher = new PasswordHasher<T>();
         switch (passwordHasher.VerifyHashedPassword(admin, admin.Password, dto.Password))
         {
             case PasswordVerificationResult.Success:
-                return Ok(GenerateJWT(admin.Email, Roles.Admin));
+                ResetPassword(admin);
+                return GenerateJWT(admin.Email, role);
             case PasswordVerificationResult.Failed:
-                return Forbid();
+                break;
             case PasswordVerificationResult.SuccessRehashNeeded:
                 admin.Password = passwordHasher.HashPassword(admin, dto.Password);
+                admin.FailedLoginAtemptCount = 0;
                 dbContext.SaveChanges();
-                return Ok(GenerateJWT(admin.Email, Roles.Admin));
+                return GenerateJWT(admin.Email, role);
         }
-        return Forbid();
+
+        return null;
     }
 
     private JwtDto GenerateJWT(string email, string role)

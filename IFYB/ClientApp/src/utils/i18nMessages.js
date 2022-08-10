@@ -307,6 +307,11 @@ export const messages = {
         buttonText: 'Check',
         cancel: 'Cancel'
       },
+      authfailed: {
+        title: 'Authentication Failed',
+        subTitle: 'You have entered wrong code 3 times.',
+        buttonText: 'Go Back'
+      },
     //SelectFramework
       framework: {
         label: 'Framework*',

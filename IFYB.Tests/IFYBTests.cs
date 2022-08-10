@@ -98,7 +98,7 @@ public class IFYBTests
         var response = await Post("api/contact", HttpStatusCode.OK, message);
 
         response = await Post("api/authenticate/admin", HttpStatusCode.OK, new {
-            email = "admin@admin.com"
+            email = "gabor@ifixyourbug.com"
         });
         JToken? idToken = response.GetValue("id");
         Assert.IsNotNull(idToken);

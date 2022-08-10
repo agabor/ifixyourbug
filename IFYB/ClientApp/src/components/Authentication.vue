@@ -2,6 +2,7 @@
   <email-form :class="{'active': page === 'email'}" v-model:modelValue="user.email" v-model:activeButton="activeButton" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="accepted" :showRequired="showRequired" @update:modelValue="submitEmail"></email-form>
   <two-fa :class="{'active': page === 'auth'}" v-model:modelValue="user.auth" :error="error" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
   <name-form :class="{'active': page === 'name'}" v-model:modelValue="user.name" v-model:activeButton="activeButton" :error="error" @update:modelValue="setName" @cancel="cancel"></name-form>
+  <authentication-failed :class="{'active': page === 'failed'}"></authentication-failed>
 </template>
 
 <script>
@@ -9,10 +10,11 @@ import { ref, watch } from 'vue';
 import EmailForm from '../components/EmailForm.vue';
 import TwoFa from '../components/2FA.vue';
 import NameForm from '../components/NameForm.vue';
+import AuthenticationFailed from '../components/AuthenticationFailed.vue';
 
 export default {
   name: 'AuthenticationForm',
-  components: { EmailForm, TwoFa, NameForm },
+  components: { EmailForm, TwoFa, NameForm, AuthenticationFailed },
   props: {
     page: String,
     error: String,

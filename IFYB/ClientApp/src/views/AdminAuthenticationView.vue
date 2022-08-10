@@ -75,17 +75,18 @@ export default {
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/admin');
-      } else if(response.status == 403) {
-        handleAuthenticationError();
+      } else if(response.status == 401) {
+        const passwordExpired = (await response.json()).passwordExpired;
+        if (!passwordExpired) {
+          resetServerError();
+          error.value = tm('errors.wrongCode');
+        } else {
+          page.value = 'failed';
+        }
       } else {
         setServerError(response.statusText);
       }
       activeBtn.value = true;
-    }
-
-    function handleAuthenticationError() {
-      resetServerError();
-      error.value = tm('errors.wrongCode');
     }
 
     function cancelLogin() {

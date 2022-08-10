@@ -25,7 +25,7 @@ public class ApplicationDbContext : DbContext
             .HasOne(m => m.Order)
             .WithMany(o => o.Messages)
             .IsRequired(false);
-        modelBuilder.Entity<Admin>().HasData(new Admin("admin@admin.com") {
+        modelBuilder.Entity<Admin>().HasData(new Admin("gabor@ifixyourbug.com") {
             Id = 1
         });
     }
