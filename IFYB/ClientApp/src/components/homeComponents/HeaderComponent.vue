@@ -12,12 +12,10 @@
                 <img class="col-md-4 col-12 header-logo w-30" src="../../assets/logo.webp" alt="logo">
                 <div class="col-md-8 col-12 text-md-start text-center">
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
-                  <p class="lead pe-md-3 me-md-3">{{ $t('mainCard.description') }}</p>
+                  <p class="lead pe-md-3 me-md-3 py-md-3 my-md-3">{{ $t('mainCard.description') }}</p>
+                  <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
+                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
                 </div>
-              </div>
-              <div class="buttons z-index-2">
-                <button type="button" class="btn btn-rounded bg-gradient-primary mx-1" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
-                <button type="button" class="btn btn-rounded btn-outline-secondary mx-1" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
               </div>
             </div>
           </div>
