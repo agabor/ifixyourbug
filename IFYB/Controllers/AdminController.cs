@@ -3,7 +3,6 @@ using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Scriban;
 using IFYB.Services;
 using Microsoft.Extensions.Options;
 

@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Email> Emails { get; set; } = null!;
     public DbSet<ServerError> ServerErrors { get; set; } = null!;
     public DbSet<ClientError> ClientErrors { get; set; } = null!;
+    public DbSet<Event> Events { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -28,6 +29,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Admin>().HasData(new Admin("gabor@ifixyourbug.com") {
             Id = 1
         });
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.Client)
+            .WithMany()
+            .IsRequired(false);
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.Admin)
+            .WithMany()
+            .IsRequired(false);
     }
 
 }

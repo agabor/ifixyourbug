@@ -56,7 +56,7 @@ public class AuthenticationController : BaseController
             {
                 client = new Client(dto.Email);
                 client.RegistrationTime = DateTime.UtcNow;
-                dbContext.Clients.Add(client);
+                client = dbContext.Clients.Add(client).Entity;
             }
             else
             {
@@ -64,6 +64,7 @@ public class AuthenticationController : BaseController
             }
         }
         CreatePassword(dto, client);
+        dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Started"});
         return Ok(new IdDto(client.Id));
     }
 
@@ -100,9 +101,18 @@ public class AuthenticationController : BaseController
         if (client == null || string.IsNullOrWhiteSpace(client?.Password))
             return BadRequest();
         JwtDto? jwtDto = TryAuthenticate(dto, client, Roles.Client);
-        if (jwtDto != null)
+        if (jwtDto != null) {
+            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Success"});
             return Ok(jwtDto);
-        return new UnauthorizedObjectResult(new { PasswordExpired = ExpirePasswordIfNeeded(client) });
+        }
+
+        bool passwordExpired = ExpirePasswordIfNeeded(client);
+        if (passwordExpired) {
+            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Failed"});
+        } else {
+            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Wrong Authentication Code"});
+        }
+        return new UnauthorizedObjectResult(new { PasswordExpired = passwordExpired });
     }
 
     private bool ExpirePasswordIfNeeded(IAunthenticable client)
