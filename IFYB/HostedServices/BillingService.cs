@@ -69,7 +69,7 @@ public class BillingService : BackgroundService
                 };
 
                 var customerService = new CustomerService();
-                var customer = customerService.Get(order.Client!.StripeId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
+                var customer = customerService.Get(order.StripeCustomerId, new CustomerGetOptions{ Expand = new List<string> { "tax" } });
                 var tax = customer.Tax;
 
                 request.Header.Comment = "Paid";

@@ -52,14 +52,9 @@ public class PaymentController : BaseController
       
       var options = new SessionCreateOptions
       {
-          CustomerEmail = order.Client!.StripeId != null ? null : order.Client!.Email,
+          CustomerEmail = order.Client!.Email,
           Expand = new List<string> {"customer", "customer.tax"},
           AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
-          Customer = order.Client!.StripeId,
-          CustomerUpdate = order.Client!.StripeId == null ? null : new SessionCustomerUpdateOptions {
-            Name = "auto",
-            Address = "auto"
-          },
           LineItems = new List<SessionLineItemOptions>
           {
             new SessionLineItemOptions
@@ -78,7 +73,7 @@ public class PaymentController : BaseController
       };
       var service = new SessionService();
       Session session = service.Create(options);
-      order.StripeId = session.Id;
+      order.StripeSessionId = session.Id;
       dbContext.SaveChanges();
       
       return Ok(new UrlDto(session.Url));
@@ -100,7 +95,7 @@ public class PaymentController : BaseController
               var sessionObject = stripeEvent.Data.Object as Stripe.Checkout.Session;
               if (sessionObject == null)
                 return BadRequest();
-              var order = dbContext.Orders.FirstOrDefault(p => p.StripeId == sessionObject.Id);
+              var order = dbContext.Orders.FirstOrDefault(p => p.StripeSessionId == sessionObject.Id);
               if (order == null)
                 return NotFound();
               var customerDetails = sessionObject.CustomerDetails;
@@ -125,7 +120,7 @@ public class PaymentController : BaseController
               order.AmountTax = sessionObject.TotalDetails.AmountTax;
               order.PayedAt = DateTime.UtcNow;
               dbContext.Entry(order).Reference(o => o.Client).Load();
-              order.Client!.StripeId = sessionObject.CustomerId;
+              order.StripeCustomerId = sessionObject.CustomerId;
               dbContext.SaveChanges();
 
 

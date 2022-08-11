@@ -22,7 +22,8 @@ public class Order
     public int GitAccessId { get; set; }
     public GitAccess GitAccess { get; set; } = null!;
     public string? PaymentToken { get; set; }
-    public string? StripeId { get; set; }
+    public string? StripeSessionId { get; set; }
+    public string? StripeCustomerId { get; set; }
     public string? CustomerName { get; set; }
     public string? TaxId { get; set; }
     public string? TaxIdType { get; set; }
