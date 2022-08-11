@@ -39,7 +39,7 @@ public class PaymentController : BaseController
     }
 
     [HttpPost]
-    [Route("{paymentToken}/{priceId}")]
+    [Route("{paymentToken}/{isEur}")]
     [Produces(typeof(UrlDto))]
     public IActionResult Pay(string paymentToken, bool isEur)
     {
