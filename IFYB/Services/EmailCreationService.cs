@@ -8,11 +8,11 @@ namespace IFYB.Services;
 public class EmailCreationService
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<EmailCreationService> logger;
+    private readonly EventLogService<EmailCreationService> eventLogService;
     private readonly AppOptions appOptions;
-    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, ILogger<EmailCreationService> logger) {
+    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EventLogService<EmailCreationService> eventLogService) {
         this.dbContext = dbContext;
-        this.logger = logger;
+        this.eventLogService = eventLogService;
         this.appOptions = appOptions.Value;
     }
 
@@ -42,7 +42,7 @@ public class EmailCreationService
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
         var emailContent = JsonSerializer.Deserialize<EmailContent>(json, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
         if (emailContent == null) {
-            logger.Log(LogLevel.Error, "Could not parse e-mail content.");
+            eventLogService.Log(LogLevel.Error, "Could not parse e-mail content.");
             return null;
         }
         emailContent.OrderNumber = order?.Number;

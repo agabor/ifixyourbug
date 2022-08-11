@@ -13,11 +13,11 @@ public interface IEmailSenderService
 public class EmailSenderService : IEmailSenderService
 {
     private readonly ApplicationDbContext dbContext;
-    private readonly ILogger<EmailSenderService> logger;
+    private readonly EventLogService<EmailSenderService> logger;
     private readonly Channel<Email> emailChannel;
     private readonly ErrorHandlerService errorHandlerService;
     private readonly SmtpClient smtpClient;
-    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, ILogger<EmailSenderService> logger, Channel<Email> emailChannel, ErrorHandlerService errorHandlerService) {
+    public EmailSenderService(SmtpClient smtpClient, ApplicationDbContext dbContext, EventLogService<EmailSenderService> logger, Channel<Email> emailChannel, ErrorHandlerService errorHandlerService) {
         this.smtpClient = smtpClient;
         this.dbContext = dbContext;
         this.logger = logger;
@@ -38,7 +38,6 @@ public class EmailSenderService : IEmailSenderService
         AlternateView alternate = AlternateView.CreateAlternateViewFromString(email.Html, mimeType);
         message.AlternateViews.Add(alternate);
 
-
         try {
             if (email.File != null)
             {
@@ -50,7 +49,6 @@ public class EmailSenderService : IEmailSenderService
             }
         } catch (Exception e) {
             errorHandlerService.OnException(e, null);
-            logger.Log(LogLevel.Warning, e, e.Message);
             if (email.RetryCount < 3) {
                 email.RetryCount += 1;
                 logger.Log(LogLevel.Information, $"Retry to send e-mail - {email.RetryCount}");

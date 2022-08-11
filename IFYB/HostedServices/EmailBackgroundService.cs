@@ -8,13 +8,11 @@ public class EmailBackgroundService : BackgroundService
 {
     private readonly Channel<Email> emailChanel;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<EmailBackgroundService> logger;
 
-    public EmailBackgroundService(Channel<Email> emailChanel, IServiceProvider serviceProvider, ILogger<EmailBackgroundService> logger)
+    public EmailBackgroundService(Channel<Email> emailChanel, IServiceProvider serviceProvider)
     {
         this.emailChanel = emailChanel;
         this.serviceProvider = serviceProvider;
-        this.logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,9 +30,10 @@ public class EmailBackgroundService : BackgroundService
 
     private void SendEmails(List<Email> emails)
     {
-        logger.Log(LogLevel.Information, $"Sending {emails.Count} email(s).");
         using var scope = serviceProvider.CreateScope();
         var emailSenderService = scope.ServiceProvider.GetRequiredService<IEmailSenderService>();
+        var logger = scope.ServiceProvider.GetRequiredService<EventLogService<EmailBackgroundService>>();
+        logger.Log(LogLevel.Information, $"Sending {emails.Count} email(s).");
         foreach(var email in emails)
             if (!emailSenderService.SendEmail(email))
             {

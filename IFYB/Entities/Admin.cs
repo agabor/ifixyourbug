@@ -8,6 +8,7 @@ public class Admin : IAunthenticable
     public string Email { get; set; }
     public string? Password { get; set; }
     public int FailedLoginAtemptCount { get; set; }
+    public string Role => Roles.Admin;
 
     public Admin(string email)
     {

@@ -100,6 +100,8 @@ else
 
 builder.Services.AddScoped<EmailDispatchService>();
 builder.Services.AddScoped<ErrorHandlerService>();
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped(typeof(EventLogService<>));
 builder.Services.AddSingleton<Channel<IFYB.Entities.Order>>(Channel.CreateUnbounded<IFYB.Entities.Order>());
 builder.Services.AddSingleton<Channel<IFYB.Entities.Email>>(Channel.CreateUnbounded<IFYB.Entities.Email>());
 builder.Services.AddHostedService<BillingService>();

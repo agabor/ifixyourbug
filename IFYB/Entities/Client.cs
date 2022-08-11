@@ -15,6 +15,7 @@ public class Client : IAunthenticable
     public string? TaxNumber { get; set; }
     public List<Order> Orders { get; set; } = null!;
     public List<GitAccess> GitAccesses { get; set; } = null!;
+    public string Role => Roles.Client;
 
     public Client(string email)
     {

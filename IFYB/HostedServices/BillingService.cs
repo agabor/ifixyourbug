@@ -14,15 +14,13 @@ public class BillingService : BackgroundService
 {
     private readonly Channel<Entities.Order> billingChanel;
     private readonly Channel<Email> emailChanel;
-    private readonly ILogger<BillingService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly OfferDto offer;
     private readonly BillingOptions billingOptions;
 
-    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, ILogger<BillingService> logger, IServiceProvider serviceProvider, OfferDto offer, Channel<Email> emailChanel)
+    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, IServiceProvider serviceProvider, OfferDto offer, Channel<Email> emailChanel)
     {
         this.billingChanel = billingChanel;
-        this.logger = logger;
         this.serviceProvider = serviceProvider;
         this.offer = offer;
         this.billingOptions = billingOptions.Value;
@@ -30,12 +28,12 @@ public class BillingService : BackgroundService
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.Log(LogLevel.Information, "BillingService started");
         await foreach(var order in billingChanel.Reader.ReadAllAsync(stoppingToken))
         {
             using var scope = serviceProvider.CreateScope();
+            var logger = scope.ServiceProvider.GetRequiredService<EventLogService<EmailBackgroundService>>();
             try {
-                logger.Log(LogLevel.Information, "Billing started");
+                logger.LogClientEvent(order.ClientId, "Billing started");
                 var request = new CreateInvoiceRequest();
                 request.AuthenticationData.ApiKey = billingOptions.ApiKey;
 
@@ -98,9 +96,7 @@ public class BillingService : BackgroundService
             } catch (Exception e) {
                 var errorHandlerService = scope.ServiceProvider.GetRequiredService<ErrorHandlerService>();
                 errorHandlerService.OnException(e, null);
-                logger.Log(LogLevel.Error, e, e.Message);
             }
         }
-        logger.Log(LogLevel.Information, "BillingService finished");
     }
 }

@@ -7,9 +7,9 @@ public class EmailDispatchService
 {
     private readonly EmailCreationService emailCreationService;
     private readonly Channel<Email> emailChannel;
-    private readonly ILogger<EmailDispatchService> logger;
+    private readonly EventLogService<EmailDispatchService> logger;
 
-    public EmailDispatchService(EmailCreationService emailCreationService, Channel<Email> emailChannel, ILogger<EmailDispatchService> logger)
+    public EmailDispatchService(EmailCreationService emailCreationService, Channel<Email> emailChannel, EventLogService<EmailDispatchService> logger)
     {
         this.emailCreationService = emailCreationService;
         this.emailChannel = emailChannel;

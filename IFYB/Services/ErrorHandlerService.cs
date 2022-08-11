@@ -7,10 +7,12 @@ namespace IFYB.Services;
 public class ErrorHandlerService
 {
     private readonly ApplicationDbContext dbContext;
+    private readonly ILogger<ErrorHandlerService> logger;
 
-    public ErrorHandlerService(ApplicationDbContext dbContext)
+    public ErrorHandlerService(ApplicationDbContext dbContext, ILogger<ErrorHandlerService> logger)
     {
         this.dbContext = dbContext;
+        this.logger = logger;
     }
 
     public void OnException(Exception e, string? data)
@@ -19,6 +21,7 @@ public class ErrorHandlerService
         error.Data = data;
         dbContext.ServerErrors.Add(error);
         dbContext.SaveChanges();
+        logger.Log(LogLevel.Error, e, e.Message);
     }
 
     private static ServerError ExceptionToError(Exception e)
