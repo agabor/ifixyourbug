@@ -64,7 +64,8 @@ public class BillingService : BackgroundService
                         VatRate = vatPercentage.ToString("F1",  CultureInfo.InvariantCulture),
                         NetPrice = price,
                         VatAmount = vatAmount,
-                        GrossAmount = price + vatAmount
+                        GrossAmount = price + vatAmount,
+                        Comment = $"Order number: #{order.Number}"
                     }
                 };
 
