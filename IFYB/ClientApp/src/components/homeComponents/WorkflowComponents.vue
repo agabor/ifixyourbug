@@ -14,15 +14,13 @@
       </div>
       <div class="row mt-5">
         <div class="col-md-4 ms-auto my-auto">
-          <div class="cursor-pointer">
-            <div class="card card-background">
-              <img class="full-background fit-cover" src="../../assets/img/bg3.webp" alt="image">
-              <div class="card-body pt-7 pb-6 text-center">
-                <i class="ni ni-books mb-3 h3 text-white"></i>
-                <a href="javascript:;" class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('handle.searchAndDiscover') }}</a>
-                <p class="lead mt-2 opacity-9">{{ $t('handle.websiteVisitors') }}</p>
-                <button type="button" class="btn btn-white shadow-none mt-3">{{ $t('handle.getStarted') }}</button>
-              </div>
+          <div class="card card-background">
+            <img class="full-background fit-cover" src="../../assets/img/bg3.webp" alt="image">
+            <div class="card-body pt-7 pb-6 text-center">
+              <i class="ni ni-send mb-3 h3 text-white"></i>
+              <p class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('features.easy') }}</p>
+              <p class="lead mt-2 opacity-9">{{ $t('features.easyDescription') }}</p>
+              <button type="button" class="btn btn-white shadow-none mt-3" @click="toPricing">{{ $t('handle.getStarted') }}</button>
             </div>
           </div>
         </div>
@@ -70,15 +68,13 @@
           </div>
         </div>
         <div class="col-md-4 me-auto my-auto ms-md-5">
-          <div class="cursor-pointer">
-            <div class="card card-background">
-              <img class="full-background fit-cover" src="../../assets/img/bg4.webp" alt="image">
-              <div class="card-body pt-7 pb-6 text-center">
-                <i class="ni ni-planet mb-3 h3 text-white"></i>
-                <a class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('handle.talAndMeet') }}</a>
-                <p class="lead mt-2 opacity-9">{{ $t('handle.socialActivities') }}</p>
-                <button type="button" class="btn btn-white mt-3">{{ $t('handle.getStarted') }}</button>
-              </div>
+          <div class="card card-background">
+            <img class="full-background fit-cover" src="../../assets/img/bg4.webp" alt="image">
+            <div class="card-body pt-7 pb-6 text-center">
+              <i class="ni ni-watch-time mb-3 h3 text-white"></i>
+              <p class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('features.fast') }}</p>
+              <p class="lead mt-2 opacity-9">{{ $t('features.fastDescription') }}</p>
+              <button type="button" class="btn btn-white mt-3" @click="toPricing">{{ $t('handle.getStarted') }}</button>
             </div>
           </div>
         </div>
@@ -89,6 +85,13 @@
 
 <script>
 export default {
-  name: 'HandleComponents',
+  name: 'WorkflowComponents',
+  setup() {
+
+    function toPricing() {
+      document.getElementById('pricing').scrollIntoView();
+    }
+    return { toPricing }
+  }
 }
 </script>

@@ -93,9 +93,6 @@ export const messages = {
       handle: {
         title1: 'How It Works',
         subTitle: 'The process of submitting bugs and receiving fixes is quite straightforward. Here is how it works.',
-        searchAndDiscover: 'Search and Discover!',
-        websiteVisitors: 'Website visitors',
-        getStarted: 'Get Started',
         workflowTitle1: '1. Prepare for submission',
         workflowDescription1: 'To submit a bug, you need two things: a standalone project that is easy to compile and run, and a clear way to reproduce the bug.',
         workflowTitle2: '2. Submit Your Bug',
@@ -107,9 +104,7 @@ export const messages = {
         workflowTitle5: '5. You are notified when the bug is fixed',
         workflowDescription5: 'If I succeed in fixing your bug, I will make you a pull request.',
         workflowTitle6: '6. If I can not fix the bug, you get a full refund',
-        workflowDescription6: 'After you make your payment, I have 3 workdays to fix your bug. If I do not succeed in that time, you are eligible for a full refund.',
-        talAndMeet: 'Talk and Meet!',
-        socialActivities: 'Social activities',
+        workflowDescription6: 'After you make your payment, I have 3 workdays to fix your bug. If I do not succeed in that time, you are eligible for a full refund.'
       },
       footer: {
         title: 'I Fix Your Bug',
