@@ -28,11 +28,6 @@
         </ul>
         <ul class="navbar-nav navbar-nav-hover me-auto" v-else>
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/other-services')">
-              {{ $t('navigationBar.services') }}
-            </a>
-          </li>
-          <li class="nav-item dropdown dropdown-hover mx-2">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/faq')">
               {{ $t('navigationBar.faq') }}
             </a>

@@ -17,9 +17,6 @@
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/my-orders">{{ $t('footer.myOrders') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/other-services">{{ $t('footer.services') }}</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
               </li>
               <li class="nav-item">

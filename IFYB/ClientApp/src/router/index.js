@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsAndConditions from '../views/TermsAndConditions.vue';
-import OtherServices from '../views/OtherServices.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
 import DesignView from '../views/DesignView.vue';
@@ -65,12 +64,6 @@ const routes = [
     name: 'terms-and-conditions',
     component: TermsAndConditions,
     meta: { title: 'Terms And Conditions' },
-  },
-  {
-    path: '/other-services',
-    name: 'other-services',
-    component: OtherServices,
-    meta: { title: 'Services' },
   },
   {
     path: '/new-order',
