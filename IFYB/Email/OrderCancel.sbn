@@ -1,0 +1,13 @@
+{
+    "title": "Canceled order",
+    "content": [
+        {
+            "type": "header",
+            "text": "Your order has been canceled"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I am sorry to inform you, that I canceled your order."
+        }
+    ]
+}
