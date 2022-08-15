@@ -8,8 +8,8 @@
           <div>
             <p>{{ $t('checkout.payDescription') }}</p>
             <div class="d-flex justify-content-center">
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${order.usdPrice}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${order.eurPrice}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
+              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${parseFloat(order.usdPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
+              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${parseFloat(order.eurPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
             </div>
             <p>{{$t('pricing.excludeVat')}}</p>
           </div>

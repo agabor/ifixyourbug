@@ -58,11 +58,11 @@
               <div class="card-body text-center">
                 <h6 class="mt-sm-4 mt-0 mb-0">{{ $t('pricing.payOne') }}</h6>
                 <h3 class="mt-0">
-                  <small>$</small> {{ usdPrice }}
+                  <small>$</small> {{ parseFloat(usdPrice).toFixed(2) }}
                 </h3>
                 <h4><small>or</small></h4>
                 <h3>
-                  <small>€</small> {{ eurPrice }}
+                  <small>€</small> {{ parseFloat(eurPrice).toFixed(2) }}
                 </h3>
                 <button type="button" class="btn bg-gradient-primary btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
                 <p>{{$t('pricing.excludeVat')}}</p>
