@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 const eurPrice = ref(null);
 const usdPrice = ref(null);
@@ -143,18 +143,21 @@ export function useUserAuthentication() {
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
+const isAdminLoggedIn = ref(false);
+
+setAdminJwt(localStorage.getItem('adminJwt'));
 
 function setAdminJwt(jwt) {
+  adminJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('adminJwt', jwt);
+    isAdminLoggedIn.value = true;
   } else {
     localStorage.removeItem('adminJwt');
     localStorage.removeItem('adminId');
+    isAdminLoggedIn.value = false;
   }
-  adminJwt.value = jwt
 }
-
-const isAdminLoggedIn = computed(() => adminJwt.value !== null);
 
 function adminGet(route) {
   return get(route, adminJwt.value)

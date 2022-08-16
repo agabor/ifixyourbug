@@ -400,6 +400,13 @@ export const messages = {
         acceptAll: "Accept all",
         rejectAll: "Reject all",
         save: "Save",
-      }
+      },
+      //TimeoutModal
+      timeout: {
+          title: "Your login session timed out.",
+          subtitle: "Please login to gain access the website's functions",
+          later: "Later",
+          login: "Login",
+        }
     }
   }
