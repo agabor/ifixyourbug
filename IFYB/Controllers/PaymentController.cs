@@ -69,7 +69,7 @@ public class PaymentController : BaseController
               Enabled = true
           },
           SuccessUrl = $"{appOptions.BaseUrl}/checkout-success/{paymentToken}",
-          CancelUrl = $"{appOptions.BaseUrl}/checkout-failed/{paymentToken}",
+          CancelUrl = $"{appOptions.BaseUrl}/checkout/{paymentToken}",
       };
       var service = new SessionService();
       Session session = service.Create(options);
