@@ -382,7 +382,7 @@ export const messages = {
         order: 'Order',
         payDescription: 'Please pay so we can start work as soon as possible.',
         pay: 'Pay',
-        loading: 'loading ...',
+        loading: 'loading',
         checkoutLink: 'Checkout link expired.',
         backToHome: 'Bact to home',
         notfound: 'Order not found',
