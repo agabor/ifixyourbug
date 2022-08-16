@@ -98,7 +98,7 @@ export const messages = {
         workflowTitle2: '2. Submit Your Bug',
         workflowDescription2: 'Click on the order button, and answer a few questions about you project, and your bug. I will review your submissionm and decide if this is something I can fix or not.',
         workflowTitle3: '3. Make the payment',
-        workflowDescription3: 'If I accept your submission, you will be notified by e-mail. You will receive a payment link. My service has a fix price ({price} USD or EUR), not mather what kind of bug you submit. You can choose your prefered currency on the checkout page.',
+        workflowDescription3: 'If I accept your submission, you will be notified by e-mail. You will receive a payment link. My service has a fix price ($ {usdPrice} or € {eurPrice}), not mather what kind of bug you submit. You can choose your prefered currency on the checkout page.',
         workflowTitle4: '4. I attempt to fix your bug',
         workflowDescription4: 'I will do my best, I promise.',
         workflowTitle5: '5. You are notified when the bug is fixed',
@@ -253,7 +253,7 @@ export const messages = {
     //NewOrderView
       order: {
         email: 'Email',
-        emailDes: 'Enter your email.',
+        emailDes: 'We will email you a magic code for a password-free sign in.',
         submit: 'Submit',
         name: 'Name',
         nameDes: 'Enter your name.',
@@ -295,9 +295,9 @@ export const messages = {
       newMessagePlaceholder: 'Aa'
     },
     //2FA
-      twofa: {
-        title: '2FA Security',
-        subTitle: 'Enter 6-digits code from your athenticatior app.',
+      authentication: {
+        title: 'Check your email for a code',
+        subTitle: 'We have sent a 6-character code to <b>{email}</b>. The code expires shortly, so please enter it soon.',
         buttonText: 'Check',
         cancel: 'Cancel'
       },

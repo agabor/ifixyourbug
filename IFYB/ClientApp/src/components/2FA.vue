@@ -1,5 +1,5 @@
 <template>
-  <carousel-item icon="atom" :title="$t('twofa.title')" :subTitle="$t('twofa.subTitle')">
+  <carousel-item icon="atom" :title="$t('authentication.title')" :subTitle="$t('authentication.subTitle', { email })">
     <div class="row mb-4 mx-xl-4">
       <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
         <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
@@ -9,8 +9,8 @@
       {{ codeError ? codeError : error }}
     </div>
     <div class="text-center d-flex justify-content-center">
-      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
-      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
+      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
     </div>
   </carousel-item>
 </template>
@@ -25,7 +25,8 @@ export default {
   components: { CarouselItem, OneClickBtn },
   props: {
     modelValue: String,
-    error: String
+    error: String,
+    email: String
   },
   emits:['update:modelValue', 'cancel'],
   setup(props, context) {

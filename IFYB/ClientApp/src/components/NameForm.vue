@@ -8,7 +8,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
-      <one-click-btn v-model:active="activeBtn" :text="$t('twofa.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
     </div>
   </carousel-item>
 </template>

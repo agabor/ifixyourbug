@@ -11,7 +11,7 @@
                 </div>
               </div>
               <h2 v-if="title">{{ title }}</h2>
-              <p class="mb-4" v-if="subTitle">{{ subTitle }}</p>
+              <p class="mb-4" v-if="subTitle"><span v-html="subTitle"></span></p>
               <slot></slot>
               <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                 {{ error }}
