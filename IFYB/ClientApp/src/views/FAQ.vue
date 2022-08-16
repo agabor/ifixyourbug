@@ -10,20 +10,6 @@
             <p class="text-white opacity-8 mb-4">{{ $t('faqCard.lastModified', { date: 'July 22, 2022' }) }}</p>
           </div>
           <div class="card-body p-sm-5 pt-0">
-            <h4 class="my-4 ps-3">{{ $t('faqSecurity.title') }}</h4>
-            <div class="accordion" id="accordionFaq">
-              <div class="accordion-item" v-for="n in faqSecurityCount" :key="n">
-                <h6 class="accordion-header" :id="`headingBasics${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
-                    {{ $t(`faqSecurity.question${n}`) }}
-                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                  </button>
-                </h6>
-                <div :id="`collapseBasics${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingBasics${n}`" data-bs-parent="#accordionFaq">
-                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqSecurity.answer${n}`) }}</div>
-                </div>
-              </div>
-            </div>
             <h4 class="mt-5 mb-4 ps-3">{{ $t('faqOrders.title') }}</h4>
             <div class="accordion" id="accordionFaq2">
               <div class="accordion-item" v-for="n in faqOrders" :key="n">
@@ -67,6 +53,20 @@
                 </h6>
                 <div :id="`collapseLicenses${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingLicenses${n}`" data-bs-parent="#accordionFaq4">
                   <div class="accordion-body text-sm opacity-8">{{ $t(`faqRefunds.answer${n}`) }}</div>
+                </div>
+              </div>
+            </div>
+            <h4 class="my-4 ps-3">{{ $t('faqSecurity.title') }}</h4>
+            <div class="accordion" id="accordionFaq">
+              <div class="accordion-item" v-for="n in faqSecurityCount" :key="n">
+                <h6 class="accordion-header" :id="`headingBasics${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
+                    {{ $t(`faqSecurity.question${n}`) }}
+                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
+                  </button>
+                </h6>
+                <div :id="`collapseBasics${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingBasics${n}`" data-bs-parent="#accordionFaq">
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqSecurity.answer${n}`) }}</div>
                 </div>
               </div>
             </div>
