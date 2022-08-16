@@ -51,6 +51,11 @@ export default {
     const progress = ref(0);
     const activeBtn = ref(true);
 
+    addEventListener('pageshow', () => {
+      progress.value = null;
+      activeBtn.value = true;
+    });
+
     fetch(`/api/pay/${route.params.token}`).then(resp => {
       if (resp.status == 200) {
         resp.json().then(data => {
