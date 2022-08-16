@@ -49,7 +49,6 @@ public class AuthenticationController : BaseController
             }
         }
         authenticationService.CreatePassword(dto, client);
-        dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Started"});
         return Ok(new IdDto(client.Id));
     }
 
@@ -64,16 +63,10 @@ public class AuthenticationController : BaseController
             return BadRequest();
         JwtDto? jwtDto = authenticationService.TryAuthenticate(dto, client);
         if (jwtDto != null) {
-            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Success"});
             return Ok(jwtDto);
         }
 
         bool passwordExpired = authenticationService.ExpirePasswordIfNeeded(client);
-        if (passwordExpired) {
-            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Authentication Failed"});
-        } else {
-            dbContext.Events.Add(new Event { ClientId = client.Id, DateTime = DateTime.UtcNow, Text = "Wrong Authentication Code"});
-        }
         return new UnauthorizedObjectResult(new { PasswordExpired = passwordExpired });
     }
 
