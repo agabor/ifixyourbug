@@ -51,10 +51,11 @@ export default {
     const progress = ref(0);
     const activeBtn = ref(true);
 
-    addEventListener('pageshow', () => {
+    function resetState() {
       progress.value = null;
       activeBtn.value = true;
-    });
+      removeEventListener('pageshow', resetState);
+    }
 
     fetch(`/api/pay/${route.params.token}`).then(resp => {
       if (resp.status == 200) {
@@ -73,6 +74,7 @@ export default {
           window.location.href = data.url
         });
         progress.value = 100;
+        addEventListener('pageshow', resetState);
       });
     }
     return { order, waitForOrder, route, progress, activeBtn, pay };
