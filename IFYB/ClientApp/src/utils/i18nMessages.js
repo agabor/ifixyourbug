@@ -104,7 +104,8 @@ export const messages = {
         workflowTitle5: '5. You are notified when the bug is fixed',
         workflowDescription5: 'If I succeed in fixing your bug, I will make you a pull request.',
         workflowTitle6: '6. If I can not fix the bug, you get a full refund',
-        workflowDescription6: 'After you make your payment, I have 3 workdays to fix your bug. If I do not succeed in that time, you are eligible for a full refund.'
+        workflowDescription6: 'After you make your payment, I have 3 workdays to fix your bug. If I do not succeed in that time, you are eligible for a full refund.',
+        getStarted: 'Get Started'
       },
       footer: {
         title: 'I Fix Your Bug',
