@@ -1,0 +1,22 @@
+{
+    "title": "Order Confirmation",
+    "content": [
+        {
+            "type": "header",
+            "text": "Your order is confirmed!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I have reviewed your order, and I think that I can fix your bug."
+        },
+        {
+            "type": "content",
+            "text": "Please go to the checkout page, and complete the payment. You will receive the bugfix within {{ workdays }} workdays after the payment is completed."
+        },
+        {
+            "type": "button",
+            "link": "{{payment_link}}",
+            "text": "Payment"
+        }
+    ]
+}

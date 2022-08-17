@@ -40,7 +40,7 @@
           <div class="p-3 info-horizontal d-flex">
             <div>
               <h5>{{ $t('handle.workflowTitle3') }}</h5>
-              <p>{{ $t('handle.workflowDescription3', { eurPrice, usdPrice }) }}</p>
+              <p>{{ $t('handle.workflowDescription3', { eurPrice, usdPrice, workdays }) }}</p>
             </div>
           </div>
         </div>
@@ -89,12 +89,12 @@ export default {
   name: 'WorkflowComponents',
   setup() {
 
-    const { eurPrice, usdPrice } = useOfferData();
+    const { eurPrice, usdPrice, workdays } = useOfferData();
 
     function toPricing() {
       document.getElementById('pricing').scrollIntoView();
     }
-    return { toPricing, eurPrice: parseFloat(eurPrice.value).toFixed(2), usdPrice: parseFloat(usdPrice.value).toFixed(2) }
+    return { toPricing, eurPrice: parseFloat(eurPrice.value).toFixed(2), usdPrice: parseFloat(usdPrice.value).toFixed(2), workdays }
   }
 }
 </script>

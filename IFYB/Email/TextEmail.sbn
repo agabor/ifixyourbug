@@ -13,6 +13,9 @@
 {{~ if order_number ~}}
 Order number: #{{order_number}}
 {{~ end ~}}
+{{~ if eur_price ~}}
+Price: € {{eur_price}} or $ {{usd_price}} (You can choose.)
+{{~ end ~}}
 {{~ if order_link ~}}
 Order details: {{order_link}}.
 If you have any question, you can use the message function on the order details page, or you can simply reply to this e-mail.

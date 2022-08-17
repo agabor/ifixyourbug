@@ -96,16 +96,15 @@ export const messages = {
         workflowTitle1: '1. Prepare for submission',
         workflowDescription1: 'To submit a bug, you need two things: a standalone project that is easy to compile and run, and a clear way to reproduce the bug.',
         workflowTitle2: '2. Submit Your Bug',
-        workflowDescription2: 'Click on the order button, and answer a few questions about you project, and your bug. I will review your submissionm and decide if this is something I can fix or not.',
+        workflowDescription2: 'Click on the order button, and answer a few questions about you project, and your bug. Submit your order, and wait for the confirmation, wich usually takes one workday.',
         workflowTitle3: '3. Make the payment',
-        workflowDescription3: 'If I accept your submission, you will be notified by e-mail. You will receive a payment link. My service has a fix price ($ {usdPrice} or € {eurPrice}), not mather what kind of bug you submit. You can choose your prefered currency on the checkout page.',
+        workflowDescription3: 'When your order is confirmed, you will be notified by e-mail. Every bugfix is fix priced, you can choose to pay either $ {usdPrice} or € {eurPrice}.',
         workflowTitle4: '4. I attempt to fix your bug',
-        workflowDescription4: 'I will do my best, I promise.',
+        workflowDescription4: 'After you make your payment, I have { workdays } workdays to fix your bug.',
         workflowTitle5: '5. You are notified when the bug is fixed',
-        workflowDescription5: 'If I succeed in fixing your bug, I will make you a pull request.',
+        workflowDescription5: 'If I succeed in fixing your bug, I will send you a pull request, and notify you by e-mail.',
         workflowTitle6: '6. If I can not fix the bug, you get a full refund',
-        workflowDescription6: 'After you make your payment, I have 3 workdays to fix your bug. If I do not succeed in that time, you are eligible for a full refund.',
-        getStarted: 'Get Started'
+        workflowDescription6: 'If I do not succeed fixing your bug in time, you will automatically receive a full refund.'
       },
       footer: {
         title: 'I Fix Your Bug',
