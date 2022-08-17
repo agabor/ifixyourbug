@@ -98,13 +98,14 @@ export const messages = {
         workflowTitle2: '2. Submit Your Bug',
         workflowDescription2: 'Click on the order button, and answer a few questions about you project, and your bug. Submit your order, and wait for the confirmation, wich usually takes one workday.',
         workflowTitle3: '3. Make the payment',
-        workflowDescription3: 'When your order is confirmed, you will be notified by e-mail. Every bugfix is fix priced, you can choose to pay either $ {usdPrice} or € {eurPrice}.',
+        workflowDescription3: 'When your order is confirmed, you will be notified by e-mail. Every bugfix is fix priced, you can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.',
         workflowTitle4: '4. I attempt to fix your bug',
         workflowDescription4: 'After you make your payment, I have { workdays } workdays to fix your bug.',
         workflowTitle5: '5. You are notified when the bug is fixed',
         workflowDescription5: 'If I succeed in fixing your bug, I will send you a pull request, and notify you by e-mail.',
         workflowTitle6: '6. If I can not fix the bug, you get a full refund',
-        workflowDescription6: 'If I do not succeed fixing your bug in time, you will automatically receive a full refund.'
+        workflowDescription6: 'If I do not succeed fixing your bug in time, you will automatically receive a full refund.',
+        getStarted: 'Get Started'
       },
       footer: {
         title: 'I Fix Your Bug',
