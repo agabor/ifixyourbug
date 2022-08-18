@@ -36,6 +36,12 @@ export default {
       toNamePageOrToTargetPage();
     }
 
+    watch(jwt, () => {
+      if(!jwt.value) {
+        page.value = 'email';
+      }
+    })
+
     watch(name, () => {
       toNamePageOrToTargetPage();
     });

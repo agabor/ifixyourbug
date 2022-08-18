@@ -4,6 +4,8 @@ public class EmailContent
     public int? OrderNumber { get; set; }
     public string? OrderLink { get; set; }
     public List<EmailContentItem> Content { get; set; } = new List<EmailContentItem>();
+    public decimal? EurPrice { get; set; }
+    public decimal? UsdPrice { get; set; }
 }
 
 public class EmailContentItem

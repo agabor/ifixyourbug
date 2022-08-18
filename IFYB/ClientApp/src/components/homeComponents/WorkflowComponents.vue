@@ -40,7 +40,7 @@
           <div class="p-3 info-horizontal d-flex">
             <div>
               <h5>{{ $t('handle.workflowTitle3') }}</h5>
-              <p>{{ $t('handle.workflowDescription3', { eurPrice, usdPrice }) }}</p>
+              <p v-html="$t('handle.workflowDescription3', { eurPrice: eurPriceForDisplay, usdPrice: usdPriceForDisplay })"></p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
           <div class="p-3 info-horizontal d-flex">
             <div>
               <h5>{{ $t('handle.workflowTitle4') }}</h5>
-              <p>{{ $t('handle.workflowDescription4') }}</p>
+              <p>{{ $t('handle.workflowDescription4', { workdays }) }}</p>
             </div>
           </div>
           <div class="p-3 info-horizontal d-flex">
@@ -85,16 +85,21 @@
 
 <script>
 import { useOfferData } from "../../store";
+import { computed } from 'vue'
 export default {
   name: 'WorkflowComponents',
   setup() {
 
-    const { eurPrice, usdPrice } = useOfferData();
+    const { eurPrice, usdPrice, workdays } = useOfferData();
+
+    const eurPriceForDisplay = computed(() => parseFloat(eurPrice.value).toFixed(2));
+
+    const usdPriceForDisplay = computed(() => parseFloat(usdPrice.value).toFixed(2));
 
     function toPricing() {
       document.getElementById('pricing').scrollIntoView();
     }
-    return { toPricing, eurPrice: parseFloat(eurPrice.value).toFixed(2), usdPrice: parseFloat(usdPrice.value).toFixed(2) }
+    return { toPricing, eurPriceForDisplay, usdPriceForDisplay, workdays }
   }
 }
 </script>

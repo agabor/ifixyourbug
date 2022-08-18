@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using System.Text.Json;
 using IFYB.Entities;
+using IFYB.Models;
 using Microsoft.Extensions.Options;
 using Scriban;
 
@@ -9,10 +10,12 @@ public class EmailCreationService
 {
     private readonly ApplicationDbContext dbContext;
     private readonly EventLogService<EmailCreationService> eventLogService;
+    private readonly OfferDto offerDto;
     private readonly AppOptions appOptions;
-    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EventLogService<EmailCreationService> eventLogService) {
+    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EventLogService<EmailCreationService> eventLogService, OfferDto offerDto) {
         this.dbContext = dbContext;
         this.eventLogService = eventLogService;
+        this.offerDto = offerDto;
         this.appOptions = appOptions.Value;
     }
 
@@ -26,7 +29,7 @@ public class EmailCreationService
         {
             case OrderState.Accepted:
                 string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
-                return CreateEmail(client.Email, "OrderAccept", order, new { client.Name, PaymentLink = paymentLink });
+                return CreateEmail(client.Email, "OrderConfirm", order, new { client.Name, PaymentLink = paymentLink, Workdays = offerDto.Workdays });
             case OrderState.Rejected:
                 return CreateEmail(client.Email, "OrderReject", order, new { client.Name, Message = message });
             case OrderState.Completed:
@@ -49,6 +52,11 @@ public class EmailCreationService
         }
         emailContent.OrderNumber = order?.Number;
         emailContent.OrderLink = link;
+        if (order?.State == OrderState.Submitted)
+        {
+            emailContent.EurPrice = order.EurPrice;
+            emailContent.UsdPrice = order.UsdPrice;
+        }
         var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent);
         var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);
         var email = new Email(toEmail, emailContent.Title, text, html);
