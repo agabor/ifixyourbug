@@ -168,19 +168,18 @@ export const messages = {
       },
     //ContactForm
       contact: {
-        title: 'Contact us',
+        title: 'Contact me',
         subTitle: "For further questions, including partnership opportunities, please email gabor{'@'}ifixyourbug.com or contact using our contact form.",
         fullName: 'Full Name',
         email: 'Email',
         emailPlaceholder: "info{'@'}codesharp.hu",
-        howCanWeHelp: 'How can we help you?',
-        problemDes: 'Describe your problem in at least 250 characters',
-        sendMessage: 'Send Message',
-        createAccount: 'You are not currently logged in. If you send the message, we will create your account.'
+        howCanWeHelp: 'How can I help you?',
+        problemDes: 'Please type ypur message here.',
+        sendMessage: 'Send Message'
       },
       contactSuccess: {
         title: 'Thank you!',
-        subTitle: 'We will contact you shortly via email.',
+        subTitle: 'I will contact you shortly via email.',
         backToHome: 'Bact to home',
       },
     //ContactMessages
@@ -253,7 +252,7 @@ export const messages = {
     //NewOrderView
       order: {
         email: 'Email',
-        emailDes: 'We will email you a magic code for a password-free sign in.',
+        emailDes: 'I will email you a magic code for a password-free sign in.',
         submit: 'Submit',
         name: 'Name',
         nameDes: 'Enter your name.',
@@ -262,7 +261,7 @@ export const messages = {
         orderDataDes: 'Enter data from your app.',
         emailExample: "email{'@'}example.com",
         successfulOrder: 'Successful order',
-        successfulOrderDes: 'We will contact you shortly via email.',
+        successfulOrderDes: 'I will contact you shortly via email.',
         backToHome: 'Bact to home',
       },
     //NewOrderForm
@@ -297,7 +296,7 @@ export const messages = {
     //2FA
       authentication: {
         title: 'Check your email for a code',
-        subTitle: 'We have sent a 6-character code to <b>{email}</b>. The code expires shortly, so please enter it soon.',
+        subTitle: 'I have sent a 6-character code to <b>{email}</b>. The code expires shortly, so please enter it soon.',
         buttonText: 'Check',
         cancel: 'Cancel'
       },
@@ -381,7 +380,7 @@ export const messages = {
         paidTitle: 'Already Paid!',
         paidSubTitle: 'Thank you for choosing us.',
         order: 'Order',
-        payDescription: 'Please pay so we can start work as soon as possible.',
+        payDescription: 'Please choose the currency you would like to pay.',
         pay: 'Pay',
         loading: 'loading',
         checkoutLink: 'Checkout link expired.',
@@ -392,7 +391,7 @@ export const messages = {
     //CookieModal
       cookie: {
         title: "Cookies!",
-        subtitle: "We use cookies to make your experience better",
+        subtitle: "I use cookies to make your experience better",
         analytics: "Analytics",
         advertisement: "Advertisement",
         accept: "Accept",

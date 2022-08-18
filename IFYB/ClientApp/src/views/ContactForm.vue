@@ -37,7 +37,6 @@
                 <div class="col-md-12 d-flex justify-content-center mt-3">
                   <one-click-btn v-model:active="activeBtn" :text="$t('contact.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmitMessage()"></one-click-btn>
                 </div>
-                <span class="text-danger text-center" v-if="!isLoggedIn"><em><small>{{ $t('contact.createAccount') }}</small></em></span>
               </div>
             </div>
           </div>
