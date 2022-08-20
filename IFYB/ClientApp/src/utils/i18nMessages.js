@@ -51,7 +51,7 @@ export const messages = {
     //HomeView
       mainCard: {
         title: 'I Fix Your Bug',
-        description: 'ASP.NET Core and Vue.js bugfixing service. For when you need a second pair of eyes.',
+        description: 'ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes.',
         pricing: 'Pricing',
         contact: 'Contact',
         asp: 'ASP.NET Core',
@@ -59,7 +59,7 @@ export const messages = {
       },
       features: {
         fast: 'Fast',
-        fastDescription: 'Bugfixing within 3 workdays.',
+        fastDescription: 'Bug fixing within 3 workdays.',
         fixPrice: 'Fix Price',
         fixPriceDescription: 'Does not matter if it takes half an hour or multiple days.',
         easy: 'Easy submission',
@@ -80,7 +80,7 @@ export const messages = {
         mainTitle: 'Best no-tricks pricing',
         mainSubTitle: 'Fix price for all bugs.',
         title: 'Single Bugfix',
-        description: 'ASP.NET Core and Vue.js bugfixing within {workdays} workdays',
+        description: 'ASP.NET Core and Vue.js bug fixing within {workdays} workdays',
         whatsincluded: 'What’s included',
         include1: 'ASP.NET Core',
         include2: 'Vue.js',
