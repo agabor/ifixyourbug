@@ -169,10 +169,10 @@ export const messages = {
     //ContactForm
       contact: {
         title: 'Contact me',
-        subTitle: "For further questions, including partnership opportunities, please email gabor{'@'}ifixyourbug.com or contact using our contact form.",
-        fullName: 'Full Name',
+        subTitle: "For further questions, please contact me at <b>gabor{'@'}ifixyourbug.com</b> or using this contact form.",
+        name: 'Name',
         email: 'Email',
-        emailPlaceholder: "info{'@'}codesharp.hu",
+        emailPlaceholder: "yourname{'@'}domain.com",
         howCanWeHelp: 'How can I help you?',
         problemDes: 'Please type ypur message here.',
         sendMessage: 'Send Message'

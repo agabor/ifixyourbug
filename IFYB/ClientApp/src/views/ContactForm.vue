@@ -9,14 +9,14 @@
           <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
             <div class="text-center">
               <h3>{{ $t('contact.title') }}</h3>
-              <p class="mb-0">{{ $t('contact.subTitle') }}</p>
+              <p class="mb-0" v-html="$t('contact.subTitle')"></p>
             </div>
             <div class="card-body pb-2">
               <div class="row">
                 <div class="col-md-6">
-                  <label>{{ $t('contact.fullName') }}</label>
+                  <label>{{ $t('contact.name') }}</label>
                   <div class="input-group mb-4">
-                    <input id="name-input" class="form-control" :placeholder="$t('contact.fullName')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
+                    <input id="name-input" class="form-control" :placeholder="$t('contact.name')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
                   </div>
                 </div>
                 <div class="col-md-6 ps-md-2">
