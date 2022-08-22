@@ -16,7 +16,7 @@
     </div>
   </form>
   <div class="d-flex justify-content-center my-4">
-    <one-click-btn v-model:active="activeBtn" :text="$t('newOrder.submit')" class="bg-gradient-primary mx-2" @click="trySubmitOrder"></one-click-btn>
+    <one-click-btn v-model:active="activeBtn" :text="$t('newOrder.update')" class="bg-gradient-primary mx-2" @click="tryUpdateOrder"></one-click-btn>
     <div class="text-center">
       <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('newOrder.cancel') }}</button>
     </div>
@@ -45,31 +45,21 @@ import OneClickBtn from './OneClickBtn.vue';
 export default {
   name: 'NewOrderForm',
   components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
-  /*props: {
-    gitAccesses: Array
-  },*/
-  emits: ['toSuccessPage'],
-  setup(props, context) {
+  props: {
+    updateableOrder: Object,
+  },
+  setup(props) {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
     const { get } = useUserAuthentication();
-    const order = reactive({
-      framework: null,
-      version: null,
-      applicationUrl: null,
-      specificPlatform: null,
-      specificPlatformVersion: null,
-      thirdPartyTool: null,
-      bugDescription: '',
-      accessMode: null,
-      repoUrl: null,
-      selectedAccess: {}
-    });
+    const order = reactive(props.updateableOrder);
     const selectedAccess = ref({});
     const showErrors = ref(false);
     const activeBtn = ref(true);
     const progress = ref(0);
     const gitAccesses = ref([]);
+
+    setGitAccess();
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -81,16 +71,15 @@ export default {
       }
     })
 
-    if(localStorage.getItem('order')){
-      let tempOrder = JSON.parse(localStorage.getItem('order'));
-      selectedAccess.value = tempOrder.selectedAccess;
-      Object.assign(order, tempOrder);
+    async function setGitAccess() {
+      let response = await get(`/api/git-accesses/${props.updateableOrder.gitAccessId}`);
+      if(response.status == 200) {
+        resetServerError();
+        selectedAccess.value = await response.json();
+      } else {
+        setServerError(response.statusText);
+      }
     }
-
-    watch(order, () => {
-      order.selectedAccess = selectedAccess.value;
-      localStorage.setItem('order', JSON.stringify(order))
-    })
 
     setGitAccesses();
 
@@ -105,69 +94,22 @@ export default {
     }
     
     function cancelSubmit() {
-      router.push('/');
+      router.push('/my-orders');
     }
 
-    function trySubmitOrder() {
+    function tryUpdateOrder() {
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
       } else {
         progress.value = 30;
-        submitOrder();
+        updateOrder();
         progress.value = 100;
       }
     }
 
-    async function submitOrder() {
-      let orderResponse = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          'framework': order.framework,
-          'version': order.version,
-          'applicationUrl': order.applicationUrl,
-          'specificPlatform': order.specificPlatform,
-          'specificPlatformVersion': order.specificPlatformVersion,
-          'thirdPartyTool': order.thirdPartyTool,
-          'bugDescription': order.bugDescription,
-          'gitAccessId': await getGitAccessId()
-        })
-      });
-      if(orderResponse.status == 200) {
-        resetServerError();
-        localStorage.removeItem('order');
-        context.emit('toSuccessPage');
-      } else {
-        progress.value = 0;
-        setServerError(orderResponse.statusText);
-      }
-    }
-
-    async function getGitAccessId() {
-      let gitAccessId;
-      if(selectedAccess.value.id != undefined){
-        gitAccessId = selectedAccess.value.id;
-      } else {
-        let response = await fetch('/api/git-accesses', {
-          method: 'POST',
-          headers: {
-            'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({'url': order.repoUrl, 'accessMode': order.accessMode})
-        });
-        if(response.status == 200) {
-          resetServerError();
-          gitAccessId = (await response.json()).id;
-        } else {
-          setServerError(response.statusText);
-        }
-      }
-      return gitAccessId;
+    async function updateOrder() {
+      console.log('update');
     }
 
     watch(() => order.framework, () => {
@@ -176,7 +118,7 @@ export default {
       order.specificPlatformVersion = null;
     });
 
-    return { showErrors, order, selectedAccess, gitAccesses, activeBtn, progress, trySubmitOrder, cancelSubmit }
+    return { showErrors, order, selectedAccess, gitAccesses, activeBtn, progress, tryUpdateOrder, cancelSubmit }
   }
 }
 </script>

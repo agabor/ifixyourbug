@@ -269,6 +269,7 @@ export const messages = {
       newOrder: {
         submit: 'Submit',
         cancel: 'Cancel',
+        update: 'Update',
         bugDescription: 'Bug description',
       },
     //OrderViewer

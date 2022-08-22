@@ -20,7 +20,8 @@
               <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 7">{{ $t('orderList.revised') }}</div>
             </div>
-            <form>
+            <update-order-form v-if="order.state == 7" :updateableOrder="editableOrder"></update-order-form>
+            <form v-else>
               <div class="text-start">
                 <div class="row mb-3">
                   <select-framework :modelValue="order.framework" :editable="false" :showError="false"></select-framework>
@@ -60,11 +61,12 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
+import UpdateOrderForm from './UpdateOrderForm.vue';
 import { useServerError, useUserAuthentication } from "../store";
 
 export default {
   name: 'OrderViewer',
-  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool },
+  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm },
   props: {
     order: Object,
   },
@@ -73,6 +75,7 @@ export default {
     const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const gitAccess = ref(null);
+    const editableOrder = ref(props.order);
 
     setGitAccess();
 
@@ -86,7 +89,7 @@ export default {
       }
     }
 
-    return { gitAccess }
+    return { gitAccess, editableOrder }
   }
 }
 </script>
