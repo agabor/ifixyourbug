@@ -1,0 +1,17 @@
+{
+    "title": "Revised order",
+    "content": [
+        {
+            "type": "header",
+            "text": "Your order has been revised"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I am sorry to inform you, that I found error in your order. The error is the following:"
+        },
+        {
+            "type": "quote",
+            "text": "{{message}}"
+        }
+    ]
+}

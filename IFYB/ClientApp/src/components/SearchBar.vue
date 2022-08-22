@@ -54,6 +54,9 @@ export default {
                 case '6':
                   element = tm('orderList.canceled');
                   break;
+                case '7':
+                  element = tm('orderList.revised');
+                  break;
                 default:
                   element = tm('orderList.submitted');
               }

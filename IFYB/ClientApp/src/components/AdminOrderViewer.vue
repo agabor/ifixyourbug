@@ -20,6 +20,7 @@
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 7">{{ $t('orderList.revised') }}</div>
               <div class="d-flex align-items-center justify-content-center flex-wrap" v-if="order.state == 0">
                 <div class="text-center mx-1">
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1, false)">{{ $t('orderViewer.accept') }}</button>
@@ -29,6 +30,9 @@
                 </div>
                 <div class="text-center mx-1">
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, true)">{{ $t('orderViewer.rejectWithMessage') }}</button>
+                </div>
+                <div class="text-center mx-1">
+                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 7, true)">{{ $t('orderViewer.revised') }}</button>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center flex-wrap" v-if="order.state == 1">

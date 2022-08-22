@@ -18,6 +18,7 @@
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-success" v-else-if="order.state == 4">{{ $t('orderList.completed') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-warning" v-else-if="order.state == 5">{{ $t('orderList.refundable') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</div>
+              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 7">{{ $t('orderList.revised') }}</div>
             </div>
             <form>
               <div class="text-start">

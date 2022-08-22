@@ -240,6 +240,7 @@ export const messages = {
         completed: 'Completed',
         refundable: 'Refundable',
         canceled: 'Canceled',
+        revised: 'Revised',
         addNewOrder: 'Add new order',
         details: 'Details'
       },
@@ -277,6 +278,7 @@ export const messages = {
       accept: 'Accept',
       reject: 'Reject',
       rejectWithMessage: 'Reject with message',
+      revised: 'Revised',
       pay: 'Pay',
       submitted: 'Submitted',
       accepted: 'Accepted',
