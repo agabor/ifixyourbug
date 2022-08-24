@@ -91,4 +91,29 @@ public class OrdersController : BaseController
         emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
         return Ok(new IdDto(order.Id));
     }
+
+    [HttpPost]
+    [Produces(typeof(OrderState))]
+    [Route("{number}/update")]
+    public IActionResult UpdateOrder([FromBody] OrderDto dto, int number) {
+        var client = GetClient();
+        if (client == null)
+            return NotFound();
+        dbContext.Entry(client).Collection(c => c.Orders).Load();
+        var order = client.Orders!.FirstOrDefault(o => o.Number == number);
+        if (order == null)
+            return NotFound();
+        order.Framework = dto.Framework;
+        order.Version = dto.Version;
+        order.ApplicationUrl = dto.ApplicationUrl;
+        order.SpecificPlatform = dto.SpecificPlatform;
+        order.SpecificPlatformVersion = dto.SpecificPlatformVersion;
+        order.ThirdPartyTool = dto.ThirdPartyTool;
+        order.BugDescription = dto.BugDescription;
+        order.State = OrderState.Submitted;
+        order.GitAccessId = dto.GitAccessId;
+        dbContext.SaveChanges();
+        emailDispatchService.DispatchEmail(client.Email, "OrderUpdate", order, new { client.Name });
+        return Ok(order.State);
+    }
 }

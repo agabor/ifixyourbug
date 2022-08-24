@@ -1,0 +1,13 @@
+{
+    "title": "Thank you for your order update",
+    "content": [
+        {
+            "type": "header",
+            "text": "Thank you for your order update!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>Thank you for your order update. I will review your submission, and contact you as soon as possible."
+        }
+    ]
+}

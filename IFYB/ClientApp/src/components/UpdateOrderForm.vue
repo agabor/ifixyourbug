@@ -16,9 +16,9 @@
     </div>
   </form>
   <div class="d-flex justify-content-center my-4">
-    <one-click-btn v-model:active="activeBtn" :text="$t('newOrder.update')" class="bg-gradient-primary mx-2" @click="tryUpdateOrder"></one-click-btn>
+    <one-click-btn v-model:active="activeBtn" :text="$t('updateOrder.update')" class="bg-gradient-primary mx-2" @click="tryUpdateOrder"></one-click-btn>
     <div class="text-center">
-      <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('newOrder.cancel') }}</button>
+      <button type="button" class="btn btn-outline-secondary mx-2" @click="cancelSubmit">{{ $t('updateOrder.cancel') }}</button>
     </div>
   </div>
   <div class="progress">
@@ -48,10 +48,11 @@ export default {
   props: {
     updateableOrder: Object,
   },
-  setup(props) {
+  emits: ['updated'],
+  setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
-    const { get } = useUserAuthentication();
+    const { get, post } = useUserAuthentication();
     const order = reactive(props.updateableOrder);
     const selectedAccess = ref({});
     const showErrors = ref(false);
@@ -109,7 +110,42 @@ export default {
     }
 
     async function updateOrder() {
-      console.log('update');
+      let response = await post(`/api/orders/${order.number}/update`,
+        {
+          'framework': order.framework,
+          'version': order.version,
+          'applicationUrl': order.applicationUrl,
+          'specificPlatform': order.specificPlatform,
+          'specificPlatformVersion': order.specificPlatformVersion,
+          'thirdPartyTool': order.thirdPartyTool,
+          'bugDescription': order.bugDescription,
+          'gitAccessId': await getGitAccessId()
+        }
+      );
+      if(response.status == 200) {
+        resetServerError();
+        context.emit('updated', await response.json())
+      } else {
+        setServerError(response.statusText);
+      }
+    }
+
+
+    async function getGitAccessId() {
+      let gitAccessId;
+      if(selectedAccess.value.id != undefined){
+        gitAccessId = selectedAccess.value.id;
+      } else {
+
+      let response = await post(`/api/git-accesses`, {'url': order.repoUrl, 'accessMode': order.accessMode});
+        if(response.status == 200) {
+          resetServerError();
+          gitAccessId = (await response.json()).id;
+        } else {
+          setServerError(response.statusText);
+        }
+      }
+      return gitAccessId;
     }
 
     watch(() => order.framework, () => {

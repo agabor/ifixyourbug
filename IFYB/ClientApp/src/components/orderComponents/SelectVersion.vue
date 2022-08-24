@@ -36,10 +36,10 @@ export default {
 
     setInputError('version', required(version.value, tm('errors.requiredVersion')));
 
-
-    watch(() => [props.versions], () => {
-      version.value = undefined;
+    watch(() => [props.framework], () => {
+      version.value = null;
     })
+
     watch(version, () => {
       context.emit('update:modelValue', version.value);
       setInputError('version', required(version.value, tm('errors.requiredVersion')));

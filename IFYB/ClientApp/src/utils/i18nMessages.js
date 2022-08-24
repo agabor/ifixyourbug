@@ -269,8 +269,11 @@ export const messages = {
       newOrder: {
         submit: 'Submit',
         cancel: 'Cancel',
+      },
+    //UpdateOrder
+      updateOrder: {
         update: 'Update',
-        bugDescription: 'Bug description',
+        cancel: 'Cancel',
       },
     //OrderViewer
     orderViewer: {
@@ -290,6 +293,7 @@ export const messages = {
       canceled: 'Canceled',
       name: 'Name',
       email: 'Email',
+      bugDescription: 'Bug description',
     },
     //OrderMessages
     orderMessages: {

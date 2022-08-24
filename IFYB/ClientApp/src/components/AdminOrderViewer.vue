@@ -74,7 +74,7 @@
                 <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="col-md-12 mb-3">
                   <div class="form-group mb-0">
-                    <label>{{ $t('newOrder.bugDescription') }}*</label>
+                    <label>{{ $t('orderViewer.bugDescription') }}*</label>
                     <text-viewer :value="order.bugDescription"></text-viewer>
                   </div>
                 </div>

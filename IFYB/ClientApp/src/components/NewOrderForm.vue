@@ -52,7 +52,7 @@ export default {
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
-    const { get } = useUserAuthentication();
+    const { get, post } = useUserAuthentication();
     const order = reactive({
       framework: null,
       version: null,
@@ -120,13 +120,9 @@ export default {
     }
 
     async function submitOrder() {
-      let orderResponse = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+
+      let orderResponse = await post('/api/orders',
+        {
           'framework': order.framework,
           'version': order.version,
           'applicationUrl': order.applicationUrl,
@@ -135,8 +131,8 @@ export default {
           'thirdPartyTool': order.thirdPartyTool,
           'bugDescription': order.bugDescription,
           'gitAccessId': await getGitAccessId()
-        })
-      });
+        }
+      );
       if(orderResponse.status == 200) {
         resetServerError();
         localStorage.removeItem('order');
@@ -152,14 +148,7 @@ export default {
       if(selectedAccess.value.id != undefined){
         gitAccessId = selectedAccess.value.id;
       } else {
-        let response = await fetch('/api/git-accesses', {
-          method: 'POST',
-          headers: {
-            'Authorization': `bearer ${localStorage.getItem('jwt')}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({'url': order.repoUrl, 'accessMode': order.accessMode})
-        });
+        let response = await post(`/api/git-accesses`, {'url': order.repoUrl, 'accessMode': order.accessMode});
         if(response.status == 200) {
           resetServerError();
           gitAccessId = (await response.json()).id;

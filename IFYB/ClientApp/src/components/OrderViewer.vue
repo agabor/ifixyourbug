@@ -20,7 +20,7 @@
               <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 6">{{ $t('orderList.canceled') }}</div>
               <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 7">{{ $t('orderList.revised') }}</div>
             </div>
-            <update-order-form v-if="order.state == 7" :updateableOrder="editableOrder"></update-order-form>
+            <update-order-form v-if="editableOrder.state == 7" :updateableOrder="editableOrder" @updated="updatedOrder"></update-order-form>
             <form v-else>
               <div class="text-start">
                 <div class="row mb-3">
@@ -33,7 +33,7 @@
                 <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="row mb-3">
                   <div class="col-12 form-group mb-0">
-                    <label>{{ $t('newOrder.bugDescription') }}*</label>
+                    <label>{{ $t('orderViewer.bugDescription') }}*</label>
                     <text-viewer :value="order.bugDescription"></text-viewer>
                   </div>
                 </div>
@@ -89,7 +89,11 @@ export default {
       }
     }
 
-    return { gitAccess, editableOrder }
+    function updatedOrder(state) {
+      editableOrder.value.state = state;
+    }
+
+    return { gitAccess, editableOrder, updatedOrder }
   }
 }
 </script>
