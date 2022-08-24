@@ -14,7 +14,8 @@ import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
 import { useServerError, useAdminAuthentication } from "../store";
-import router from '../router'
+import router from '../router';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'AdminAuthenticationView',
@@ -39,6 +40,7 @@ export default {
         },
         body: JSON.stringify({'email': email})
       });
+      event('set-email', { 'value': response.status });
       progress.value = 100;
       if(response.status == 200) {
         resetServerError();
@@ -69,6 +71,7 @@ export default {
         },
         body: JSON.stringify({'adminId': adminId, 'password': code})
       });
+      event('admin-authentication', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         error.value = null;
@@ -90,6 +93,7 @@ export default {
     }
 
     function cancelLogin() {
+      event('cancel-login');
       activeBtn.value = true;
       progress.value = 0;
       error.value = null;

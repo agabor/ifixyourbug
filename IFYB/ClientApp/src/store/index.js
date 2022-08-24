@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { event } from 'vue-gtag';
 
 const eurPrice = ref(null);
 const usdPrice = ref(null);
@@ -84,6 +85,7 @@ const userEmail = ref(null);
 setUserJwt(localStorage.getItem('jwt'));
 
 async function setUserJwt(jwt) {
+  event('set-jwt', { 'value': jwt });
   userJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('jwt', jwt);
@@ -111,6 +113,7 @@ async function setUserData () {
 
 async function setName(name) {
   let response = await userPost('/api/clients/name', {'name': name});
+  event('set-name', { 'value': response.status });
   if(response.status == 200) {
     resetServerError();
     userName.value = name;
@@ -148,6 +151,7 @@ const isAdminLoggedIn = ref(false);
 setAdminJwt(localStorage.getItem('adminJwt'));
 
 function setAdminJwt(jwt) {
+  event('set-admin-jwt', { 'value': jwt });
   adminJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('adminJwt', jwt);
