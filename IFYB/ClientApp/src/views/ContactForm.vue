@@ -71,6 +71,7 @@ import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useServerError, useUserAuthentication } from "../store";
 import OneClickBtn from '@/components/OneClickBtn.vue';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'ContactForm',
@@ -102,7 +103,8 @@ export default {
     }
 
     function trySubmitMessage() {
-      let err =  getFormError();
+      event('try-submit-message');
+      let err = getFormError();
       if(err) {
         error.value = err;
         activeBtn.value = true;
@@ -119,6 +121,7 @@ export default {
         },
         body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
       });
+      event('submit-message', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         page.value = 'success';
