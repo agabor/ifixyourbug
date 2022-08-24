@@ -17,6 +17,7 @@ import { useServerError, useUserAuthentication } from "../store";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import router from '@/router';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'OrderView',
@@ -32,13 +33,14 @@ export default {
     setSelectedOrder();
 
     async function setSelectedOrder() {
-      let orderResponse = await get(`/api/orders/${route.params.number}`);
-      if(orderResponse.status == 200) {
+      let response = await get(`/api/orders/${route.params.number}`);
+      event('set-selected-order', { 'value': response.status });
+      if(response.status == 200) {
         resetServerError();
-        selectedOrder.value = await orderResponse.json();
+        selectedOrder.value = await response.json();
         setMessages();
       } else {
-        setServerError(orderResponse.statusText);
+        setServerError(response.statusText);
       }
     }
 
@@ -54,6 +56,7 @@ export default {
     }
 
     function closeSelectedOrder() {
+      event('close-selected-order');
       selectedOrder.value = null;
       messages.value = [];
       router.push('/my-orders');
@@ -61,6 +64,7 @@ export default {
 
     async function submitMessage(message) {
       let response = await post(`/api/orders/${selectedOrder.value.number}`, { text: message });
+      event('submit-message', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         let newMessage = await response.json();
