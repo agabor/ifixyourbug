@@ -27,6 +27,7 @@ import ClientList from '../components/ClientList.vue';
 import ContactMessages from '../components/ContactMessages.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useServerError, useAdminAuthentication } from "../store";
+import { event } from 'vue-gtag';
 
 export default {
   name: 'ClientsView',
@@ -54,6 +55,7 @@ export default {
     }
 
     function selectClient(client) {
+      event('admin-select-client', { 'value': client.id });
       selectedClient.value = client;
       setClientsMessages();
     }
