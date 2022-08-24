@@ -39,15 +39,13 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useServerError, useInputError, useUserAuthentication } from "../store";
-import router from '../router'
+import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'NewOrderForm',
   components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
-  /*props: {
-    gitAccesses: Array
-  },*/
   emits: ['toSuccessPage'],
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
@@ -89,7 +87,7 @@ export default {
 
     watch(order, () => {
       order.selectedAccess = selectedAccess.value;
-      localStorage.setItem('order', JSON.stringify(order))
+      localStorage.setItem('order', JSON.stringify(order));
     })
 
     setGitAccesses();
@@ -105,10 +103,12 @@ export default {
     }
     
     function cancelSubmit() {
+      event('cancel-submit-new-order');
       router.push('/');
     }
 
     function trySubmitOrder() {
+      event('try-submit-new-order');
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
@@ -120,8 +120,7 @@ export default {
     }
 
     async function submitOrder() {
-
-      let orderResponse = await post('/api/orders',
+      let response = await post('/api/orders',
         {
           'framework': order.framework,
           'version': order.version,
@@ -133,13 +132,14 @@ export default {
           'gitAccessId': await getGitAccessId()
         }
       );
-      if(orderResponse.status == 200) {
+      event('submit-new-order', { 'value': response.status });
+      if(response.status == 200) {
         resetServerError();
         localStorage.removeItem('order');
         context.emit('toSuccessPage');
       } else {
         progress.value = 0;
-        setServerError(orderResponse.statusText);
+        setServerError(response.statusText);
       }
     }
 
