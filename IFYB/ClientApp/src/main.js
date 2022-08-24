@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import { createI18n } from 'vue-i18n'
 import { messages } from './utils/i18nMessages'
+import VueGtag from "vue-gtag";
 
 const i18n = createI18n({
   locale: 'en',
@@ -39,7 +40,7 @@ app.config.globalProperties.$filters = {
   },
 }
 
-app.use(router).use(i18n).mount('#app');
+app.use(router).use(i18n).use(VueGtag, {config: { id: "G-TX7L6QHPS3" }}).mount('#app');
 
 function reportError(obj) {
   fetch('api/errors', {
