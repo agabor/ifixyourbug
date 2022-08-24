@@ -151,7 +151,7 @@ const isAdminLoggedIn = ref(false);
 setAdminJwt(localStorage.getItem('adminJwt'));
 
 function setAdminJwt(jwt) {
-  event('set-admin-jwt', { 'value': jwt });
+  event('admin-set-jwt', { 'value': jwt });
   adminJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('adminJwt', jwt);

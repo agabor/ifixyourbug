@@ -40,7 +40,7 @@ export default {
         },
         body: JSON.stringify({'email': email})
       });
-      event('set-email', { 'value': response.status });
+      event('admin-set-email', { 'value': response.status });
       progress.value = 100;
       if(response.status == 200) {
         resetServerError();
@@ -93,7 +93,7 @@ export default {
     }
 
     function cancelLogin() {
-      event('cancel-login');
+      event('admin-cancel-login');
       activeBtn.value = true;
       progress.value = 0;
       error.value = null;
