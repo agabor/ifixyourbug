@@ -44,6 +44,7 @@
 
 <script>
 import { ref } from 'vue';
+import { event, optIn, optOut } from 'vue-gtag';
 
 export default {
   name: "CookieModal",
@@ -61,12 +62,16 @@ export default {
     }
 
     function acceptCookies() {
+      optIn();
+      event('save-cookies', { 'value': { analytics: true, advertisement: true } });
       localStorage.setItem('cookieConsentAnswered', true);
       localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: true, advertisement: true }));
       cookieConsentAnswered.value = true;
     }
 
     function rejectAllCookies() {
+      optOut();
+      event('save-cookies', { 'value': { analytics: false, advertisement: false } });
       analytics.value = false;
       advertisement.value = false;
     }
@@ -81,6 +86,12 @@ export default {
     }
 
     function save() {
+      if(analytics.value) {
+        optIn();
+      } else {
+        optOut();
+      }
+      event('save-cookies', { 'value': { analytics: analytics.value, advertisement: advertisement.value } });
       localStorage.setItem('cookieConsentAnswered', true);
       localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: analytics.value, advertisement: advertisement.value }));
       cookieConsentAnswered.value = true;

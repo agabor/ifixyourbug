@@ -40,7 +40,10 @@ app.config.globalProperties.$filters = {
   },
 }
 
-app.use(router).use(i18n).use(VueGtag, {config: { id: "G-TX7L6QHPS3" }}).mount('#app');
+app.use(router).use(i18n).use(VueGtag, {
+  config: { id: "G-TX7L6QHPS3" },
+  enabled: JSON.parse(localStorage.getItem('acceptedCookies'))?.analytics ? JSON.parse(localStorage.getItem('acceptedCookies')).analytics : false
+}).mount('#app');
 
 function reportError(obj) {
   fetch('api/errors', {
