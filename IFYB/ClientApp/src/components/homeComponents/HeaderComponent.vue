@@ -26,10 +26,13 @@
 </template>
 
 <script>
+import { event } from 'vue-gtag';
+
 export default {
   name: 'HeaderComponent',
   setup() {
     function toPricing() {
+      event('scroll-to-pricing');
       document.getElementById('pricing').scrollIntoView();
     }
 
