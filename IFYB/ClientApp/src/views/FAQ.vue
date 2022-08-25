@@ -14,7 +14,7 @@
             <div class="accordion" id="accordionFaq2">
               <div class="accordion-item" v-for="n in faqOrders" :key="n">
                 <h6 class="accordion-header" :id="`headingSettings${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseSettings${n}`" aria-expanded="false" :aria-controls="`collapseSettings${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqOrders.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseSettings${n}`" aria-expanded="false" :aria-controls="`collapseSettings${n}`">
                     {{ $t(`faqOrders.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -28,7 +28,7 @@
             <div class="accordion" id="accordionFaq3">
               <div class="accordion-item" v-for="n in faqRepos" :key="n">
                 <h6 class="accordion-header" :id="`headingSettings${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${n}`" aria-expanded="false" :aria-controls="`collapseRepos${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqRepos.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${n}`" aria-expanded="false" :aria-controls="`collapseRepos${n}`">
                     {{ $t(`faqRepos.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -46,7 +46,7 @@
             <div class="accordion" id="accordionFaq4">
               <div class="accordion-item" v-for="n in faqRefunds" :key="n">
                 <h6 class="accordion-header" :id="`headingLicenses${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqRefunds.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
                     {{ $t(`faqRefunds.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -60,7 +60,7 @@
             <div class="accordion" id="accordionFaq">
               <div class="accordion-item" v-for="n in faqSecurityCount" :key="n">
                 <h6 class="accordion-header" :id="`headingBasics${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqSecurity.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
                     {{ $t(`faqSecurity.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -79,7 +79,9 @@
 
 
 <script>
-import SshKeyPreview from '@/components/SshKeyPreview.vue'
+import SshKeyPreview from '@/components/SshKeyPreview.vue';
+import { event } from 'vue-gtag';
+
 export default {
   components: {SshKeyPreview},
   setup() {
@@ -87,7 +89,12 @@ export default {
     const faqOrders = 3;
     const faqRepos = 4;
     const faqRefunds = 1;
-    return { faqSecurityCount, faqOrders, faqRepos, faqRefunds };
+
+    function clickAccordion(text) {
+      event('click-accordion', { 'value': text });
+    }
+
+    return { faqSecurityCount, faqOrders, faqRepos, faqRefunds, clickAccordion };
   }
 }
 </script>
