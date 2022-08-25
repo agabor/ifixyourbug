@@ -18,6 +18,7 @@ import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
 import CheckoutFailureView from '../views/CheckoutFailureView.vue';
 import CheckoutPaidView from '../views/CheckoutPaidView.vue';
 import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError } from '@/store';
+import { event } from 'vue-gtag';
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
@@ -171,6 +172,7 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
+  event(`navigate-to-${to.name}`);
   resetServerError();
     if(to.params.number)
       document.title = `I Fix Your Bug - #${to.params.number}`;
