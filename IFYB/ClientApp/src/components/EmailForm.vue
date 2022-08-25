@@ -65,7 +65,7 @@ export default {
     }
 
     function toPrivacyPolicy() {
-      event('navigate-to-privacy-policy');
+      event('navigate', {'value': 'privacy-policy'});
       window.open('/privacy-policy', '_blank');
     }
 

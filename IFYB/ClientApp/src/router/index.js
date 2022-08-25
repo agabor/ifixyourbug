@@ -172,7 +172,7 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  event(`navigate-to-${to.name}`);
+  event('navigate', {'value': to.name});
   resetServerError();
     if(to.params.number)
       document.title = `I Fix Your Bug - #${to.params.number}`;

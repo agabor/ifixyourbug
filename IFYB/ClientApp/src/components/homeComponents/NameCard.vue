@@ -14,10 +14,10 @@
           </div>
           <div class="row mb-4">
             <div class="col-auto">
-              <a href="https://github.com/agabor" target="_blank" @click="$event('navigate-to-github')"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
+              <a href="https://github.com/agabor" target="_blank" @click="$event('navigate', {'value': 'github'})"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
             </div>
             <div class="col-auto">
-              <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate-to-stackoverflow')"><i class="fab fa-stack-overflow" aria-hidden="true"></i> Stack Overflow</a>
+              <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate', {'value': 'stackoverflow'})"><i class="fab fa-stack-overflow" aria-hidden="true"></i> Stack Overflow</a>
             </div>
           </div>
           <p class="text-lg mb-0">
