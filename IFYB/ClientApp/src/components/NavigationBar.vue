@@ -4,7 +4,7 @@
       <a class="navbar-brand font-weight-bolder cursor-pointer ms-sm-3" @click="isAdminLoggedIn ? $router.push('/admin') : $router.push('/')" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
         {{ $t('navigationBar.projectName') }}
       </a>
-      <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
+      <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="toLogin" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
       <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="logout" v-else>{{ $t('navigationBar.logout') }}</a>
       <button class="navbar-toggler shadow-none ms-md-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
@@ -48,7 +48,7 @@
         </ul>
         <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
-            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="$router.push('/authentication')" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
+            <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="toLogin" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
             <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1" @click="logout" v-else>{{ $t('navigationBar.logout') }}</a>
           </li>
         </ul>
@@ -61,6 +61,7 @@
 import router from '../router';
 import { computed } from "@vue/reactivity";
 import { useUserAuthentication, useAdminAuthentication } from "../store";
+import { event } from 'vue-gtag';
 
 export default {
   name: 'NavigationBar',
@@ -69,7 +70,13 @@ export default {
     const adminAuth = useAdminAuthentication();
     const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
 
+    function toLogin() {
+      event('login');
+      router.push('/authentication')
+    }
+
     function logout() {
+      event('logout');
       userAuth.setJwt(null);
       adminAuth.setJwt(null);
       userAuth.requestedPage.value = null;
@@ -77,7 +84,7 @@ export default {
       router.push('/authentication');
     }
 
-    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': userAuth.name, 'email': userAuth.email }
+    return { toLogin, logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': userAuth.name, 'email': userAuth.email }
   }
 }
 </script>
