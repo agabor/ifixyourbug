@@ -39,8 +39,9 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useServerError, useInputError, useUserAuthentication } from "../store";
-import router from '../router'
+import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'NewOrderForm',
@@ -95,10 +96,12 @@ export default {
     }
     
     function cancelSubmit() {
+      event('cancel-submit-update-order');
       router.push('/my-orders');
     }
 
     function tryUpdateOrder() {
+      event('try-submit-update-order');
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
@@ -122,6 +125,7 @@ export default {
           'gitAccessId': await getGitAccessId()
         }
       );
+      event('submit-update-order', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         context.emit('updated', await response.json())
