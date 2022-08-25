@@ -15,6 +15,7 @@
 import { ref, watch } from 'vue'
 import { useI18n } from "vue-i18n";
 import { useInputError } from "../../store";
+import { event } from 'vue-gtag';
 
 export default {
   name: 'AcceptTerms',
@@ -29,6 +30,7 @@ export default {
     setInputError('acceptTerms', isChecked.value ? null : tm('errors.acceptTerms'));
 
     watch(isChecked, () => {
+      event('set-order-accept-terms', { 'value': isChecked });
       if (isChecked.value) {
         setInputError('acceptTerms', null);
       } else {
@@ -37,6 +39,7 @@ export default {
     });
 
     function toTerms() {
+      event('navigate-to-terms-and-conditions');
       window.open('/terms-and-conditions', '_blank');
     }
 
