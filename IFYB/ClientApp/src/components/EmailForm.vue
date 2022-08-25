@@ -25,6 +25,7 @@ import { validEmail } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'EmailForm',
@@ -51,6 +52,7 @@ export default {
     })
 
     function trySubmitEmail() {
+      event('try-set-email');
       let err = validEmail(email.value);
       if(err) {
         validationError.value = tm(err);
@@ -63,6 +65,7 @@ export default {
     }
 
     function toPrivacyPolicy() {
+      event('navigate-to-privacy-policy');
       window.open('/privacy-policy', '_blank');
     }
 
