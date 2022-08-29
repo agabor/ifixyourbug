@@ -85,7 +85,7 @@ export const messages = {
         "orderNow": "Order Now",
         "excludeVat": "The price does not include VAT."
       },
-      "handle": {
+      "workflow": {
         "title1": "How It Works",
         "subTitle": "The process of submitting bugs and receiving fixes is quite straightforward. Here is how it works.",
         "workflowTitle1": "1. Prepare for submission",
@@ -177,39 +177,6 @@ export const messages = {
       "contactMessages": {
         "select": "Select one client",
         "haveNoMessages": "Have no messages"
-      },
-      "otherServices": {
-        "pricing": "Pricing",
-        "title": "See our pricing",
-        "subTitle": "You have Free Unlimited Updates and Premium Support on each package."
-      },
-      "otherCard1": {
-        "title": "Consultation",
-        "price": "199",
-        "element1": "1",
-        "element2": "2",
-        "element3": "3",
-        "element4": "4",
-        "button": "Buy now"
-      },
-      "otherCard2": {
-        "title": "Bug fixing",
-        "price": "299",
-        "element1": "1",
-        "element2": "2",
-        "element3": "3",
-        "element4": "4",
-        "element5": "5",
-        "button": "Try pro"
-      },
-      "otherCard3": {
-        "title": "Code Review",
-        "price": "399",
-        "element1": "1",
-        "element2": "2",
-        "element3": "3",
-        "element4": "4",
-        "button": "Buy now"
       },
       "orderList": {
         "number": "Number",
