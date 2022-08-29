@@ -56,11 +56,11 @@
             Order details: <a target="_blank" href="{{order_link}}">{{order_link}}</a>.
         </p>
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-            If you have any question, you can use the message function on the order details page, or you can simply reply to this e-mail.
+            If you have any questions, you can use the message function on the order details page, or you can simply reply to this e-mail.
         </p>
         {{~ else ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-            If you have any question, you can simply reply to this e-mail.
+            If you have any questions, you can simply reply to this e-mail.
         </p>
         {{~ end ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">

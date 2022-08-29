@@ -7,7 +7,7 @@
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>Thank you for your order update. I will review your submission, and contact you as soon as possible."
+            "text": "Dear {{name}},<br>Thank you for updating your order. I will review your submission, and contact you as soon as possible."
         }
     ]
 }

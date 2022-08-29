@@ -11,7 +11,7 @@
         },
         {
             "type": "content",
-            "text": "Your payment has been refunded with Stripe. Please check your bank account, and contact me if you have any problem with the transaction."
+            "text": "Your payment has been refunded. Please check your bank account, and contact me if you have any problems with the transaction."
         }
     ]
 }

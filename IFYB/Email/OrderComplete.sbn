@@ -7,7 +7,7 @@
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>I am happy to inform you, that I have fixed your bug, please check the pull request on your git reporitory!"
+            "text": "Dear {{name}},<br>I am happy to inform you, that I have fixed your bug, please check the pull request on your git repository!"
         }
     ]
 }

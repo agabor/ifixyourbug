@@ -7,7 +7,7 @@
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br> Thank you for your payment. You will receive your bugfix within 3 workdays. You can find your invoice attached to this e-mail."
+            "text": "Dear {{name}},<br> Thank you for your payment. You will receive your bugfix within {{ workdays }} workdays. You can find your invoice attached to this e-mail."
         }
     ]
 }

@@ -7,7 +7,7 @@
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>I am sorry to inform you, that I found error in your order. The error is the following:"
+            "text": "Dear {{name}},<br>I have made your order editable again, please update it."
         },
         {
             "type": "quote",

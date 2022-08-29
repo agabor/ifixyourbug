@@ -90,7 +90,7 @@ public class BillingService : BackgroundService
                 
                 dbContext.Entry(orderFromScope).Reference(o => o.Client).Load();
                 var client = orderFromScope.Client!;
-                var email = emailCreationService.CreateEmail(client.Email, "OrderPayed", orderFromScope, new { client.Name });
+                var email = emailCreationService.CreateEmail(client.Email, "OrderPayed", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays });
                 email!.File = response.InvoicePdf;
                 email!.FileName = $"{response.InvoiceNumber}.pdf";
                 emailChanel.Writer.TryWrite(email);
