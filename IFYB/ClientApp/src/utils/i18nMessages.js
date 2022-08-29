@@ -97,7 +97,7 @@ export const messages = {
         "workflowTitle4": "4. I attempt to fix your bug",
         "workflowDescription4": "After you make your payment, I have { workdays } workdays to fix your bug.",
         "workflowTitle5": "5. You are notified when the bug is fixed",
-        "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request, and notify you by e-mail.",
+        "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request and notify you by e-mail.",
         "workflowTitle6": "6. If I can not fix the bug, you get a full refund",
         "workflowDescription6": "If I do not succeed in fixing your bug in time, you will automatically receive a full refund.",
         "getStarted": "Get Started"
@@ -172,7 +172,7 @@ export const messages = {
       "contactSuccess": {
         "title": "Thank you!",
         "subTitle": "I will contact you shortly via email.",
-        "backToHome": "Bact to home"
+        "backToHome": "Back to home"
       },
       "contactMessages": {
         "select": "Select one client",
