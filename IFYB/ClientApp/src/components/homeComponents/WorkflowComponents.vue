@@ -15,7 +15,7 @@
       <div class="row mt-5">
         <div class="col-md-4 ms-auto my-auto">
           <div class="card card-background">
-            <img class="full-background fit-cover" src="../../assets/img/bg3.webp" alt="image">
+            <img class="full-background fit-cover" src="../../assets/img/bg2.webp" alt="image">
             <div class="card-body pt-7 pb-6 text-center">
               <i class="ni ni-send mb-3 h3 text-white"></i>
               <p class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('features.easy') }}</p>
@@ -69,7 +69,7 @@
         </div>
         <div class="col-md-4 me-auto my-auto ms-md-5">
           <div class="card card-background">
-            <img class="full-background fit-cover" src="../../assets/img/bg4.webp" alt="image">
+            <img class="full-background fit-cover" src="../../assets/img/bg3.webp" alt="image">
             <div class="card-body pt-7 pb-6 text-center">
               <i class="ni ni-watch-time mb-3 h3 text-white"></i>
               <p class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('features.fast') }}</p>

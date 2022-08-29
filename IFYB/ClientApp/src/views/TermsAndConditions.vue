@@ -181,7 +181,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/bg3.webp');
+  background-image: url('../assets/img/bg2.webp');
   object-fit: cover;
 }
 </style>

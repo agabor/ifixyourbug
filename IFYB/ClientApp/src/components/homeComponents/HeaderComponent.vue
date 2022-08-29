@@ -2,7 +2,7 @@
  <header>
     <div class="page-header min-vh-85">
       <div>
-        <img class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover" src="../../assets/img/bg5.webp" alt="image">
+        <img class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover" src="../../assets/img/bg4.webp" alt="image">
       </div>
       <div class="container">
         <div class="row">

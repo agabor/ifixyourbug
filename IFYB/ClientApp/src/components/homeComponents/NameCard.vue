@@ -37,7 +37,7 @@ export default {
 
 <style>
   .author-header {
-    background-image: url('../../assets/img/bg2.webp');
+    background-image: url('../../assets/img/bg1.webp');
     object-fit: cover;
     position: relative;
     background-size: cover;

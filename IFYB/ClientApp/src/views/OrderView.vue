@@ -84,7 +84,7 @@ export default {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-image: url('../assets/img/bg3.webp');
+  background-image: url('../assets/img/bg2.webp');
   object-fit: cover;
 }
 .carousel-inner {
