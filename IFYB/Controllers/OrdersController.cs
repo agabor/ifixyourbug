@@ -92,6 +92,11 @@ public class OrdersController : BaseController
         order.EurPrice = offer.EurPrice;
         order.UsdPrice = offer.UsdPrice;
         client.Orders!.Add(order);
+        dbContext.SaveChanges();
+        var gitAccess = dbContext.GitAccesses.First(a => a.Id == order.GitAccessId);
+        string? gitUser = null;
+        if (gitAccess.AccessMode == GitAccessMode.SaasInvite) 
+        gitUser =
         emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {

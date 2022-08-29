@@ -8,6 +8,11 @@
         {
             "type": "hero",
             "text": "Dear {{name}},<br>Thank you for your order. I will review your submission, and contact you as soon as possible."
+        }{{ if git_user }},
+        {
+            "type": "content",
+            "text": "Please invite the following user to your git repository: <a href=\"{{git_user}}\">{{git_user}}</a>"
         }
+        {{~ end ~}}
     ]
 }

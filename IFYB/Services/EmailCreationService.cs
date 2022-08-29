@@ -4,6 +4,7 @@ using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.Extensions.Options;
 using Scriban;
+using System.Text;
 
 namespace IFYB.Services;
 public class EmailCreationService
@@ -67,5 +68,22 @@ public class EmailCreationService
         email = dbContext.Emails.Add(email).Entity;
         dbContext.SaveChanges();
         return email;
+    }
+
+    private string RemoveTags(string text)
+    {
+        text = text.Replace("<br>", "\n");
+        bool inTag = false;
+        var builder = new StringBuilder();
+        foreach (char c in text) {
+            if (c == '<') {
+                inTag = true;
+            } else if (c == '>') {
+                inTag = false;
+            } else if (!inTag) {
+                builder.Append(c);
+            }
+        }
+        return builder.ToString();
     }
 }

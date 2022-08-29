@@ -31,6 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptions.Host));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
 builder.Services.Configure<BillingOptions>(builder.Configuration.GetSection(BillingOptions.Billing));
+builder.Services.Configure<GitOptions>(builder.Configuration.GetSection(GitOptions.Git));
 
 var priceService = new PriceService();
 var prices = priceService.List();
