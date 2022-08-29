@@ -154,7 +154,7 @@
               <p>Don't hesitate to contact us if you have any questions.</p>
               <ul>
                 <li>Via Page:  <a href="contact-form" class="__cf_email__">[contact]</a></li>
-                <li>Via Email:  info@codesharp.hu</li>
+                <li>Via Email:  gabor@ifixyourbug.com</li>
               </ul>
             </div>
           </div>

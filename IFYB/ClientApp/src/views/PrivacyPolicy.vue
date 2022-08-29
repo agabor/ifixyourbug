@@ -11,8 +11,8 @@
               <p class="text-white opacity-8 mb-0">Updated at 2022-07-19</p>
             </div>
             <div class="card-body p-5">
-              <p id="general-terms">I Fix Your Bug (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by I Fix Your Bug.</p>
-              <p>This Privacy Policy applies to our website, and its associated subdomains (collectively, our “Service”) alongside our application, I Fix Your Bug. By accessing or using our Service, you signify that you have read, understood, and agree to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy and our Terms of Service. This Privacy Policy was created with <a href="https://termify.io" target="_blank">Termify</a>.</p>
+              <p id="general-terms">Code Sharp Kft (“we,” “our,” or “us”) is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by Code Sharp Kft.</p>
+              <p>This Privacy Policy applies to our website, and its associated subdomains (collectively, our “Service”) alongside our application, "I Fix Your Bug". By accessing or using our Service, you signify that you have read, understood, and agree to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy and our Terms of Service. This Privacy Policy was created with <a href="https://termify.io" target="_blank">Termify</a>.</p>
 
               <h3 class="mt-5 mb-3" id="terms">Definitions and key terms</h3>
               <p>To help explain things as clearly as possible in this Privacy Policy, every time any of these terms are referenced, are strictly defined as:</p>
@@ -180,7 +180,7 @@
               <p>Don't hesitate to contact us if you have any questions.</p>
               <ul>
                 <li>Via Page:  <a href="contact-form" class="__cf_email__">[contact]</a></li>
-                <li>Via Email:  info@codesharp.hu</li>
+                <li>Via Email:  gabor@ifixyourbug.com</li>
               </ul>
             </div>
           </div>
