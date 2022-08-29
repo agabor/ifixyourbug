@@ -6,6 +6,7 @@ public class EmailContent
     public List<EmailContentItem> Content { get; set; } = new List<EmailContentItem>();
     public decimal? EurPrice { get; set; }
     public decimal? UsdPrice { get; set; }
+    public bool? ToAdmin { get; set; }
 }
 
 public class EmailContentItem

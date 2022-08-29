@@ -48,17 +48,19 @@
         {{~ end ~}}
         {{~ if eur_price ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
-            Price: <strong>€ {{eur_price}}</strong> or <strong>$ {{usd_price}}</strong> (You can choose.)
+            Price: <strong>€ {{eur_price}}</strong> or <strong>$ {{usd_price}}</strong>{{ if !to_admin }} (You can choose.){{ end }}
         </p>
         {{~ end ~}}
         {{~ if order_link ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             Order details: <a target="_blank" href="{{order_link}}">{{order_link}}</a>.
         </p>
+        {{~ if !to_admin ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             If you have any questions, you can use the message function on the order details page, or you can simply reply to this e-mail.
         </p>
-        {{~ else ~}}
+        {{~ end ~}}
+        {{~ else if !to_admin ~}}
         <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
             If you have any questions, you can simply reply to this e-mail.
         </p>

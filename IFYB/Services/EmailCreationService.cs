@@ -44,8 +44,9 @@ public class EmailCreationService
         return null;
     }
 
-    public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data) {
-        string? link = order != null ? $"{appOptions.BaseUrl}/my-orders/{order.Number}" : null;
+    public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data, bool? toAdmin = false) {
+        string path = toAdmin == true ? "admin" : "my-orders";
+        string? link = order != null ? $"{appOptions.BaseUrl}/{path}/{order.Number}" : null;
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
         var emailContent = JsonSerializer.Deserialize<EmailContent>(json, new JsonSerializerOptions{ PropertyNameCaseInsensitive = true });
         if (emailContent == null) {
@@ -54,6 +55,7 @@ public class EmailCreationService
         }
         emailContent.OrderNumber = order?.Number;
         emailContent.OrderLink = link;
+        emailContent.ToAdmin = toAdmin;
         if (order?.State == OrderState.Submitted)
         {
             emailContent.EurPrice = order.EurPrice;

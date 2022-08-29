@@ -1,0 +1,13 @@
+{
+    "title": "A new order has arrived",
+    "content": [
+        {
+            "type": "header",
+            "text": "A new order has arrived!"
+        },
+        {
+            "type": "hero",
+            "text": "A new order has arrived from {{name}}."
+        }
+    ]
+}

@@ -89,6 +89,10 @@ public class OrdersController : BaseController
         client.Orders!.Add(order);
         dbContext.SaveChanges();
         emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
+        var admins = dbContext.Admins;
+        foreach(var admin in admins) {
+            emailDispatchService.DispatchEmail(admin.Email, "OrderSubmitToAdmin", order, new { client.Name }, true);
+        }
         return Ok(new IdDto(order.Id));
     }
 
