@@ -7,11 +7,11 @@ export const messages = {
         "requiredOSVersion": "Operating system version required",
         "requiredBrowserType": "Browser type required",
         "requiredBrowserVersion": "Browser version required",
-        "requiredAppUrl": "App url required",
-        "requiredGitRepoUrl": "Git repo url required",
+        "requiredAppUrl": "App URL required",
+        "requiredGitRepoUrl": "Git repo URL required",
         "requiredProjectSharing": "Project sharing required",
         "requiredBugDes": "Bug description required",
-        "requiredThirdPartyTool": "Third party tool required",
+        "requiredThirdPartyTool": "Third-party tool required",
         "requiredName": "Name required",
         "requiredEmail": "Email required",
         "requiredValidEmail": "Valid email required.",
@@ -60,7 +60,7 @@ export const messages = {
         "easy": "Easy submission",
         "easyDescription": "It takes just a few minutes.",
         "refundable": "Fully Refundable",
-        "refundableDescription": "Either get a bugfix within 3 workdays, or get your money back."
+        "refundableDescription": "Either get a bugfix within 3 workdays or get your money back."
       },
       "nameCard": {
         "name": "Gabor Angyal",
@@ -69,18 +69,18 @@ export const messages = {
       "workWithUs": {
         "title": "Technologies",
         "subTitle": "More than full-stack",
-        "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs you might need someone, who has experience with a variety of web servers, cloud providers and deployment environments."
+        "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs you might need someone, who has experience with a variety of web servers, cloud providers, and deployment environments."
       },
       "pricing": {
         "mainTitle": "Best no-tricks pricing",
         "mainSubTitle": "Fix price for all bugs.",
         "title": "Single Bugfix",
         "description": "ASP.NET Core and Vue.js bug fixing within {workdays} workdays",
-        "whatsincluded": "What’s included",
+        "whatsincluded": "What's included",
         "include1": "ASP.NET Core",
         "include2": "Vue.js",
         "include3": "Bugfix delivered as pull request",
-        "include4": "Explaination of the bugfix",
+        "include4": "Explanation of the bugfix",
         "payOne": "One time payment, no hidden costs",
         "orderNow": "Order Now",
         "excludeVat": "The price does not include VAT."
@@ -91,7 +91,7 @@ export const messages = {
         "workflowTitle1": "1. Prepare for submission",
         "workflowDescription1": "To submit a bug, you need two things: a standalone project that is easy to compile and run, and a clear way to reproduce the bug.",
         "workflowTitle2": "2. Submit Your Bug",
-        "workflowDescription2": "Click on the order button, and answer a few questions about you project, and your bug. Submit your order, and wait for the confirmation, wich usually takes one workday.",
+        "workflowDescription2": "Click on the order button, and answer a few questions about your project and your bug. Submit your order, and wait for the confirmation, which usually takes one workday.",
         "workflowTitle3": "3. Make the payment",
         "workflowDescription3": "When your order is confirmed, you will be notified by e-mail. Every bugfix is fix priced, you can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
         "workflowTitle4": "4. I attempt to fix your bug",
@@ -99,7 +99,7 @@ export const messages = {
         "workflowTitle5": "5. You are notified when the bug is fixed",
         "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request, and notify you by e-mail.",
         "workflowTitle6": "6. If I can not fix the bug, you get a full refund",
-        "workflowDescription6": "If I do not succeed fixing your bug in time, you will automatically receive a full refund.",
+        "workflowDescription6": "If I do not succeed in fixing your bug in time, you will automatically receive a full refund.",
         "getStarted": "Get Started"
       },
       "footer": {
@@ -121,37 +121,37 @@ export const messages = {
       "faqSecurity": {
         "title": "Security",
         "question1": "Is my code safe with you?",
-        "answer1": "When you submit your order, you provide access to your git repository. When your order is competed, you are free to revoke my access. I will delete my local copy of your repository when your order is completed.",
+        "answer1": "When you submit your order, you provide access to your git repository. When your order is completed, you are free to revoke my access. I will delete my local copy of your repository when your order is completed.",
         "question2": "Can you sign an NDA?",
         "answer2": "Yes, please send an e-mail to gabor{'@'}ifixyourbug.com to discuss the details."
       },
       "faqRepos": {
         "title": "Repositories",
         "question1": "I have a private repository on GitHub, that I would like to submit a bug for. How do I share the code with you?",
-        "answer1": "Please invite me to to your repo, you find my account ",
+        "answer1": "Please invite me to your repo, you find my account ",
         "link1": "https://github.com/agabor",
         "question2": "I have a private repository on BitBucket, that I would like to submit a bug for. How do I share the code with you?",
-        "answer2": "Please invite me to to your repo, you find my account ",
+        "answer2": "Please invite me to your repo, you find my account ",
         "link2": "https://bitbucket.org/agabor",
         "question3": "I have a private repository on GitLab, that I would like to submit a bug for. How do I share the code with you?",
         "answer3": "Please invite me to your repo, you find my account ",
         "link3": "https://gitlab.com/agabor",
-        "question4": "I have a self hosted repository, that I would like to submit a bug for. How do I share the code with you?",
-        "answer4": "You can either invite me by e-mail, or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like create an account for me, than please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
+        "question4": "I have a self-hosted repository, that I would like to submit a bug for. How do I share the code with you?",
+        "answer4": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like to create an account for me, then please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
       },
       "faqOrders": {
         "title": "Orders",
         "question1": "How long does it take to process my order?",
-        "answer1": "Within 1 workday. I will checkout your code, and see if the bug you described is something that I can fix or not. After that, you will get an e-mail that informs you whether your order is accepted or not.",
+        "answer1": "Within 1 workday. I will check out your code, and see if the bug you described is something that I can fix or not. After that, you will get an e-mail that informs you whether your order is accepted or not.",
         "question2": "What are the requirements for an order to be accepted?",
-        "answer2": "First of all, it should be clear how to run your project. If your project needs some kind of custom configuration to start, please provide a description. The bug description must be clear, and the bug must be reproduceable.",
+        "answer2": "First of all, it should be clear how to run your project. If your project needs some kind of custom configuration to start, please provide a description. The bug description must be clear, and the bug must be reproducible.",
         "question3": "How long does it take to receive a bugfix?",
         "answer3": "If your order is accepted, you will receive a payment link by e-mail. After you make a payment, I have 3 workdays to fix your bug. If you do not receive a working bugfix within 3 workdays, you will be fully refunded."
       },
       "faqRefunds": {
         "title": "Refunds",
         "question1": "How do I get a refund?",
-        "answer1": "If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will autiomatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messageing feature on you order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim."
+        "answer1": "If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will automatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messaging feature on your order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim."
       },
       "design": {
         "title": "Designed by",
@@ -240,7 +240,7 @@ export const messages = {
       },
       "order": {
         "email": "Email",
-        "emailDes": "I will email you a magic code for a password-free sign in.",
+        "emailDes": "I will email you a magic code for a password-free sign-in.",
         "submit": "Submit",
         "name": "Name",
         "nameDes": "Enter your name.",
@@ -250,7 +250,7 @@ export const messages = {
         "emailExample": "email{'@'}example.com",
         "successfulOrder": "Successful order",
         "successfulOrderDes": "I will contact you shortly via email.",
-        "backToHome": "Bact to home"
+        "backToHome": "Back to home"
       },
       "newOrder": {
         "submit": "Submit",
@@ -291,7 +291,7 @@ export const messages = {
       },
       "authfailed": {
         "title": "Authentication Failed",
-        "subTitle": "You have entered wrong code 3 times.",
+        "subTitle": "You have entered the wrong code 3 times.",
         "buttonText": "Go Back"
       },
       "framework": {
@@ -314,7 +314,7 @@ export const messages = {
         "version": "Operating system version"
       },
       "browserType": {
-        "isSpecific": "Is the issue specific to an browser?",
+        "isSpecific": "Is the issue specific to a browser?",
         "label": "Browser type*",
         "option1": "Chrome",
         "option2": "Safari",
@@ -336,13 +336,13 @@ export const messages = {
         "option1": "Public repository",
         "option2": "Invite to repository",
         "option3": "Create account for repository",
-        "description1": "Use this option if your project is hosted publicly. (For example on GitHub, GitLab or Bitbucket.)",
+        "description1": "Use this option if your project is hosted publicly. (For example on GitHub, GitLab, or Bitbucket.)",
         "description2": "Use this option if your project is hosted privately, and you wish to invite me. If your project is hosted on GitHub, GitLab or Bitbucket, please invite the following user: agabor (gabor{'@'}ifixyourbug.com). If your project is hosted elsewhere, please send an invitation link to this e-mail address.",
         "description3": "Use this option if your project is hosted privately, and you wish to create an account for me. Please include the user credentials in the bug description. If you want to use an SSH key, please use the following public key:"
       },
       "thirdPartyTool": {
         "isPotentially": "Is the bug potentially related to a third party library?",
-        "label": "Third party library name"
+        "label": "Third-party library name"
       },
       "confirm": {
         "stateChangeTitle": "Change of state",
@@ -380,7 +380,7 @@ export const messages = {
       },
       "timeout": {
         "title": "Your login session timed out.",
-        "subtitle": "Please login to gain access the website's functions",
+        "subtitle": "Please login to gain access to the website's functions",
         "later": "Later",
         "login": "Login"
       }
