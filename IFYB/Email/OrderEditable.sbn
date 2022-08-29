@@ -1,9 +1,9 @@
 {
-    "title": "Revised order",
+    "title": "Your order is now editable",
     "content": [
         {
             "type": "header",
-            "text": "Your order has been revised"
+            "text": "Your order is now editable"
         },
         {
             "type": "hero",

@@ -38,8 +38,8 @@ public class EmailCreationService
                 return CreateEmail(client.Email, "OrderRefund", order, new { client.Name });
             case OrderState.Canceled:
                 return CreateEmail(client.Email, "OrderCancel", order, new { client.Name });
-            case OrderState.Revised:
-                return CreateEmail(client.Email, "OrderRevise", order, new { client.Name, Message = message });
+            case OrderState.Editable:
+                return CreateEmail(client.Email, "OrderEditable", order, new { client.Name, Message = message });
         }
         return null;
     }

@@ -55,7 +55,7 @@ export default {
                   element = tm('orderList.canceled');
                   break;
                 case '7':
-                  element = tm('orderList.revised');
+                  element = tm('orderList.editable');
                   break;
                 default:
                   element = tm('orderList.submitted');

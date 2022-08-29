@@ -189,6 +189,10 @@ export const messages = {
         "specificPlatform": "Specific platform",
         "pay": "Pay",
         "state": "State",
+        "addNewOrder": "Add new order",
+        "details": "Details"
+      },
+      "orderState": {
         "submitted": "Submitted",
         "accepted": "Accepted",
         "rejected": "Rejected",
@@ -196,9 +200,7 @@ export const messages = {
         "completed": "Completed",
         "refundable": "Refundable",
         "canceled": "Canceled",
-        "revised": "Revised",
-        "addNewOrder": "Add new order",
-        "details": "Details"
+        "editable": "Editable"
       },
       "clientList": {
         "name": "Name",
@@ -233,15 +235,7 @@ export const messages = {
         "accept": "Accept",
         "reject": "Reject",
         "rejectWithMessage": "Reject with message",
-        "revised": "Revised",
         "pay": "Pay",
-        "submitted": "Submitted",
-        "accepted": "Accepted",
-        "rejected": "Rejected",
-        "payed": "Payed",
-        "completed": "Completed",
-        "refundable": "Refundable",
-        "canceled": "Canceled",
         "name": "Name",
         "email": "Email",
         "bugDescription": "Bug description"

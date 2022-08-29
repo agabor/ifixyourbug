@@ -110,7 +110,7 @@
 
               <h3 class="mt-5 mb-3">Amendments to this Agreement</h3>
               <p>I Fix Your Bug reserves the right, at its sole discretion, to modify or replace this Agreement at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
-              <p>By continuing to access or use our website after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use I Fix Your Bug.</p>
+              <p>By continuing to access or use our website after any revisions become effective, you agree to be bound by the editable terms. If you do not agree to the new terms, you are no longer authorized to use I Fix Your Bug.</p>
 
               <h3 class="mt-5 mb-3">Entire Agreement</h3>
               <p>The Agreement constitutes the entire agreement between you and I Fix Your Bug regarding your use of the website and supersedes all prior and contemporaneous written or oral agreements between you and I Fix Your Bug.</p>
