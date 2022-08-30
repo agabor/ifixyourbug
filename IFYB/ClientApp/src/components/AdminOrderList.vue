@@ -43,14 +43,7 @@
             <span class="text-secondary text-xs font-weight-bold">{{ order.thirdPartyTool }}</span>
           </td>
           <td>
-            <span class="badge badge-sm badge-dark" v-if="order.state == 0">{{ $t('orderState.submitted') }}</span>
-            <span class="badge badge-sm badge-info" v-else-if="order.state == 1">{{ $t('orderState.accepted') }}</span>
-            <span class="badge badge-sm badge-danger" v-else-if="order.state == 2">{{ $t('orderState.rejected') }}</span>
-            <span class="badge badge-sm badge-light " v-else-if="order.state == 3">{{ $t('orderState.payed') }}</span>
-            <span class="badge badge-sm badge-success" v-else-if="order.state == 4">{{ $t('orderState.completed') }}</span>
-            <span class="badge badge-sm badge-warning" v-else-if="order.state == 5">{{ $t('orderState.refundable') }}</span>
-            <span class="badge badge-sm badge-light" v-else-if="order.state == 6">{{ $t('orderState.canceled') }}</span>
-            <span class="badge badge-sm badge-info" v-else-if="order.state == 7">{{ $t('orderState.editable') }}</span>
+            <state-badge class="badge badge-sm" :state="order.state" :isSimple="true"></state-badge>
           </td>
           <td class="align-middle text-center cursor-pointer" @click="$emit('openOrder', order)">
             <span class="text-secondary text-xs font-weight-bold">
@@ -68,11 +61,12 @@
 import { ref, watch } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
 import SortableTh from './SortableTh.vue';
+import StateBadge from './StateBadge.vue';
 import { event } from 'vue-gtag';
 
 export default {
   name: 'AdminOrderList',
-  components: { SearchBar, SortableTh },
+  components: { SearchBar, SortableTh, StateBadge },
   props: {
     orders: Array
   },

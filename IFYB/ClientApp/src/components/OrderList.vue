@@ -15,14 +15,7 @@
               </div>
               <p class="mb-0" v-if="order.applicationUrl">{{ $t('orderList.applicationUrl') }}: <a class="text-decoration-underline" :href="order.applicationUrl" >{{ order.applicationUrl }}</a></p>
               <p class="mb-0" v-if="order.thirdPartyTool">{{ $t('orderList.thirdPartyTool') }}: {{ order.thirdPartyTool }}</p>
-              <span class="badge badge-sm badge-dark mt-3" v-if="order.state == 0">{{ $t('orderState.submitted') }}</span>
-              <span class="badge badge-sm badge-info mt-3" v-else-if="order.state == 1">{{ $t('orderState.accepted') }}</span>
-              <span class="badge badge-sm badge-danger mt-3" v-else-if="order.state == 2">{{ $t('orderState.rejected') }}</span>
-              <span class="badge badge-sm badge-light mt-3" v-else-if="order.state == 3">{{ $t('orderState.payed') }}</span>
-              <span class="badge badge-sm badge-success mt-3" v-else-if="order.state == 4">{{ $t('orderState.completed') }}</span>
-              <span class="badge badge-sm badge-warning mt-3" v-else-if="order.state == 5">{{ $t('orderState.refundable') }}</span>
-              <span class="badge badge-sm badge-light mt-3" v-else-if="order.state == 6">{{ $t('orderState.canceled') }}</span>
-              <span class="badge badge-sm badge-info mt-3" v-else-if="order.state == 7">{{ $t('orderState.editable') }}</span>
+              <state-badge class="badge badge-sm mt-3" :state="order.state" view="list" :isSimple="true"></state-badge>
             </div>
           </div>
           <div class="col-lg-3 col-md-4 col-12 pe-4">
@@ -50,9 +43,11 @@
 
 <script>
 import { ref, watch } from 'vue';
+import StateBadge from './StateBadge.vue';
 
 export default {
   name: 'OrderList',
+  components: { StateBadge },
   props: {
     orders: Array
   },

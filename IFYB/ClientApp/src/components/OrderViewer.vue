@@ -11,14 +11,7 @@
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
               <h2>{{ $t('orderViewer.title') }}</h2>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-dark" v-if="order.state == 0">{{ $t('orderState.submitted') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-info" v-else-if="order.state == 1">{{ $t('orderState.accepted') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-danger" v-else-if="order.state == 2">{{ $t('orderState.rejected') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 3">{{ $t('orderState.payed') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-success" v-else-if="order.state == 4">{{ $t('orderState.completed') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-warning" v-else-if="order.state == 5">{{ $t('orderState.refundable') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-uppercase bg-light" v-else-if="order.state == 6">{{ $t('orderState.canceled') }}</div>
-              <div class="text-center my-4 py-2 px-4 rounded-pill text-white text-uppercase bg-info" v-else-if="order.state == 7">{{ $t('orderState.editable') }}</div>
+              <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="order.state" :isSimple="false"></state-badge>
             </div>
             <update-order-form v-if="editableOrder.state == 7" :updateableOrder="editableOrder" @updated="updatedOrder"></update-order-form>
             <form v-else>
@@ -63,10 +56,11 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
 import { useServerError, useUserAuthentication } from "../store";
+import StateBadge from './StateBadge.vue';
 
 export default {
   name: 'OrderViewer',
-  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm },
+  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm, StateBadge },
   props: {
     order: Object,
   },
