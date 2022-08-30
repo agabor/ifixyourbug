@@ -43,7 +43,7 @@ public class ContactController : BaseController
         }
         var admins = dbContext.Admins;
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "ContactMessageToAdmin", null, new { Name = client.Name != null ? client.Name : "unknown user" }, true);
+            emailDispatchService.DispatchEmail(admin.Email, "ContactMessageToAdmin", null, new { Name = client?.Name != null ? client.Name : "unknown user" }, true);
         }
         dbContext.SaveChanges();
         return Ok();

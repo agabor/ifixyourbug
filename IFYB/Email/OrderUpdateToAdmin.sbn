@@ -1,0 +1,13 @@
+{
+    "title": "Order updated",
+    "content": [
+        {
+            "type": "header",
+            "text": "Order updated!"
+        },
+        {
+            "type": "hero",
+            "text": "{{name}} updated the order."
+        }
+    ]
+}

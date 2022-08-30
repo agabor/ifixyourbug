@@ -123,6 +123,11 @@ public class OrdersController : BaseController
         order.GitAccessId = dto.GitAccessId;
         dbContext.SaveChanges();
         emailDispatchService.DispatchEmail(client.Email, "OrderUpdate", order, new { client.Name });
+        var admins = dbContext.Admins;
+        foreach(var admin in admins) {
+            emailDispatchService.DispatchEmail(admin.Email, "OrderUpdateToAdmin", order, new { client.Name }, true);
+        }
+        dbContext.SaveChanges();
         return Ok(order.State);
     }
 }
