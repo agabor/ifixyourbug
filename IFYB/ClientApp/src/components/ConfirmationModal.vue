@@ -10,7 +10,13 @@
           {{ description }}
           <div class="mt-3" v-if="modelValue !== null">
             <label for="message-input">{{ $t('confirm.message') }}*</label>
-            <input id="message-input" class="form-control" :class="{'is-invalid': (showError && !!inputErrors.confirmMessage)}" :placeholder="$t('confirm.message')" type="text" v-model="text">
+            <textarea id="message-input" class="form-control" :rows="rows" type="text" :class="{'is-invalid': (showError && !!inputErrors.confirmMessage)}"
+                single-line
+                v-model="text"
+                :placeholder="$t('confirm.message')"
+                @keyup.enter.shift.exact.prevent="addLine()"
+                @keyup.enter.exact.prevent="addLine()">
+              </textarea>
             <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.confirmMessage }}</small></em></span>
           </div>
         </div>
@@ -45,6 +51,7 @@ export default {
     const { tm } = useI18n();
     const { inputErrors, setInputError } = useInputError();
     const activeBtn = ref(true);
+    const rows = ref(1);
 
     setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
 
@@ -53,12 +60,16 @@ export default {
       setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
     });
 
+    function addLine() {
+      rows.value++;
+    }
+
     function confirm() {
       context.emit('confirm');
       activeBtn.value = inputErrors.value.confirmMessage != null;
     }
     
-    return { text, inputErrors, activeBtn, confirm };
+    return { text, inputErrors, activeBtn, rows, addLine, confirm };
   }
 }
 </script>
