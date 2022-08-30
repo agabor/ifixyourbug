@@ -26,9 +26,6 @@
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 1, false)">{{ $t('orderViewer.accept') }}</button>
                 </div>
                 <div class="text-center mx-1">
-                  <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, false)">{{ $t('orderViewer.reject') }}</button>
-                </div>
-                <div class="text-center mx-1">
                   <button type="button" class="btn btn-outline-secondary my-2" @click="$emit('changeOrderState', 2, true)">{{ $t('orderViewer.rejectWithMessage') }}</button>
                 </div>
                 <div class="text-center mx-1">

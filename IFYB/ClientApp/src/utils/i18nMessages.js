@@ -233,7 +233,6 @@ export const messages = {
         "title": "Order",
         "back": "Back to list",
         "accept": "Accept",
-        "reject": "Reject",
         "rejectWithMessage": "Reject with message",
         "pay": "Pay",
         "name": "Name",

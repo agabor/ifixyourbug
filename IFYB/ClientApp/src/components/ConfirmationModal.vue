@@ -16,7 +16,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <one-click-btn v-model:active="activeBtn" :text="$t('confirm.cancel')" class="bg-gradient-dark" @click="$emit('cancel')"></one-click-btn>
-          <one-click-btn v-model:active="activeBtn" :text="$t('confirm.confirm')" class="bg-gradient-primary" @click="$emit('confirm')"></one-click-btn>
+          <one-click-btn v-model:active="activeBtn" :text="$t('confirm.confirm')" class="bg-gradient-primary" @click="confirm"></one-click-btn>
         </div>
       </div>
     </div>
@@ -52,8 +52,13 @@ export default {
       context.emit('update:modelValue', text.value);
       setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
     });
+
+    function confirm() {
+      context.emit('confirm');
+      activeBtn.value = inputErrors.value.confirmMessage != null;
+    }
     
-    return { text, inputErrors, activeBtn };
+    return { text, inputErrors, activeBtn, confirm };
   }
 }
 </script>
