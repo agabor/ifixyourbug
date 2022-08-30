@@ -95,7 +95,7 @@ public class OrdersController : BaseController
         emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail("livia.orsos@codesharp.hu", "OrderSubmitToAdmin", order, new { client.Name }, true);
+            emailDispatchService.DispatchEmail(admin.Email, "OrderSubmitToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
         return Ok(new IdDto(order.Id));
@@ -124,7 +124,7 @@ public class OrdersController : BaseController
         emailDispatchService.DispatchEmail(client.Email, "OrderUpdate", order, new { client.Name });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail("livia.orsos@codesharp.hu", "OrderUpdateToAdmin", order, new { client.Name }, true);
+            emailDispatchService.DispatchEmail(admin.Email, "OrderUpdateToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
         return Ok(order.State);

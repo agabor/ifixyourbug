@@ -42,6 +42,7 @@ import { useServerError, useInputError, useUserAuthentication } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 import { event } from 'vue-gtag';
+import { getGitAccesses, getGitAccessId } from '../utils/Helper';
 
 export default {
   name: 'NewOrderForm',
@@ -86,13 +87,7 @@ export default {
     setGitAccesses();
 
     async function setGitAccesses() {
-      let response = await get('/api/git-accesses');
-      if(response.status == 200) {
-        resetServerError();
-        gitAccesses.value = await response.json();
-      } else {
-        setServerError(response.statusText);
-      }
+      gitAccesses.value = await getGitAccesses();
     }
     
     function cancelSubmit() {
@@ -122,7 +117,7 @@ export default {
           'specificPlatformVersion': order.specificPlatformVersion,
           'thirdPartyTool': order.thirdPartyTool,
           'bugDescription': order.bugDescription,
-          'gitAccessId': await getGitAccessId()
+          'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.repoUrl, order.accessMode)
         }
       );
       event('submit-update-order', { 'value': response.status });
@@ -132,24 +127,6 @@ export default {
       } else {
         setServerError(response.statusText);
       }
-    }
-
-
-    async function getGitAccessId() {
-      let gitAccessId;
-      if(selectedAccess.value.id != undefined){
-        gitAccessId = selectedAccess.value.id;
-      } else {
-
-      let response = await post(`/api/git-accesses`, {'url': order.repoUrl, 'accessMode': order.accessMode});
-        if(response.status == 200) {
-          resetServerError();
-          gitAccessId = (await response.json()).id;
-        } else {
-          setServerError(response.statusText);
-        }
-      }
-      return gitAccessId;
     }
 
     watch(() => order.framework, () => {
