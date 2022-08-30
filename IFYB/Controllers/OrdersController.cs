@@ -66,6 +66,11 @@ public class OrdersController : BaseController
         message.FromClient = true;
         order.Messages!.Add(message);
         dbContext.SaveChanges();
+        var admins = dbContext.Admins;
+        foreach(var admin in admins) {
+            emailDispatchService.DispatchEmail(admin.Email, "OrderMessageToAdmin", order, new { client.Name }, true);
+        }
+        dbContext.SaveChanges();
         return Ok(message.ToDto());
     }
 
