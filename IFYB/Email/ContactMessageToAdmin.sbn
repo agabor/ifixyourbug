@@ -1,0 +1,13 @@
+{
+    "title": "New message received",
+    "content": [
+        {
+            "type": "header",
+            "text": "New message received!"
+        },
+        {
+            "type": "hero",
+            "text": "New message received from {{name}}."
+        }
+    ]
+}
