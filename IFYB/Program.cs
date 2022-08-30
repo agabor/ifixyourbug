@@ -40,13 +40,16 @@ var usdPrice = prices.First(p => p.Currency == "usd");
 stripeOptions.EurPriceId = eurPrice.Id;
 stripeOptions.UsdPriceId = usdPrice.Id;
 
-var offer = new OfferDto
+var gitOptions = builder.Configuration.GetSection(GitOptions.Git).Get<GitOptions>();
+var settings = new Settings
 {
     EurPrice = eurPrice.UnitAmountDecimal!.Value / 100,
-    UsdPrice = usdPrice.UnitAmountDecimal!.Value / 100
+    UsdPrice = usdPrice.UnitAmountDecimal!.Value / 100,
+    Workdays = 3,
+    SshKey = gitOptions.SshKey
 }; 
 
-builder.Services.AddSingleton(offer);
+builder.Services.AddSingleton(settings);
 var configSection = builder.Configuration.GetSection(StripeOptions.Stripe);
 configSection["EurPriceId"] = eurPrice.Id;
 configSection["UsdPriceId"] = usdPrice.Id;

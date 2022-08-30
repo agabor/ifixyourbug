@@ -4,12 +4,14 @@ import { event } from 'vue-gtag';
 const eurPrice = ref(null);
 const usdPrice = ref(null);
 const workdays = ref(null);
+const sshKey = ref(null);
 
-fetch('/api/offer').then(resp => {
+fetch('/api/settings').then(resp => {
   resp.json().then(data => {
     eurPrice.value = data.eurPrice;
     usdPrice.value = data.usdPrice;
     workdays.value = data.workdays;
+    sshKey.value = data.sshKey;
   });
 });
 
@@ -198,10 +200,6 @@ function isPaymentInProgress(token) {
 export function usePayment() {
   return { setPaymentToken, clearPaymentToken, isPaymentInProgress };
 }
-
-const sshKey = ref('');
-
-fetch('/id_ed25519.pub').then(resp => resp.text().then(k => sshKey.value = k));
 
 export function useSshKey() {
   return { sshKey }

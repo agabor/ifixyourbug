@@ -15,12 +15,15 @@ public class OrdersController : BaseController
 {
     private readonly  EmailDispatchService emailDispatchService;
     private readonly StripeOptions stripeOptions;
-    private readonly OfferDto offer;
-    public OrdersController(ApplicationDbContext dbContext, EmailDispatchService emailDispatchService, IOptions<StripeOptions> stripeOptions, OfferDto offer) : base(dbContext)
+    private readonly Settings settings;
+    private readonly GitOptions gitOptions;
+
+    public OrdersController(ApplicationDbContext dbContext, EmailDispatchService emailDispatchService, IOptions<StripeOptions> stripeOptions, Settings settings, IOptions<GitOptions> gitOptions) : base(dbContext)
     {
         this.emailDispatchService = emailDispatchService;
         this.stripeOptions = stripeOptions.Value;
-        this.offer = offer;
+        this.settings = settings;
+        this.gitOptions = gitOptions.Value;
     }
 
     [HttpGet]
@@ -89,15 +92,32 @@ public class OrdersController : BaseController
         order.Number = int.Parse(DateTime.UtcNow.ToString("yyMMdd") + (ordersToday+1).ToString("D3"));
         order.EurPriceId = stripeOptions.EurPriceId;
         order.UsdPriceId = stripeOptions.UsdPriceId;
-        order.EurPrice = offer.EurPrice;
-        order.UsdPrice = offer.UsdPrice;
+        order.EurPrice = settings.EurPrice;
+        order.UsdPrice = settings.UsdPrice;
         client.Orders!.Add(order);
         dbContext.SaveChanges();
         var gitAccess = dbContext.GitAccesses.First(a => a.Id == order.GitAccessId);
         string? gitUser = null;
-        if (gitAccess.AccessMode == GitAccessMode.SaasInvite) 
-        gitUser =
-        emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { client.Name });
+        string? saas = null;
+        if (gitAccess.AccessMode == GitAccessMode.Invite) 
+        {
+            var url = gitAccess.Url.ToLower();
+            if (url.Contains("github.com")) {
+                gitUser = gitOptions.GitHubUser;
+                saas = "GitHub";
+            } else if (url.Contains("bitbucket.com")) {
+                gitUser = gitOptions.BitBucketUser;
+                saas = "BitBucket";
+            } else if (url.Contains("gitlab.com")) {
+                gitUser = gitOptions.GitLabUser;
+                saas = "GitLab";
+            } else {
+                gitUser = "gabor@ifixyourbug.com";
+                saas = "None";
+            }
+        }
+
+        emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { Name = client.Name, GitUser = gitUser, Saas = saas, AccessMode = (int)gitAccess.AccessMode, SshKey = settings.SshKey });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
             emailDispatchService.DispatchEmail(admin.Email, "OrderSubmitToAdmin", order, new { client.Name }, true);

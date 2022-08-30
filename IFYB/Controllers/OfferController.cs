@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace IFYB.Controllers;
 
 [ApiController]
-[Route("api/offer")]
-public class OfferController : ControllerBase
+[Route("api/settings")]
+public class SettingsController : ControllerBase
 {
-    OfferDto offer;
-    public OfferController(OfferDto offer) {
-        this.offer = offer;
+    Settings settings;
+    public SettingsController(Settings settings) {
+        this.settings = settings;
     }
 
     [HttpGet]
-    [Produces(typeof(OfferDto))]
+    [Produces(typeof(Settings))]
     public IActionResult GetOffer() {
-        return Ok(offer);
+        return Ok(settings);
     }
 }

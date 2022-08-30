@@ -11,9 +11,9 @@ public class EmailCreationService
 {
     private readonly ApplicationDbContext dbContext;
     private readonly EventLogService<EmailCreationService> eventLogService;
-    private readonly OfferDto offerDto;
+    private readonly Settings offerDto;
     private readonly AppOptions appOptions;
-    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EventLogService<EmailCreationService> eventLogService, OfferDto offerDto) {
+    public EmailCreationService(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EventLogService<EmailCreationService> eventLogService, Settings offerDto) {
         this.dbContext = dbContext;
         this.eventLogService = eventLogService;
         this.offerDto = offerDto;

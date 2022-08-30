@@ -6,4 +6,5 @@ public class GitOptions
     public string GitHubUser { get; set; } = String.Empty;
     public string BitBucketUser { get; set; } = String.Empty;
     public string GitLabUser { get; set; } = String.Empty;
+    public string SshKey { get; set; } = String.Empty;
 }

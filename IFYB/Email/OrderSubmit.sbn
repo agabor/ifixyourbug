@@ -1,5 +1,5 @@
 {
-    "title": "Thank you for your order",
+    "title": "Thank you for your order!",
     "content": [
         {
             "type": "header",
@@ -7,11 +7,33 @@
         },
         {
             "type": "hero",
-            "text": "Dear {{name}},<br>Thank you for your order. I will review your submission, and contact you as soon as possible."
-        }{{ if git_user }},
+            "text": "Dear {{name}},<br>Thank you for your order! I will review your submission, and contact you as soon as possible."
+        },
+        {{~ if access_mode == 0 ~}}
         {
             "type": "content",
-            "text": "Please invite the following user to your git repository: <a href=\"{{git_user}}\">{{git_user}}</a>"
+            "text": "You have submitted a public repository, so there is nothing more for you to do now."
+        }
+        {{~ else if access_mode == 1  ~}}
+            {{~ if saas == "None" ~}}
+            {
+                "type": "content",
+                "text": "Please send an invitation for your repository to the following email address: {{git_user}}"
+            }
+            {{~ else ~}}
+            {
+                "type": "content",
+                "text": "It looks like your repository is hosted on {{saas}}. Please invite the following {{saas}} user: <a href=\"{{git_user}}\">{{git_user}}</a>"
+            }
+            {{~ end ~}}
+        {{~ else ~}}
+        {
+            "type": "content",
+            "text": "You chose to create a user for me. If you did not include the credentials in the bug description, please send it as a message on your order details page. If you want to use an SSH key, please use the following public key:"
+        },
+        {
+            "type": "verbatim",
+            "text": "{{ssh_key}}"
         }
         {{~ end ~}}
     ]

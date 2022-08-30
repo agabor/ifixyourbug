@@ -15,10 +15,10 @@ public class BillingService : BackgroundService
     private readonly Channel<Entities.Order> billingChanel;
     private readonly Channel<Email> emailChanel;
     private readonly IServiceProvider serviceProvider;
-    private readonly OfferDto offer;
+    private readonly Settings offer;
     private readonly BillingOptions billingOptions;
 
-    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, IServiceProvider serviceProvider, OfferDto offer, Channel<Email> emailChanel)
+    public BillingService(Channel<Entities.Order> billingChanel, IOptions<BillingOptions> billingOptions, IServiceProvider serviceProvider, Settings offer, Channel<Email> emailChanel)
     {
         this.billingChanel = billingChanel;
         this.serviceProvider = serviceProvider;
