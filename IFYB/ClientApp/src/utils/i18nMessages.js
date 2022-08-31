@@ -87,19 +87,19 @@ export const messages = {
       },
       "workflow": {
         "title1": "How It Works",
-        "subTitle": "The process of submitting bugs and receiving fixes is quite straightforward. Here is how it works.",
+        "subTitle": "The process of submitting bugs and receiving fixes is straightforward. Here is how it works.",
         "workflowTitle1": "1. Prepare for submission",
-        "workflowDescription1": "To submit a bug, you need two things: a standalone project that is easy to compile and run, and a clear way to reproduce the bug.",
+        "workflowDescription1": "To submit a bug, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the bug.",
         "workflowTitle2": "2. Submit Your Bug",
-        "workflowDescription2": "Click on the order button, and answer a few questions about your project and your bug. Submit your order, and wait for the confirmation, which usually takes one workday.",
+        "workflowDescription2": "Click on the order button to answer a few questions about your project and bug. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
         "workflowTitle3": "3. Make the payment",
-        "workflowDescription3": "When your order is confirmed, you will be notified by e-mail. Every bugfix is fix priced, you can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
-        "workflowTitle4": "4. I attempt to fix your bug",
-        "workflowDescription4": "After you make your payment, I have { workdays } workdays to fix your bug.",
-        "workflowTitle5": "5. You are notified when the bug is fixed",
+        "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bugfix is fix priced, you can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
+        "workflowTitle4": "4. I attempt to fix your bug.",
+        "workflowDescription4": "After you pay, I have { workdays } workdays to fix your bug.",
+        "workflowTitle5": "5. I will notify you when the bug fix is ready.",
         "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request and notify you by e-mail.",
         "workflowTitle6": "6. If I can not fix the bug, you get a full refund",
-        "workflowDescription6": "If I do not succeed in fixing your bug in time, you will automatically receive a full refund.",
+        "workflowDescription6": "If I fail to fix your bug in time, you will automatically receive a full refund.",
         "getStarted": "Get Started"
       },
       "footer": {
@@ -121,25 +121,25 @@ export const messages = {
       "faqSecurity": {
         "title": "Security",
         "question1": "Is my code safe with you?",
-        "answer1": "When you submit your order, you provide access to your git repository. When your order is completed, you are free to revoke my access. I will delete my local copy of your repository when your order is completed.",
+        "answer1": "When you submit your order, you provide access to your git repository. You are free to revoke my access when I finish working on your bug, and I will also delete my local copy of your repository.",
         "question2": "Can you sign an NDA?",
         "answer2": "Yes, please send an e-mail to gabor{'@'}ifixyourbug.com to discuss the details."
       },
       "faqRepos": {
         "title": "Repositories",
-        "question1": "I have a private repository on { saas }, that I would like to submit a bug for. How do I share the code with you?",
-        "answer1": "Please invite me to your repo, you find my account ",
-        "question2": "I have a self-hosted repository, that I would like to submit a bug for. How do I share the code with you?",
-        "answer2": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like to create an account for me, then please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
+        "question1": "I have a private repository on { saas }. How do I share the code with you?",
+        "answer1": "Please invite me to your repo. You find my account ",
+        "question2": "I have a self-hosted repository. How do I share the code with you?",
+        "answer2": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you want to create an account for me, please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
       },
       "faqOrders": {
         "title": "Orders",
         "question1": "How long does it take to process my order?",
-        "answer1": "Within 1 workday. I will check out your code, and see if the bug you described is something that I can fix or not. After that, you will get an e-mail that informs you whether your order is accepted or not.",
-        "question2": "What are the requirements for an order to be accepted?",
-        "answer2": "First of all, it should be clear how to run your project. If your project needs some kind of custom configuration to start, please provide a description. The bug description must be clear, and the bug must be reproducible.",
+        "answer1": "It usually takes one workday. First, I will check out your code and see if the bug you described is something that I can fix or not. After that, you will get an e-mail informing you whether your order is confirmed.",
+        "question2": "What are the requirements for an order to be confirmed?",
+        "answer2": "First of all, it should be clear how to run your project. If your project needs some custom configuration to start, please provide a description. The bug description must be clear, and the bug must be reproducible.",
         "question3": "How long does it take to receive a bugfix?",
-        "answer3": "If your order is accepted, you will receive a payment link by e-mail. After you make a payment, I have { workdays } workdays to fix your bug. If you do not receive a working bugfix within { workdays } workdays, you will be fully refunded."
+        "answer3": "If your order is confirmed, you will receive a payment link by e-mail. After you make a payment, I have { workdays } workdays to fix your bug. I will fully refund you if you do not receive a working bug fix within { workdays } workdays."
       },
       "faqRefunds": {
         "title": "Refunds",
