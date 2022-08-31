@@ -18,7 +18,7 @@ public class EmailDispatchService
 
     public void DispatchOrderStateEmail(Order order, string? message = null)
     {
-        var email = emailCreationService.CreateOrderStateEmail(order, message);
+        var email = emailCreationService.CreateOrderStateEmail(order, message?.ToHtml());
         Dispatch(email);
     }
 

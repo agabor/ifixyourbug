@@ -32,7 +32,7 @@ public class EmailCreationService
                 string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
                 return CreateEmail(client.Email, "OrderConfirm", order, new { client.Name, PaymentLink = paymentLink, Workdays = offerDto.Workdays });
             case OrderState.Rejected:
-                return CreateEmail(client.Email, "OrderReject", order, new { client.Name, Message = message });
+                return CreateEmail(client.Email, "OrderReject", order, new { client.Name, Message = message?.ToHtml() });
             case OrderState.Completed:
                 return CreateEmail(client.Email, "OrderComplete", order, new { client.Name });
             case OrderState.Refundable:
@@ -40,7 +40,7 @@ public class EmailCreationService
             case OrderState.Canceled:
                 return CreateEmail(client.Email, "OrderCancel", order, new { client.Name });
             case OrderState.Editable:
-                return CreateEmail(client.Email, "OrderEditable", order, new { client.Name, Message = message });
+                return CreateEmail(client.Email, "OrderEditable", order, new { client.Name, Message = message?.ToHtml() });
         }
         return null;
     }
@@ -62,28 +62,11 @@ public class EmailCreationService
             emailContent.EurPrice = order.EurPrice;
             emailContent.UsdPrice = order.UsdPrice;
         }
-        var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent);
+        var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent.ToPlainText());
         var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);
         var email = new Email(toEmail, emailContent.Title, text, html);
         email = dbContext.Emails.Add(email).Entity;
         dbContext.SaveChanges();
         return email;
-    }
-
-    private string RemoveTags(string text)
-    {
-        text = text.Replace("<br>", "\n");
-        bool inTag = false;
-        var builder = new StringBuilder();
-        foreach (char c in text) {
-            if (c == '<') {
-                inTag = true;
-            } else if (c == '>') {
-                inTag = false;
-            } else if (!inTag) {
-                builder.Append(c);
-            }
-        }
-        return builder.ToString();
     }
 }

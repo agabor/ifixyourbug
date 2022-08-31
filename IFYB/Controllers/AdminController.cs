@@ -94,7 +94,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            emailDispatchService.DispatchEmail(client.Email, "OrderMessage", order, new { Name = client.Name, Message = message.Text });
+            emailDispatchService.DispatchEmail(client.Email, "OrderMessage", order, new { Name = client.Name, Message = message.Text.ToHtml() });
         }
         return Ok(message.ToDto());
     }
