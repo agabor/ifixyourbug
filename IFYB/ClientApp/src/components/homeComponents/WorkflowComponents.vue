@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { useOfferData } from "../../store";
+import { useSettings } from "../../store";
 import { computed } from 'vue';
 import { event } from 'vue-gtag';
 
@@ -92,7 +92,7 @@ export default {
   name: 'WorkflowComponents',
   setup() {
 
-    const { eurPrice, usdPrice, workdays } = useOfferData();
+    const { eurPrice, usdPrice, workdays } = useSettings();
 
     const eurPriceForDisplay = computed(() => parseFloat(eurPrice.value).toFixed(2));
 

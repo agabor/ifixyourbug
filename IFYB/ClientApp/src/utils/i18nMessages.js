@@ -54,13 +54,13 @@ export const messages = {
       },
       "features": {
         "fast": "Fast",
-        "fastDescription": "Bug fixing within 3 workdays.",
+        "fastDescription": "Bug fixing within { workdays } workdays.",
         "fixPrice": "Fix Price",
         "fixPriceDescription": "Does not matter if it takes half an hour or multiple days.",
         "easy": "Easy submission",
         "easyDescription": "It takes just a few minutes.",
         "refundable": "Fully Refundable",
-        "refundableDescription": "Either get a bugfix within 3 workdays or get your money back."
+        "refundableDescription": "Either get a bugfix within { workdays } workdays or get your money back."
       },
       "nameCard": {
         "name": "Gabor Angyal",
@@ -75,7 +75,7 @@ export const messages = {
         "mainTitle": "Best no-tricks pricing",
         "mainSubTitle": "Fix price for all bugs.",
         "title": "Single Bugfix",
-        "description": "ASP.NET Core and Vue.js bug fixing within {workdays} workdays",
+        "description": "ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
         "whatsincluded": "What's included",
         "include1": "ASP.NET Core",
         "include2": "Vue.js",
@@ -139,12 +139,12 @@ export const messages = {
         "question2": "What are the requirements for an order to be accepted?",
         "answer2": "First of all, it should be clear how to run your project. If your project needs some kind of custom configuration to start, please provide a description. The bug description must be clear, and the bug must be reproducible.",
         "question3": "How long does it take to receive a bugfix?",
-        "answer3": "If your order is accepted, you will receive a payment link by e-mail. After you make a payment, I have 3 workdays to fix your bug. If you do not receive a working bugfix within 3 workdays, you will be fully refunded."
+        "answer3": "If your order is accepted, you will receive a payment link by e-mail. After you make a payment, I have { workdays } workdays to fix your bug. If you do not receive a working bugfix within { workdays } workdays, you will be fully refunded."
       },
       "faqRefunds": {
         "title": "Refunds",
         "question1": "How do I get a refund?",
-        "answer1": "If I can not deliver a working bugfix within 3 workdays, you do not have to do anything, you will automatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messaging feature on your order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim."
+        "answer1": "If I can not deliver a working bugfix within { workdays } workdays, you do not have to do anything, you will automatically get a full refund. If you receive a bugfix, but you are not satisfied, use the messaging feature on your order page, or send an e-mail to gabor{'@'}ifixyourbug.com, and tell me about your problem. You will be refunded for any reasonable claim."
       },
       "design": {
         "title": "Designed by",

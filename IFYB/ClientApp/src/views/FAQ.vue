@@ -20,7 +20,7 @@
                   </button>
                 </h6>
                 <div :id="`collapseSettings${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${n}`" data-bs-parent="#accordionFaq2">
-                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqOrders.answer${n}`) }}</div>
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqOrders.answer${n}`, { workdays }) }}</div>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@
                   </button>
                 </h6>
                 <div :id="`collapseLicenses${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingLicenses${n}`" data-bs-parent="#accordionFaq4">
-                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqRefunds.answer${n}`) }}</div>
+                  <div class="accordion-body text-sm opacity-8">{{ $t(`faqRefunds.answer${n}`, { workdays }) }}</div>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
 
 <script>
 import SshKeyPreview from '@/components/SshKeyPreview.vue';
-import { useGitServices } from '@/store';
+import { useGitServices, useSettings } from '@/store';
 
 export default {
   components: {SshKeyPreview},
@@ -103,8 +103,9 @@ export default {
     const faqRefunds = 1;
 
     const { gitServices } = useGitServices();
+    const { workdays } = useSettings();
 
-    return { faqSecurityCount, faqOrders, faqRefunds, gitServices };
+    return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays };
   }
 }
 </script>

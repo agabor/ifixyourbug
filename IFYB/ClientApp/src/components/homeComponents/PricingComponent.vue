@@ -76,12 +76,12 @@
 </template>
 
 <script>
-import { useOfferData } from "../../store";
+import { useSettings } from "../../store";
 
 export default {
   name: 'PricingComponent',
   setup() {
-    const { eurPrice, usdPrice, workdays } = useOfferData();
+    const { eurPrice, usdPrice, workdays } = useSettings();
 
     return { eurPrice, usdPrice, workdays }
   }

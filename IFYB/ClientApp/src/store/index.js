@@ -16,7 +16,7 @@ fetch('/api/settings').then(resp => {
   });
 });
 
-export function useOfferData() {
+export function useSettings() {
   return { eurPrice, usdPrice, workdays };
 }
 
