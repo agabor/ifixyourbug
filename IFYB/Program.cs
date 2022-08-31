@@ -46,6 +46,7 @@ var settings = new Settings
     EurPrice = eurPrice.UnitAmountDecimal!.Value / 100,
     UsdPrice = usdPrice.UnitAmountDecimal!.Value / 100,
     Workdays = 3,
+    GitServices = gitOptions.Services,
     SshKey = gitOptions.SshKey
 }; 
 

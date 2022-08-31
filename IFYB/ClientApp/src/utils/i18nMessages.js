@@ -127,17 +127,10 @@ export const messages = {
       },
       "faqRepos": {
         "title": "Repositories",
-        "question1": "I have a private repository on GitHub, that I would like to submit a bug for. How do I share the code with you?",
+        "question1": "I have a private repository on { saas }, that I would like to submit a bug for. How do I share the code with you?",
         "answer1": "Please invite me to your repo, you find my account ",
-        "link1": "https://github.com/agabor",
-        "question2": "I have a private repository on BitBucket, that I would like to submit a bug for. How do I share the code with you?",
-        "answer2": "Please invite me to your repo, you find my account ",
-        "link2": "https://bitbucket.org/agabor",
-        "question3": "I have a private repository on GitLab, that I would like to submit a bug for. How do I share the code with you?",
-        "answer3": "Please invite me to your repo, you find my account ",
-        "link3": "https://gitlab.com/agabor",
-        "question4": "I have a self-hosted repository, that I would like to submit a bug for. How do I share the code with you?",
-        "answer4": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like to create an account for me, then please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
+        "question2": "I have a self-hosted repository, that I would like to submit a bug for. How do I share the code with you?",
+        "answer2": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you would like to create an account for me, then please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
       },
       "faqOrders": {
         "title": "Orders",

@@ -14,7 +14,7 @@
             <div class="accordion" id="accordionFaq2">
               <div class="accordion-item" v-for="n in faqOrders" :key="n">
                 <h6 class="accordion-header" :id="`headingSettings${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqOrders.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseSettings${n}`" aria-expanded="false" :aria-controls="`collapseSettings${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseSettings${n}`" aria-expanded="false" :aria-controls="`collapseSettings${n}`">
                     {{ $t(`faqOrders.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -26,18 +26,31 @@
             </div>
             <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRepos.title') }}</h4>
             <div class="accordion" id="accordionFaq3">
-              <div class="accordion-item" v-for="n in faqRepos" :key="n">
-                <h6 class="accordion-header" :id="`headingSettings${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqRepos.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${n}`" aria-expanded="false" :aria-controls="`collapseRepos${n}`">
-                    {{ $t(`faqRepos.question${n}`) }}
+              <div class="accordion-item" v-for="service in gitServices" :key="service.name">
+                <h6 class="accordion-header" id="headingSettings1">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${service.name}`" aria-expanded="false" :aria-controls="`collapseRepos${gitServices.name}`">
+                    {{ $t('faqRepos.question1', {saas: service.name}) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
                 </h6>
-                <div :id="`collapseRepos${n}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${n}`" data-bs-parent="#accordionFaq3">
+                <div :id="`collapseRepos${service.name}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${service.name}`" data-bs-parent="#accordionFaq3">
                   <div class="accordion-body text-sm opacity-8">
-                    <span>{{$t(`faqRepos.answer${n}`)}}</span>
-                    <a :href="$t(`faqRepos.link${n}`)" target="_blank" v-if="n < 4">here.</a>
-                  <ssh-key-preview v-if="n === 4"></ssh-key-preview>
+                    <span>{{$t('faqRepos.answer1')}}</span>
+                    <a :href="service.user" target="_blank">here.</a>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item" >
+                <h6 class="accordion-header" id="headingSettings2">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRepos2" aria-expanded="false" aria-controls="collapseRepos2">
+                    {{ $t('faqRepos.question2') }}
+                    <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
+                  </button>
+                </h6>
+                <div id="collapseRepos2" class="accordion-collapse collapse" aria-labelledby="headingSettings2" data-bs-parent="#accordionFaq3">
+                  <div class="accordion-body text-sm opacity-8">
+                    <span>{{$t(`faqRepos.answer2`)}}</span>
+                    <ssh-key-preview></ssh-key-preview>
                   </div>
                 </div>
               </div>
@@ -46,7 +59,7 @@
             <div class="accordion" id="accordionFaq4">
               <div class="accordion-item" v-for="n in faqRefunds" :key="n">
                 <h6 class="accordion-header" :id="`headingLicenses${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqRefunds.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseLicenses${n}`" aria-expanded="false" :aria-controls="`collapseLicenses${n}`">
                     {{ $t(`faqRefunds.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -60,7 +73,7 @@
             <div class="accordion" id="accordionFaq">
               <div class="accordion-item" v-for="n in faqSecurityCount" :key="n">
                 <h6 class="accordion-header" :id="`headingBasics${n}`">
-                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" @click="clickAccordion($t(`faqSecurity.question${n}`))" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
+                  <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseBasics${n}`" aria-expanded="false" :aria-controls="`collapseBasics${n}`">
                     {{ $t(`faqSecurity.question${n}`) }}
                     <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
                   </button>
@@ -80,21 +93,18 @@
 
 <script>
 import SshKeyPreview from '@/components/SshKeyPreview.vue';
-import { event } from 'vue-gtag';
+import { useGitServices } from '@/store';
 
 export default {
   components: {SshKeyPreview},
   setup() {
     const faqSecurityCount = 2;
     const faqOrders = 3;
-    const faqRepos = 4;
     const faqRefunds = 1;
 
-    function clickAccordion(text) {
-      event('click-accordion', { 'value': text });
-    }
+    const { gitServices } = useGitServices();
 
-    return { faqSecurityCount, faqOrders, faqRepos, faqRefunds, clickAccordion };
+    return { faqSecurityCount, faqOrders, faqRefunds, gitServices };
   }
 }
 </script>

@@ -101,19 +101,16 @@ public class OrdersController : BaseController
         string? saas = null;
         if (gitAccess.AccessMode == GitAccessMode.Invite) 
         {
+            gitUser = "gabor@ifixyourbug.com";
+            saas = "None";
             var url = gitAccess.Url.ToLower();
-            if (url.Contains("github.com")) {
-                gitUser = gitOptions.GitHubUser;
-                saas = "GitHub";
-            } else if (url.Contains("bitbucket.com")) {
-                gitUser = gitOptions.BitBucketUser;
-                saas = "BitBucket";
-            } else if (url.Contains("gitlab.com")) {
-                gitUser = gitOptions.GitLabUser;
-                saas = "GitLab";
-            } else {
-                gitUser = "gabor@ifixyourbug.com";
-                saas = "None";
+            foreach (var service in gitOptions.Services)
+            {
+                if (url.Contains(service.Domain))
+                {
+                    gitUser = service.User;
+                    saas = service.Name;
+                }
             }
         }
 

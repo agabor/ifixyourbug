@@ -5,13 +5,14 @@ const eurPrice = ref(null);
 const usdPrice = ref(null);
 const workdays = ref(null);
 const sshKey = ref(null);
+const gitServices = ref(null);
 
 fetch('/api/settings').then(resp => {
   resp.json().then(data => {
     eurPrice.value = data.eurPrice;
     usdPrice.value = data.usdPrice;
     workdays.value = data.workdays;
-    sshKey.value = data.sshKey;
+    gitServices.value = data.gitServices;
   });
 });
 
@@ -203,4 +204,7 @@ export function usePayment() {
 
 export function useSshKey() {
   return { sshKey }
+}
+export function useGitServices() {
+  return { gitServices }
 }
