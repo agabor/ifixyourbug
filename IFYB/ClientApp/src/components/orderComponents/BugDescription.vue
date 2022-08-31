@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-12 mb-3">
       <div class="form-group mb-0">
-        <label>{{ $t('newOrder.bugDescription') }}*</label>
-        <text-editor :modelValue="modelValue" :placeholder="$t('newOrder.bugDescription')" @update:modelValue="updateModelValue"></text-editor>
+        <label>{{ $t('orderViewer.bugDescription') }}*</label>
+        <text-editor :modelValue="modelValue" :placeholder="$t('orderViewer.bugDescription')" @update:modelValue="updateModelValue"></text-editor>
       </div>
       <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.bugDescription }}</small></em></span>
     </div>
