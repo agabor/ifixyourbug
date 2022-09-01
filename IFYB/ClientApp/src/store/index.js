@@ -208,3 +208,39 @@ export function useSshKey() {
 export function useGitServices() {
   return { gitServices }
 }
+
+const gitAccesses = ref([]);
+
+setGitAccesses();
+
+async function setGitAccesses() {
+  let response = await userGet('/api/git-accesses');
+  if(response.status == 200) {
+    resetServerError();
+    gitAccesses.value = await response.json();
+  } else {
+    setServerError(response.statusText);
+    gitAccesses.value = [];
+  }
+}
+
+async function getGitAccessId(id, url, mode) {
+  let gitAccessId;
+  if(id){
+    gitAccessId = id;
+  } else {
+    let response = await userPost(`/api/git-accesses`, {'url': url, 'accessMode': mode});
+    if(response.status == 200) {
+      resetServerError();
+      gitAccessId = (await response.json()).id;
+      setGitAccesses();
+    } else {
+      setServerError(response.statusText);
+    }
+  }
+  return gitAccessId;
+}
+
+export function useGitAccess() {
+  return { gitAccesses, getGitAccessId }
+}

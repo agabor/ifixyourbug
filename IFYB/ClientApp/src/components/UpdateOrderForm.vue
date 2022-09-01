@@ -38,11 +38,10 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication } from "../store";
+import { useServerError, useInputError, useUserAuthentication, useGitAccess } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 import { event } from 'vue-gtag';
-import { getGitAccesses, getGitAccessId } from '../utils/Helper';
 
 export default {
   name: 'NewOrderForm',
@@ -55,14 +54,13 @@ export default {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
     const { get, post } = useUserAuthentication();
+    const { gitAccesses, getGitAccessId } = useGitAccess();
     const order = reactive(props.updateableOrder);
     const selectedAccess = ref({});
     const showErrors = ref(false);
     const activeBtn = ref(true);
     const progress = ref(0);
-    const gitAccesses = ref([]);
 
-    setGitAccess();
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -74,6 +72,8 @@ export default {
       }
     })
 
+    setGitAccess();
+
     async function setGitAccess() {
       let response = await get(`/api/git-accesses/${props.updateableOrder.gitAccessId}`);
       if(response.status == 200) {
@@ -82,12 +82,6 @@ export default {
       } else {
         setServerError(response.statusText);
       }
-    }
-
-    setGitAccesses();
-
-    async function setGitAccesses() {
-      gitAccesses.value = await getGitAccesses();
     }
     
     function cancelSubmit() {

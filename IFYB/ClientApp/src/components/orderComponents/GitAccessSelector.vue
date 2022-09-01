@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 export default {
   name: 'GitAccessSelector',
   emits:['update:modelValue'],
@@ -21,6 +21,10 @@ export default {
   },
   setup(props) {
     const selectedAccess = ref(props.modelValue);
+
+    watch(props, () => {
+      selectedAccess.value = props.modelValue;
+    })
 
     return { selectedAccess };
   }
