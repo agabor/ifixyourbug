@@ -14,7 +14,8 @@
     </div>
     <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
     <div class="col-12" v-if="mode > -1">
-      <span>{{ $t(`projectSharing.description${mode+1}`) }}</span>
+      <span v-if="mode == 1">{{ inviteText }}</span>
+      <span v-else-if="mode > -1">{{ $t(`projectSharing.description${mode+1}`) }}</span>
     </div>
   </div>
   <ssh-key-preview v-if="mode === 2"></ssh-key-preview>
@@ -24,7 +25,7 @@
 import { ref, watch } from 'vue'
 import { required, validGitUrl } from '../../utils/Validate';
 import { useI18n } from "vue-i18n";
-import { useInputError } from "../../store";
+import { useInputError, useGitServices } from "../../store";
 import SshKeyPreview from '../SshKeyPreview.vue';
 
 export default {
@@ -43,15 +44,19 @@ export default {
     const urlText = ref(props.modelValue ?? '');
     const { tm } = useI18n();
     const { inputErrors, setInputError } = useInputError();
+    const { gitServices } = useGitServices();
+    const inviteText = ref(null);
 
     setInputError('repoUrl', validGitUrl(urlText.value));
     setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
+    setInviteText();
 
     watch(() => [props.modelValue, props.accessMode], () => {
       urlText.value = props.modelValue;
       mode.value = props.accessMode;
     })
     watch(urlText, () => {
+      setInviteText();
       context.emit('update:modelValue', urlText.value);
       setInputError('repoUrl', validGitUrl(urlText.value));
     });
@@ -60,7 +65,18 @@ export default {
       setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
     });
 
-    return { optionCount, mode, urlText, inputErrors };
+    function setInviteText() {
+      let domain = (new URL(urlText.value)).hostname.replace('www.','');
+      inviteText.value = tm('projectSharing.description2default');
+      for(let i = 0; i < gitServices.value.length; i++){
+        if(gitServices.value[i].domain == domain) {
+          inviteText.value = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
+          break;
+        }
+      }
+    }
+
+    return { optionCount, mode, urlText, inputErrors, gitServices, inviteText };
   }
 }
 </script>

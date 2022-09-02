@@ -290,7 +290,8 @@ export const messages = {
         "option2": "Invite to repository",
         "option3": "Create account for repository",
         "description1": "Use this option if your project is hosted publicly. (For example on GitHub, GitLab, or Bitbucket.)",
-        "description2": "Use this option if your project is hosted privately, and you wish to invite me. If your project is hosted on GitHub, GitLab or Bitbucket, please invite the following user: agabor (gabor{'@'}ifixyourbug.com). If your project is hosted elsewhere, please send an invitation link to this e-mail address.",
+        "description2": "It looks like your repository is hosted on {saas}. Please invite the following {saas} user: <a href=\"{git_user}\">{git_user}</a>",
+        "description2default": "Please send an invitation for your repository to the following email address: gabor@ifixyourbug.com",
         "description3": "Use this option if your project is hosted privately, and you wish to create an account for me. Please include the user credentials in the bug description. If you want to use an SSH key, please use the following public key:"
       },
       "thirdPartyTool": {
