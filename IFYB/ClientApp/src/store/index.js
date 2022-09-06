@@ -12,6 +12,7 @@ fetch('/api/settings').then(resp => {
     eurPrice.value = data.eurPrice;
     usdPrice.value = data.usdPrice;
     workdays.value = data.workdays;
+    sshKey.value = data.sshKey;
     gitServices.value = data.gitServices;
   });
 });
@@ -82,7 +83,7 @@ async function post(route, body, jwt) {
 const requestedPage = ref(null);
 const userJwt = ref(localStorage.getItem('jwt'));
 const isUserLoggedIn = ref(false);
-const userName = ref(null);
+const userName = ref(localStorage.getItem('jwt'));
 const userEmail = ref(null);
 
 setUserJwt(localStorage.getItem('jwt'));
@@ -105,10 +106,12 @@ async function setUserData () {
   let response = await userGet('/api/clients/client');
   if(response.status == 200){
     let user = await response.json();
+    localStorage.setItem('userName', user.name);
     userName.value = user.name;
     userEmail.value = user.email;
     isUserLoggedIn.value = true;
   } else {
+    localStorage.removeItem('userName');
     userName.value = null;
     isUserLoggedIn.value = false;
   }
@@ -119,10 +122,12 @@ async function setName(name) {
   event('set-name', { 'value': response.status });
   if(response.status == 200) {
     resetServerError();
+    localStorage.setItem('userName', name);
     userName.value = name;
     isUserLoggedIn.value = true;
   } else {
     setServerError(response.statusText);
+    localStorage.removeItem('userName');
     userName.value = null;
     isUserLoggedIn.value = false;
   }
@@ -211,8 +216,6 @@ export function useGitServices() {
 
 const gitAccesses = ref([]);
 
-setGitAccesses();
-
 async function setGitAccesses() {
   let response = await userGet('/api/git-accesses');
   if(response.status == 200) {
@@ -242,5 +245,6 @@ async function getGitAccessId(id, url, mode) {
 }
 
 export function useGitAccess() {
+  setGitAccesses();
   return { gitAccesses, getGitAccessId }
 }

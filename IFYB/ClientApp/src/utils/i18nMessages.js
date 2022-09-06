@@ -9,6 +9,7 @@ export const messages = {
         "requiredBrowserVersion": "Browser version required",
         "requiredAppUrl": "App URL required",
         "requiredGitRepoUrl": "Git repo URL required",
+        "requiredAccessMode": "Access Mode required",
         "requiredProjectSharing": "Project sharing required",
         "requiredBugDes": "Bug description required",
         "requiredThirdPartyTool": "Third-party tool required",

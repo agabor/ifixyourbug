@@ -2,23 +2,22 @@
   <div class="row">
     <div class="col-12 mb-3">
       <label>{{ $t('projectSharing.urlLabel') }}</label>
-      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" v-model="urlText" :disabled="!visible">
+      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" :value="modelValue" @input="updateUrl($event.target.value)" :disabled="!visible">
       <span class="text-danger" v-if="showError && inputErrors.repoUrl"><em><small>{{ $t(`${inputErrors.repoUrl}`) }}</small></em></span>
     </div>
     <label>{{ $t('projectSharing.sharingLabel') }}</label>
     <div class="col-12 d-flex flex-wrap">
-      <div class="form-check me-3" v-for="n in optionCount" :key="n">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`flexRadioDefault${n}`" :value="n-1" v-model="mode" :disabled="!visible">
-        <label class="form-check-label" :for="`flexRadioDefault${n}`">{{ $t(`projectSharing.option${n}`) }}</label>
+      <div class="form-check me-3" v-for="(option, idx) in sharingOptions" :key="idx">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="option.title" :value="option" v-model="selectedOption" @input="updateSelectedOption(option)" :disabled="!visible">
+        <label class="form-check-label" :for="option.title">{{ option.title }}</label>
       </div>
     </div>
     <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
-    <div class="col-12" v-if="mode > -1">
-      <span v-if="mode == 1">{{ inviteText }}</span>
-      <span v-else-if="mode > -1">{{ $t(`projectSharing.description${mode+1}`) }}</span>
+    <div class="col-12" v-if="selectedOption">
+      <span>{{ selectedOption.descrption }}</span>
     </div>
   </div>
-  <ssh-key-preview v-if="mode === 2"></ssh-key-preview>
+  <ssh-key-preview v-if="selectedOption && selectedOption.id === 2"></ssh-key-preview>
 </template>
 
 <script>
@@ -40,43 +39,69 @@ export default {
   components: { SshKeyPreview },
   setup(props, context) {
     const optionCount = 3;
-    const mode = ref(props.accessMode);
-    const urlText = ref(props.modelValue ?? '');
     const { tm } = useI18n();
     const { inputErrors, setInputError } = useInputError();
     const { gitServices } = useGitServices();
-    const inviteText = ref(null);
+    const sharingOptions = ref([]);
+    const selectedOption = ref(null);
 
-    setInputError('repoUrl', validGitUrl(urlText.value));
-    setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
+    setSharingOptions();
+    setInputError('repoUrl', validGitUrl(props.modelValue));
+    setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
     setInviteText();
 
-    watch(() => [props.modelValue, props.accessMode], () => {
-      urlText.value = props.modelValue;
-      mode.value = props.accessMode;
+    watch(props, () => {
+      selectedOption.value = sharingOptions.value[props.accessMode];
+      setInputError('repoUrl', validGitUrl(props.modelValue));
+      setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
     })
-    watch(urlText, () => {
-      setInviteText();
-      context.emit('update:modelValue', urlText.value);
-      setInputError('repoUrl', validGitUrl(urlText.value));
-    });
-    watch(mode, () => {
-      context.emit('update:accessMode', mode.value);
-      setInputError('accessMode', required(mode.value, tm('errors.requiredGitRepoUrl')));
-    });
 
-    function setInviteText() {
-      let domain = (new URL(urlText.value)).hostname.replace('www.','');
-      inviteText.value = tm('projectSharing.description2default');
-      for(let i = 0; i < gitServices.value.length; i++){
-        if(gitServices.value[i].domain == domain) {
-          inviteText.value = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
-          break;
+    function setSharingOptions() {
+      for(let i = 0; i < optionCount; i++) {
+        if(i == 1) {
+          let des = tm('projectSharing.description2default');
+          if(!validGitUrl(props.modelValue)) {
+            des = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
+          }
+          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), descrption: des});
+        } else {
+          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), descrption: tm(`projectSharing.description${i+1}`)});
+        }
+        if(i == props.accessMode) {
+          selectedOption.value = sharingOptions.value[i]
         }
       }
     }
 
-    return { optionCount, mode, urlText, inputErrors, gitServices, inviteText };
+    function setInviteText() {
+      if(!validGitUrl(props.modelValue)) {
+        const url = new URL(props.modelValue);
+        const domain = url.hostname.replace('www.','');
+        for(let i = 0; i < gitServices.value.length; i++){
+          if(gitServices.value[i].domain.includes(domain)) {
+            sharingOptions.value[1].descrption = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
+            break;
+          }
+        }
+      } else {
+        sharingOptions.value[1].descrption = tm('projectSharing.description2default');
+      }
+    }
+
+    function updateUrl(value) {
+      setInviteText();
+      context.emit('update:modelValue', value);
+      setInputError('repoUrl', validGitUrl(value));
+    }
+
+    function updateSelectedOption(option) {
+      selectedOption.value = option;
+      context.emit('update:accessMode', selectedOption.value.id);
+      setInputError('repoUrl', validGitUrl(props.modelValue));
+      setInputError('accessMode', required(selectedOption.value.id, tm('errors.requiredAccessMode')));
+    }
+
+    return { optionCount, selectedOption, sharingOptions, inputErrors, gitServices, updateUrl, updateSelectedOption };
   }
 }
 </script>

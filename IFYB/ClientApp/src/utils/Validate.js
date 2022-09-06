@@ -27,7 +27,7 @@ export function min(e, i) {
 
 export function validGitUrl(url) {
   if(url === '' || !url)
-    return 'errors.requiredProjectSharing';
+    return 'errors.requiredGitRepoUrl';
   if(!testHttpUrl(url) && !testSshUrl(url)) {
     return 'errors.badSharingUrl';
   }
