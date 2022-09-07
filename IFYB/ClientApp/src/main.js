@@ -40,9 +40,11 @@ app.config.globalProperties.$filters = {
   },
 }
 
+let acceptedCookies = JSON.parse(localStorage.getItem('acceptedCookies'));
+
 app.use(router).use(i18n).use(VueGtag, {
   config: { id: "G-TX7L6QHPS3" },
-  enabled: JSON.parse(localStorage.getItem('acceptedCookies'))?.analytics ? JSON.parse(localStorage.getItem('acceptedCookies')).analytics : false
+  enabled: acceptedCookies ? acceptedCookies.analytics : false
 }).mount('#app');
 
 function reportError(obj) {

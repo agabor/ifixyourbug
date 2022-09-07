@@ -19,7 +19,6 @@ import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
 import router from '@/router';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'AdminOrderView',
@@ -44,7 +43,6 @@ export default {
 
     async function setSelectedOrder() {
       let response = await get(`/api/admin/orders/${route.params.number}`);
-      event('admin-set-selected-order', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         selectedOrder.value = await response.json();
@@ -79,7 +77,6 @@ export default {
     }
 
     function closeSelectedOrder() {
-      event('admin-close-selected-order');
       selectedOrder.value = null;
       messages.value = [];
       router.push('/admin');
@@ -90,7 +87,6 @@ export default {
           clientId: localStorage.getItem('adminId'),
           text: message
         });
-      event('admin-submit-message', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         let newMessage = await response.json();
@@ -101,7 +97,6 @@ export default {
     }
 
     function tryChangeOrderState(state, b) {
-      event('admin-try-change-order-state', { 'value': state });
       nextState.value = state;
       if(b) {
         stateMessage.value = '';
@@ -124,7 +119,6 @@ export default {
       } else {
         response = await post(`/api/admin/orders/${selectedOrder.value.number}/state`, nextState.value);
       }
-      event('admin-change-order-state', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         selectedOrder.value.state = nextState.value;
@@ -136,7 +130,6 @@ export default {
     }
 
     function cancelChangeOrderState() {
-      event('admin-cancel-change-order-state');
       nextState.value = null;
       showModal.value = false;
     }

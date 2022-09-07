@@ -92,7 +92,6 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import { useServerError, useAdminAuthentication } from "../store";
-import { event } from 'vue-gtag';
 import StateBadge from './StateBadge.vue';
 
 export default {
@@ -119,7 +118,6 @@ export default {
       }
     }
     function copyToClipboard(text) {
-      event('copy-to-clipboard', { 'value': text });
       navigator.clipboard.writeText(text);
     }
     return { gitAccess, copyToClipboard }

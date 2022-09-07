@@ -40,7 +40,6 @@ import { useRoute } from 'vue-router';
 import { usePayment } from '@/store';
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '@/components/OneClickBtn.vue';
-import { event } from 'vue-gtag';
 
 export default {
   components: { CarouselItem, OneClickBtn },
@@ -68,7 +67,6 @@ export default {
     });    
 
     function pay(isEur) {
-      event(`pay-with-${isEur ? 'euro' : 'usd'}`);
       progress.value = 30;
       fetch(`/api/pay/${route.params.token}/${isEur}`, { method: 'post' }).then(resp => {
         payment.setPaymentToken(route.params.token)

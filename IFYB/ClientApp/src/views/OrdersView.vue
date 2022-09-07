@@ -17,7 +17,6 @@ import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import { useServerError, useUserAuthentication } from "../store";
 import router from '../router';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'OrdersView',
@@ -39,7 +38,6 @@ export default {
     setOrders();
 
     function openOrder(order) {
-      event('selected-order', { 'value': order.number });
       router.push(`/my-orders/${order.number}`)
     }
 

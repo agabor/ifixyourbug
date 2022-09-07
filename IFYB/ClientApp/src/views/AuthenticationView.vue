@@ -15,7 +15,6 @@ import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
 import { useServerError, useUserAuthentication } from "../store";
 import router from '../router';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'AuthenticationView',
@@ -56,7 +55,6 @@ export default {
         },
         body: JSON.stringify({'email': e, 'privacyPolicyAccepted': acceptedPolicy.value})
       });
-      event('set-email', { 'value': response.status });
       progress.value = 100;
       email.value = e;
       if(response.status === 200) {
@@ -83,7 +81,6 @@ export default {
     }
 
     function changePolicy(accepted) {
-      event('change-policy', { 'value': accepted });
       acceptedPolicy.value = accepted;
       showRequired.value = false;
     }
@@ -133,7 +130,6 @@ export default {
     }
 
     async function cancelLogin() {
-      event('cancel-login');
       activeBtn.value = true;
       progress.value = 0;
       acceptedPolicy.value = false;

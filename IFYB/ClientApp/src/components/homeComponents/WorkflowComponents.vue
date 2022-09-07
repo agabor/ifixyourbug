@@ -86,7 +86,6 @@
 <script>
 import { useSettings } from "../../store";
 import { computed } from 'vue';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'WorkflowComponents',
@@ -99,7 +98,6 @@ export default {
     const usdPriceForDisplay = computed(() => parseFloat(usdPrice.value).toFixed(2));
 
     function toPricing() {
-      event('scroll-to-pricing');
       document.getElementById('pricing').scrollIntoView();
     }
     return { toPricing, eurPriceForDisplay, usdPriceForDisplay, workdays }

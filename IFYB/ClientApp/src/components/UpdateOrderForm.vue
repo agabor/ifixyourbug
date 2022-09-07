@@ -41,7 +41,6 @@ import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useServerError, useInputError, useUserAuthentication, useGitAccess } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'NewOrderForm',
@@ -60,7 +59,6 @@ export default {
     const showErrors = ref(false);
     const activeBtn = ref(true);
     const progress = ref(0);
-
 
     watch(selectedAccess, () => {
       if(selectedAccess.value) {
@@ -85,12 +83,10 @@ export default {
     }
     
     function cancelSubmit() {
-      event('cancel-submit-update-order');
       router.push('/my-orders');
     }
 
     function tryUpdateOrder() {
-      event('try-submit-update-order');
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
@@ -114,7 +110,6 @@ export default {
           'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.repoUrl, order.accessMode)
         }
       );
-      event('submit-update-order', { 'value': response.status });
       if(response.status == 200) {
         resetServerError();
         context.emit('updated', await response.json())

@@ -19,7 +19,6 @@ import { required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'NameForm',
@@ -42,7 +41,6 @@ export default {
     })
 
     function trySetName() {
-      event('try-set-name');
       let err = required(name.value, tm('errors.requiredName'), 'name-input');
       if(err) {
         validationError.value = err;
@@ -55,7 +53,6 @@ export default {
     }
 
     function cancel() {
-      event('cancel-set-name');
       context.emit('cancel');
     }
 

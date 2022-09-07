@@ -62,7 +62,6 @@ import { ref, watch } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
 import SortableTh from './SortableTh.vue';
 import StateBadge from './StateBadge.vue';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'AdminOrderList',
@@ -89,7 +88,6 @@ export default {
       }
       const ordBy = orderBy.value;
       const asc = orderAsc.value;
-      event(`admin-sort-orders-by-${ordBy}`, { 'value': asc });
       if (orderBy.value !== '')
         filteredOrders.value.sort((a, b) => {
           if (a[ordBy] < b[ordBy] ^ asc)

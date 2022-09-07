@@ -17,7 +17,6 @@ import CarouselItem from '../components/CarouselItem.vue';
 import AdminOrderList from '../components/AdminOrderList.vue';
 import { useServerError, useAdminAuthentication } from "../store";
 import router from '@/router';
-import { event } from 'vue-gtag';
 
 export default {
   name: 'AdminView',
@@ -57,7 +56,6 @@ export default {
     }
 
     function openOrder(order) {
-      event('admin-selected-order', { 'value': order.number });
       router.push(`/admin/${order.number}`)
     }
 
