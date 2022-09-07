@@ -26,7 +26,7 @@ export default {
   components: { AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get, post } = useAdminAuthentication();
+    const { get, post, isLoggedIn } = useAdminAuthentication();
     const clients = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
@@ -36,7 +36,11 @@ export default {
     const showError = ref(false);
     const route = useRoute();
 
-    setSelectedOrder();
+    if(isLoggedIn.value) {
+      setSelectedOrder();
+    } else {
+      router.push('/admin-authentication');
+    }
 
     async function setSelectedOrder() {
       let response = await get(`/api/admin/orders/${route.params.number}`);

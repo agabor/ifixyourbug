@@ -34,17 +34,11 @@ function paymentGuard(to) {
 }
 
 function userAuthenticationGuard(to) {
-  if (userAuth.isLoggedIn.value)
-    return true;
   userAuth.requestedPage.value = to;
-  return { path: '/authentication' }
 }
 
 function adminAuthenticationGuard(to) {
-  if (adminAuth.isLoggedIn.value)
-    return true;
   adminAuth.requestedPage.value = to;
-  return { path: '/admin-authentication' }
 }
 
 const routes = [

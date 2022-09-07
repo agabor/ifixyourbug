@@ -28,12 +28,13 @@ import ContactMessages from '../components/ContactMessages.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useServerError, useAdminAuthentication } from "../store";
 import { event } from 'vue-gtag';
+import router from '@/router';
 
 export default {
   name: 'ClientsView',
   components: { CarouselItem, ClientList, ContactMessages, SearchBar },
   setup() {
-    const { get } = useAdminAuthentication();
+    const { get, isLoggedIn } = useAdminAuthentication();
     const { setServerError, resetServerError } = useServerError();
     const clients = ref([]);
     const selectedClient = ref(null);
@@ -41,7 +42,11 @@ export default {
     const filteredClients = ref([]);
     const properties = ['name', 'email' ];
 
-    setClients();
+    if(isLoggedIn.value) {
+      setClients();
+    } else {
+      router.push('/admin-authentication');
+    }
 
     async function setClients() {
       let response = await get('/api/admin/clients');

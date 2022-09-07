@@ -24,10 +24,14 @@ export default {
   components: { CarouselItem, OrderList },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get } = useUserAuthentication();
+    const { get, jwt } = useUserAuthentication();
     const orders = ref([]);
 
-    setOrders();
+    if(jwt.value) {
+      setOrders();
+    } else {
+      router.push('/authentication');
+    }
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');

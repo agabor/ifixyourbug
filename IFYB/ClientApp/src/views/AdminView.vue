@@ -24,12 +24,16 @@ export default {
   components: { CarouselItem, AdminOrderList },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get } = useAdminAuthentication();
+    const { get, isLoggedIn } = useAdminAuthentication();
     const orders = ref([]);
     const clients = ref([]);
 
-    setClients();
-    setOrders();
+    if(isLoggedIn.value) {
+      setClients();
+      setOrders();
+    } else {
+      router.push('/admin-authentication');
+    }
 
     async function setClients() {
       let response = await get('/api/admin/clients');
