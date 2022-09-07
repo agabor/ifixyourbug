@@ -24,14 +24,8 @@ export default {
   components: { CarouselItem, OrderList },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get, jwt } = useUserAuthentication();
+    const { get } = useUserAuthentication();
     const orders = ref([]);
-
-    if(jwt.value) {
-      setOrders();
-    } else {
-      router.push('/authentication');
-    }
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');
@@ -42,6 +36,7 @@ export default {
         setServerError(orderResponse.statusText);
       }
     }
+    setOrders();
 
     function openOrder(order) {
       event('selected-order', { 'value': order.number });

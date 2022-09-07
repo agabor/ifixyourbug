@@ -16,21 +16,12 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
-import { useUserAuthentication } from "../store";
-import router from '../router';
 
 export default {
   name: 'NewOrderView',
   components: { CarouselItem, NewOrderForm },
   setup() {
-    const page = ref(null);
-    const { jwt } = useUserAuthentication();
-
-    if(jwt.value) {
-      page.value = 'data';
-    } else {
-      router.push('/authentication');
-    }
+    const page = ref('data');
 
     return { page }
   }

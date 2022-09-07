@@ -24,17 +24,13 @@ export default {
   components: { OrderViewer, OrderMessages },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get, post, jwt } = useUserAuthentication();
+    const { get, post } = useUserAuthentication();
     const orders = ref([]);
     const messages = ref([]);
     const selectedOrder = ref(null);
     const route = useRoute();
 
-    if(jwt.value) {
-      setSelectedOrder();
-    } else {
-      router.push('/authentication');
-    }
+    setSelectedOrder();
 
     async function setSelectedOrder() {
       let response = await get(`/api/orders/${route.params.number}`);

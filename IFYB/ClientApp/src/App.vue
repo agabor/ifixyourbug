@@ -14,7 +14,6 @@
 import { useServerError } from "./store";
 import NavigationBar from "./components/NavigationBar.vue";
 import CookieModal from "./components/CookieModal.vue";
-import { useUserAuthentication } from "./store";
 import TimeoutModal from "./components/TimeoutModal.vue";
 
 export default {
@@ -22,9 +21,6 @@ export default {
   components: { NavigationBar, CookieModal, TimeoutModal },
   setup() {
     const { serverError } = useServerError();
-    const userAuth = useUserAuthentication();
-
-    userAuth.setJwt(localStorage.getItem('jwt'));
       
     return { serverError };
   },

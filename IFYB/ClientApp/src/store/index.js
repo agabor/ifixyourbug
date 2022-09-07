@@ -1,5 +1,10 @@
 import { ref } from 'vue';
-import { event } from 'vue-gtag';
+
+const timeout = ref(false);
+
+export function useTimeout() {
+  return { timeout }
+}
 
 const eurPrice = ref(null);
 const usdPrice = ref(null);
@@ -82,54 +87,33 @@ async function post(route, body, jwt) {
 
 const requestedPage = ref(null);
 const userJwt = ref(localStorage.getItem('jwt'));
-const isUserLoggedIn = ref(false);
-const userName = ref(localStorage.getItem('jwt'));
-const userEmail = ref(null);
+const isUserLoggedIn = ref(userJwt.value != null);
+const userName = ref(localStorage.getItem('clientName'));
+const userEmail = ref(localStorage.getItem('clientEmail'));
 
 setUserJwt(localStorage.getItem('jwt'));
 
-async function setUserJwt(jwt) {
-  event('set-jwt', { 'value': jwt });
+function setUserJwt(jwt) {
   userJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('jwt', jwt);
-    await setUserData();
-  } else {
-    localStorage.removeItem('jwt');
-    userName.value = null;
-    userEmail.value = null;
-    isUserLoggedIn.value = false;
-  }
-}
-
-async function setUserData () {
-  let response = await userGet('/api/clients/client');
-  if(response.status == 200){
-    let user = await response.json();
-    localStorage.setItem('userName', user.name);
-    userName.value = user.name;
-    userEmail.value = user.email;
     isUserLoggedIn.value = true;
   } else {
-    localStorage.removeItem('userName');
-    userName.value = null;
+    localStorage.removeItem('jwt');
     isUserLoggedIn.value = false;
   }
 }
 
 async function setName(name) {
   let response = await userPost('/api/clients/name', {'name': name});
-  event('set-name', { 'value': response.status });
-  if(response.status == 200) {
+  if(response.status === 200) {
     resetServerError();
-    localStorage.setItem('userName', name);
+    localStorage.setItem('clientName', name);
     userName.value = name;
-    isUserLoggedIn.value = true;
   } else {
     setServerError(response.statusText);
-    localStorage.removeItem('userName');
+    localStorage.removeItem('clientName');
     userName.value = null;
-    isUserLoggedIn.value = false;
   }
 }
 
@@ -141,16 +125,39 @@ function userPost(route, body) {
   return post(route, body, userJwt.value)
 }
 
+async function setUserData(resp) {
+  const data = await resp.json();
+  let parts = data.jwt.split(".");
+  if (parts.length == 3) {
+    let base64 = parts[1];
+    let payload = JSON.parse(atob(base64));
+    userName.value = payload.name;
+    userEmail.value = payload.email;
+    localStorage.setItem('clientName', userName.value);
+    localStorage.setItem('clientEmail', userEmail.value);
+    setUserJwt(data.jwt);
+  } else {
+    userName.value = null;
+    userEmail.value = null;
+    localStorage.removeItem('clientName');
+    localStorage.removeItem('clientEmail');
+    setUserJwt(null);
+  }
+}
+
 if (userJwt.value) {
   userGet('/api/authenticate/check-jwt').then(resp => {
     if (resp.status !== 200) {
       setUserJwt(null);
+      timeout.value = true;
+    } else {
+      setUserData(resp);
     }
   })
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost };
+  return { requestedPage, 'jwt': userJwt, 'setUserData': setUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
@@ -159,7 +166,6 @@ const isAdminLoggedIn = ref(false);
 setAdminJwt(localStorage.getItem('adminJwt'));
 
 function setAdminJwt(jwt) {
-  event('admin-set-jwt', { 'value': jwt });
   adminJwt.value = jwt;
   if (jwt) {
     localStorage.setItem('adminJwt', jwt);
@@ -183,6 +189,7 @@ if (adminJwt.value) {
   adminGet('/api/authenticate/admin/check-jwt').then(resp => {
     if (resp.status !== 200) {
       setAdminJwt(null);
+      timeout.value = true;
     }
   })
 }
@@ -218,7 +225,7 @@ const gitAccesses = ref([]);
 
 async function setGitAccesses() {
   let response = await userGet('/api/git-accesses');
-  if(response.status == 200) {
+  if(response.status === 200) {
     resetServerError();
     gitAccesses.value = await response.json();
   } else {
@@ -233,7 +240,7 @@ async function getGitAccessId(id, url, mode) {
     gitAccessId = id;
   } else {
     let response = await userPost(`/api/git-accesses`, {'url': url, 'accessMode': mode});
-    if(response.status == 200) {
+    if(response.status === 200) {
       resetServerError();
       gitAccessId = (await response.json()).id;
       setGitAccesses();

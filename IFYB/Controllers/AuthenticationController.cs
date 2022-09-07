@@ -25,8 +25,9 @@ public class AuthenticationController : BaseController
     [Authorize(Policy = Policies.ClientOnly)]
     public IActionResult CheckJwt()
     {
-        if (GetClient() != null)
-            return Ok();
+        Client? client = GetClient();
+        if (client != null)
+            return base.Ok(authenticationService.GenerateJWT(client));
         return Unauthorized();
     }
 

@@ -56,7 +56,7 @@ public class AuthenticationService
             case PasswordVerificationResult.Success:
                 ResetPassword(user);
                 eventLogService.LogUserEvent(user, "Successful authentication");
-                return GenerateJWT(user.Email, user.Role);
+                return GenerateJWT(user);
             case PasswordVerificationResult.Failed:
                 break;
         }
@@ -64,15 +64,20 @@ public class AuthenticationService
         return null;
     }
 
-    public JwtDto GenerateJWT(string email, string role)
+    public JwtDto GenerateJWT(IAunthenticable user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
+        var claims = new List<Claim> {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+
+        if (user.Name != null) {
+            claims.Add(new Claim(ClaimTypes.Name, user.Name));
+        }
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] {
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role)
-            }),
+            Subject = new ClaimsIdentity(claims),
             Issuer = jwtOptions.Issuer,
             Audience = jwtOptions.Audience,
             Expires = DateTime.UtcNow.AddDays(1),

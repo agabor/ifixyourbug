@@ -15,7 +15,7 @@
                       <p>{{ $t('timeout.subtitle') }}</p>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="removeJwt">{{ $t('timeout.later') }}</button>
+                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="close">{{ $t('timeout.later') }}</button>
                       <button type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal" @click="toLogin">{{ $t('timeout.login') }}</button>
                     </div>
                   </div>
@@ -31,51 +31,35 @@
 
 <script>
 import router from '@/router';
-import { ref } from 'vue';
-import { useUserAuthentication, useAdminAuthentication } from "../store";
+import { watch } from 'vue';
+import { useTimeout } from "../store";
 
 export default {
   name: "TimeoutModal",
   setup() {
-    const timeout = ref(false);
-    const userAuth = useUserAuthentication();
-    const adminAuth = useAdminAuthentication();
-
-    setShowModal();
-
-    async function setShowModal() {
-      if(localStorage.getItem('jwt')) {
-        let response = await userAuth.get('/api/clients/client');
-        if(response.status == 200) {
-          timeout.value = false;
-        } else {
-          timeout.value = true;        
-        }
-      } else if(localStorage.getItem('adminId')) {
-        let response = await adminAuth.get(`/api/authenticate/admin/check-jwt`);
-        if(response.status == 200) {
-          timeout.value = false;
-        } else {
-          timeout.value = true;        
-        }
-      }
-    }
+    const { timeout }  =  useTimeout();
     
     function toLogin() {
-      let path = '/authentication';
-      if(localStorage.getItem('adminId') !== null)
-        path = '/admin-authentication';
-      removeJwt();
-      router.push(path);
+      timeout.value = false;
+      router.push('/authentication');
     }
 
-    function removeJwt() {
-      userAuth.setJwt();
-      adminAuth.setJwt();
+    function close() {
       timeout.value = false;
     }
 
-    return { timeout, removeJwt, toLogin };
+    if (timeout.value) {
+      router.push('/')
+    }
+
+    watch(timeout, () => {
+      if (timeout.value) {
+        router.push('/')
+      }
+    });
+
+
+    return { timeout, toLogin, close };
   },
 }
 </script>

@@ -22,7 +22,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { requestedPage, jwt, name, email, setJwt, setName } = useUserAuthentication();
+    const { requestedPage, jwt, name, email, setUserData, setName } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -59,7 +59,7 @@ export default {
       event('set-email', { 'value': response.status });
       progress.value = 100;
       email.value = e;
-      if(response.status == 200) {
+      if(response.status === 200) {
         resetServerError();
         clientId = (await response.json()).id;
         setTimeout(() => {
@@ -67,7 +67,7 @@ export default {
           progress.value = 100;
           activeBtn.value = true;
         }, "500");
-      } else if(response.status == 401) {
+      } else if(response.status === 401) {
         if(showPolicy.value) {
           showRequired.value = true;
         }
@@ -94,16 +94,14 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'clientId': clientId, 'password': code})
+        body: JSON.stringify({ 'password': code})
       });
-      event('user-authentication', { 'value': response.status });
-      if(response.status == 200) {
+      if(response.status === 200) {
         resetServerError();
         error.value = null;
-        let newJwt = (await response.json()).jwt;
-        await setJwt(newJwt);
+        await setUserData(response);
         toNamePageOrToTargetPage();
-      } else if(response.status == 401) {
+      } else if(response.status === 401) {
         const passwordExpired = (await response.json()).passwordExpired;
         if (!passwordExpired) {
           resetServerError();
@@ -126,7 +124,7 @@ export default {
       activeBtn.value = true;
     }
 
-    async function toNamePageOrToTargetPage() {
+    function toNamePageOrToTargetPage() {
       if(name.value) {
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
       } else {
@@ -143,7 +141,6 @@ export default {
       error.value = null;
       name.value = null;
       email.value = null;
-      await setJwt(null);
       page.value = 'email';
     }
 

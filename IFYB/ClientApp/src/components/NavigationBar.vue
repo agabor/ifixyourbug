@@ -61,7 +61,6 @@
 import router from '../router';
 import { computed } from "@vue/reactivity";
 import { useUserAuthentication, useAdminAuthentication } from "../store";
-import { event } from 'vue-gtag';
 
 export default {
   name: 'NavigationBar',
@@ -71,17 +70,15 @@ export default {
     const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
 
     function toLogin() {
-      event('login');
       router.push('/authentication')
     }
 
     function logout() {
-      event('logout');
       userAuth.setJwt(null);
       adminAuth.setJwt(null);
       userAuth.requestedPage.value = null;
       adminAuth.requestedPage.value = null;
-      router.push('/authentication');
+      router.push('/');
     }
 
     return { toLogin, logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': userAuth.name, 'email': userAuth.email }
