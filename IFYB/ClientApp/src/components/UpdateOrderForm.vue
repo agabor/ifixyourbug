@@ -92,9 +92,14 @@ export default {
         activeBtn.value = true;
       } else {
         progress.value = 30;
+        setImages()
         updateOrder();
         progress.value = 100;
       }
+    }
+
+    async function setImages() {
+      order.bugDescription = order.bugDescription.replace('src="img/', 'src="/img/');
     }
 
     async function updateOrder() {
