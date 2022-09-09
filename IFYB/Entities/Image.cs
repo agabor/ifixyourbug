@@ -16,6 +16,6 @@ public class Image
     }
     public ImageDto ToDto()
     {
-        return new ImageDto(ClientId, Path, Name);
+        return new ImageDto(Path);
     }
 }

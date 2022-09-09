@@ -84,6 +84,15 @@ async function post(route, body, jwt) {
     body: JSON.stringify(body)
   })
 }
+async function postData(route, data, jwt) {
+  return await fetch(route, {
+    method: 'POST',
+    headers: {
+      'Authorization': `bearer ${jwt}`
+    },
+    body: data
+  })
+}
 
 const requestedPage = ref(null);
 const userJwt = ref(localStorage.getItem('jwt'));
@@ -125,6 +134,10 @@ function userPost(route, body) {
   return post(route, body, userJwt.value)
 }
 
+function userPostData(route, data) {
+  return postData(route, data, userJwt.value)
+}
+
 async function setUserData(resp) {
   const data = await resp.json();
   let parts = data.jwt.split(".");
@@ -157,7 +170,7 @@ if (userJwt.value) {
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, 'setUserData': setUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost };
+  return { requestedPage, 'jwt': userJwt, 'setUserData': setUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
@@ -184,6 +197,7 @@ function adminGet(route) {
 function adminPost(route, body) {
   return post(route, body, adminJwt.value)
 }
+
 
 if (adminJwt.value) {
   adminGet('/api/authenticate/admin/check-jwt').then(resp => {

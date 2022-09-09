@@ -12,15 +12,13 @@ namespace IFYB.Controllers;
 [Authorize(Policy = Policies.ClientOnly)]
 public class OrdersController : BaseController
 {
-    private readonly AppOptions appOptions;
     private readonly EmailDispatchService emailDispatchService;
     private readonly StripeOptions stripeOptions;
     private readonly Settings settings;
     private readonly GitOptions gitOptions;
 
-    public OrdersController(ApplicationDbContext dbContext, IOptions<AppOptions> appOptions, EmailDispatchService emailDispatchService, IOptions<StripeOptions> stripeOptions, Settings settings, IOptions<GitOptions> gitOptions) : base(dbContext)
+    public OrdersController(ApplicationDbContext dbContext, EmailDispatchService emailDispatchService, IOptions<StripeOptions> stripeOptions, Settings settings, IOptions<GitOptions> gitOptions) : base(dbContext)
     {
-        this.appOptions = appOptions.Value;
         this.emailDispatchService = emailDispatchService;
         this.stripeOptions = stripeOptions.Value;
         this.settings = settings;
@@ -75,21 +73,6 @@ public class OrdersController : BaseController
         }
         dbContext.SaveChanges();
         return Ok(message.ToDto());
-    }
-
-    [HttpPost]
-    [Produces(typeof(ImageDto))]
-    [Route("images")]
-    public IActionResult UploadImage(IFormFile file) {
-        var client = GetClient();
-        if (client == null)
-            return NotFound();
-        var path = $"{appOptions.ImgFolder}/{file.Name}";
-        using var fileStream = new FileStream(path, FileMode.Create);
-        file.CopyTo(fileStream);
-        fileStream.Flush();
-        fileStream.Close();
-        return Ok(new ImageDto(client.Id, path, file.Name));
     }
 
     [HttpPost]
