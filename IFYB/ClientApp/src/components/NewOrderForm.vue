@@ -99,17 +99,9 @@ export default {
         activeBtn.value = true;
       } else {
         progress.value = 30;
-        setImages();
         submitOrder();
         progress.value = 100;
       }
-    }
-
-    async function setImages() {
-      order.bugDescription = order.bugDescription.replace('src="img/', 'src="/img/');
-      let re = /(<img src="\/img\/)(.*?)"/gm;
-      let images = (order.bugDescription.match(re) || []).map(e => e.replace(re, '$2'));
-      console.log(images);
     }
 
     async function submitOrder() {

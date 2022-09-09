@@ -19,6 +19,7 @@ public class Order
     public int ClientId { get; set; }
     public Client? Client { get; set; }
     public List<Message>? Messages { get; set; }
+    public List<Image>? Images { get; set; }
     public int GitAccessId { get; set; }
     public GitAccess GitAccess { get; set; } = null!;
     public string? PaymentToken { get; set; }
@@ -69,7 +70,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
+        return new OrderDto(Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
     }
 }
 

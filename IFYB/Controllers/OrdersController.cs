@@ -4,6 +4,7 @@ using IFYB.Models;
 using Microsoft.AspNetCore.Authorization;
 using IFYB.Services;
 using Microsoft.Extensions.Options;
+using System.Text.RegularExpressions;
 
 namespace IFYB.Controllers;
 
@@ -92,7 +93,23 @@ public class OrdersController : BaseController
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = settings.EurPrice;
         order.UsdPrice = settings.UsdPrice;
+        order.BugDescription = order.BugDescription.Replace("src=\"img/", "src=\"/img/");
+        order.BugDescription = order.BugDescription.Replace("src=\"../img/", "src=\"/img/");
+        order.BugDescription = order.BugDescription.Replace("src=\"./img/", "src=\"/img/");
         client.Orders!.Add(order);
+        dbContext.SaveChanges();
+
+        string pattern = "(<img src=\"/img/)(.*?)\"";
+        MatchCollection matches = Regex.Matches(order.BugDescription, pattern);
+        dbContext.Entry(order).Collection(o => o.Images!).Load();
+        foreach (Match match in matches)
+        {
+            var image = dbContext.Images!.FirstOrDefault(i => i.Location == match.Groups[2].Value);
+            if (image == null)
+                continue;
+            image.OrderId = order.Id;
+            order.Images!.Add(image);
+        }
         dbContext.SaveChanges();
         var gitAccess = dbContext.GitAccesses.First(a => a.Id == order.GitAccessId);
         string? gitUser = null;
@@ -111,7 +128,6 @@ public class OrdersController : BaseController
                 }
             }
         }
-
         emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { Name = client.Name, GitUser = gitUser, Saas = saas, AccessMode = (int)gitAccess.AccessMode, SshKey = settings.SshKey });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {

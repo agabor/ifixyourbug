@@ -5,17 +5,21 @@ namespace IFYB.Entities;
 public class Image
 {
     public int Id { get; set; }
-    public int ClientId { get; set; }
-    public string Path { get; set; }
-    public string Name { get; set; }
+    public int? OrderId { get; set; }
+    public string Location { get; set; }
 
-    public Image(string path, string name)
+    public Image(string location)
     {
-        Path = path;
-        Name = name;
+        Location = location;
     }
+
+    public static Image FromDto(ImageDto dto)
+    {
+        return new Image(dto.Location);
+    }
+
     public ImageDto ToDto()
     {
-        return new ImageDto(Path);
+        return new ImageDto(Location);
     }
 }

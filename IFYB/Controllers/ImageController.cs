@@ -25,11 +25,15 @@ public class ImageController : BaseController
             Directory.CreateDirectory(appOptions.ImgFolder);
         var name = Guid.NewGuid().ToString().Replace("-", string.Empty);
         var extension = file.FileName.Split(".")[1];
-        var path = Path.Combine(appOptions.ImgFolder, $"{name}.{extension}");
+        var fileName = $"{name}.{extension}";
+        var path = Path.Combine(appOptions.ImgFolder, fileName);
         using var fileStream = new FileStream(path, FileMode.Create);
         file.CopyTo(fileStream);
         fileStream.Flush();
         fileStream.Close();
-        return Ok(new ImageDto($"/img/{name}.{extension}"));
+        Image image = new Image(fileName);
+        dbContext.Images.Add(image);
+        dbContext.SaveChanges();
+        return Ok(new ImageDto($"/img/{fileName}"));
     }
 }
