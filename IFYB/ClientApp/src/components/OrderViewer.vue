@@ -83,8 +83,9 @@ export default {
       }
     }
 
-    function updatedOrder(state) {
-      editableOrder.value.state = state;
+    function updatedOrder(order) {
+      editableOrder.value.state = order.state;
+      editableOrder.value.bugDescription = order.bugDescription;
     }
 
     return { gitAccess, editableOrder, updatedOrder }

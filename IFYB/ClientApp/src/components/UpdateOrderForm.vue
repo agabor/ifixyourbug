@@ -92,14 +92,9 @@ export default {
         activeBtn.value = true;
       } else {
         progress.value = 30;
-        setImages()
         updateOrder();
         progress.value = 100;
       }
-    }
-
-    async function setImages() {
-      order.bugDescription = order.bugDescription.replace('src="img/', 'src="/img/');
     }
 
     async function updateOrder() {
@@ -117,7 +112,7 @@ export default {
       );
       if(response.status == 200) {
         resetServerError();
-        context.emit('updated', await response.json())
+        context.emit('updated', await response.json());
       } else {
         setServerError(response.statusText);
       }

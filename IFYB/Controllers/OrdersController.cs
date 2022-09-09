@@ -93,13 +93,11 @@ public class OrdersController : BaseController
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = settings.EurPrice;
         order.UsdPrice = settings.UsdPrice;
-        order.BugDescription = order.BugDescription.Replace("src=\"img/", "src=\"/img/");
-        order.BugDescription = order.BugDescription.Replace("src=\"../img/", "src=\"/img/");
-        order.BugDescription = order.BugDescription.Replace("src=\"./img/", "src=\"/img/");
+        string pattern = "(src=\".?.?/?img/)(.*?)\"";//"(<img src=\"/img/)(.*?)\"";
+        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/img/{m.Groups[2].Value}\"");
+
         client.Orders!.Add(order);
         dbContext.SaveChanges();
-
-        string pattern = "(<img src=\"/img/)(.*?)\"";
         MatchCollection matches = Regex.Matches(order.BugDescription, pattern);
         dbContext.Entry(order).Collection(o => o.Images!).Load();
         foreach (Match match in matches)
@@ -138,7 +136,7 @@ public class OrdersController : BaseController
     }
 
     [HttpPost]
-    [Produces(typeof(OrderState))]
+    [Produces(typeof(OrderDto))]
     [Route("{number}/update")]
     public IActionResult UpdateOrder([FromBody] OrderDto dto, int number) {
         var client = GetClient();
@@ -157,12 +155,24 @@ public class OrdersController : BaseController
         order.BugDescription = dto.BugDescription;
         order.State = OrderState.Submitted;
         order.GitAccessId = dto.GitAccessId;
+        string pattern = "(src=\".?.?/?img/)(.*?)\"";
+        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/img/{m.Groups[2].Value}\"");
+        MatchCollection matches = Regex.Matches(order.BugDescription, pattern);
+        dbContext.Entry(order).Collection(o => o.Images!).Load();
+        foreach (Match match in matches)
+        {
+            var image = dbContext.Images!.FirstOrDefault(i => i.Location == match.Groups[2].Value);
+            if (image == null)
+                continue;
+            image.OrderId = order.Id;
+            order.Images!.Add(image);
+        }
         emailDispatchService.DispatchEmail(client.Email, "OrderUpdate", order, new { client.Name });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
             emailDispatchService.DispatchEmail(admin.Email, "OrderUpdateToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
-        return Ok(order.State);
+        return base.Ok(order.ToDto());
     }
 }
