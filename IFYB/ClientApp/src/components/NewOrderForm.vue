@@ -93,18 +93,19 @@ export default {
       router.push('/');
     }
 
-    function trySubmitOrder() {
+    async function trySubmitOrder() {
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
       } else {
         progress.value = 30;
-        submitOrder();
+        await submitOrder();
         progress.value = 100;
       }
     }
 
     async function submitOrder() {
+      await window.tinymce.activeEditor.uploadImages();
       let response = await post('/api/orders',
         {
           'framework': order.framework,

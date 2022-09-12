@@ -4,7 +4,6 @@ using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
 
 namespace IFYB.Controllers;
@@ -25,7 +24,7 @@ public class ImageController : BaseController
         if(!Directory.Exists(appOptions.ImgFolder))
             Directory.CreateDirectory(appOptions.ImgFolder);
         var name = Guid.NewGuid().ToString().Replace("-", string.Empty);
-        var fileName = $"{name}.webp";
+        var fileName = $"{name}.jpeg";
         var path = Path.Combine(appOptions.ImgFolder, fileName);
         using var fileStream = new FileStream(path, FileMode.Create);
         using var rawImg = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
@@ -35,7 +34,7 @@ public class ImageController : BaseController
             float scaleFactore = scaleX > scaleY ? scaleX : scaleY;
             rawImg.Mutate(x => x.Resize((int)(rawImg.Width / scaleFactore), (int)(rawImg.Height / scaleFactore)));
         }
-        rawImg.Save(fileStream, WebpFormat.Instance);
+        rawImg.SaveAsJpeg(fileStream);
         dbContext.Images.Add(new IFYB.Entities.Image(fileName));
         dbContext.SaveChanges();
         return Ok(new ImageDto($"/img/{fileName}"));
