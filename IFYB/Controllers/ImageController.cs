@@ -29,10 +29,14 @@ public class ImageController : BaseController
         var path = Path.Combine(appOptions.ImgFolder, fileName);
         using var fileStream = new FileStream(path, FileMode.Create);
         using var rawImg = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+        if(rawImg.Width > 1920 || rawImg.Height > 1080) {
+            float scaleX = rawImg.Width / 1920.0f;
+            float scaleY = rawImg.Height / 1080.0f;
+            float scaleFactore = scaleX > scaleY ? scaleX : scaleY;
+            rawImg.Mutate(x => x.Resize((int)(rawImg.Width / scaleFactore), (int)(rawImg.Height / scaleFactore)));
+        }
         rawImg.Save(fileStream, WebpFormat.Instance);
-
-        var image = new IFYB.Entities.Image(fileName);
-        dbContext.Images.Add(image);
+        dbContext.Images.Add(new IFYB.Entities.Image(fileName));
         dbContext.SaveChanges();
         return Ok(new ImageDto($"/img/{fileName}"));
     }
