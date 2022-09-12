@@ -2,9 +2,10 @@
 using IFYB.Entities;
 using IFYB.Models;
 using Microsoft.AspNetCore.Mvc;
-using Scriban;
-using IFYB.Services;
 using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Processing;
 
 namespace IFYB.Controllers;
 
@@ -24,14 +25,13 @@ public class ImageController : BaseController
         if(!Directory.Exists(appOptions.ImgFolder))
             Directory.CreateDirectory(appOptions.ImgFolder);
         var name = Guid.NewGuid().ToString().Replace("-", string.Empty);
-        var extension = file.FileName.Split(".")[1];
-        var fileName = $"{name}.{extension}";
+        var fileName = $"{name}.webp";
         var path = Path.Combine(appOptions.ImgFolder, fileName);
         using var fileStream = new FileStream(path, FileMode.Create);
-        file.CopyTo(fileStream);
-        fileStream.Flush();
-        fileStream.Close();
-        Image image = new Image(fileName);
+        using var rawImg = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+        rawImg.Save(fileStream, WebpFormat.Instance);
+
+        var image = new IFYB.Entities.Image(fileName);
         dbContext.Images.Add(image);
         dbContext.SaveChanges();
         return Ok(new ImageDto($"/img/{fileName}"));

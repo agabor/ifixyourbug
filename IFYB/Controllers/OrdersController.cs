@@ -93,7 +93,7 @@ public class OrdersController : BaseController
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = settings.EurPrice;
         order.UsdPrice = settings.UsdPrice;
-        string pattern = "(src=\".?.?/?img/)(.*?)\"";//"(<img src=\"/img/)(.*?)\"";
+        string pattern = "(src=\".?.?/?img/)(.*?)\"";
         order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/img/{m.Groups[2].Value}\"");
 
         client.Orders!.Add(order);
