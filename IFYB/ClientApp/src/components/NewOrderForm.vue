@@ -105,7 +105,6 @@ export default {
     }
 
     async function submitOrder() {
-      await window.tinymce.activeEditor.uploadImages();
       let response = await post('/api/orders',
         {
           'framework': order.framework,
