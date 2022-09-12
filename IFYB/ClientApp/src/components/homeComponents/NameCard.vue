@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
         <div class="col-lg-3 col-md-5 position-relative my-auto">
-          <img class="img rounded-circle max-width-200 w-100 position-relative z-index-2" src="../../assets/img/gabor.webp" alt="bruce">
+          <img class="img rounded-circle max-width-200 w-100 position-relative z-index-2" src="../../assets/img/gabor.jpeg" alt="bruce">
         </div>
         <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
