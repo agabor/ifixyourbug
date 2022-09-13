@@ -29,20 +29,14 @@ export default {
 	},
 	emits: ['update:modelValue'],
 	setup() {
-		const { jwt } = useUserAuthentication();
+		const { postData } = useUserAuthentication();
 		const upload = (blobInfo) => new Promise((resolve, reject) => {
 			const formData = new FormData();
 			formData.append('file', blobInfo.blob(), blobInfo.filename());
-			fetch('/api/image', {
-        method: 'POST',
-        headers: {
-          'Authorization': `bearer ${jwt.value}`,
-        },        
-        body: formData
-      }).then(response => {
-        response.json().then(data => {
-          resolve(data.location)
-        })
+			postData('/api/image', formData).then(response => {
+				response.json().then(data => {
+					resolve(data.location)
+				})
 			}).catch(reject)
 		});
 		return { upload }
