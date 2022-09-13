@@ -78,6 +78,7 @@ export default {
       adminAuth.setJwt(null);
       userAuth.requestedPage.value = null;
       adminAuth.requestedPage.value = null;
+      userAuth.resetUserData();
       router.push('/');
     }
 

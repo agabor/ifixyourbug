@@ -10,7 +10,7 @@
     </div>
     <div class="text-center d-flex justify-content-center">
       <one-click-btn v-model:active="activeBtn" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
-      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+      <one-click-btn v-model:active="activeCancelBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
     </div>
   </carousel-item>
 </template>
@@ -35,6 +35,7 @@ export default {
     const codeError = ref(null);
     const inputs = ref([]);
     const activeBtn = ref(false);
+    const activeCancelBtn = ref(true);
     let codeSubmitted = false;
 
     watch(props, () => {
@@ -79,12 +80,14 @@ export default {
       if (fillCount() == authLength) {
         if(!codeSubmitted) {
           submitCode();
-          codeSubmitted = true
+          codeSubmitted = true;
         } else {
-          activeBtn.value = true
+          activeBtn.value = true;
+          activeCancelBtn.value = false;
         }
       } else {
-          activeBtn.value = false
+        activeBtn.value = false;
+        activeCancelBtn.value = true;
       }
     }
 
@@ -98,10 +101,9 @@ export default {
       return count;
     }
 
-    
-
     function submitCode() {
       activeBtn.value = false;
+      activeCancelBtn.value = false;
       context.emit('update:modelValue', auth.value.join(''));
     }
 
@@ -109,9 +111,10 @@ export default {
       auth.value = [];
       codeError.value = null;
       activeBtn.value = true;
+      activeCancelBtn.value = false;
       context.emit('cancel');
     }
-    return { auth, codeError, authLength, inputs, activeBtn, submitCode, onPaste, onInputChange, cancel }
+    return { auth, codeError, authLength, inputs, activeBtn, activeCancelBtn, submitCode, onPaste, onInputChange, cancel }
   }
 }
 </script>

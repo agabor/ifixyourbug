@@ -34,7 +34,7 @@ function paymentGuard(to) {
 }
 
 function userAuthenticationGuard(to) {
-  if (userAuth.isLoggedIn) {
+  if (userAuth.isLoggedIn.value && userAuth.name.value) {
     return true
   } else {
     userAuth.requestedPage.value = to;

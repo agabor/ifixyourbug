@@ -21,7 +21,7 @@ export default {
   components: { Authentication },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { requestedPage, jwt, name, email, setUserData, setName } = useUserAuthentication();
+    const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -64,6 +64,7 @@ export default {
           page.value = 'auth';
           progress.value = 100;
           activeBtn.value = true;
+          showPolicy.value = false;
         }, "500");
       } else if(response.status === 401) {
         if(showPolicy.value) {
@@ -135,8 +136,7 @@ export default {
       acceptedPolicy.value = false;
       showPolicy.value = false;
       error.value = null;
-      name.value = null;
-      email.value = null;
+      resetUserData();
       page.value = 'email';
     }
 

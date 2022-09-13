@@ -149,16 +149,22 @@ async function setUserData(resp) {
     let payload = JSON.parse(atob(base64));
     userName.value = payload.name;
     userEmail.value = payload.email;
-    localStorage.setItem('clientName', userName.value);
+    if(userName.value) {
+      localStorage.setItem('clientName', userName.value);
+    }
     localStorage.setItem('clientEmail', userEmail.value);
     setUserJwt(data.jwt);
   } else {
-    userName.value = null;
-    userEmail.value = null;
-    localStorage.removeItem('clientName');
-    localStorage.removeItem('clientEmail');
-    setUserJwt(null);
+    resetUserData();
   }
+}
+
+function resetUserData() {
+  userName.value = null;
+  userEmail.value = null;
+  localStorage.removeItem('clientName');
+  localStorage.removeItem('clientEmail');
+  setUserJwt(null);
 }
 
 if (userJwt.value) {
@@ -173,7 +179,7 @@ if (userJwt.value) {
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, 'setUserData': setUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData };
+  return { requestedPage, 'jwt': userJwt, setUserData, resetUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
