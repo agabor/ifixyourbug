@@ -68,7 +68,7 @@ public class OrdersController : BaseController
         message.DateTime = DateTime.UtcNow;
         message.FromClient = true;
         order.Messages!.Add(message);
-        var admins = dbContext.Admins;
+        var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
             emailDispatchService.DispatchEmail(admin.Email, "OrderMessageToAdmin", order, new { client.Name }, true);
         }
