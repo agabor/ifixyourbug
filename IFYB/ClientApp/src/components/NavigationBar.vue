@@ -78,6 +78,7 @@ export default {
       adminAuth.setJwt(null);
       userAuth.requestedPage.value = null;
       adminAuth.requestedPage.value = null;
+      localStorage.removeItem('order');
       userAuth.resetUserData();
       router.push('/');
     }
