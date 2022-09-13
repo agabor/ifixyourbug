@@ -6,5 +6,6 @@ public class AppOptions
     public string BaseUrl { get; set; } = String.Empty;
     public bool SendEmails { get; set; } = false;
     public string ImgFolder { get; set; } = String.Empty;
+    public string ImgPath { get; set; } = String.Empty;
 
 }

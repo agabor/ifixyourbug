@@ -39,6 +39,6 @@ public class ImageController : BaseController
         rawImg.SaveAsJpeg(fileStream);
         dbContext.Images.Add(new IFYB.Entities.Image(fileName));
         dbContext.SaveChanges();
-        return Ok(new ImageDto($"/img/{fileName}"));
+        return Ok(new ImageDto($"{appOptions.ImgPath}{fileName}"));
     }
 }
