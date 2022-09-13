@@ -93,8 +93,8 @@ public class OrdersController : BaseController
         order.UsdPriceId = stripeOptions.UsdPriceId;
         order.EurPrice = settings.EurPrice;
         order.UsdPrice = settings.UsdPrice;
-        string pattern = "(src=\".?.?/?img/)(.*?)\"";
-        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/img/{m.Groups[2].Value}\"");
+        string pattern = "(src=\".?.?/?userimages/)(.*?)\"";
+        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/userimages/{m.Groups[2].Value}\"");
 
         client.Orders!.Add(order);
         dbContext.SaveChanges();
@@ -155,8 +155,8 @@ public class OrdersController : BaseController
         order.BugDescription = dto.BugDescription;
         order.State = OrderState.Submitted;
         order.GitAccessId = dto.GitAccessId;
-        string pattern = "(src=\".?.?/?img/)(.*?)\"";
-        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/img/{m.Groups[2].Value}\"");
+        string pattern = "(src=\".?.?/?userimages/)(.*?)\"";
+        order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/userimages/{m.Groups[2].Value}\"");
         MatchCollection matches = Regex.Matches(order.BugDescription, pattern);
         dbContext.Entry(order).Collection(o => o.Images!).Load();
         foreach (Match match in matches)
