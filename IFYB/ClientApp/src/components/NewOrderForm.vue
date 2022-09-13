@@ -88,9 +88,14 @@ export default {
       order.selectedAccess = selectedAccess.value;
       localStorage.setItem('order', JSON.stringify(order));
     })
-    
+
     function cancelSubmit() {
-      router.push('/');
+      let prev = router.options.history.state.back;
+      if(prev === null) {
+        router.push('/my-orders');
+      } else {
+        router.back();
+      }
     }
 
     async function trySubmitOrder() {
