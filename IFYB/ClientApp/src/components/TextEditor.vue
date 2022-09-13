@@ -51,7 +51,10 @@ export default {
 </script>
 
 <style>
-.tox-statusbar {
-	display: none !important;
-}
+  .tox-statusbar {
+    display: none !important;
+  }
+  img {
+    max-width: 100%;
+  }
 </style>
