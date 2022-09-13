@@ -13,27 +13,23 @@
             </div>
             <div class="card-body pb-2">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 pe-md-1">
                   <label>{{ $t('contact.name') }}</label>
-                  <div class="input-group mb-4">
-                    <input id="name-input" class="form-control" :placeholder="$t('contact.name')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
-                  </div>
+                  <input id="name-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('contact.name')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
+                  <span class="text-danger" v-if="showError && inputErrors.name"><em><small>{{ $t(`${inputErrors.name}`) }}</small></em></span>
                 </div>
-                <div class="col-md-6 ps-md-2">
+                <div class="col-md-6 col-12 ps-md-1">
                   <label>{{ $t('contact.email') }}</label>
-                  <div class="input-group">
-                    <input type="email" id="email-input" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
-                  </div>
+                    <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
+                    <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
                 </div>
               </div>
               <div class="form-group mb-0 mt-md-0 mt-4">
                 <label>{{ $t('contact.howCanWeHelp') }}</label>
-                <textarea name="message" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
+                <textarea name="message" :class="{'is-invalid': (showError && !!inputErrors.message)}" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
+                <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
               </div>
-              <div class="row">
-                <div class="alert alert-warning text-white font-weight-bold mt-3 mb-0" role="alert" v-if="error">
-                  {{error}}
-                </div>                  
+              <div class="row">      
                 <div class="col-md-12 d-flex justify-content-center mt-3">
                   <one-click-btn v-model:active="activeBtn" :text="$t('contact.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmitMessage()"></one-click-btn>
                 </div>
@@ -66,10 +62,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
-import { useServerError, useUserAuthentication } from "../store";
+import { useServerError, useUserAuthentication, useInputError } from "../store";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 
 export default {
@@ -78,25 +74,36 @@ export default {
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
+    const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useI18n();
     const contact = ref({
       name: null,
-      email: null
+      email: null,
+      message: null
     });
-    const error = ref(null);
     const page = ref('contact');
     const activeBtn = ref(true);
+    const showError = ref(false);
     
     contact.value.name = name.value;
     contact.value.email = email.value;
-      
-    function trySubmitMessage() {
-      let err = getFormError();
-      if(err) {
-        error.value = err;
+    
+    setInputError('name', required(contact.value.name, tm('errors.requiredName')));
+    setInputError('email', validEmail(contact.value.email, tm('errors.requiredEmail')));
+    setInputError('message', required(contact.value.message, tm('errors.requiredMessage')));
+
+    watch(contact.value, () => {
+      setInputError('name', required(contact.value.name, tm('errors.requiredName')));
+      setInputError('email', validEmail(contact.value.email, tm('errors.requiredEmail')));
+      setInputError('message', required(contact.value.message, tm('errors.requiredMessage')));
+    })
+
+    async function trySubmitMessage() {
+      if(hasInputError()) {
         activeBtn.value = true;
+        showError.value = true;
       } else {
-        submitMessage();
+        await submitMessage();
       }
     }
     
@@ -111,27 +118,13 @@ export default {
       if(response.status == 200) {
         resetServerError();
         page.value = 'success';
-        error.value = null;
       } else {
         setServerError(response.statusText);
         activeBtn.value = true;
       }
     }
 
-    function getFormError() {
-      let err =
-        required(contact.value.name, tm('errors.requiredName'), 'name-input') ||
-        required(contact.value.email, tm('errors.requiredEmail'), 'email-input');
-      if(!err && validEmail(contact.value.email)) {
-        err = tm(validEmail(contact.value.email));
-      }
-      if(!err) {
-        err = required(contact.value.message, tm('errors.requiredMessage'), 'message-input');
-      }
-      return err;
-    }
-
-    return { contact, error, page, isLoggedIn, activeBtn, trySubmitMessage };
+    return { contact, inputErrors, showError, page, isLoggedIn, activeBtn, trySubmitMessage };
     }
 }
 </script>

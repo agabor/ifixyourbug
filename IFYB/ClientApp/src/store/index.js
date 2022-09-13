@@ -53,6 +53,9 @@ const inputErrors = ref({
   selectedAccess: null,
   confirmMessage: null,
   acceptTerms: null,
+  name: null,
+  email: null,
+  message: null
 });
 
 export function useInputError() {
