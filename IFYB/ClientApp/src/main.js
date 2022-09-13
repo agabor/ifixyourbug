@@ -4,6 +4,7 @@ import router from './router'
 import { createI18n } from 'vue-i18n'
 import { messages } from './utils/i18nMessages'
 import VueGtag from "vue-gtag";
+import { stringify } from 'flatted';
 
 const i18n = createI18n({
   locale: 'en',
@@ -53,7 +54,7 @@ function reportError(obj) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(obj)
+    body: stringify(obj)
   })
 }
 
