@@ -77,30 +77,19 @@ export default {
   components: { OneClickBtn },
   setup() {
     const { setServerError, resetServerError } = useServerError();
-    const { get, isLoggedIn } = useUserAuthentication();
+    const { isLoggedIn, name, email } = useUserAuthentication();
     const { tm } = useI18n();
     const contact = ref({
-      name: '',
-      email: ''
+      name: null,
+      email: null
     });
     const error = ref(null);
     const page = ref('contact');
     const activeBtn = ref(true);
     
-    setClientContact();
-    
-    async function setClientContact() {
-      let response = await get('/api/clients/client');
-      if(response.status == 200) {
-            resetServerError();
-            let client = await response.json();
-            contact.value.name = client.name;
-            contact.value.email = client.email;
-        } else if(response.status != 401) {
-            setServerError(response.statusText);
-        }
-    }
-
+    contact.value.name = name.value;
+    contact.value.email = email.value;
+      
     function trySubmitMessage() {
       let err = getFormError();
       if(err) {
