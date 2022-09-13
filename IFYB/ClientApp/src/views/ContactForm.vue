@@ -20,14 +20,21 @@
                 </div>
                 <div class="col-md-6 col-12 ps-md-1">
                   <label>{{ $t('contact.email') }}</label>
-                    <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
-                    <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
+                  <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
+                  <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
                 </div>
               </div>
               <div class="form-group mb-0 mt-md-0 mt-4">
                 <label>{{ $t('contact.howCanWeHelp') }}</label>
                 <textarea name="message" :class="{'is-invalid': (showError && !!inputErrors.message)}" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
                 <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
+              </div>              
+              <div v-if="!isLoggedIn" class="align-items-center justify-content-center">
+                <div class="form-check d-flex align-items-center justify-content-center mt-3">
+                  <input type="checkbox" class="form-check-input m-0" id="customCheck" v-model="acceptedPolicy">
+                  <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+                </div>
+                <span class="text-danger" v-if="showError && !acceptedPolicy"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
               </div>
               <div class="row">      
                 <div class="col-md-12 d-flex justify-content-center mt-3">
@@ -84,6 +91,7 @@ export default {
     const page = ref('contact');
     const activeBtn = ref(true);
     const showError = ref(false);
+    const acceptedPolicy = ref(false);
     
     contact.value.name = name.value;
     contact.value.email = email.value;
@@ -99,7 +107,7 @@ export default {
     })
 
     async function trySubmitMessage() {
-      if(hasInputError()) {
+      if(hasInputError() || (!isLoggedIn.value && !acceptedPolicy.value)) {
         activeBtn.value = true;
         showError.value = true;
       } else {
@@ -124,7 +132,11 @@ export default {
       }
     }
 
-    return { contact, inputErrors, showError, page, isLoggedIn, activeBtn, trySubmitMessage };
+    function toPrivacyPolicy() {
+      window.open('/privacy-policy', '_blank');
+    }
+
+    return { contact, inputErrors, showError, acceptedPolicy, page, isLoggedIn, activeBtn, trySubmitMessage, toPrivacyPolicy };
     }
 }
 </script>
