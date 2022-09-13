@@ -6,13 +6,13 @@
 		images_upload_base_path: '/',
 		plugins: [
 			'advlist', 'autolink',
-			'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-			'fullscreen', 'insertdatetime', 'media', 'table', 'help'
+			'lists', 'link', 'image', 'searchreplace',
+			'fullscreen', 'insertdatetime', 'media', 'table'
 		],
 		toolbar:
 			'undo redo | image | casechange blocks | bold italic backcolor | \
         alignleft aligncenter alignright alignjustify | \
-        bullist numlst checklist outdent indent | removeformat | a11ycheck code table help'
+        bullist numlst checklist removeformat code table fullscreen'
 	}" />
 </template>
 
@@ -53,6 +53,11 @@ export default {
 <style>
   .tox-statusbar {
     display: none !important;
+  }
+  .tox.tox-tinymce.tox-fullscreen {
+    position: absolute!important;
+    width: 100%!important;
+    height: calc(100vh - 10vh)!important;
   }
   img {
     max-width: 100%;
