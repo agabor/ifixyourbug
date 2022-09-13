@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner" v-if="order || waitForOrder">
-        <carousel-item class="active" width="col-lg-10 col-12" icon="cart" :title="($t('checkout.order') + (order ? ' #' + order.number : ''))" :progress="progress">
+        <carousel-item width="col-lg-10 col-12" icon="cart" :title="($t('checkout.order') + (order ? ' #' + order.number : ''))" :progress="progress">
           <div class="d-flex justify-content-center align-items-center mb-3" v-if="waitForOrder">
             <p class="mb-0 me-2">{{ $t('checkout.loading') }}</p>
             <div class="spinner-border text-primary spinner-border-sm pl-3" role="status">
@@ -26,7 +26,7 @@
         </carousel-item>
       </div>
       <div class="carousel-inner" v-else>
-        <carousel-item class="active" width="col-12" icon="cart" :title="$t('checkout.notfound')">
+        <carousel-item width="col-12" icon="cart" :title="$t('checkout.notfound')">
           <a class="btn btn bg-gradient-primary btn-round mx-2" @click="$router.go(-1)">{{ $t('checkout.back') }}</a>
         </carousel-item>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-item">
+  <div class="carousel-item active">
     <div class="mx-md-6 mx-3" :class="width ? 'mt-6' : ''">
       <div class="row">
         <div :class="width ? `${width} mx-auto my-4` : 'col-xxl-5 col-lg-6 col-sm-8 col-12 my-4 mx-auto'">

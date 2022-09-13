@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <carousel-item class="full-height active" width="col-12">
+        <carousel-item class="full-height" width="col-12">
           <div class="row">
             <div class="col-3 border-primary border border-end-1 border-start-0 border-top-0 border-bottom-0">
               <search-bar v-model:modelValue="filteredClients" :data="clients" :properties="properties"></search-bar>

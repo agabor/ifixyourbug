@@ -1,8 +1,8 @@
 <template>
-  <email-form :class="{'active': page === 'email'}" v-model:modelValue="user.email" v-model:activeButton="activeButton" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="accepted" :showRequired="showRequired" @update:modelValue="submitEmail"></email-form>
-  <two-fa :class="{'active': page === 'auth'}" v-model:modelValue="user.auth" :email="user.email" :error="error" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
-  <name-form :class="{'active': page === 'name'}" v-model:modelValue="user.name" v-model:activeButton="activeButton" :error="error" @update:modelValue="setName" @cancel="cancel"></name-form>
-  <authentication-failed :class="{'active': page === 'failed'}"></authentication-failed>
+  <email-form class="active" v-if="page === 'email'" v-model:modelValue="user.email" v-model:activeButton="activeButton" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="accepted" :showRequired="showRequired" @update:modelValue="submitEmail"></email-form>
+  <two-fa class="active" v-if="page === 'auth'" v-model:modelValue="user.auth" :email="user.email" :error="error" @update:modelValue="tryAuthentication" @cancel="cancel"></two-fa>
+  <name-form class="active" v-if="page === 'name'" v-model:modelValue="user.name" v-model:activeButton="activeButton" :error="error" @update:modelValue="setName" @cancel="cancel"></name-form>
+  <authentication-failed class="active" v-if="page === 'failed'"></authentication-failed>
 </template>
 
 <script>
