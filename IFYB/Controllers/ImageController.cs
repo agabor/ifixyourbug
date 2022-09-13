@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IFYB.Controllers;
 
 [ApiController]
 [Route("api/image")]
+[Authorize(Policy = Policies.ClientOnly)]
 public class ImageController : BaseController
 {
     private readonly AppOptions appOptions;
