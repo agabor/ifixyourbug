@@ -43,7 +43,12 @@ function userAuthenticationGuard(to) {
 }
 
 function adminAuthenticationGuard(to) {
-  adminAuth.requestedPage.value = to;
+  if (adminAuth.isLoggedIn.value) {
+    return true
+  } else {
+    adminAuth.requestedPage.value = to;
+    return { path: '/admin-authentication' }
+  }
 }
 
 const routes = [

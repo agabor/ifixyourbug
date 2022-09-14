@@ -13,7 +13,7 @@
 import { ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useUserAuthentication } from "../store";
+import { useServerError, useUserAuthentication, useAdminAuthentication } from "../store";
 import router from '../router';
 
 export default {
@@ -22,6 +22,7 @@ export default {
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();
+    const adminAuth = useAdminAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const error = ref(null);
@@ -31,6 +32,8 @@ export default {
     const showRequired = ref(false);
     const activeBtn = ref(true);
     let clientId;
+
+    adminAuth.logout();
 
     if(jwt.value) {
       toNamePageOrToTargetPage();

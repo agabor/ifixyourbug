@@ -167,19 +167,33 @@ function resetUserData() {
   setUserJwt(null);
 }
 
+function userLogout() {
+  if (userJwt.value) {
+    checkJwtPromise
+    .finally(() => {
+      localStorage.removeItem('order');
+      resetUserData();
+    });
+  }
+}
+
+let checkJwtPromise = Promise.resolve();
 if (userJwt.value) {
-  userGet('/api/authenticate/check-jwt').then(resp => {
-    if (resp.status !== 200) {
-      setUserJwt(null);
-      timeout.value = true;
-    } else {
-      setUserData(resp);
-    }
-  })
+  checkJwtPromise = new Promise((resolve) => {
+    userGet('/api/authenticate/check-jwt').then(async resp => {
+      if (resp.status !== 200) {
+        setUserJwt(null);
+        timeout.value = true;
+      } else {
+        await setUserData(resp);
+      }
+      resolve();
+    })
+  });
 }
 
 export function useUserAuthentication() {
-  return { requestedPage, 'jwt': userJwt, setUserData, resetUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData };
+  return { requestedPage, 'jwt': userJwt, setUserData, resetUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData, 'logout': userLogout };
 }
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
@@ -217,8 +231,14 @@ if (adminJwt.value) {
   })
 }
 
+function adminLogout() {
+  if (adminJwt.value) {
+    setAdminJwt(null);
+  }
+}
+
 export function useAdminAuthentication() {
-  return { requestedPage, 'setJwt': setAdminJwt, 'isLoggedIn': isAdminLoggedIn, 'get': adminGet, 'post': adminPost };
+  return { requestedPage, 'setJwt': setAdminJwt, 'isLoggedIn': isAdminLoggedIn, 'get': adminGet, 'post': adminPost, 'logout': adminLogout };
 }
 
 function setPaymentToken(token) {

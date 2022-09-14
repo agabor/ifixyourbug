@@ -74,12 +74,9 @@ export default {
     }
 
     function logout() {
-      userAuth.setJwt(null);
-      adminAuth.setJwt(null);
+      userAuth.logout();
+      adminAuth.logout();
       userAuth.requestedPage.value = null;
-      adminAuth.requestedPage.value = null;
-      localStorage.removeItem('order');
-      userAuth.resetUserData();
       router.push('/');
     }
 

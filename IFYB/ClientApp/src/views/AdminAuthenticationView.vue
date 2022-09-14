@@ -13,7 +13,7 @@
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useAdminAuthentication } from "../store";
+import { useServerError, useAdminAuthentication, useUserAuthentication } from "../store";
 import router from '../router';
 
 export default {
@@ -22,6 +22,7 @@ export default {
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { requestedPage, setJwt } = useAdminAuthentication();
+    const userAuth = useUserAuthentication();
     const { tm } = useI18n();
     const page = ref('email');
     const user = ref({});
@@ -29,6 +30,8 @@ export default {
     const progress = ref(0);
     const activeBtn = ref(true);
     let adminId;
+    
+    userAuth.logout();
     
     async function submitEmail(email) {
       progress.value = 30;
