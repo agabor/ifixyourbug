@@ -94,6 +94,15 @@ public class BillingService : BackgroundService
                 email!.File = response.InvoicePdf;
                 email!.FileName = $"{response.InvoiceNumber}.pdf";
                 emailChanel.Writer.TryWrite(email);
+
+                var admins = dbContext.Admins.ToList();
+                foreach(var admin in admins) {
+                    var adminEmail = emailCreationService.CreateEmail(admin.Email, "OrderPayedToAdmin", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays }, true);
+                    adminEmail!.File = response.InvoicePdf;
+                    adminEmail!.FileName = $"{response.InvoiceNumber}.pdf";
+                    emailChanel.Writer.TryWrite(adminEmail);
+                }
+                
             } catch (Exception e) {
                 var errorHandlerService = scope.ServiceProvider.GetRequiredService<ErrorHandlerService>();
                 errorHandlerService.OnException(e, null);

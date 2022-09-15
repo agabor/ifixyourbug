@@ -1,0 +1,13 @@
+{
+    "title": "Order payed",
+    "content": [
+        {
+            "type": "header",
+            "text": "Order payed!"
+        },
+        {
+            "type": "hero",
+            "text": "{{name}} payed the order."
+        }
+    ]
+}
