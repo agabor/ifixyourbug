@@ -34,7 +34,7 @@
                   <input type="checkbox" class="form-check-input m-0" id="customCheck" v-model="acceptedPolicy">
                   <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
                 </div>
-                <span class="text-danger" v-if="showError && !acceptedPolicy"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
+                <span class="text-danger d-flex justify-content-center" v-if="showError && !acceptedPolicy"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
               </div>
               <div class="row">      
                 <div class="col-md-12 d-flex justify-content-center mt-3">
