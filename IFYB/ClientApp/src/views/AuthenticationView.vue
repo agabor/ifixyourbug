@@ -3,7 +3,7 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" :acceptedPolicy="acceptedPolicy" :showRequired="showRequired" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
+        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="acceptedPolicy" :showRequired="showRequired" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
       </div>
     </div>
   </section>
@@ -66,8 +66,6 @@ export default {
         setTimeout(() => {
           page.value = 'auth';
           progress.value = 100;
-          activeBtn.value = true;
-          showPolicy.value = false;
         }, "500");
       } else if(response.status === 401) {
         if(showPolicy.value) {

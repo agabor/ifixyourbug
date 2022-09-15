@@ -1,7 +1,7 @@
 <template>
   <carousel-item icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :progress="progress">
     <div class="row mb-4">
-      <input id="emailInput" class="form-control" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
+      <input id="emailInput" class="form-control" ref="userEmailInput" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
       <div v-if="showPolicy">
         <div class="form-check d-flex align-items-center justify-content-center mt-3">
           <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
@@ -10,7 +10,7 @@
         <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
       </div>
     </div>
-    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
+    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error : validationError">
       {{ error ? error: validationError }}
     </div>
     <div class="d-flex justify-content-center">
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { validEmail } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
@@ -44,6 +44,11 @@ export default {
     const email = ref(props.modelValue ?? '');
     const validationError = ref(null);
     const activeBtn = ref(props.activeButton ?? true);
+    const userEmailInput = ref(null);
+
+    onMounted(() => {
+      userEmailInput.value.focus();
+    })
 
     watch(props, () => {
       activeBtn.value = props.activeButton;
@@ -55,6 +60,7 @@ export default {
       if(err) {
         validationError.value = tm(err);
         activeBtn.value = true;
+        userEmailInput.value.focus();
       } else {
         validationError.value = null;
         context.emit('update:activeButton', activeBtn.value);
@@ -66,7 +72,7 @@ export default {
       window.open('/privacy-policy', '_blank');
     }
 
-    return { validationError, email, activeBtn, trySubmitEmail, toPrivacyPolicy }
+    return { validationError, email, activeBtn, userEmailInput, trySubmitEmail, toPrivacyPolicy }
   }
 }
 </script>

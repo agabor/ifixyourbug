@@ -1,7 +1,7 @@
 <template>
   <carousel-item icon="badge" :title="$t('order.name')" :subTitle="$t('order.nameDes')">
     <div class="row mb-4">
-      <input id="name-input" class="form-control" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
+      <input id="nameInput" class="form-control" ref="userNameInput" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
     </div>
     <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
       {{ error ? error: validationError }}
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
@@ -34,6 +34,11 @@ export default {
     const name = ref(props.modelValue ?? '');
     const validationError = ref(null);
     const activeBtn = ref(props.activeButton ?? true);
+    const userNameInput = ref(null);
+
+    onMounted(() => {
+      userNameInput.value.focus();
+    })
 
     watch(props, () => {
       activeBtn.value = props.activeButton;
@@ -41,10 +46,11 @@ export default {
     })
 
     function trySetName() {
-      let err = required(name.value, tm('errors.requiredName'), 'name-input');
+      let err = required(name.value, tm('errors.requiredName'), 'nameInput');
       if(err) {
         validationError.value = err;
         activeBtn.value = true;
+        userNameInput.value.focus();
       } else {
         validationError.value = null;
         context.emit('update:activeButton', activeBtn.value);
@@ -56,7 +62,7 @@ export default {
       context.emit('cancel');
     }
 
-    return { validationError, name, activeBtn, trySetName, cancel }
+    return { validationError, name, activeBtn, userNameInput, trySetName, cancel }
   }
 }
 </script>

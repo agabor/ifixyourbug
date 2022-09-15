@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import CarouselItem from './CarouselItem.vue';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -36,14 +36,17 @@ export default {
     const inputs = ref([]);
     const activeBtn = ref(false);
     const activeCancelBtn = ref(true);
-    let codeSubmitted = false;
+
+    onMounted(() => {
+      focus(0);
+    })
 
     watch(props, () => {
       auth.value = props.modelValue ? props.modelValue.split('') : [];
     })
 
     function focus(idx) {
-      inputs.value[idx].focus()
+      inputs.value[idx].focus();
     }
 
     function onPaste(event, idx) {
@@ -60,31 +63,27 @@ export default {
       
       if(!newValue){
         auth.value[idx] = '';
-        focus(idx-1)
-      } else if(newValue.length == 1) {
+        focus(idx-1);
+      } else if(newValue.length === 1) {
         auth.value[idx] = newValue;
         if(idx+1 < authLength)
-          focus(idx+1)
-      } else if(newValue && newValue.length == 2) {
+          focus(idx+1);
+      } else if(newValue && newValue.length === 2) {
         newValue = newValue.replace(auth.value[idx], '');
         if (newValue !== auth.value[idx]) {
-          auth.value[idx] = newValue.replace(auth.value[idx], '')
+          auth.value[idx] = newValue.replace(auth.value[idx], '');
         } else {
-          event.target.value = auth.value[idx]
+          event.target.value = auth.value[idx];
         }
         if(idx+1 < authLength)
-          focus(idx+1)
+          focus(idx+1);
       } else {
-        auth.value[idx] = newValue[0]
+        auth.value[idx] = newValue[0];
       }
-      if (fillCount() == authLength) {
-        if(!codeSubmitted) {
-          submitCode();
-          codeSubmitted = true;
-        } else {
-          activeBtn.value = true;
-          activeCancelBtn.value = false;
-        }
+      if (fillCount() === authLength) {
+        submitCode();
+        activeBtn.value = true;
+        activeCancelBtn.value = false;
       } else {
         activeBtn.value = false;
         activeCancelBtn.value = true;
