@@ -8,7 +8,15 @@
               <div class="modal-body p-0">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                      <img class="image-center img-fluid w-50" src="../assets/img/cookie.webp" alt="image">
+                      <picture>
+                        <source 
+                          media="(min-width: 576px)"
+                          srcset="../assets/img/cookie.webp">
+                        <img 
+                          class="image-center img-fluid w-50"
+                          src="../assets/mobile_img/cookie.webp" 
+                          alt="cookie">
+                      </picture>
                       <h5 class="modal-title">{{ $t('cookie.title') }}</h5>
                       <p>{{ $t('cookie.subtitle') }}</p>
                       <div v-if="showCustomize" class="text-start">

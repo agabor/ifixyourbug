@@ -181,7 +181,17 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/bg2.webp');
   object-fit: cover;
+}
+
+@media (min-width: 576px) {
+  .bg {
+    background-image: url('../assets/img/bg2.webp');
+  }
+}
+@media (max-width: 576px) {
+  .bg {
+    background-image: url('../assets/mobile_img/bg2.jpeg');
+  }
 }
 </style>

@@ -140,8 +140,17 @@ export default {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-image: url('../assets/img/bg2.webp');
   object-fit: cover;
+}
+@media (min-width: 576px) {
+  #carousel-testimonials {
+    background-image: url('../assets/img/bg2.webp');
+  }
+}
+@media (max-width: 576px) {
+  #carousel-testimonials {
+    background-image: url('../assets/mobile_img/bg2.jpeg');
+  }
 }
 .carousel-inner {
   height: 100%;

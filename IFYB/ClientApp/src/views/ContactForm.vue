@@ -1,8 +1,14 @@
 <template>
   <div class="page-header min-vh-85">
-    <div>
-      <img class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover" src="../assets/img/bg1.webp" alt="image">
-    </div>
+    <picture>
+      <source 
+        media="(min-width: 576px)"
+        srcset="../assets/img/bg1.webp">
+      <img 
+        class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
+        src="../assets/mobile_img/bg1.jpeg" 
+        alt="image">
+    </picture>
     <div class="container" v-if="page == 'contact'">
       <div class="row">
         <div class="col-lg-7 d-flex justify-content-center flex-column">

@@ -1,15 +1,29 @@
 <template>
  <header>
     <div class="page-header min-vh-85">
-      <div>
-        <img class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover" src="../../assets/img/bg4.jpeg" alt="image">
-      </div>
+      <picture>
+        <source 
+          media="(min-width: 576px)"
+          srcset="../../assets/img/bg4.jpeg">
+        <img 
+          class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
+          src="../../assets/mobile_img/bg4.jpeg" 
+          alt="image">
+      </picture>
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
             <div class="card card-body text-center px-sm-5 shadow mt-sm-5 py-sm-5">
               <div class="row justify-content-center">
-                <img class="col-md-4 col-12 header-logo w-30" src="../../assets/logo.webp" alt="logo">
+                <picture>
+                  <source 
+                    media="(min-width: 576px)"
+                    srcset="../../assets/img/logo.webp">
+                  <img 
+                    class="col-md-4 col-12 header-logo w-30"
+                    src="../../assets/mobile_img/logo.webp" 
+                    alt="logo">
+                </picture>
                 <div class="col-md-8 col-12 text-md-start text-center">
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
                   <p class="lead pe-md-3 me-md-3 py-md-3 my-md-3">{{ $t('mainCard.description') }}</p>

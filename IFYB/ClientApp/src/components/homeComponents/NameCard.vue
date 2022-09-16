@@ -6,7 +6,15 @@
     <div class="container">
       <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
         <div class="col-lg-3 col-md-5 position-relative my-auto">
-          <img class="img rounded-circle max-width-200 w-100 position-relative z-index-2" src="../../assets/img/gabor.jpeg" alt="bruce">
+          <picture>
+            <source 
+              media="(min-width: 576px)"
+              srcset="../../assets/img/gabor.jpeg">
+            <img 
+              class="img rounded-circle max-width-200 w-100 position-relative z-index-2"
+              src="../../assets/mobile_img/gabor.jpeg" 
+              alt="gabor">
+          </picture>
         </div>
         <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
@@ -37,10 +45,19 @@ export default {
 
 <style>
   .author-header {
-    background-image: url('../../assets/img/bg1.webp');
     object-fit: cover;
     position: relative;
     background-size: cover;
     background-position: top;
+  }
+  @media (min-width: 576px) {
+    .author-header {
+      background-image: url('../../assets/img/bg1.webp');
+    }
+  }
+  @media (max-width: 576px) {
+    .author-header {
+      background-image: url('../../assets/mobile_img/bg1.jpeg');
+    }
   }
 </style>
