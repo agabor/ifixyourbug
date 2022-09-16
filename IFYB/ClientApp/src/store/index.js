@@ -298,3 +298,21 @@ export function useGitAccess() {
   setGitAccesses();
   return { gitAccesses, getGitAccessId }
 }
+
+const loadedTinymce = ref(false);
+
+function loadTinymce() {
+  if(!loadedTinymce.value) {
+    const script = document.createElement('script');
+    script.src = 'tinymce/tinymce.min.js';
+      script.onload = () => {
+        loadedTinymce.value = true;
+      };
+    document.body.appendChild(script);
+  }
+}
+
+export function useScripts() {
+  return { loadedTinymce, loadTinymce }
+}
+

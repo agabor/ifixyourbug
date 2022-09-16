@@ -4,7 +4,7 @@
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <carousel-item v-if="page === 'data'" class="full-height" width="col-lg-10 col-12" icon="spaceship" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')">
-          <new-order-form @toSuccessPage="page = 'success'"></new-order-form>
+          <new-order-form v-if="loadedTinymce" @toSuccessPage="page = 'success'"></new-order-form>
         </carousel-item>
         <carousel-item v-if="page === 'success'" icon="send" :title="$t('order.successfulOrder')" :subTitle="$t('order.successfulOrderDes')" :buttonText="$t('order.backToHome')" @onClickBtn="$router.push('/')"></carousel-item>
       </div>
@@ -16,14 +16,16 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
+import { useScripts } from '@/store';
 
 export default {
   name: 'NewOrderView',
   components: { CarouselItem, NewOrderForm },
   setup() {
     const page = ref('data');
+    const { loadedTinymce } = useScripts();
 
-    return { page }
+    return { page, loadedTinymce }
   }
 }
 </script>

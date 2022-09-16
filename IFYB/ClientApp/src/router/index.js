@@ -17,12 +17,13 @@ import CheckoutView from '../views/CheckoutView.vue';
 import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
 import CheckoutFailureView from '../views/CheckoutFailureView.vue';
 import CheckoutPaidView from '../views/CheckoutPaidView.vue';
-import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError } from '@/store';
+import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError, useScripts } from '@/store';
 import { event } from 'vue-gtag';
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
+const { loadTinymce } = useScripts();
 const { resetServerError } = useServerError();
 
 function paymentGuard(to) {
@@ -75,7 +76,7 @@ const routes = [
     name: 'new-order',
     component: NewOrderView,
     meta: { title: 'New Order' },
-    beforeEnter: userAuthenticationGuard
+    beforeEnter: [userAuthenticationGuard, loadTinymce]
   },
   {
     path: '/faq',
