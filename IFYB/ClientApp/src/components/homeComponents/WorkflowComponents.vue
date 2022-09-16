@@ -18,10 +18,10 @@
             <picture class="full-background">
               <source 
                 media="(min-width: 576px)"
-                srcset="../../assets/img/bg2_small.jpeg">
+                srcset="../../assets/img/bg2_small.webp">
               <img
                 class="full-background fit-cover"
-                src="../../assets/mobile_img/bg2_small.jpeg" 
+                src="../../assets/mobile_img/bg2_small.webp" 
                 alt="image">
             </picture>
             <div class="card-body pt-7 pb-6 text-center">
@@ -83,7 +83,7 @@
                 srcset="../../assets/img/bg3.jpeg">
               <img
                 class="full-background fit-cover"
-                src="../../assets/mobile_img/bg3.jpeg" 
+                src="../../assets/mobile_img/bg3.webp" 
                 alt="image">
             </picture>
             <div class="card-body pt-7 pb-6 text-center">
