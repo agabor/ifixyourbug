@@ -4,7 +4,7 @@
   <section class="pt-7 pb-md-3">
     <div class="container">
       <div class="col-lg-10 col-12 mx-auto">
-        <div class="card">
+        <div class="card" v-if="loadedBootstrap">
           <div class="card-header bg-gradient-primary p-5 position-relative">
             <h3 class="text-white mb-0">{{ $t('faqCard.title') }}</h3>
             <p class="text-white opacity-8 mb-4">{{ $t('faqCard.lastModified', { date: 'July 22, 2022' }) }}</p>
@@ -93,7 +93,7 @@
 
 <script>
 import SshKeyPreview from '@/components/SshKeyPreview.vue';
-import { useGitServices, useSettings } from '@/store';
+import { useGitServices, useSettings, useScripts } from '@/store';
 
 export default {
   components: {SshKeyPreview},
@@ -104,8 +104,9 @@ export default {
 
     const { gitServices } = useGitServices();
     const { workdays } = useSettings();
+    const { loadedBootstrap } = useScripts();
 
-    return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays };
+    return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays, loadedBootstrap };
   }
 }
 </script>

@@ -300,6 +300,7 @@ export function useGitAccess() {
 }
 
 const loadedTinymce = ref(false);
+const loadedBootstrap = ref(false);
 
 function loadTinymce() {
   if(!loadedTinymce.value) {
@@ -312,7 +313,20 @@ function loadTinymce() {
   }
 }
 
+function loadBootstrap() {
+  if(!loadedBootstrap.value) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js';
+    script.integrity = 'sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF';
+    script.crossOrigin = 'anonymous';
+      script.onload = () => {
+        loadedBootstrap.value = true;
+      };
+    document.body.appendChild(script);
+  }
+}
+
 export function useScripts() {
-  return { loadedTinymce, loadTinymce }
+  return { loadedTinymce, loadTinymce, loadedBootstrap, loadBootstrap }
 }
 

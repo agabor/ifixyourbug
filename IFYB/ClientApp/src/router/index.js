@@ -23,7 +23,7 @@ import { event } from 'vue-gtag';
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
-const { loadTinymce } = useScripts();
+const { loadTinymce, loadBootstrap } = useScripts();
 const { resetServerError } = useServerError();
 
 function paymentGuard(to) {
@@ -83,6 +83,7 @@ const routes = [
     name: 'faq',
     component: FAQ,
     meta: { title: 'FAQ' },
+    beforeEnter: loadBootstrap
   },
   {
     path: '/design-view',
