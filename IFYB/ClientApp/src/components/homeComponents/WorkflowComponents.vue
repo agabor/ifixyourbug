@@ -89,7 +89,7 @@
             <div class="card-body pt-7 pb-6 text-center">
               <i class="ni ni-watch-time mb-3 h3 text-white"></i>
               <p class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('features.fast') }}</p>
-              <p class="lead mt-2 opacity-9">{{ $t('features.fastDescription') }}</p>
+              <p class="lead mt-2 opacity-9">{{ $t('features.fastDescription', { workdays }) }}</p>
               <button type="button" class="btn btn-white mt-3" @click="toPricing">{{ $t('workflow.getStarted') }}</button>
             </div>
           </div>
