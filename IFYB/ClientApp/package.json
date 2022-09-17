@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "cssnano": "npx postcss dist/assets/css -r",
-    "lint": "vue-cli-service lint"
+    "purgecss": "purgecss --config ./purgecss.config.js --output dist/assets/css"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^5.0.0",
@@ -21,6 +22,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@fullhuman/postcss-purgecss": "^4.0.0",
+    "@fullhuman/vue-cli-plugin-purgecss": "~5.0.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
