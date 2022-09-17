@@ -4,11 +4,11 @@
       <picture>
         <source 
           media="(min-width: 576px)"
-          srcset="../../assets/img/bg4.jpeg">
+          srcset="/hero.webp">
         <img 
           class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
-          src="../../assets/mobile_img/bg4.webp" 
-          alt="image">
+          src="/hero-mobile.webp" 
+          alt="hero">
       </picture>
       <div class="container">
         <div class="row">
