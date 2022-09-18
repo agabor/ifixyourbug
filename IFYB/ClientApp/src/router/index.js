@@ -18,7 +18,6 @@ import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
 import CheckoutFailureView from '../views/CheckoutFailureView.vue';
 import CheckoutPaidView from '../views/CheckoutPaidView.vue';
 import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError, useScripts } from '@/store';
-import { event } from 'vue-gtag';
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
@@ -178,12 +177,11 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  event('navigate', {'value': to.name});
   resetServerError();
-    if(to.params.number)
-      document.title = `I Fix Your Bug - #${to.params.number}`;
-    else
-      document.title = to.meta.title ? `I Fix Your Bug - ${to.meta.title}` : 'I Fix Your Bug';
+  if(to.params.number)
+    document.title = `I Fix Your Bug - #${to.params.number}`;
+  else
+    document.title = to.meta.title ? `I Fix Your Bug - ${to.meta.title}` : 'I Fix Your Bug';
   next();
 })
 

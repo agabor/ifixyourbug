@@ -31,7 +31,7 @@
                       </div>
                     </div>
                     <div class="modal-footer" v-if="!showCustomize">
-                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="acceptCookies">{{ $t('cookie.accept') }}</button>
+                      <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" @click="save">{{ $t('cookie.accept') }}</button>
                       <button type="button" class="btn bg-gradient-primary" @click="customizeCookies">{{ $t('cookie.customise') }}</button>
                     </div>
                     <div class="modal-footer" v-else>
@@ -53,12 +53,13 @@
 <script>
 import { ref } from 'vue';
 
+import { bootstrap, optIn } from 'vue-gtag'
 export default {
   name: "CookieModal",
   setup() {
     const cookieConsentAnswered = ref(false);
-    const analytics = ref(false);
-    const advertisement = ref(false);
+    const analytics = ref(true);
+    const advertisement = ref(true);
     const showCustomize = ref(false);
 
     setShowModal();
@@ -66,12 +67,6 @@ export default {
     function setShowModal() {
       if(localStorage.getItem('cookieConsentAnswered'))
         cookieConsentAnswered.value = localStorage.getItem('cookieConsentAnswered');
-    }
-
-    function acceptCookies() {
-      localStorage.setItem('cookieConsentAnswered', true);
-      localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: true, advertisement: true }));
-      cookieConsentAnswered.value = true;
     }
 
     function rejectAllCookies() {
@@ -92,9 +87,12 @@ export default {
       localStorage.setItem('cookieConsentAnswered', true);
       localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: analytics.value, advertisement: advertisement.value }));
       cookieConsentAnswered.value = true;
+      if (analytics.value)
+        bootstrap().then(optIn)
     }
 
-    return { cookieConsentAnswered, showCustomize, analytics, advertisement, acceptCookies, rejectAllCookies, acceptAllCookies, customizeCookies, save };
+
+    return { cookieConsentAnswered, showCustomize, analytics, advertisement, rejectAllCookies, acceptAllCookies, customizeCookies, save };
   },
 }
 </script>
