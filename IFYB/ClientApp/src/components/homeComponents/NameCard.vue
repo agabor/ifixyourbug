@@ -22,10 +22,10 @@
           </div>
           <div class="row mb-4">
             <div class="col-auto">
-              <a href="https://github.com/agabor" target="_blank" @click="$event('navigate', {'value': 'github'})"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
+              <a href="https://github.com/agabor" target="_blank" @click="$event('navigate', {'value': 'github'})"><span class="fab fa-github" aria-hidden="true"></span> GitHub</a>
             </div>
             <div class="col-auto">
-              <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate', {'value': 'stackoverflow'})"><i class="fab fa-stack-overflow" aria-hidden="true"></i> Stack Overflow</a>
+              <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate', {'value': 'stackoverflow'})"><span class="fab fa-stack-overflow" aria-hidden="true"></span> Stack Overflow</a>
             </div>
           </div>
           <p class="text-lg mb-0">
@@ -44,6 +44,12 @@ export default {
 </script>
 
 <style>
+  .fa-github:before {
+      content: "\f09b";
+  }
+  .fa-stack-overflow:before {
+      content: "\f16c";
+  }
   .author-header {
     object-fit: cover;
     position: relative;
