@@ -44,22 +44,6 @@ export default {
 </script>
 
 <style>
-  @font-face {
-    font-family:"Font Awesome 5 Brands";
-    font-style:normal;
-    font-weight:normal;
-    font-display:auto;
-    src:url("@/assets/webfonts/fa-brands-400.eot");
-    src:url("@/assets/webfonts/fa-brands-400.woff2") format("woff2"),
-    url("@/assets/webfonts/fa-brands-400.woff") format("woff")
-  }
-  .fab{ font-family:"Font Awesome 5 Brands" }
-  .fa-github:before {
-      content: "\f09b";
-  }
-  .fa-stack-overflow:before {
-      content: "\f16c";
-  }
   .author-header {
     object-fit: cover;
     position: relative;
