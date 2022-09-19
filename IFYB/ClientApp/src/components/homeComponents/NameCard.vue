@@ -9,10 +9,10 @@
           <picture>
             <source 
               media="(min-width: 576px)"
-              srcset="../../assets/img/gabor.jpeg">
+              srcset="../../assets/img/gabor.webp">
             <img 
               class="img rounded-circle max-width-200 w-100 position-relative z-index-2"
-              src="../../assets/mobile_img/gabor.jpeg" 
+              src="../../assets/mobile_img/gabor.webp" 
               alt="gabor">
           </picture>
         </div>
@@ -73,7 +73,7 @@ export default {
   }
   @media (max-width: 576px) {
     .author-header {
-      background-image: url('../../assets/mobile_img/bg1.jpeg');
+      background-image: url('../../assets/mobile_img/bg1.webp');
     }
   }
 </style>

@@ -44,7 +44,7 @@ export default {
 }
 @media (max-width: 576px) {
   #carousel-testimonials {
-    background-image: url('../assets/mobile_img/bg2.jpeg');
+    background-image: url('../assets/mobile_img/bg2.webp');
   }
 }
 .full-height{

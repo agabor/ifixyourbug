@@ -191,7 +191,7 @@ export default {
 }
 @media (max-width: 576px) {
   .bg {
-    background-image: url('../assets/mobile_img/bg2.jpeg');
+    background-image: url('../assets/mobile_img/bg2.webp');
   }
 }
 </style>

@@ -80,7 +80,7 @@
             <picture class="full-background">
               <source 
                 media="(min-width: 576px)"
-                srcset="../../assets/img/bg3.jpeg">
+                srcset="../../assets/img/bg3.webp">
               <img
                 class="full-background fit-cover"
                 src="../../assets/mobile_img/bg3.webp" 
