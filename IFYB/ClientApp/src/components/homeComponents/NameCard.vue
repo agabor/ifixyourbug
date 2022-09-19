@@ -5,7 +5,7 @@
     </div>
     <div class="container">
       <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
-        <div class="col-lg-3 col-md-5 position-relative my-auto">
+        <div class="col-lg-3 col-md-5 col-sm-12 position-relative my-auto d-flex align-items-center justify-content-center">
           <picture>
             <source 
               media="(min-width: 576px)"
@@ -16,11 +16,11 @@
               alt="gabor">
           </picture>
         </div>
-        <div class="col-md-9 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
-          <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="col-md-7 col-sm-12 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+          <div class="d-flex justify-content-center justify-content-sm-start mb-2">
             <h4 class="mb-0">{{ $t('nameCard.name') }}</h4>
           </div>
-          <div class="row mb-4">
+          <div class="row mb-4 d-flex justify-content-center justify-content-sm-start">
             <div class="col-auto">
               <a href="https://github.com/agabor" target="_blank" @click="$event('navigate', {'value': 'github'})"><span class="fab fa-github" aria-hidden="true"></span> GitHub</a>
             </div>
@@ -28,7 +28,7 @@
               <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate', {'value': 'stackoverflow'})"><span class="fab fa-stack-overflow" aria-hidden="true"></span> Stack Overflow</a>
             </div>
           </div>
-          <p class="text-lg mb-0">
+          <p class="text-lg mb-0 text-justify">
             {{ $t('nameCard.description') }}
           </p>
         </div>

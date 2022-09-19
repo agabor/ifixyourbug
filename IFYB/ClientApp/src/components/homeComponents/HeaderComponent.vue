@@ -15,11 +15,11 @@
           <div class="col-lg-7 d-flex">
             <div class="card card-body text-center px-sm-5 shadow mt-sm-5 py-sm-5">
               <div class="row justify-content-center">
-                <picture class="col-md-4 col-12 header-logo w-30">
+                <picture class="col-md-4 col-12 header-logo w-30 d-flex justify-content-center align-items-center">
                   <source 
                     media="(min-width: 576px)"
                     srcset="../../assets/img/logo.webp">
-                  <img 
+                  <img
                     src="../../assets/mobile_img/logo.webp" 
                     alt="logo">
                 </picture>

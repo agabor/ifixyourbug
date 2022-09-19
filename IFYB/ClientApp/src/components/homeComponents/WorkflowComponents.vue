@@ -3,7 +3,7 @@
     <div class="container mt-7">
       <div class="row">
         <div class="col-lg-5 ms-auto me-auto text-center">
-          <div class="p-3 info-hover-warning">
+          <div class="p-3 info-hover-warning d-flex justify-content-center">
             <div class="icon icon-shape bg-gradient-warning icon-shape-circle text-primary">
               <i class="ni ni-bulb-61 opacity-10"></i>
             </div>
