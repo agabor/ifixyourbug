@@ -56,8 +56,8 @@ export const messages = {
       "features": {
         "fast": "Fast",
         "fastDescription": "Bug fixing within { workdays } workdays.",
-        "fixPrice": "Fix Price",
-        "fixPriceDescription": "It does not matter if it takes half an hour or multiple days.",
+        "fixedPrice": "Fixed Price",
+        "fixedPriceDescription": "It does not matter if it takes half an hour or multiple days.",
         "easy": "Easy submission",
         "easyDescription": "It takes only a few minutes.",
         "refundable": "Fully Refundable",
@@ -74,7 +74,7 @@ export const messages = {
       },
       "pricing": {
         "mainTitle": "Best no-tricks pricing",
-        "mainSubTitle": "Fix price for all bugs.",
+        "mainSubTitle": "Fixed price for all bugs.",
         "title": "Single Bugfix",
         "description": "ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
         "whatsincluded": "What's included",

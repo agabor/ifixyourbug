@@ -12,8 +12,8 @@
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-credit-card h3 text-info"></i>
-            <h5 class="mt-2">{{ $t('features.fixPrice') }}</h5>
-            <p>{{ $t('features.fixPriceDescription') }}</p>
+            <h5 class="mt-2">{{ $t('features.fixedPrice') }}</h5>
+            <p>{{ $t('features.fixedPriceDescription') }}</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
