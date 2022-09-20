@@ -21,7 +21,7 @@
                 srcset="../../assets/img/bg2_small.webp">
               <img
                 class="full-background fit-cover"
-                src="../../assets/mobile_img/bg2_small.webp" 
+                src="../../assets/img/bg2_small_mobile.webp" 
                 alt="image">
             </picture>
             <div class="card-body pt-7 pb-6 text-center">
@@ -83,7 +83,7 @@
                 srcset="../../assets/img/bg3.webp">
               <img
                 class="full-background fit-cover"
-                src="../../assets/mobile_img/bg3.webp" 
+                src="../../assets/img/bg3_mobile.webp" 
                 alt="image">
             </picture>
             <div class="card-body pt-7 pb-6 text-center">

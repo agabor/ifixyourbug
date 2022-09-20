@@ -20,7 +20,7 @@
                     media="(min-width: 576px)"
                     srcset="../../assets/img/logo.webp">
                   <img
-                    src="../../assets/mobile_img/logo.webp" 
+                    src="../../assets/img/logo_mobile.webp" 
                     alt="logo">
                 </picture>
                 <div class="col-md-8 col-12 text-md-start text-center">

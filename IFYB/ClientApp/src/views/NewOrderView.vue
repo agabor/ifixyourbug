@@ -53,7 +53,7 @@ export default {
 }
 @media (max-width: 576px) {
   #carousel-testimonials {
-    background-image: url('../assets/mobile_img/bg2.webp');
+    background-image: url('../assets/img/bg2_mobile.webp');
   }
 }
 .full-height{

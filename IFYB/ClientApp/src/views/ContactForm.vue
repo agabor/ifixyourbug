@@ -6,7 +6,7 @@
         srcset="../assets/img/bg1.webp">
       <img 
         class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
-        src="../assets/mobile_img/bg1.webp" 
+        src="../assets/img/bg1_mobile.webp" 
         alt="image">
     </picture>
     <div class="container" v-if="page == 'contact'">

@@ -14,7 +14,7 @@
                           srcset="../assets/img/cookie.webp">
                         <img 
                           class="image-center img-fluid w-50"
-                          src="../assets/mobile_img/cookie.webp" 
+                          src="../assets/img/cookie_mobile.webp" 
                           alt="cookie">
                       </picture>
                       <h5 class="modal-title">{{ $t('cookie.title') }}</h5>
