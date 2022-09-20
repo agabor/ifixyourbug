@@ -7,12 +7,12 @@
             <div class="card-body px-lg-5 py-lg-5 text-center">
               <div class="info mb-4" v-if="icon">
                 <div class="icon icon-shape icon-xl rounded-circle bg-gradient-primary shadow text-center py-3 mx-auto">
-                  <i :class="`ni ni-${icon} opacity-10 mt-2`"></i>
+                  <slot name="icon"></slot>
                 </div>
               </div>
               <h2 v-if="title">{{ title }}</h2>
               <p class="mb-4" v-if="subTitle"><span v-html="subTitle"></span></p>
-              <slot></slot>
+              <slot name="content"></slot>
               <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error">
                 {{ error }}
               </div>
@@ -36,7 +36,7 @@ export default {
   name: 'CarouselItem',
   props: {
     width: String,
-    icon: String,
+    icon: Boolean,
     cancelable: Boolean,
     subTitle: String,
     title: String,

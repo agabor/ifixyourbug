@@ -3,31 +3,41 @@
     <div id="carousel-testimonials" class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner" v-if="order || waitForOrder">
-        <carousel-item width="col-lg-10 col-12" icon="cart" :title="($t('checkout.order') + (order ? ' #' + order.number : ''))" :progress="progress">
-          <div class="d-flex justify-content-center align-items-center mb-3" v-if="waitForOrder">
-            <p class="mb-0 me-2">{{ $t('checkout.loading') }}</p>
-            <div class="spinner-border text-primary spinner-border-sm pl-3" role="status">
-              <span class="sr-only"></span>
+        <carousel-item width="col-lg-10 col-12" :icon="true" :title="($t('checkout.order') + (order ? ' #' + order.number : ''))" :progress="progress">
+          <template v-slot:icon>
+            <i :class="`ni ni-cart opacity-10 mt-2`"></i>
+          </template>
+          <template v-slot:content>
+            <div class="d-flex justify-content-center align-items-center mb-3" v-if="waitForOrder">
+              <p class="mb-0 me-2">{{ $t('checkout.loading') }}</p>
+              <div class="spinner-border text-primary spinner-border-sm pl-3" role="status">
+                <span class="sr-only"></span>
+              </div>
             </div>
-          </div>
-          <div>
-            <p v-if="!waitForOrder">{{ $t('checkout.payDescription') }}</p>
-            <div class="d-flex justify-content-center" v-if="order">
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${parseFloat(order.usdPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
-              <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${parseFloat(order.eurPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
+            <div>
+              <p v-if="!waitForOrder">{{ $t('checkout.payDescription') }}</p>
+              <div class="d-flex justify-content-center" v-if="order">
+                <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${parseFloat(order.usdPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
+                <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${parseFloat(order.eurPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
+              </div>
+              <div class="d-flex justify-content-center" v-else>
+                <one-click-btn :text="`${$t('checkout.pay')} $`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
+                <one-click-btn :text="`${$t('checkout.pay')} €`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
+              </div>
+              <p>{{$t('pricing.excludeVat')}}</p>
             </div>
-            <div class="d-flex justify-content-center" v-else>
-              <one-click-btn :text="`${$t('checkout.pay')} $`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
-              <one-click-btn :text="`${$t('checkout.pay')} €`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
-            </div>
-            <p>{{$t('pricing.excludeVat')}}</p>
-          </div>
-          <p v-if="!order && !waitForOrder">{{ $t('checkout.checkoutLink') }}</p>
+            <p v-if="!order && !waitForOrder">{{ $t('checkout.checkoutLink') }}</p>
+          </template>
         </carousel-item>
       </div>
       <div class="carousel-inner" v-else>
-        <carousel-item width="col-12" icon="cart" :title="$t('checkout.notfound')">
-          <a class="btn btn bg-gradient-primary btn-round mx-2" @click="$router.go(-1)">{{ $t('checkout.back') }}</a>
+        <carousel-item width="col-12" :icon="true" :title="$t('checkout.notfound')">
+          <template v-slot:icon>
+            <i :class="`ni ni-cart opacity-10 mt-2`"></i>
+          </template>
+          <template v-slot:content>
+            <a class="btn btn bg-gradient-primary btn-round mx-2" @click="$router.go(-1)">{{ $t('checkout.back') }}</a>
+          </template>
         </carousel-item>
       </div>
     </div>

@@ -1,15 +1,20 @@
 <template>
-  <carousel-item icon="badge" :title="$t('order.name')" :subTitle="$t('order.nameDes')">
-    <div class="row mb-4">
-      <input id="nameInput" class="form-control" ref="userNameInput" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
-    </div>
-    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
-      {{ error ? error: validationError }}
-    </div>
-    <div class="d-flex justify-content-center">
-      <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
-      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
-    </div>
+  <carousel-item :icon="true" :title="$t('order.name')" :subTitle="$t('order.nameDes')">
+    <template v-slot:icon>
+      <i :class="`ni ni-badge opacity-10 mt-2`"></i>
+    </template>
+    <template v-slot:content>
+      <div class="row mb-4">
+        <input id="nameInput" class="form-control" ref="userNameInput" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
+      </div>
+      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
+        {{ error ? error: validationError }}
+      </div>
+      <div class="d-flex justify-content-center">
+        <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
+        <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+      </div>
+    </template>
   </carousel-item>
 </template>
 

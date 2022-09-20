@@ -4,7 +4,9 @@
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <carousel-item width="col-lg-10 col-12">
-          <order-list :orders="orders" @openOrder="openOrder"></order-list>
+          <template v-slot:content>
+            <order-list :orders="orders" @openOrder="openOrder"></order-list>
+          </template>
         </carousel-item>
       </div>
     </div>

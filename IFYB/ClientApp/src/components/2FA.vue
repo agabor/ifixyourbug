@@ -1,17 +1,22 @@
 <template>
-  <carousel-item icon="atom" :title="$t('authentication.title')" :subTitle="$t('authentication.subTitle', { email })">
-    <div class="row mb-4 mx-xl-4">
-      <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
-        <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
+  <carousel-item :icon="true" :title="$t('authentication.title')" :subTitle="$t('authentication.subTitle', { email })">
+    <template v-slot:icon>
+      <i :class="`ni ni-atom opacity-10 mt-2`"></i>
+    </template>
+    <template v-slot:content>
+      <div class="row mb-4 mx-xl-4">
+        <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
+          <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
+        </div>
       </div>
-    </div>
-    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : error">
-      {{ codeError ? codeError : error }}
-    </div>
-    <div class="text-center d-flex justify-content-center">
-      <one-click-btn v-model:active="activeBtn" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
-      <one-click-btn v-model:active="activeCancelBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
-    </div>
+      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : error">
+        {{ codeError ? codeError : error }}
+      </div>
+      <div class="text-center d-flex justify-content-center">
+        <one-click-btn v-model:active="activeBtn" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
+        <one-click-btn v-model:active="activeCancelBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+      </div>
+    </template>
   </carousel-item>
 </template>
 

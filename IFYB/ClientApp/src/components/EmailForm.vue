@@ -1,21 +1,26 @@
 <template>
-  <carousel-item icon="email-83" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :progress="progress">
-    <div class="row mb-4">
-      <input id="emailInput" class="form-control" ref="userEmailInput" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
-      <div v-if="showPolicy">
-        <div class="form-check d-flex align-items-center justify-content-center mt-3">
-          <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
-          <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+  <carousel-item :icon="true" :title="$t('order.email')" :subTitle="$t('order.emailDes')" :progress="progress">
+    <template v-slot:icon>
+      <i :class="`ni ni-email-83 opacity-10 mt-2`"></i>
+    </template>
+    <template v-slot:content>
+      <div class="row mb-4">
+        <input id="emailInput" class="form-control" ref="userEmailInput" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
+        <div v-if="showPolicy">
+          <div class="form-check d-flex align-items-center justify-content-center mt-3">
+            <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
+            <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+          </div>
+          <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
         </div>
-        <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
       </div>
-    </div>
-    <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error : validationError">
-      {{ error ? error: validationError }}
-    </div>
-    <div class="d-flex justify-content-center">
-      <one-click-btn v-model:active="activeBtn" :text="$t('order.submit')" class="bg-gradient-primary mx-2" @click="trySubmitEmail()"></one-click-btn>
-    </div>
+      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error : validationError">
+        {{ error ? error: validationError }}
+      </div>
+      <div class="d-flex justify-content-center">
+        <one-click-btn v-model:active="activeBtn" :text="$t('order.submit')" class="bg-gradient-primary mx-2" @click="trySubmitEmail()"></one-click-btn>
+      </div>
+    </template>
   </carousel-item>
 </template>
 
