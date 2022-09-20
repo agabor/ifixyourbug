@@ -317,6 +317,7 @@ function loadTinymce() {
   if(!loadedTinymce.value) {
     const script = document.createElement('script');
     script.src = 'tinymce/tinymce.min.js';
+    script.type = 'module';
       script.onload = () => {
         loadedTinymce.value = true;
       };
@@ -330,6 +331,7 @@ function loadBootstrap() {
     script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js';
     script.integrity = 'sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF';
     script.crossOrigin = 'anonymous';
+    script.type = 'module';
       script.onload = () => {
         loadedBootstrap.value = true;
       };
