@@ -9,9 +9,13 @@
           <picture>
             <source 
               media="(min-width: 576px)"
+              max-width="210"
+              max-height="210"
               srcset="../../assets/img/gabor.webp">
-            <img 
-              class="img rounded-circle max-width-200 w-100 position-relative z-index-2"
+            <img
+              max-width="210"
+              max-height="210"
+              class="img rounded-circle position-relative z-index-2"
               src="../../assets/img/gabor_mobile.webp" 
               alt="gabor">
           </picture>

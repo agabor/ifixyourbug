@@ -11,9 +11,13 @@
                       <picture>
                         <source 
                           media="(min-width: 576px)"
+                          width="261"
+                          height="229"
                           srcset="../assets/img/cookie.webp">
                         <img 
-                          class="image-center img-fluid w-50"
+                          width="200"
+                          height="158"
+                          class="image-center img-fluid"
                           src="../assets/img/cookie_mobile.webp" 
                           alt="cookie">
                       </picture>

@@ -18,8 +18,12 @@
                 <picture class="col-md-4 col-12 header-logo w-30 d-flex justify-content-center align-items-center">
                   <source 
                     media="(min-width: 576px)"
+                    max-width="200"
+                    max-height="200"
                     srcset="../../assets/img/logo.webp">
                   <img
+                    max-width="100"
+                    max-height="100"
                     src="../../assets/img/logo_mobile.webp" 
                     alt="logo">
                 </picture>
