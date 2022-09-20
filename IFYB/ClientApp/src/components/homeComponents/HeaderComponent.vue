@@ -15,21 +15,21 @@
           <div class="col-lg-7 d-flex">
             <div class="card card-body text-center px-sm-5 shadow mt-sm-5 py-sm-5">
               <div class="row justify-content-center">
-                <picture class="col-md-4 col-12 header-logo w-30 d-flex justify-content-center align-items-center">
+                <picture class="col-xl-4 col-12 header-logo d-flex justify-content-center align-items-center">
                   <source 
                     media="(min-width: 576px)"
-                    max-width="200"
-                    max-height="200"
+                    width="200"
+                    height="200"
                     srcset="../../assets/img/logo.webp">
                   <img
-                    max-width="100"
-                    max-height="100"
+                    width="100"
+                    height="100"
                     src="../../assets/img/logo_mobile.webp" 
                     alt="logo">
                 </picture>
-                <div class="col-md-8 col-12 text-md-start text-center">
+                <div class="col-xl-8 col-12 text-xl-start text-center">
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
-                  <p class="lead pe-md-3 me-md-3 py-md-3 my-md-3">{{ $t('mainCard.description') }}</p>
+                  <p class="lead pe-xl-3 me-xl-3 py-xl-3 my-xl-3">{{ $t('mainCard.description') }}</p>
                   <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
                   <button type="button" class="btn btn-rounded btn-outline-secondary" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
                 </div>
