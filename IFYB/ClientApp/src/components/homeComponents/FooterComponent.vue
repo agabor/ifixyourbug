@@ -14,20 +14,17 @@
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/">{{ $t('footer.home') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/my-orders">{{ $t('footer.myOrders') }}</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/faq">{{ $t('footer.faq') }}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/design-view">{{ $t('footer.design') }}</a>
+                <a class="nav-link text-white opacity-8 text-sm pb-0" href="/credits">{{ $t('footer.credits') }}</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
           <div>
-            <h6 class="text-white text-sm mb-1">{{ $t('footer.reader') }}</h6>
+            <h6 class="text-white text-sm mb-1">{{ $t('footer.legal') }}</h6>
             <ul class="flex-column ms-lg-n3 nav">
               <li class="nav-item">
                 <a class="nav-link text-white opacity-8 text-sm pb-0" href="/terms-and-conditions" target="_blank">{{ $t('footer.terms') }}</a>

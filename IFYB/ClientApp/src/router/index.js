@@ -4,7 +4,7 @@ import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsAndConditions from '../views/TermsAndConditions.vue';
 import NewOrderView from '../views/NewOrderView.vue';
 import FAQ from '../views/FAQ.vue';
-import DesignView from '../views/DesignView.vue';
+import CreditsView from '../views/CreditsView.vue';
 import AdminView from '../views/AdminView.vue';
 import AdminOrderView from '../views/AdminOrderView.vue';
 import ContactForm from '../views/ContactForm.vue';
@@ -85,10 +85,10 @@ const routes = [
     beforeEnter: loadBootstrap
   },
   {
-    path: '/design-view',
-    name: 'design-view',
-    component: DesignView,
-    meta: { title: 'Design' },
+    path: '/credits',
+    name: 'credits',
+    component: CreditsView,
+    meta: { title: 'Credits' },
   },
   {
     path: '/admin',

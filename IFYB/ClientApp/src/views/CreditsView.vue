@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'DesignView',
+  name: 'CreditsView',
 }
 </script>
 

@@ -12,16 +12,27 @@ const workdays = ref(null);
 const sshKey = ref(null);
 const gitServices = ref(null);
 
-fetch('/api/settings').then(resp => {
-  resp.json().then(data => {
-    eurPrice.value = data.eurPrice;
-    usdPrice.value = data.usdPrice;
-    workdays.value = data.workdays;
-    sshKey.value = data.sshKey;
-    gitServices.value = data.gitServices;
-  });
-});
 
+const loaded = ref(false);
+function onLoad() {
+  window.removeEventListener('load', onLoad);
+  loaded.value = true;
+  fetch('/api/settings').then(resp => {
+    resp.json().then(data => {
+      eurPrice.value = data.eurPrice;
+      usdPrice.value = data.usdPrice;
+      workdays.value = data.workdays;
+      sshKey.value = data.sshKey;
+      gitServices.value = data.gitServices;
+    });
+  });
+}
+
+window.addEventListener('load', onLoad);
+
+export function useWindowLoad() {
+  return { loaded }
+}
 export function useSettings() {
   return { eurPrice, usdPrice, workdays };
 }
@@ -331,11 +342,3 @@ export function useScripts() {
 }
 
 
-const loaded = ref(false);
-window.onload = function() {
-  loaded.value = true;
-}
-
-export function useWindowLoad() {
-  return { loaded }
-}

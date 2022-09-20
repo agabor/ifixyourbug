@@ -108,10 +108,9 @@ export const messages = {
         "copyright": "Copyright © 2022 I Fix Your Bug by CodeSharp Kft.",
         "pages": "Pages",
         "home": "Home",
-        "myOrders": "My orders",
-        "design": "Design",
+        "credits": "Credits",
         "faq": "FAQ",
-        "reader": "Reader",
+        "legal": "Legal",
         "terms": "Terms & conditions",
         "privacyPolicy": "Privacy policy"
       },

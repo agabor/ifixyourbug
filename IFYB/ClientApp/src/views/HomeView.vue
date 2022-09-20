@@ -5,7 +5,7 @@
   <pricing-component v-if="loaded"></pricing-component>
   <work-with-us v-if="loaded"></work-with-us>
   <workflow-components v-if="loaded"></workflow-components>
-  <footer-component v-if="loaded"></footer-component>
+  <footer-component></footer-component>
 </template>
 
 <script>
