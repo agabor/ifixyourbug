@@ -57,20 +57,20 @@ export const messages = {
         "fast": "Fast",
         "fastDescription": "Bug fixing within { workdays } workdays.",
         "fixPrice": "Fix Price",
-        "fixPriceDescription": "Does not matter if it takes half an hour or multiple days.",
+        "fixPriceDescription": "It does not matter if it takes half an hour or multiple days.",
         "easy": "Easy submission",
-        "easyDescription": "It takes just a few minutes.",
+        "easyDescription": "It takes only a few minutes.",
         "refundable": "Fully Refundable",
-        "refundableDescription": "Either get a bugfix within { workdays } workdays or get your money back."
+        "refundableDescription": "You either get a bug fix within { workdays } workdays, or you get your money back."
       },
       "nameCard": {
         "name": "Gabor Angyal",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        "description": "I am Gabor Angyal, a software developer in <a href=\"https://en.wikipedia.org/wiki/Pécs\" target=\"_blank\">Pécs</a>. I have created this website to help others struggling with tricky bugs in their web applications. I have been a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, if you are stuck with a bug, send it to me, and let's see if I can help."
       },
       "workWithUs": {
         "title": "Technologies",
         "subTitle": "More than full-stack",
-        "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs you might need someone, who has experience with a variety of web servers, cloud providers, and deployment environments."
+        "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs, you might need someone with experience with various web servers, cloud providers, and deployment environments."
       },
       "pricing": {
         "mainTitle": "Best no-tricks pricing",
@@ -94,8 +94,8 @@ export const messages = {
         "workflowTitle2": "2. Submit Your Bug",
         "workflowDescription2": "Click on the order button to answer a few questions about your project and bug. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
         "workflowTitle3": "3. Make the payment",
-        "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bugfix is fix priced, you can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
-        "workflowTitle4": "4. I attempt to fix your bug.",
+        "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bugfix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
+        "workflowTitle4": "4. I will attempt to fix your bug.",
         "workflowDescription4": "After you pay, I have { workdays } workdays to fix your bug.",
         "workflowTitle5": "5. I will notify you when the bug fix is ready.",
         "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request and notify you by e-mail.",

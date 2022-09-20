@@ -28,9 +28,7 @@
               <a href="https://stackoverflow.com/users/3580498/gábor-angyal" target="_blank" @click="$event('navigate', {'value': 'stackoverflow'})"><span class="fab fa-stack-overflow" aria-hidden="true"></span> Stack Overflow</a>
             </div>
           </div>
-          <p class="text-lg mb-0 text-justify">
-            {{ $t('nameCard.description') }}
-          </p>
+          <p class="text-lg mb-0 text-justify" v-html="$t('nameCard.description')"></p>
         </div>
       </div>
     </div>
