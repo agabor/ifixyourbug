@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { ref } from 'vue';
+import { useWindowLoad } from '@/store';
 import FeaturesComponent from '../components/homeComponents/FeaturesComponent.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import WorkflowComponents from '../components/homeComponents/WorkflowComponents.vue';
@@ -22,10 +22,7 @@ export default {
   name: 'HomeView',
   components: { FooterComponent, WorkflowComponents, PricingComponent, WorkWithUs, NameCard, FeaturesComponent, HeaderComponent },
   setup() {
-    const loaded = ref(false);
-    window.onload = function() {
-      loaded.value = true;
-    }
+    const { loaded } = useWindowLoad();
     return { loaded }
   }
 }

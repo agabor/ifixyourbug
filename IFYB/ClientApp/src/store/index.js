@@ -330,3 +330,12 @@ export function useScripts() {
   return { loadedTinymce, loadTinymce, loadedBootstrap, loadBootstrap }
 }
 
+
+const loaded = ref(false);
+window.onload = function() {
+  loaded.value = true;
+}
+
+export function useWindowLoad() {
+  return { loaded }
+}
