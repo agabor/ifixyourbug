@@ -11,9 +11,8 @@
 
 <script>
 import { ref, watch } from 'vue';
-import { useI18n } from "vue-i18n";
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useUserAuthentication, useAdminAuthentication } from "../store";
+import { useServerError, useUserAuthentication, useAdminAuthentication, useMessages } from "../store";
 import router from '../router';
 
 export default {
@@ -23,7 +22,7 @@ export default {
     const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();
     const adminAuth = useAdminAuthentication();
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const page = ref('email');
     const error = ref(null);
     const progress = ref(0);

@@ -1,18 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import { createI18n } from 'vue-i18n'
-import { messages } from './utils/i18nMessages'
 import VueGtag from "vue-gtag";
 import { stringify } from 'flatted';
+import { useMessages } from './store/index';
 
-const i18n = createI18n({
-  locale: 'en',
-  messages
-});
 
 const app = createApp(App);
-
+const { tm } = useMessages();
+app.config.globalProperties.$t = tm;
 app.config.globalProperties.$filters = {
   dateTimeFormat(value) {
     let options = {
@@ -43,7 +39,7 @@ app.config.globalProperties.$filters = {
 
 let acceptedCookies = JSON.parse(localStorage.getItem('acceptedCookies'));
 const enabled = acceptedCookies ? acceptedCookies.analytics : false
-app.use(router).use(i18n).use(VueGtag, {
+app.use(router).use(VueGtag, {
   config: { id: "G-TX7L6QHPS3" },
   enabled: enabled,
   bootstrap: enabled

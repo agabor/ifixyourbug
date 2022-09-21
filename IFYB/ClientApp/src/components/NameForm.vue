@@ -21,9 +21,9 @@
 <script>
 import { ref, watch, onMounted } from 'vue';
 import { required } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
+import { useMessages } from "../store";
 
 export default {
   name: 'NameForm',
@@ -35,7 +35,7 @@ export default {
   },
   emits: [ 'update:modelValue', 'cancel', 'update:activeButton' ],
   setup(props, context) {
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const name = ref(props.modelValue ?? '');
     const validationError = ref(null);
     const activeBtn = ref(props.activeButton ?? true);

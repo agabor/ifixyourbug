@@ -77,8 +77,7 @@
 <script>
 import { ref, watch, reactive } from 'vue';
 import { validEmail, required } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
-import { useServerError, useUserAuthentication, useInputError } from "../store";
+import { useServerError, useUserAuthentication, useInputError, useMessages } from "../store";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 
 export default {
@@ -88,7 +87,7 @@ export default {
     const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const contact = reactive({
       name: null,
       email: null,

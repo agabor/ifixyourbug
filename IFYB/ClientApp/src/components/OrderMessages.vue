@@ -38,7 +38,7 @@
 import { ref } from 'vue';
 import MessageLine from './MessageLine.vue';
 import { required } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
+import { useMessages } from "../store";
 
 export default {
   name: 'OrderMessages',
@@ -48,7 +48,7 @@ export default {
   emits: ['submitMessage'],
   components: { MessageLine },
   setup(props, context) {
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const newMessage = ref('');
     const rows = ref(1);
 

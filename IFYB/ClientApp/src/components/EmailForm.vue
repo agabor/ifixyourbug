@@ -27,9 +27,9 @@
 <script>
 import { ref, watch, onMounted } from 'vue';
 import { validEmail } from '../utils/Validate';
-import { useI18n } from "vue-i18n";
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
+import { useMessages } from "../store";
 
 export default {
   name: 'EmailForm',
@@ -45,7 +45,7 @@ export default {
   },
   emits: [ 'update:modelValue', 'update:acceptedPolicy', 'update:activeButton' ],
   setup(props, context) {
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const email = ref(props.modelValue ?? '');
     const validationError = ref(null);
     const activeBtn = ref(props.activeButton ?? true);

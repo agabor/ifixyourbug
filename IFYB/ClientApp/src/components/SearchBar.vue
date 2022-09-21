@@ -4,7 +4,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useI18n } from "vue-i18n";
+import { useMessages } from "../store";
 
 export default {
   name: 'SearchBar',
@@ -16,7 +16,7 @@ export default {
   emits: ['update:modelValue'],
   setup(props, context) {
     const searchText = ref('');
-    const { tm } = useI18n();
+    const { tm } = useMessages();
 
     async function search() {
       let filteredData = [];

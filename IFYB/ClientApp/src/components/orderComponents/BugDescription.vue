@@ -12,8 +12,7 @@
 
 <script>
 import { required } from '../../utils/Validate';
-import { useI18n } from "vue-i18n";
-import { useInputError } from "../../store";
+import { useInputError, useMessages } from "../../store";
 import TextEditor from '../../components/TextEditor.vue';
 
 export default {
@@ -25,7 +24,7 @@ export default {
     showError: Boolean,
   },
   setup(props, context){
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
 
     setInputError('bugDescription', required(props.modelValue, tm('errors.requiredBugDes')));

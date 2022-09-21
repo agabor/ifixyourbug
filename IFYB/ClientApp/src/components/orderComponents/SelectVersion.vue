@@ -14,8 +14,7 @@
 import { ref, watch } from 'vue'
 import { computed } from "@vue/reactivity";
 import { required } from '../../utils/Validate';
-import { useI18n } from "vue-i18n";
-import { useInputError } from "../../store";
+import { useInputError, useMessages } from "../../store";
 
 export default {
   name: 'SelectVersion',
@@ -28,7 +27,7 @@ export default {
   },
   setup(props, context) {
     const version = ref(props.modelValue);
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
     const aspVersions = ['3.1', '5.0', '6.0', '7.0'];
     const vueVersions = ['2.6', '2.7', '3.0', '3.1', '3.2'];

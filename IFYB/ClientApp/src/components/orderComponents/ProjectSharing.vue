@@ -14,7 +14,7 @@
     </div>
     <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
     <div class="col-12" v-if="selectedOption">
-      <span>{{ selectedOption.descrption }}</span>
+      <span v-html="selectedOption.description"></span>
     </div>
   </div>
   <ssh-key-preview v-if="selectedOption && selectedOption.id === 2"></ssh-key-preview>
@@ -23,8 +23,7 @@
 <script>
 import { ref, watch } from 'vue'
 import { required, validGitUrl } from '../../utils/Validate';
-import { useI18n } from "vue-i18n";
-import { useInputError, useGitServices } from "../../store";
+import { useInputError, useGitServices, useMessages } from "../../store";
 import SshKeyPreview from '../SshKeyPreview.vue';
 
 export default {
@@ -39,7 +38,7 @@ export default {
   components: { SshKeyPreview },
   setup(props, context) {
     const optionCount = 3;
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
     const { gitServices } = useGitServices();
     const sharingOptions = ref([]);
@@ -61,11 +60,11 @@ export default {
         if(i == 1) {
           let des = tm('projectSharing.description2default');
           if(!validGitUrl(props.modelValue)) {
-            des = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
+            des = tm('projectSharing.description2', { 'saas': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
           }
-          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), descrption: des});
+          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), description: des});
         } else {
-          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), descrption: tm(`projectSharing.description${i+1}`)});
+          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), description: tm(`projectSharing.description${i+1}`)});
         }
         if(i == props.accessMode) {
           selectedOption.value = sharingOptions.value[i]
@@ -79,12 +78,12 @@ export default {
         const domain = url.hostname.replace('www.','');
         for(let i = 0; i < gitServices.value.length; i++){
           if(gitServices.value[i].domain.includes(domain)) {
-            sharingOptions.value[1].descrption = tm('projectSharing.description2', { 'sass': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
+            sharingOptions.value[1].description = tm('projectSharing.description2', { 'saas': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
             break;
           }
         }
       } else {
-        sharingOptions.value[1].descrption = tm('projectSharing.description2default');
+        sharingOptions.value[1].description = tm('projectSharing.description2default');
       }
     }
 

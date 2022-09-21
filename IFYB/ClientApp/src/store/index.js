@@ -343,4 +343,33 @@ export function useScripts() {
   return { loadedTinymce, loadTinymce, loadedBootstrap, loadBootstrap }
 }
 
+import { messages } from '../utils/Messages'
+ 
+function tm(variable, props) {
+  let message = getMessage(variable.split('.'));
+  if(props && Object.keys(props).length > 0) {
+    message = replaceMessageKeys(message, props);
+  }
+  return message;
+}
 
+function getMessage(parts) {
+  let message = messages;
+  for (let i = 0; i < parts.length; i++) {
+    message = message[parts[i]];
+  }
+  return message;
+}
+
+function replaceMessageKeys(message, props) {
+  let keys = Object.keys(props);
+  for (let i = 0; i < keys.length; i++) {
+    const re = new RegExp(`{.?\\b${keys[i]}\\b.?}`, 'gi');
+    message =  message.replace(re, props[keys[i]]);
+  }
+  return message;
+}
+
+export function useMessages() {
+  return { tm }
+}

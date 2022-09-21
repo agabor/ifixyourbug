@@ -27,8 +27,7 @@
 <script>
 import { ref, watch } from 'vue'
 import { required } from '../../utils/Validate';
-import { useI18n } from "vue-i18n";
-import { useInputError } from "../../store";
+import { useInputError, useMessages } from "../../store";
 
 export default {
   name: 'OperatingSystem',
@@ -44,7 +43,7 @@ export default {
     const optionCount = 3;
     const os = ref(props.modelValue);
     const osVersion = ref(props.version);
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
 
     if(isChecked.value) {

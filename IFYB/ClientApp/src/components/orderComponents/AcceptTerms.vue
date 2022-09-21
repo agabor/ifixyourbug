@@ -13,8 +13,7 @@
 
 <script>
 import { ref, watch } from 'vue'
-import { useI18n } from "vue-i18n";
-import { useInputError } from "../../store";
+import { useInputError, useMessages } from "../../store";
 
 export default {
   name: 'AcceptTerms',
@@ -23,7 +22,7 @@ export default {
   },
   setup(){
     const isChecked = ref(null);
-    const { tm } = useI18n();
+    const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
 
     setInputError('acceptTerms', isChecked.value ? null : tm('errors.acceptTerms'));
