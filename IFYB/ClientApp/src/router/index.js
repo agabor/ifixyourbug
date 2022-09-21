@@ -1,22 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import PrivacyPolicy from '../views/PrivacyPolicy.vue';
-import TermsAndConditions from '../views/TermsAndConditions.vue';
-import NewOrderView from '../views/NewOrderView.vue';
-import FAQ from '../views/FAQ.vue';
-import CreditsView from '../views/CreditsView.vue';
-import AdminView from '../views/AdminView.vue';
-import AdminOrderView from '../views/AdminOrderView.vue';
-import ContactForm from '../views/ContactForm.vue';
-import OrdersView from '../views/OrdersView.vue';
-import OrderView from '../views/OrderView.vue';
-import ClientsView from '../views/ClientsView.vue';
-import AuthenticationView from '../views/AuthenticationView.vue';
-import AdminAuthenticationView from '../views/AdminAuthenticationView.vue';
-import CheckoutView from '../views/CheckoutView.vue';
-import CheckoutSuccessView from '../views/CheckoutSuccessView.vue';
-import CheckoutFailureView from '../views/CheckoutFailureView.vue';
-import CheckoutPaidView from '../views/CheckoutPaidView.vue';
+
+const PrivacyPolicy = () => import(/* webpackChunkName: "order" */ '../views/PrivacyPolicy.vue');
+const TermsAndConditions = () => import(/* webpackChunkName: "order" */ '../views/TermsAndConditions.vue');
+const NewOrderView = () => import(/* webpackChunkName: "order" */ '../views/NewOrderView.vue');
+const FAQ = () => import(/* webpackChunkName: "order" */ '../views/FAQ.vue');
+const CreditsView = () => import(/* webpackChunkName: "order" */ '../views/CreditsView.vue');
+const ContactForm = () => import(/* webpackChunkName: "order" */ '../views/ContactForm.vue');
+const OrdersView = () => import(/* webpackChunkName: "order" */ '../views/OrdersView.vue');
+const OrderView = () => import(/* webpackChunkName: "order" */ '../views/OrderView.vue');
+const ClientsView = () => import(/* webpackChunkName: "order" */ '../views/ClientsView.vue');
+const AuthenticationView = () => import(/* webpackChunkName: "order" */ '../views/AuthenticationView.vue');
+const CheckoutView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutView.vue');
+const CheckoutSuccessView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutSuccessView.vue');
+const CheckoutFailureView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutFailureView.vue');
+const CheckoutPaidView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutPaidView.vue');
+
+const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminView.vue');
+const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
+const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
+
 import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError, useScripts } from '@/store';
 
 const userAuth = useUserAuthentication();
