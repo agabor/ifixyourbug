@@ -1,7 +1,7 @@
 <template>
  <header>
-    <div class="page-header min-vh-85">
-      <picture>
+    <div class="page-header">
+      <picture class="d-none d-md-block">
         <source 
           media="(min-width: 576px)"
           srcset="/hero.webp">
@@ -13,7 +13,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
-            <div class="card card-body text-center px-sm-5 shadow mt-sm-5 py-sm-5">
+            <div class="card card-body text-center px-sm-5 shadow my-md-0 my-md-6 mt-7 mb-5">
               <div class="row justify-content-center">
                 <picture class="col-xl-4 col-12 d-flex justify-content-center align-items-center">
                   <source 
@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .btn-outline-secondary {
     background: white;
     opacity: 0.8;
@@ -65,5 +65,15 @@ export default {
   .header-logo {
     object-fit: contain;
   }
-  
+
+  @media (min-width: 768px) {
+    .page-header {
+      min-height: 85vh;
+    }
+  }
+  @media (max-width: 768px) {
+    .page-header {
+      min-height: unset;
+    }
+  }
 </style>

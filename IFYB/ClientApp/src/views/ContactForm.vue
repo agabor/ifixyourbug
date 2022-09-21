@@ -1,6 +1,6 @@
 <template>
-  <div class="page-header min-vh-85">
-    <picture>
+  <div class="page-header">
+    <picture class="d-none d-md-block">
       <source 
         media="(min-width: 576px)"
         srcset="../assets/img/bg1.webp">
@@ -12,7 +12,7 @@
     <div class="container" v-if="page == 'contact'">
       <div class="row">
         <div class="col-lg-7 d-flex justify-content-center flex-column">
-          <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
+          <div class="card shadow-lg d-flex justify-content-center p-4 my-md-0 my-md-6 mt-7 mb-5">
             <div class="text-center">
               <h3>{{ $t('contact.title') }}</h3>
               <p class="mb-0" v-html="$t('contact.subTitle')"></p>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, reactive } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useI18n } from "vue-i18n";
 import { useServerError, useUserAuthentication, useInputError } from "../store";
@@ -89,7 +89,7 @@ export default {
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useI18n();
-    const contact = ref({
+    const contact = reactive({
       name: null,
       email: null,
       message: null
@@ -99,17 +99,17 @@ export default {
     const showError = ref(false);
     const acceptedPolicy = ref(false);
     
-    contact.value.name = name.value;
-    contact.value.email = email.value;
+    contact.name = name.value;
+    contact.email = email.value;
     
-    setInputError('name', required(contact.value.name, tm('errors.requiredName')));
-    setInputError('email', validEmail(contact.value.email, tm('errors.requiredEmail')));
-    setInputError('message', required(contact.value.message, tm('errors.requiredMessage')));
+    setInputError('name', required(contact.name, tm('errors.requiredName')));
+    setInputError('email', validEmail(contact.email, tm('errors.requiredEmail')));
+    setInputError('message', required(contact.message, tm('errors.requiredMessage')));
 
-    watch(contact.value, () => {
-      setInputError('name', required(contact.value.name, tm('errors.requiredName')));
-      setInputError('email', validEmail(contact.value.email, tm('errors.requiredEmail')));
-      setInputError('message', required(contact.value.message, tm('errors.requiredMessage')));
+    watch(contact, () => {
+      setInputError('name', required(contact.name, tm('errors.requiredName')));
+      setInputError('email', validEmail(contact.email, tm('errors.requiredEmail')));
+      setInputError('message', required(contact.message, tm('errors.requiredMessage')));
     })
 
     async function trySubmitMessage() {
@@ -127,7 +127,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'name': contact.value.name, 'email': contact.value.email, 'text': contact.value.message})
+        body: JSON.stringify({'name': contact.name, 'email': contact.email, 'text': contact.message})
       });
       if(response.status == 200) {
         resetServerError();
@@ -146,3 +146,16 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+  @media (min-width: 768px) {
+    .page-header {
+      min-height: 85vh;
+    }
+  }
+  @media (max-width: 768px) {
+    .page-header {
+      min-height: unset;
+    }
+  }  
+</style>
