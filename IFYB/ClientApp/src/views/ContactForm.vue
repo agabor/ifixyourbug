@@ -148,6 +148,9 @@ export default {
 </script>
 
 <style scoped>
+  .page-header {
+    background-image: none!important;
+  }
   @media (min-width: 768px) {
     .page-header {
       min-height: 85vh;

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100">
+    <div class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <carousel-item v-if="page === 'data'" class="full-height" width="col-lg-10 col-12" :icon="true" :title="$t('order.orderData')" :subTitle="$t('order.orderDataDes')">
@@ -38,26 +38,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#carousel-testimonials {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  object-fit: cover;
-}
-@media (min-width: 576px) {
-  #carousel-testimonials {
-    background-image: url('../assets/img/bg2.webp');
-  }
-}
-@media (max-width: 576px) {
-  #carousel-testimonials {
-    background-image: url('../assets/img/bg2_mobile.webp');
-  }
-}
-.full-height{
-  overflow: auto;
-  height: 100vh;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100">
+    <div class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <carousel-item class="full-height" width="col-12">
@@ -61,26 +61,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#carousel-testimonials {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  object-fit: cover;
-}
-@media (min-width: 576px) {
-  #carousel-testimonials {
-    background-image: url('../assets/img/bg2.webp');
-  }
-}
-@media (max-width: 576px) {
-  #carousel-testimonials {
-    background-image: url('../assets/img/bg2_mobile.webp');
-  }
-}
-.carousel-inner {
-  height: 100%;
-  overflow: auto;
-}
-</style>

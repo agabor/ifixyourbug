@@ -1,5 +1,5 @@
 <template>
-<span class="bg"></span>
+<span class="full-bg"></span>
 <span class="mask bg-gradient-dark opacity-4"></span>
   <section class="pt-7 pb-md-3">
     <div class="container">
@@ -196,26 +196,3 @@ export default {
   name: 'PrivacyPolicy',
 }
 </script>
-
-<style scoped>
-.bg {
-  position: absolute;
-  background-size: cover;
-  background-position: center center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-@media (min-width: 576px) {
-  .bg {
-    background-image: url('../assets/img/bg2.webp');
-  }
-}
-@media (max-width: 576px) {
-  .bg {
-    background-image: url('../assets/img/bg2_mobile.webp');
-  }
-}
-</style>

@@ -65,6 +65,9 @@ export default {
   .header-logo {
     object-fit: contain;
   }
+  .page-header {
+    background-image: none!important;
+  }
 
   @media (min-width: 768px) {
     .page-header {

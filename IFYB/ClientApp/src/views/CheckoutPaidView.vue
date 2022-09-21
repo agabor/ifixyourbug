@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100">
+    <div class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <carousel-item :icon="true" :title="$t('checkout.paidTitle')" :subTitle="$t('checkout.paidSubTitle')" :buttonText="$t('checkout.backToHome')" @onClickBtn="$router.push('/')">

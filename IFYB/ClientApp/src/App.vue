@@ -34,4 +34,43 @@ nav a.router-link-exact-active {
 .fit-cover {
   object-fit: cover;
 }
+
+.full-bg {
+  position: absolute;
+  background-size: cover;
+  background-position: center center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.full-height {
+  overflow: auto;
+  height: 100vh;
+}
+
+@media (min-width: 576px) {
+  .full-bg {
+    background-image: url('./assets/img/bg2.webp');
+  }
+}
+@media (max-width: 576px) {
+  .full-bg {
+    background-image: url('./assets/img/bg2_mobile.webp');
+  }
+}
+
+@media (min-width: 576px) {
+  .page-header {
+    background-image: url('./assets/img/bg2.webp');
+  }
+}
+@media (max-width: 576px) {
+  .page-header {
+    background-image: url('./assets/img/bg2_mobile.webp');
+  }
+}
+
 </style>

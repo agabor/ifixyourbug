@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100">
+    <div class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner">
         <authentication :page="page" :error="error" :progress="progress" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @authentication="authentication" @cancel="cancelLogin"></authentication>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div id="carousel-testimonials" class="page-header min-vh-100">
+    <div class="page-header min-vh-100">
       <span class="mask bg-gradient-dark opacity-4"></span>
       <div class="carousel-inner" v-if="order || waitForOrder">
         <carousel-item width="col-lg-10 col-12" :icon="true" :title="($t('checkout.order') + (order ? ' #' + order.number : ''))" :progress="progress">
