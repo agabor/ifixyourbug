@@ -73,6 +73,8 @@ export default {
           order.value = data;
           waitForOrder.value = false;
         });
+      } else if(resp.status === 404) {
+        waitForOrder.value = false;
       }
     });    
 
