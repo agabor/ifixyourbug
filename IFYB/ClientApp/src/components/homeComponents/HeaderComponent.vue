@@ -15,7 +15,7 @@
           <div class="col-lg-7 d-flex">
             <div class="card card-body text-center px-sm-5 shadow mt-sm-5 py-sm-5">
               <div class="row justify-content-center">
-                <picture class="col-xl-4 col-12 header-logo d-flex justify-content-center align-items-center">
+                <picture class="col-xl-4 col-12 d-flex justify-content-center align-items-center">
                   <source 
                     media="(min-width: 576px)"
                     width="200"
@@ -24,6 +24,7 @@
                   <img
                     width="100"
                     height="100"
+                    class="header-logo"
                     src="../../assets/img/logo_mobile.webp" 
                     alt="logo">
                 </picture>
