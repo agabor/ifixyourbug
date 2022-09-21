@@ -346,17 +346,24 @@ export function useScripts() {
 import { messages } from '../utils/Messages'
  
 function tm(variable, props) {
-  let message = getMessage(variable.split('.'));
-  if(props && Object.keys(props).length > 0) {
+  let message = variable;
+  let parts = variable.split('.');
+  if(parts.length > 1)
+    message = getMessage(variable.split('.'));
+  if(message === null)
+    return variable;
+  if(props && Object.keys(props).length > 0)
     message = replaceMessageKeys(message, props);
-  }
   return message;
 }
 
 function getMessage(parts) {
   let message = messages;
   for (let i = 0; i < parts.length; i++) {
-    message = message[parts[i]];
+    if(message[parts[i]])
+      message = message[parts[i]];
+    else
+      return null;
   }
   return message;
 }

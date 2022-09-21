@@ -336,5 +336,10 @@ export const messages = {
     "subtitle": "Please login to gain access to the website's functions",
     "later": "Later",
     "login": "Login"
+  },
+  "notFaund": {
+    "title": "This page does not exist",
+    "subtitle": "Please check the URL, maybe you missed something",
+    "backToHome": "Bact to home",
   }
 }
