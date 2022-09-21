@@ -1,15 +1,12 @@
 <template>
  <header>
     <div class="page-header">
-      <picture class="d-none d-md-block">
-        <source 
-          media="(min-width: 576px)"
-          srcset="/hero.webp">
-        <img 
-          class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
-          src="/hero-mobile.webp" 
-          alt="hero">
-      </picture>
+      <img 
+          class="d-none d-md-block position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
+          src="/hero.webp" 
+          alt="hero"
+          v-if="windowWidth > 768"
+          >
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
@@ -44,6 +41,7 @@
 </template>
 
 <script>
+import { onMounted, onUnmounted, ref } from "vue"
 
 export default {
   name: 'HeaderComponent',
@@ -51,8 +49,13 @@ export default {
     function toPricing() {
       document.getElementById('pricing').scrollIntoView();
     }
+    let windowWidth = ref(window.innerWidth)
 
-    return { toPricing }
+    const onWidthChange = () => windowWidth.value = window.innerWidth
+    onMounted(() => window.addEventListener('resize', onWidthChange))
+    onUnmounted(() => window.removeEventListener('resize', onWidthChange))
+
+    return { toPricing, windowWidth }
   }
 }
 </script>
