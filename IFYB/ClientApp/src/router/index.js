@@ -15,6 +15,7 @@ const CheckoutView = () => import(/* webpackChunkName: "order" */ '../views/Chec
 const CheckoutSuccessView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutSuccessView.vue');
 const CheckoutFailureView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutFailureView.vue');
 const CheckoutPaidView = () => import(/* webpackChunkName: "order" */ '../views/CheckoutPaidView.vue');
+const NotFoundView = () => import(/* webpackChunkName: "order" */ '../views/NotFoundView.vue');
 
 const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminView.vue');
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
@@ -170,6 +171,12 @@ const routes = [
     component: CheckoutPaidView,
     meta: { title: 'Checkout Paid' },
     beforeEnter: paymentGuard
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: 'not-found',
+    component: NotFoundView,
+    meta: { title: 'Not Found' }
   }
 ]
 
