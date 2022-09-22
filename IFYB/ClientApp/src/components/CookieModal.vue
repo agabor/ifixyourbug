@@ -86,7 +86,7 @@ export default {
     function customizeCookies() {
       showCustomize.value = true;
     }
-
+    
     async function save() {
       localStorage.setItem('cookieConsentAnswered', true);
       localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: analytics.value, advertisement: advertisement.value }));
@@ -98,7 +98,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'analytics': analytics.value, 'advertisement': advertisement.value})
+        body: JSON.stringify({'referrer': document.referrer, 'analytics': analytics.value, 'advertisement': advertisement.value})
       });
     }
 
