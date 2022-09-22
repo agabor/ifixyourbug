@@ -7,6 +7,7 @@ public class Cookie
     public int Id { get; set; }
     public DateTime DateTime { get; set; } = DateTime.UtcNow;
     public string UserAgent { get; set; } = string.Empty;
+    public string Referer { get; set; } = string.Empty;
     public bool Analytics { get; set; }
     public bool Advertisement { get; set; }
 

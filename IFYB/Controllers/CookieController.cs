@@ -21,6 +21,7 @@ public class CookieController : BaseController
         var cookie = Cookie.FromDto(dto);
         cookie.DateTime = DateTime.UtcNow;
         cookie.UserAgent = Request.Headers["User-Agent"].FirstOrDefault()!;
+        cookie.Referer = Request.Headers["Referer"].FirstOrDefault()!;
         dbContext.Cookies.Add(cookie);
         dbContext.SaveChanges();
         return Ok(cookie.Id);
