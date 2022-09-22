@@ -18,7 +18,7 @@
                 @keyup.enter.shift.exact.prevent="addLine()"
                 @keyup.enter.exact.prevent="addLine()">
               </textarea>
-              <i class="ni ni-send opacity-10 fs-4 mx-2 cursor-pointer fg-gradient-primary send-btn" @click="trySubmitMessage()"></i>
+              <i class="ni ni-send fs-4 mx-2 cursor-pointer text-primary send-btn" @click="trySubmitMessage()"></i>
             </div>
             <message-line
               :message="message.text"
