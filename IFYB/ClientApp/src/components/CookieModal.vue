@@ -87,14 +87,20 @@ export default {
       showCustomize.value = true;
     }
 
-    function save() {
+    async function save() {
       localStorage.setItem('cookieConsentAnswered', true);
       localStorage.setItem('acceptedCookies', JSON.stringify({ analytics: analytics.value, advertisement: advertisement.value }));
       cookieConsentAnswered.value = true;
       if (analytics.value)
         bootstrap().then(optIn)
+      await fetch('/api/cookie', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'analytics': analytics.value, 'advertisement': advertisement.value})
+      });
     }
-
 
     return { cookieConsentAnswered, showCustomize, analytics, advertisement, rejectAllCookies, acceptAllCookies, customizeCookies, save };
   },
