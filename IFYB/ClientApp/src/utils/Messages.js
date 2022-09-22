@@ -104,7 +104,7 @@ export const messages = {
   },
   "footer": {
     "title": "I Fix Your Bug",
-    "copyright": "Copyright © 2022 I Fix Your Bug by CodeSharp Kft.",
+    "copyright": "Copyright © 2022 Code Sharp Kft",
     "pages": "Pages",
     "home": "Home",
     "credits": "Credits",
