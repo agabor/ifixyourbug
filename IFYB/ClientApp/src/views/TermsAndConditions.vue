@@ -164,9 +164,7 @@
   </section>
 </template>
 
-
 <script>
-
 export default {
   name: 'TermsAndConditions',
 }

@@ -11,31 +11,31 @@
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
               <h2>{{ $t('orderViewer.title') }}</h2>
-              <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="order.state" :isSimple="false"></state-badge>
+              <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="modelValue.state" :isSimple="false"></state-badge>
             </div>
-            <update-order-form v-if="editableOrder.state == 7" :updateableOrder="editableOrder" @updated="updatedOrder"></update-order-form>
+            <update-order-form v-if="modelValue.state === 7" :modelValue="modelValue"></update-order-form>
             <form v-else>
               <div class="text-start">
                 <div class="row mb-3">
-                  <select-framework :modelValue="order.framework" :editable="false" :showError="false"></select-framework>
-                  <select-version :modelValue="order.version" :framework="order.framework" :editable="false" :showError="false"></select-version>
+                  <select-framework :modelValue="modelValue.framework"></select-framework>
+                  <select-version :modelValue="modelValue.version" :framework="modelValue.framework"></select-version>
                 </div>
-                <operating-system v-if="order.framework == 1" :modelValue="order.specificPlatform" :version="order.specificPlatformVersion" :editable="false" :showError="false"></operating-system>
-                <browser-type v-if="order.framework == 0" :modelValue="order.specificPlatform" :version="order.specificPlatformVersion" :editable="false" :showError="false"></browser-type>
-                <online-app :modelValue="order.applicationUrl" :editable="false" :showError="false"></online-app>
+                <operating-system v-if="modelValue.framework == 1" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></operating-system>
+                <browser-type v-if="modelValue.framework == 0" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></browser-type>
+                <online-app :modelValue="modelValue.applicationUrl"></online-app>
                 <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="row mb-3">
                   <div class="col-12 form-group mb-0">
                     <label>{{ $t('orderViewer.bugDescription') }}*</label>
-                    <text-viewer :value="order.bugDescription"></text-viewer>
+                    <text-viewer :value="modelValue.bugDescription"></text-viewer>
                   </div>
                 </div>
-                <third-party-tool :modelValue="order.thirdPartyTool" :editable="false" :showError="false"></third-party-tool>
+                <third-party-tool :modelValue="modelValue.thirdPartyTool"></third-party-tool>
               </div>
             </form>
             <div class="text-center">
-              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="$emit('back')">{{ $t('orderViewer.back') }}</button>
-              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="$router.push(`/checkout/${order.paymentToken}`)" v-if="order.state == 1">{{ $t('orderViewer.pay') }}</button>
+              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="backToList">{{ $t('orderViewer.back') }}</button>
+              <button type="button" class="btn bg-gradient-primary my-4 mx-2" @click="$router.push(`/checkout/${modelValue.paymentToken}`)" v-if="modelValue.state == 1">{{ $t('orderViewer.pay') }}</button>
             </div>
           </div>
         </div>
@@ -57,24 +57,24 @@ import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
 import { useServerError, useUserAuthentication } from "../store";
 import StateBadge from './StateBadge.vue';
+import router from '@/router';
 
 export default {
   name: 'OrderViewer',
   components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm, StateBadge },
   props: {
-    order: Object,
+    modelValue: Object,
   },
-  emits: ['back'],
-  setup(props) {
+  emits: ['update:modelValue'],
+  setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const gitAccess = ref(null);
-    const editableOrder = ref(props.order);
 
     setGitAccess();
 
     async function setGitAccess() {
-      let response = await get(`/api/git-accesses/${props.order.gitAccessId}`);
+      let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
       if(response.status == 200) {
         resetServerError();
         gitAccess.value = await response.json();
@@ -83,12 +83,12 @@ export default {
       }
     }
 
-    function updatedOrder(order) {
-      editableOrder.value.state = order.state;
-      editableOrder.value.bugDescription = order.bugDescription;
+    function backToList() {
+      context.emit('update:modelValue', null);
+      router.push('/my-orders');
     }
 
-    return { gitAccess, editableOrder, updatedOrder }
+    return { gitAccess, backToList }
   }
 }
 </script>

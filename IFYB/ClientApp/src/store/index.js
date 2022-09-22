@@ -316,7 +316,7 @@ const loadedBootstrap = ref(false);
 function loadTinymce() {
   if(!loadedTinymce.value) {
     const script = document.createElement('script');
-    script.src = 'tinymce/tinymce.min.js';
+    script.src = '/tinymce/tinymce.min.js';
     script.type = 'module';
       script.onload = () => {
         loadedTinymce.value = true;

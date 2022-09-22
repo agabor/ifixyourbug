@@ -10,7 +10,7 @@
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model="selectedAccess"></git-access-selector>
       <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
-      <bug-description v-model="order.bugDescription" :showError="showErrors"></bug-description>
+      <bug-description v-if="loadedTinymce" v-model="order.bugDescription" :showError="showErrors"></bug-description>
       <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
       <accept-terms :showError="showErrors"></accept-terms>
     </div>
@@ -38,7 +38,7 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess } from "../store";
+import { useServerError, useInputError, useUserAuthentication, useGitAccess, useScripts } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -46,15 +46,16 @@ export default {
   name: 'NewOrderForm',
   components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
   props: {
-    updateableOrder: Object,
+    modelValue: Object,
   },
-  emits: ['updated'],
+  emits: ['update:modelValue'],
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError } = useInputError();
     const { get, post } = useUserAuthentication();
+    const { loadedTinymce } = useScripts();
     const { gitAccesses, getGitAccessId } = useGitAccess();
-    const order = reactive(props.updateableOrder);
+    const order = reactive(props.modelValue);
     const selectedAccess = ref({});
     const showErrors = ref(false);
     const activeBtn = ref(true);
@@ -73,7 +74,7 @@ export default {
     setGitAccess();
 
     async function setGitAccess() {
-      let response = await get(`/api/git-accesses/${props.updateableOrder.gitAccessId}`);
+      let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
       if(response.status == 200) {
         resetServerError();
         selectedAccess.value = await response.json();
@@ -86,13 +87,13 @@ export default {
       router.push('/my-orders');
     }
 
-    function tryUpdateOrder() {
+    async function tryUpdateOrder() {
       if(hasInputError()) {
         showErrors.value = true;
         activeBtn.value = true;
       } else {
         progress.value = 30;
-        updateOrder();
+        await updateOrder();
         progress.value = 100;
       }
     }
@@ -110,9 +111,12 @@ export default {
           'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.repoUrl, order.accessMode)
         }
       );
-      if(response.status == 200) {
+      if(response.status === 200) {
         resetServerError();
-        context.emit('updated', await response.json());
+        let newOrder = await response.json();
+        order.state = newOrder.state;
+        order.bugDescription = newOrder.bugDescription;
+        context.emit('update:modelValue', order);
       } else {
         setServerError(response.statusText);
       }
@@ -124,7 +128,7 @@ export default {
       order.specificPlatformVersion = null;
     });
 
-    return { showErrors, order, selectedAccess, gitAccesses, activeBtn, progress, tryUpdateOrder, cancelSubmit }
+    return { showErrors, order, selectedAccess, gitAccesses, activeBtn, progress, loadedTinymce, tryUpdateOrder, cancelSubmit }
   }
 }
 </script>

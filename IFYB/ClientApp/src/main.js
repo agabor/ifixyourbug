@@ -46,7 +46,7 @@ app.use(router).use(VueGtag, {
 }, router).mount('#app');
 
 function reportError(obj) {
-  fetch('api/errors', {
+  fetch('/api/errors', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
