@@ -36,7 +36,7 @@
                 <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
               </div>              
               <div v-if="!isLoggedIn" class="align-items-center justify-content-center">
-                <div class="form-check d-flex align-items-center justify-content-center mt-3">
+                <div class="form-check form-switch d-flex align-items-center justify-content-center mt-3">
                   <input type="checkbox" class="form-check-input m-0" id="customCheck" v-model="acceptedPolicy">
                   <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
                 </div>

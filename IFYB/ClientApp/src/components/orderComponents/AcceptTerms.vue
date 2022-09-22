@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <div class="form-check">
+      <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="accept-terms" v-model="isChecked">
         <label class="form-check-label" for="accept-terms">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toTerms">{{ $t('policies.termsAndConditions') }}</a></label>
       </div>
