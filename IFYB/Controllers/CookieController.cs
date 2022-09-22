@@ -17,9 +17,8 @@ public class CookieController : BaseController
 
     [HttpPost]
     [Produces(typeof(IdDto))]
-    public IActionResult saveCookie(CookieDto dto) {
+    public IActionResult SaveCookie(CookieDto dto) {
         var cookie = Cookie.FromDto(dto);
-        cookie.Id = 0;
         cookie.DateTime = DateTime.UtcNow;
         cookie.UserAgent = Request.Headers["User-Agent"].FirstOrDefault()!;
         dbContext.Cookies.Add(cookie);
