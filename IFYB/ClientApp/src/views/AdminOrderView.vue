@@ -14,7 +14,8 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError, useAdminAuthentication } from "../store";
+import { useServerError } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';

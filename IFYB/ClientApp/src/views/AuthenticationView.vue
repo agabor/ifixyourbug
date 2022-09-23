@@ -12,7 +12,8 @@
 <script>
 import { ref, watch } from 'vue';
 import Authentication from '../components/Authentication.vue';
-import { useServerError, useUserAuthentication, useAdminAuthentication, useMessages } from "../store";
+import { useServerError, useUserAuthentication, useMessages } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 import router from '../router';
 
 export default {

@@ -75,7 +75,8 @@
 import { watch } from 'vue';
 import router from '../router';
 import { computed } from "@vue/reactivity";
-import { useUserAuthentication, useAdminAuthentication, useScripts } from "../store";
+import { useUserAuthentication, useScripts } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 
 export default {
   name: 'NavigationBar',

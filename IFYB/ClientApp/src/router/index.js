@@ -21,7 +21,9 @@ const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminV
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
 
-import { useUserAuthentication, useAdminAuthentication, usePayment, useServerError, useScripts } from '@/store';
+import { useUserAuthentication, useServerError, useScripts } from '@/store';
+import { useAdminAuthentication } from "@/store/admin";
+import { usePayment } from "@/store/payment";
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();

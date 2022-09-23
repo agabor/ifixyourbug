@@ -17,7 +17,8 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import AdminOrderList from '../components/AdminOrderList.vue';
-import { useServerError, useAdminAuthentication } from "../store";
+import { useServerError } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 import router from '@/router';
 
 export default {

@@ -91,7 +91,8 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
-import { useServerError, useAdminAuthentication } from "../store";
+import { useServerError } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 import StateBadge from './StateBadge.vue';
 
 export default {

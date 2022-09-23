@@ -47,7 +47,7 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { usePayment } from '@/store';
+import { usePayment } from "@/store/payment";
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '@/components/OneClickBtn.vue';
 

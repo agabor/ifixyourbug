@@ -1,6 +1,5 @@
 import { ref } from 'vue';
-
-const timeout = ref(false);
+import { get, post, postData, timeout, requestedPage } from './web'
 
 export function useTimeout() {
   return { timeout }
@@ -80,35 +79,6 @@ export function useInputError() {
 }
 
 
-async function get(route, jwt) {
-  return await fetch(route, {
-    method: 'GET',
-    headers: {
-      'Authorization': `bearer ${jwt}`
-    }
-  })
-}
-async function post(route, body, jwt) {
-  return await fetch(route, {
-    method: 'POST',
-    headers: {
-      'Authorization': `bearer ${jwt}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body)
-  })
-}
-async function postData(route, data, jwt) {
-  return await fetch(route, {
-    method: 'POST',
-    headers: {
-      'Authorization': `bearer ${jwt}`
-    },
-    body: data
-  })
-}
-
-const requestedPage = ref(null);
 const userJwt = ref(localStorage.getItem('jwt'));
 const isUserLoggedIn = ref(userJwt.value != null);
 const userName = ref(localStorage.getItem('clientName'));
@@ -207,66 +177,6 @@ export function useUserAuthentication() {
   return { requestedPage, 'jwt': userJwt, setUserData, resetUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData, 'logout': userLogout };
 }
 
-const adminJwt = ref(localStorage.getItem('adminJwt'));
-const isAdminLoggedIn = ref(false);
-
-setAdminJwt(localStorage.getItem('adminJwt'));
-
-function setAdminJwt(jwt) {
-  adminJwt.value = jwt;
-  if (jwt) {
-    localStorage.setItem('adminJwt', jwt);
-    isAdminLoggedIn.value = true;
-  } else {
-    localStorage.removeItem('adminJwt');
-    localStorage.removeItem('adminId');
-    isAdminLoggedIn.value = false;
-  }
-}
-
-function adminGet(route) {
-  return get(route, adminJwt.value)
-}
-
-function adminPost(route, body) {
-  return post(route, body, adminJwt.value)
-}
-
-
-if (adminJwt.value) {
-  adminGet('/api/authenticate/admin/check-jwt').then(resp => {
-    if (resp.status !== 200) {
-      setAdminJwt(null);
-      timeout.value = true;
-    }
-  })
-}
-
-function adminLogout() {
-  if (adminJwt.value) {
-    setAdminJwt(null);
-  }
-}
-
-export function useAdminAuthentication() {
-  return { requestedPage, 'setJwt': setAdminJwt, 'isLoggedIn': isAdminLoggedIn, 'get': adminGet, 'post': adminPost, 'logout': adminLogout };
-}
-
-function setPaymentToken(token) {
-  localStorage.setItem('paymentToken', token);
-}
-
-function clearPaymentToken() {
-  localStorage.removeItem('paymentToken');
-}
-
-function isPaymentInProgress(token) {
-  return localStorage.getItem('paymentToken') === token;
-}
-
-export function usePayment() {
-  return { setPaymentToken, clearPaymentToken, isPaymentInProgress };
-}
 
 export function useSshKey() {
   return { sshKey }

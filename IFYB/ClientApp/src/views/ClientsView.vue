@@ -28,7 +28,8 @@ import CarouselItem from '../components/CarouselItem.vue';
 import ClientList from '../components/ClientList.vue';
 import ContactMessages from '../components/ContactMessages.vue';
 import SearchBar from '../components/SearchBar.vue';
-import { useServerError, useAdminAuthentication } from "../store";
+import { useServerError } from "../store";
+import { useAdminAuthentication } from "../store/admin";
 
 export default {
   name: 'ClientsView',
