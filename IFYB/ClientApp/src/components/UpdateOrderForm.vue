@@ -56,19 +56,15 @@ export default {
     const { loadedTinymce } = useScripts();
     const { gitAccesses, getGitAccessId } = useGitAccess();
     const order = reactive(props.modelValue);
-    const selectedAccess = ref({});
+    const selectedAccess = ref(props.modelValue.selectedAccess ?? {});
     const showErrors = ref(false);
     const activeBtn = ref(true);
     const progress = ref(0);
 
     watch(selectedAccess, () => {
-      if(selectedAccess.value) {
-        order.accessMode = selectedAccess.value.accessMode;
-        order.repoUrl = selectedAccess.value.url;
-      } else {
-        order.accessMode = null;
-        order.repoUrl = null;
-      }
+      order.selectedAccess = selectedAccess.value;
+      order.accessMode = selectedAccess.value.accessMode > -1 ? selectedAccess.value.accessMode: order.accessMode;
+      order.repoUrl = selectedAccess.value.url ? selectedAccess.value.url: order.repoUrl;
     })
 
     setGitAccess();
@@ -114,8 +110,11 @@ export default {
       if(response.status === 200) {
         resetServerError();
         let newOrder = await response.json();
-        order.state = newOrder.state;
-        order.bugDescription = newOrder.bugDescription;
+        Object.assign(order, newOrder);
+        //order.state = newOrder.state;
+        //order.bugDescription = newOrder.bugDescription;
+        console.table('newOrder', newOrder);
+        console.table('order', order);
         context.emit('update:modelValue', order);
       } else {
         setServerError(response.statusText);
