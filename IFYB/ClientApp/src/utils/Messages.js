@@ -186,7 +186,7 @@ export const messages = {
   },
   "orderState": {
     "submitted": "Submitted",
-    "accepted": "Accepted",
+    "confirmed": "Confirmed",
     "rejected": "Rejected",
     "payed": "Payed",
     "completed": "Completed",
@@ -278,8 +278,8 @@ export const messages = {
     "appUrl": "Application url"
   },
   "gitAccessSelector": {
-    "label": "Previous repositorys",
-    "placeholder": "Select a previous repository"
+    "label": "Previous git repositories",
+    "placeholder": "Select a previous git repository"
   },
   "projectSharing": {
     "urlLabel": "Git repo url*",

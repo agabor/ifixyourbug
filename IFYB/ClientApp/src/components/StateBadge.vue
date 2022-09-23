@@ -1,6 +1,6 @@
 <template>
   <span :class="`${isSimple ? 'badge' : 'text-white bg'}-warning`" v-if="state == 0">{{ $t('orderState.submitted') }}</span>
-  <span :class="`${isSimple ? 'badge' : 'text-white bg'}-info`" v-else-if="state == 1">{{ $t('orderState.accepted') }}</span>
+  <span :class="`${isSimple ? 'badge' : 'text-white bg'}-info`" v-else-if="state == 1">{{ $t('orderState.confirmed') }}</span>
   <span :class="`${isSimple ? 'badge' : 'bg'}-light`" v-else-if="state == 2">{{ $t('orderState.rejected') }}</span>
   <span :class="`${isSimple ? 'badge' : 'bg'}-light`" v-else-if="state == 3">{{ $t('orderState.payed') }}</span>
   <span :class="`${isSimple ? 'badge' : 'text-white bg'}-success`" v-else-if="state == 4">{{ $t('orderState.completed') }}</span>
