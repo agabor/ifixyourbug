@@ -8,8 +8,8 @@
     <label>{{ $t('projectSharing.sharingLabel') }}</label>
     <div class="col-12 d-flex flex-wrap">
       <div class="form-check me-3" v-for="(option, idx) in sharingOptions" :key="idx">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="option.title" :value="option" v-model="selectedOption" @input="updateSelectedOption(option)" :disabled="!visible">
-        <label class="form-check-label" :for="option.title">{{ option.title }}</label>
+        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`option${option.id}`" :value="option.id" @input="updateAccessMode(option.id)" :disabled="!visible">
+        <label class="form-check-label" :for="`option${option.id}`">{{ option.title }}</label>
       </div>
     </div>
     <span class="text-danger" v-if="showError && inputErrors.accessMode"><em><small>{{ inputErrors.accessMode }}</small></em></span>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { computed } from 'vue'
 import { required, validGitUrl } from '../../utils/Validate';
 import { useInputError, useGitServices, useMessages } from "../../store";
 import SshKeyPreview from '../SshKeyPreview.vue';
@@ -41,66 +41,53 @@ export default {
     const { tm } = useMessages();
     const { inputErrors, setInputError } = useInputError();
     const { gitServices } = useGitServices();
-    const sharingOptions = ref([]);
-    const selectedOption = ref(null);
 
-    setSharingOptions();
-    setInputError('repoUrl', validGitUrl(props.modelValue));
-    setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
-    setInviteText();
-
-    watch(props, () => {
-      selectedOption.value = sharingOptions.value[props.accessMode];
-      setInputError('repoUrl', validGitUrl(props.modelValue));
-      setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
-    })
-
-    function setSharingOptions() {
+    const sharingOptions = computed(() => {
+      let options = [];
       for(let i = 0; i < optionCount; i++) {
         if(i == 1) {
-          let des = tm('projectSharing.description2default');
-          if(!validGitUrl(props.modelValue)) {
-            des = tm('projectSharing.description2', { 'saas': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
-          }
-          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), description: des});
+          options.push({id: i, title: tm(`projectSharing.option${i+1}`), description: inviteText.value});
         } else {
-          sharingOptions.value.push({id: i, title: tm(`projectSharing.option${i+1}`), description: tm(`projectSharing.description${i+1}`)});
-        }
-        if(i == props.accessMode) {
-          selectedOption.value = sharingOptions.value[i]
+          options.push({id: i, title: tm(`projectSharing.option${i+1}`), description: tm(`projectSharing.description${i+1}`)});
         }
       }
-    }
+      return options;
+    });
 
-    function setInviteText() {
+    const selectedOption = computed(() => {
+      if(null !== props.accessMode) {
+        return sharingOptions.value[props.accessMode];
+      }
+      return null;
+    });
+
+    const inviteText = computed(() => {
+      if (gitServices.value == null)
+        return tm('projectSharing.description2default'); 
       if(!validGitUrl(props.modelValue)) {
-        const url = new URL(props.modelValue);
-        const domain = url.hostname.replace('www.','');
         for(let i = 0; i < gitServices.value.length; i++){
-          if(gitServices.value[i].domain.includes(domain)) {
-            sharingOptions.value[1].description = tm('projectSharing.description2', { 'saas': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
-            break;
+          if(props.modelValue.includes(gitServices.value[i].domain)) {
+            return tm('projectSharing.description2', { 'saas': gitServices.value[i].name, 'git_user': gitServices.value[i].user });
           }
         }
-      } else {
-        sharingOptions.value[1].description = tm('projectSharing.description2default');
       }
-    }
+      return tm('projectSharing.description2default');
+    });
+
+    setInputError('repoUrl', validGitUrl(props.modelValue));
+    setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
 
     function updateUrl(value) {
-      setInviteText();
-      context.emit('update:modelValue', value);
       setInputError('repoUrl', validGitUrl(value));
+      context.emit('update:modelValue', value);
     }
 
-    function updateSelectedOption(option) {
-      selectedOption.value = option;
-      context.emit('update:accessMode', selectedOption.value.id);
+    function updateAccessMode(option) {
       setInputError('repoUrl', validGitUrl(props.modelValue));
-      setInputError('accessMode', required(selectedOption.value.id, tm('errors.requiredAccessMode')));
+      context.emit('update:accessMode', option);
     }
 
-    return { optionCount, selectedOption, sharingOptions, inputErrors, gitServices, updateUrl, updateSelectedOption };
+    return { optionCount, selectedOption, sharingOptions, inputErrors, gitServices, updateUrl, updateAccessMode };
   }
 }
 </script>
