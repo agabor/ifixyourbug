@@ -88,6 +88,7 @@ public class AdminController : ControllerBase
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
         message.OrderId = order.Id;
+        message.ClientId = order.ClientId;
         message.DateTime = DateTime.UtcNow;
         message.FromClient = false;
         order.Messages!.Add(message);
