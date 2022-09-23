@@ -278,8 +278,8 @@ export const messages = {
     "appUrl": "Application url"
   },
   "gitAccessSelector": {
-    "label": "Previous accesses",
-    "placeholder": "Select a previous access"
+    "label": "Previous repositorys",
+    "placeholder": "Select a previous repository"
   },
   "projectSharing": {
     "urlLabel": "Git repo url*",
