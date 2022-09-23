@@ -5,7 +5,7 @@
         <input class="form-check-input" type="checkbox" id="accept-terms" v-model="isChecked">
         <label class="form-check-label" for="accept-terms">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toTerms">{{ $t('policies.termsAndConditions') }}</a></label>
       </div>
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.acceptTerms }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.acceptTerms"><em><small>{{ inputErrors.acceptTerms }}</small></em></span>
     </div>
   </div>
 </template>

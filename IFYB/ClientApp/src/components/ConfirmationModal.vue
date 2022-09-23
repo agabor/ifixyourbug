@@ -17,7 +17,7 @@
                 @keyup.enter.shift.exact.prevent="addLine()"
                 @keyup.enter.exact.prevent="addLine()">
               </textarea>
-            <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.confirmMessage }}</small></em></span>
+            <span class="text-danger" v-if="showError && inputErrors.confirmMessage"><em><small>{{ inputErrors.confirmMessage }}</small></em></span>
           </div>
         </div>
         <div class="modal-footer justify-content-between">

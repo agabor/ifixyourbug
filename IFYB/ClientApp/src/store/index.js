@@ -256,12 +256,12 @@ export function useScripts() {
 import { messages } from '../utils/Messages'
  
 function tm(variable, props) {
+  if(variable === null || variable === '')
+    return variable;
   let message = variable;
   let parts = variable.split('.');
   if(parts.length > 1)
     message = getMessage(variable.split('.'));
-  if(message === null)
-    return variable;
   if(props && Object.keys(props).length > 0)
     message = replaceMessageKeys(message, props);
   return message;

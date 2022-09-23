@@ -12,7 +12,7 @@
         <label class="form-check-label" :for="option.title">{{ option.title }}</label>
       </div>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.accessMode }}</small></em></span>
+    <span class="text-danger" v-if="showError && inputErrors.accessMode"><em><small>{{ inputErrors.accessMode }}</small></em></span>
     <div class="col-12" v-if="selectedOption">
       <span v-html="selectedOption.description"></span>
     </div>

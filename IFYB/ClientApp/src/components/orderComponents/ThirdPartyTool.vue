@@ -11,7 +11,7 @@
         <label>{{ $t('thirdPartyTool.label') }}*</label>
         <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.thirdPartyTool)}" :placeholder="$t('thirdPartyTool.label')" type="text" v-model="text" :disabled="!editable">
       </div>
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.thirdPartyTool }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.thirdPartyTool"><em><small>{{ inputErrors.thirdPartyTool }}</small></em></span>
     </div>
   </div>
 </template>

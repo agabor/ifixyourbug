@@ -6,7 +6,7 @@
       <option :value="version" v-for="version in versions" :key="version">{{ version }}</option>
     </select>
     <input v-else type="text" :placeholder="$t('frameworkVersion.frameworkFirst')" class="form-control" disabled>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.version }}</small></em></span>
+    <span class="text-danger" v-if="showError && inputErrors.version"><em><small>{{ inputErrors.version }}</small></em></span>
   </div>
 </template>
 

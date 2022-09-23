@@ -5,7 +5,7 @@
         <label>{{ $t('orderViewer.bugDescription') }}*</label>
         <text-editor :modelValue="modelValue" @update:modelValue="updateModelValue"></text-editor>
       </div>
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.bugDescription }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.bugDescription"><em><small>{{ inputErrors.bugDescription }}</small></em></span>
     </div>
   </div>
 </template>

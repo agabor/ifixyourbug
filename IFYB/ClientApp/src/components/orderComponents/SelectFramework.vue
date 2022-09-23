@@ -5,7 +5,7 @@
       <option :value="null" selected hidden>{{ $t('framework.placeholder') }}</option>
       <option v-for="n in optionCount" :key="n" :value="n-1">{{ $t(`framework.option${n}`) }}</option>
     </select>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.framework }}</small></em></span>
+    <span class="text-danger" v-if="showError && inputErrors.framework"><em><small>{{ inputErrors.framework }}</small></em></span>
   </div>
 </template>
 

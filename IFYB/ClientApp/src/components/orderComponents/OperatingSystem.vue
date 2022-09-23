@@ -13,13 +13,13 @@
         <label class="form-check-label" :for="`osRadio${n}`">{{ $t(`operatingSystem.option${n}`) }}</label>
       </div>
     </div>
-    <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
+    <span class="text-danger" v-if="showError && inputErrors.specificPlatform"><em><small>{{ inputErrors.specificPlatform }}</small></em></span>
     <div class="col-12 mb-3" v-if="isChecked">
       <div class="form-group mb-0">
         <label>{{ $t('operatingSystem.version') }}*</label>
         <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.specificPlatformVersion)}" :placeholder="$t('operatingSystem.version')" type="text" v-model="osVersion" :disabled="!editable">
       </div>
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.specificPlatformVersion"><em><small>{{ inputErrors.specificPlatformVersion }}</small></em></span>
     </div>
   </div>
 </template>
