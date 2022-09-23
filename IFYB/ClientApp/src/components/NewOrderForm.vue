@@ -69,23 +69,18 @@ export default {
     const progress = ref(0);
 
     watch(selectedAccess, () => {
-      if(selectedAccess.value) {
-        order.accessMode = selectedAccess.value.accessMode;
-        order.repoUrl = selectedAccess.value.url;
-      } else {
-        order.accessMode = null;
-        order.repoUrl = null;
-      }
+      order.selectedAccess = selectedAccess.value;
+      order.accessMode = selectedAccess.value.accessMode > -1 ? selectedAccess.value.accessMode: order.accessMode;
+      order.repoUrl = selectedAccess.value.url ? selectedAccess.value.url: order.repoUrl;
     })
 
-    if(localStorage.getItem('order')){
+    if(localStorage.getItem('order')) {
       let tempOrder = JSON.parse(localStorage.getItem('order'));
       selectedAccess.value = tempOrder.selectedAccess;
       Object.assign(order, tempOrder);
     }
 
     watch(order, () => {
-      order.selectedAccess = selectedAccess.value;
       localStorage.setItem('order', JSON.stringify(order));
     })
 

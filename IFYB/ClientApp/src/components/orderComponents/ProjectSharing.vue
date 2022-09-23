@@ -8,7 +8,7 @@
     <label>{{ $t('projectSharing.sharingLabel') }}</label>
     <div class="col-12 d-flex flex-wrap">
       <div class="form-check me-3" v-for="(option, idx) in sharingOptions" :key="idx">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`option${option.id}`" :value="option.id" @input="updateAccessMode(option.id)" :disabled="!visible">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`option${option.id}`" :value="option.id" @input="updateAccessMode(option.id)" :disabled="!visible" :checked="option.id === accessMode">
         <label class="form-check-label" :for="`option${option.id}`">{{ option.title }}</label>
       </div>
     </div>
