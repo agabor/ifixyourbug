@@ -11,47 +11,48 @@
         <label>{{ $t('onlineApp.appUrl') }}*</label>
         <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.applicationUrl)}" :placeholder="$t('onlineApp.appUrl')" type="text" v-model="text" :disabled="!editable">
       </div>
-      <span class="text-danger" v-if="showError"><em><small>{{ inputErrors.applicationUrl }}</small></em></span>
+      <span class="text-danger" v-if="showError && inputErrors.applicationUrl"><em><small>{{ $t(inputErrors.applicationUrl) }}</small></em></span>
     </div>
   </div>
 </template>
 
 <script>
 import { ref, watch } from 'vue'
-import { required } from '../../utils/Validate';
-import { useInputError, useMessages } from "../../store";
+import { validUrl } from '../../utils/Validate';
+import { useInputError } from "../../store";
 
 export default {
   name: 'OnlineApp',
-  emits:['update:modelValue'],
   props: {
     modelValue: String,
     editable: Boolean,
     showError: Boolean,
   },
+  emits:['update:modelValue'],
   setup(props, context){
     const isChecked = ref(props.modelValue !== null);
-    const text = ref(props.modelValue ?? '');
-    const { tm } = useMessages();
+    const text = ref(props.modelValue);
     const { inputErrors, setInputError } = useInputError();
 
     if(isChecked.value) {
-      setInputError('applicationUrl', required(text.value, tm('errors.requiredAppUrl')));
+      setInputError('applicationUrl', validUrl(text.value));
     }
 
     watch(isChecked, () => {
       if (isChecked.value) {
+        setInputError('applicationUrl', validUrl(text.value));
         context.emit('update:modelValue', text.value);
-        setInputError('applicationUrl', required(text.value, tm('errors.requiredAppUrl')));
       } else {
-        context.emit('update:modelValue', null);
         setInputError('applicationUrl', null);
+        context.emit('update:modelValue', null);
       }
     });
+    
     watch(text, () => {
+      setInputError('applicationUrl', validUrl(text.value));
       context.emit('update:modelValue', text.value);
-      setInputError('applicationUrl', required(text.value, tm('errors.requiredAppUrl')));
     });
+    
     return { isChecked, text, inputErrors }
   }
 }

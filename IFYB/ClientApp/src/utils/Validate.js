@@ -29,7 +29,16 @@ export function validGitUrl(url) {
   if(url === '' || !url)
     return 'errors.requiredGitRepoUrl';
   if(!testHttpUrl(url) && !testSshUrl(url)) {
-    return 'errors.badSharingUrl';
+    return 'errors.badUrl';
+  }
+  return null;
+}
+
+export function validUrl(url) {
+  if(url === '' || !url)
+    return 'errors.requiredUrl';
+  if(!testHttpUrl(url) && !testSshUrl(url)) {
+    return 'errors.badUrl';
   }
   return null;
 }

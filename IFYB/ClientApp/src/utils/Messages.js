@@ -6,7 +6,7 @@ export const messages = {
     "requiredOSVersion": "Operating system version required",
     "requiredBrowserType": "Browser type required",
     "requiredBrowserVersion": "Browser version required",
-    "requiredAppUrl": "App URL required",
+    "requiredUrl": "URL required",
     "requiredGitRepoUrl": "Git repo URL required",
     "requiredAccessMode": "Access Mode required",
     "requiredProjectSharing": "Project sharing required",
@@ -23,7 +23,7 @@ export const messages = {
     "wrongCode": "Wrong code.",
     "noResult": "No result",
     "acceptTerms": "You must accept the terms and conditions",
-    "badSharingUrl": "URL must be valid"
+    "badUrl": "URL must be valid"
   },
   "policies": {
     "iAcceptAndRead": "I have read and accept",
