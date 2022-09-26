@@ -28,6 +28,7 @@
 
 <script>
 import { ref, watch, reactive } from 'vue';
+import { required, validGitUrl } from '../utils/Validate';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
 import OperatingSystem from './orderComponents/OperatingSystem.vue';
@@ -38,7 +39,7 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useScripts } from "../store";
+import { useServerError, useInputError, useUserAuthentication, useGitAccess, useScripts, useMessages } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -51,10 +52,11 @@ export default {
   emits: ['update:modelValue'],
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
-    const { hasInputError } = useInputError();
+    const { hasInputError, setInputError } = useInputError();
     const { get, post } = useUserAuthentication();
     const { loadedTinymce } = useScripts();
     const { gitAccesses, getGitAccessId } = useGitAccess();
+    const { tm } = useMessages();
     const order = reactive(props.modelValue);
     const selectedAccess = ref(props.modelValue.selectedAccess ?? {});
     const showErrors = ref(false);
@@ -65,6 +67,9 @@ export default {
       order.selectedAccess = selectedAccess.value;
       order.accessMode = selectedAccess.value.accessMode > -1 ? selectedAccess.value.accessMode: order.accessMode;
       order.repoUrl = selectedAccess.value.url ? selectedAccess.value.url: order.repoUrl;
+
+      setInputError('repoUrl', validGitUrl(order.repoUrl));
+      setInputError('accessMode', required(order.accessMode, tm('errors.requiredAccessMode')));
     })
 
     setGitAccess();
@@ -111,10 +116,6 @@ export default {
         resetServerError();
         let newOrder = await response.json();
         Object.assign(order, newOrder);
-        //order.state = newOrder.state;
-        //order.bugDescription = newOrder.bugDescription;
-        console.table('newOrder', newOrder);
-        console.table('order', order);
         context.emit('update:modelValue', order);
       } else {
         setServerError(response.statusText);

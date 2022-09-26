@@ -84,6 +84,7 @@ export default {
 
     function updateAccessMode(option) {
       setInputError('repoUrl', validGitUrl(props.modelValue));
+      setInputError('accessMode', required(option, tm('errors.requiredAccessMode')));
       context.emit('update:accessMode', option);
     }
 
