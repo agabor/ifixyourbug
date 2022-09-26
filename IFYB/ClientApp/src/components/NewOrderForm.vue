@@ -28,6 +28,7 @@
 
 <script>
 import { ref, watch, reactive } from 'vue';
+import { required, validGitUrl } from '../utils/Validate';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
 import OperatingSystem from './orderComponents/OperatingSystem.vue';
@@ -38,7 +39,7 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess } from "../store";
+import { useServerError, useInputError, useUserAuthentication, useGitAccess, useMessages } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -48,7 +49,8 @@ export default {
   emits: ['toSuccessPage'],
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
-    const { hasInputError } = useInputError();
+    const { hasInputError, setInputError } = useInputError();
+    const { tm } = useMessages();
     const { post } = useUserAuthentication();
     const { gitAccesses, getGitAccessId } = useGitAccess();
     const order = reactive({
@@ -72,6 +74,8 @@ export default {
       order.selectedAccess = selectedAccess.value;
       order.accessMode = selectedAccess.value.accessMode > -1 ? selectedAccess.value.accessMode: order.accessMode;
       order.repoUrl = selectedAccess.value.url ? selectedAccess.value.url: order.repoUrl;
+      setInputError('repoUrl', validGitUrl(order.repoUrl));
+      setInputError('accessMode', required(order.accessMode, tm('errors.requiredAccessMode')));
     })
 
     if(localStorage.getItem('order')) {
