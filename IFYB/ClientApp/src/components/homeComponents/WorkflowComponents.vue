@@ -96,6 +96,11 @@
         </div>
       </div>
     </div>
+    <div class="row my-5 mx-1">
+        <div class="col-md-5 me-auto my-auto ms-auto">
+          <img class="mw-100" src="@/assets/img/stripe-badge-grey.png" alt="stripe">
+        </div>
+    </div>
   </section>
 </template>
 
