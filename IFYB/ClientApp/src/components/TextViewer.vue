@@ -20,8 +20,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .tox-editor-header {
     display: none!important;
+  }
+  img {
+    max-width: 100%;
   }
 </style>
