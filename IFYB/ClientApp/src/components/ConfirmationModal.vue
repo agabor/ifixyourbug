@@ -10,7 +10,7 @@
           {{ description }}
           <div class="mt-3" v-if="modelValue !== null">
             <label for="message-input">{{ $t('confirm.message') }}*</label>
-            <textarea id="message-input" class="form-control" :rows="rows" type="text" :class="{'is-invalid': (showError && !!inputErrors.confirmMessage)}"
+            <textarea id="message-input" class="form-control" :rows="rows" type="text" :class="{'is-invalid': (showError && !!inputErrors.confirmMessage)}" ref="messageInput"
                 single-line
                 v-model="text"
                 :placeholder="$t('confirm.message')"
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { required } from '../utils/Validate';
 import { useInputError, useMessages } from "../store";
 import OneClickBtn from './OneClickBtn.vue';
@@ -51,6 +51,11 @@ export default {
     const { inputErrors, setInputError } = useInputError();
     const activeBtn = ref(true);
     const rows = ref(1);
+    const messageInput = ref(null);
+
+    onMounted(() => {
+      messageInput.value.focus();
+    })
 
     setInputError('confirmMessage', required(text.value, tm('errors.requiredMessage')));
 
@@ -68,7 +73,7 @@ export default {
       activeBtn.value = inputErrors.value.confirmMessage != null;
     }
     
-    return { text, inputErrors, activeBtn, rows, addLine, confirm };
+    return { text, inputErrors, activeBtn, rows, messageInput, addLine, confirm };
   }
 }
 </script>
