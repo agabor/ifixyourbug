@@ -135,6 +135,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         emailDispatchService.DispatchOrderStateEmail(order, data.Message.Text);
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
+        data.Message.ClientId = order.ClientId;
         data.Message.OrderId = order.Id;
         data.Message.DateTime = DateTime.UtcNow;
         data.Message.FromClient = false;
