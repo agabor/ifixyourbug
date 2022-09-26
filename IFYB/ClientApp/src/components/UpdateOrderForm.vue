@@ -9,7 +9,7 @@
       <browser-type v-if="order.framework == 0" v-model="order.specificPlatform" v-model:version="order.specificPlatformVersion" :editable="true" :showError="showErrors"></browser-type>
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model="selectedAccess"></git-access-selector>
-      <project-sharing v-model="order.repoUrl" v-model:accessMode="order.accessMode" :visible="!selectedAccess.url" :showError="showErrors"></project-sharing>
+      <project-sharing v-model="order.selectedAccess.url" v-model:accessMode="order.selectedAccess.accessMode" :visible="!selectedAccess.id" :showError="showErrors"></project-sharing>
       <bug-description v-if="loadedTinymce" v-model="order.bugDescription" :showError="showErrors"></bug-description>
       <third-party-tool v-model="order.thirdPartyTool" :editable="true" :showError="showErrors"></third-party-tool>
       <accept-terms :showError="showErrors"></accept-terms>
@@ -65,11 +65,8 @@ export default {
 
     watch(selectedAccess, () => {
       order.selectedAccess = selectedAccess.value;
-      order.accessMode = selectedAccess.value.accessMode > -1 ? selectedAccess.value.accessMode: order.accessMode;
-      order.repoUrl = selectedAccess.value.url ? selectedAccess.value.url: order.repoUrl;
-
-      setInputError('repoUrl', validGitUrl(order.repoUrl));
-      setInputError('accessMode', required(order.accessMode, tm('errors.requiredAccessMode')));
+      setInputError('url', validGitUrl(order.selectedAccess.url));
+      setInputError('accessMode', required(order.selectedAccess.accessMode, tm('errors.requiredAccessMode')));
     })
 
     setGitAccess();
@@ -109,13 +106,14 @@ export default {
           'specificPlatformVersion': order.specificPlatformVersion,
           'thirdPartyTool': order.thirdPartyTool,
           'bugDescription': order.bugDescription,
-          'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.repoUrl, order.accessMode)
+          'gitAccessId': await getGitAccessId(selectedAccess.value.id, selectedAccess.value.url, selectedAccess.value.accessMode)
         }
       );
       if(response.status === 200) {
         resetServerError();
         let newOrder = await response.json();
         Object.assign(order, newOrder);
+        selectedAccess.value = order.selectedAccess;
         context.emit('update:modelValue', order);
       } else {
         setServerError(response.statusText);

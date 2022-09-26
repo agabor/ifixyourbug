@@ -7,7 +7,7 @@ export const messages = {
     "requiredBrowserType": "Browser type required",
     "requiredBrowserVersion": "Browser version required",
     "requiredUrl": "URL required",
-    "requiredGitRepoUrl": "Git repo URL required",
+    "requiredGitUrl": "Git repo URL required",
     "requiredAccessMode": "Access Mode required",
     "requiredProjectSharing": "Project sharing required",
     "requiredBugDes": "Bug description required",

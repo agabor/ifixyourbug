@@ -27,7 +27,7 @@ export function min(e, i) {
 
 export function validGitUrl(url) {
   if(url === '' || !url)
-    return 'errors.requiredGitRepoUrl';
+    return 'errors.requiredGitUrl';
   if(!testHttpUrl(url) && !testSshUrl(url)) {
     return 'errors.badUrl';
   }

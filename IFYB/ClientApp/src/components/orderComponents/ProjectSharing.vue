@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-12 mb-3">
       <label>{{ $t('projectSharing.urlLabel') }}</label>
-      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.repoUrl)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" :value="modelValue" @input="updateUrl($event.target.value)" :disabled="!visible">
-      <span class="text-danger" v-if="showError && inputErrors.repoUrl"><em><small>{{ $t(`${inputErrors.repoUrl}`) }}</small></em></span>
+      <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.url)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" :value="modelValue" @input="updateUrl($event.target.value)" :disabled="!visible">
+      <span class="text-danger" v-if="showError && inputErrors.url"><em><small>{{ $t(`${inputErrors.url}`) }}</small></em></span>
     </div>
     <label>{{ $t('projectSharing.sharingLabel') }}</label>
     <div class="col-12 d-flex flex-wrap">
@@ -74,16 +74,16 @@ export default {
       return tm('projectSharing.description2default');
     });
 
-    setInputError('repoUrl', validGitUrl(props.modelValue));
+    setInputError('url', validGitUrl(props.modelValue));
     setInputError('accessMode', required(selectedOption.value, tm('errors.requiredAccessMode')));
 
     function updateUrl(value) {
-      setInputError('repoUrl', validGitUrl(value));
+      setInputError('url', validGitUrl(value));
       context.emit('update:modelValue', value);
     }
 
     function updateAccessMode(option) {
-      setInputError('repoUrl', validGitUrl(props.modelValue));
+      setInputError('url', validGitUrl(props.modelValue));
       setInputError('accessMode', required(option, tm('errors.requiredAccessMode')));
       context.emit('update:accessMode', option);
     }

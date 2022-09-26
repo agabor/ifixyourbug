@@ -23,7 +23,7 @@
                 <operating-system v-if="modelValue.framework == 1" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></operating-system>
                 <browser-type v-if="modelValue.framework == 0" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></browser-type>
                 <online-app :modelValue="modelValue.applicationUrl"></online-app>
-                <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
+                <project-sharing :modelValue="modelValue.selectedAccess.url" :accessMode="modelValue.selectedAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="row mb-3">
                   <div class="col-12 form-group mb-0">
                     <label>{{ $t('orderViewer.bugDescription') }}*</label>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import TextViewer from './TextViewer.vue';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
@@ -69,7 +68,6 @@ export default {
   setup(props, context) {
     const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
-    const gitAccess = ref(null);
 
     setGitAccess();
 
@@ -77,7 +75,9 @@ export default {
       let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
       if(response.status == 200) {
         resetServerError();
-        gitAccess.value = await response.json();
+        let order = props.modelValue;
+        order.selectedAccess = await response.json();
+        context.emit('update:modelValue', order);
       } else {
         setServerError(response.statusText);
       }
@@ -88,7 +88,7 @@ export default {
       router.push('/my-orders');
     }
 
-    return { gitAccess, backToList }
+    return { backToList }
   }
 }
 </script>

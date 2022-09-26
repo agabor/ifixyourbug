@@ -59,7 +59,7 @@ const inputErrors = ref({
   thirdPartyTool: null,
   bugDescription: null,
   accessMode: null,
-  repoUrl: null,
+  url: null,
   selectedAccess: null,
   confirmMessage: null,
   acceptTerms: null,
