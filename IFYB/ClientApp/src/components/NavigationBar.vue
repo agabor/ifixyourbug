@@ -6,17 +6,7 @@
           {{ $t('navigationBar.projectName') }}
         </a>
       </router-link>
-      <router-link class="d-lg-none d-block" to="/faq" v-if="!isLoggedIn">
-        <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/faq">
-          {{ $t('navigationBar.faq') }}
-        </a>
-      </router-link>
-      <router-link to="/authentication" class="ms-auto">
-        <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" href="/authentication" v-if="!isLoggedIn">{{ $t('navigationBar.login') }}</a>
-      </router-link>
-      <a class="btn btn-sm bg-gradient-primary btn-round mb-0 mb-0 ms-auto d-lg-none d-block" @click="logout" v-if="isLoggedIn">{{ $t('navigationBar.logout') }}</a>
-      
-      <button v-if="isLoggedIn" class="navbar-toggler shadow-none ms-md-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler shadow-none ms-md-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
           <span class="navbar-toggler-bar bar1"></span>
           <span class="navbar-toggler-bar bar2"></span>
@@ -49,8 +39,18 @@
               {{ $t('navigationBar.myOrders') }}
             </a>
           </li>
+          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="isUserLoggedIn">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="logout">
+              {{ $t('navigationBar.logout') }}
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="!isUserLoggedIn">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/authentication">
+              {{ $t('navigationBar.login') }}
+            </a>
+          </li>
         </ul>
-        <ul class="navbar-nav d-block mx-2 text-center" v-if="isUserLoggedIn">
+        <ul class="navbar-nav d-block mx-4 text-center" v-if="isUserLoggedIn">
           <li class="nav-item small fw-bold">
             {{name}}
           </li>
@@ -61,7 +61,7 @@
         <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
             <router-link to="/authentication">
-              <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1 ms-auto" @click="toLogin" v-if="!isLoggedIn" href="/authentication">{{ $t('navigationBar.login') }}</a>
+              <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1 ms-auto" v-if="!isLoggedIn" href="/authentication">{{ $t('navigationBar.login') }}</a>
             </router-link>
             <a class="btn btn-sm bg-gradient-primary btn-round mb-0 me-1 ms-auto" @click="logout" v-if="isLoggedIn">{{ $t('navigationBar.logout') }}</a>
           </li>
@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { watch } from 'vue';
 import router from '../router';
 import { computed } from "@vue/reactivity";
 import { useUserAuthentication, useScripts } from "../store";
@@ -86,14 +85,7 @@ export default {
     const { loadBootstrap } = useScripts();
     const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
 
-    if(isLoggedIn.value) {
-      loadBootstrap();
-    }
-    watch(isLoggedIn, () => {
-      if(isLoggedIn.value) {
-        loadBootstrap();
-      }
-    })
+    loadBootstrap();
 
     function logout() {
       userAuth.logout();
