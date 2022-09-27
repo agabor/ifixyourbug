@@ -27,7 +27,7 @@
               <p>{{$t('pricing.excludeVat')}}</p>
             </div>
             <p v-if="!order && !waitForOrder">{{ $t('checkout.checkoutLink') }}</p>
-            <div class="row my-5 mx-1">
+            <div class="row mt-5 mb-1 mx-1">
                 <div class="col-md-5 me-auto my-auto ms-auto">
                   <img class="mw-100" src="@/assets/img/stripe-badge-grey.png" alt="stripe">
                 </div>
@@ -42,7 +42,7 @@
           </template>
           <template v-slot:content>
             <a class="btn btn bg-gradient-primary btn-round mx-2" @click="$router.go(-1)">{{ $t('checkout.back') }}</a>
-            <div class="row my-5 mx-1">
+            <div class="row mt-5 mb-1 mx-1">
                 <div class="col-md-5 me-auto my-auto ms-auto">
                   <img class="mw-100" src="@/assets/img/stripe-badge-grey.png" alt="stripe">
                 </div>
