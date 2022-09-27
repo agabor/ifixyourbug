@@ -7,9 +7,11 @@
       <div class="row mb-4">
         <input id="emailInput" class="form-control" ref="userEmailInput" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
         <div v-if="showPolicy">
-          <div class="form-check form-switch d-flex align-items-center justify-content-center mt-3">
-            <input type="checkbox" class="form-check-input m-0" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
-            <label class="custom-control-label m-0 mx-2" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+          <div class="d-flex align-items-center justify-content-center mt-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
+              <label class="form-check-label" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+            </div>
           </div>
           <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
         </div>
