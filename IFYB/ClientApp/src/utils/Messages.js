@@ -129,7 +129,7 @@ export const messages = {
     "question1": "I have a private repository on { saas }. How do I share the code with you?",
     "answer1": "Please invite me to your repo. You find my account ",
     "question2": "I have a self-hosted repository. How do I share the code with you?",
-    "answer2": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor{'@'}ifixyourbug.com. If you want to create an account for me, please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
+    "answer2": "You can either invite me by e-mail or manually create an account for me. If you would like to invite me, please send the invitation to gabor@ifixyourbug.com. If you want to create an account for me, please share the credentials in your bug description. If you use SSH keys on your server, please add the following public key to my account:"
   },
   "faqOrders": {
     "title": "Orders",
