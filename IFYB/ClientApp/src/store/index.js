@@ -127,7 +127,7 @@ async function setUserData(resp) {
   let parts = data.jwt.split(".");
   if (parts.length == 3) {
     let base64 = parts[1];
-    let payload = JSON.parse(atob(base64));
+    let payload = JSON.parse(b64DecodeUnicode(base64));
     userName.value = payload.name;
     userEmail.value = payload.email;
     if(userName.value) {
@@ -138,6 +138,12 @@ async function setUserData(resp) {
   } else {
     resetUserData();
   }
+}
+
+function b64DecodeUnicode(str) {
+  return decodeURIComponent(atob(str).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
 }
 
 function resetUserData() {
