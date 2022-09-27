@@ -12,7 +12,6 @@
       </div>
       <div class="d-flex justify-content-center">
         <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
-        <one-click-btn v-model:active="activeBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
       </div>
     </template>
   </carousel-item>
@@ -33,7 +32,7 @@ export default {
     error: String,
     activeButton: Boolean
   },
-  emits: [ 'update:modelValue', 'cancel', 'update:activeButton' ],
+  emits: [ 'update:modelValue', 'update:activeButton' ],
   setup(props, context) {
     const { tm } = useMessages();
     const name = ref(props.modelValue ?? '');
@@ -63,11 +62,7 @@ export default {
       }
     }
 
-    function cancel() {
-      context.emit('cancel');
-    }
-
-    return { validationError, name, activeBtn, userNameInput, trySetName, cancel }
+    return { validationError, name, activeBtn, userNameInput, trySetName }
   }
 }
 </script>
