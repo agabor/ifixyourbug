@@ -20,6 +20,7 @@ import { useServerError, useUserAuthentication, useScripts } from "../store";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
+import router from '@/router';
 
 export default {
   name: 'OrderView',
@@ -43,6 +44,9 @@ export default {
           loadTinymce();
         }
         setMessages();
+      } else if(response.status === 404) {
+        resetServerError();
+        router.push('/not-found')
       } else {
         setServerError(response.statusText);
       }

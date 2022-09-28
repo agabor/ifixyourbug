@@ -44,7 +44,7 @@ public class OrdersController : BaseController
         if (client == null)
             return NotFound();
         dbContext.Entry(client).Collection(c => c.Orders).Load();
-        var order = client.Orders!.Single(o => o.Number == number);
+        var order = client.Orders!.FirstOrDefault(o => o.Number == number);
         if (order == null)
             return NotFound();
         dbContext.Entry(order).Collection(o => o.Messages!).Load();
