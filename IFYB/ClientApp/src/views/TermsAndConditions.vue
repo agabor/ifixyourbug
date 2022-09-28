@@ -1,11 +1,11 @@
 <template>
 <span class="full-bg"></span>
 <span class="mask bg-gradient-dark opacity-4"></span>
-  <section class="pt-7 pb-md-3">
-    <div class="container">
+  <section>
+    <div class="container mt-6">
       <div class="row">
         <div class="col-lg-12">
-          <div class="card mb-5">
+          <div class="card my-4">
             <div class="card-header bg-gradient-primary p-5 position-relative">
               <h3 class="text-white mb-0">Terms & Conditions</h3>
               <p class="text-white opacity-8 mb-0">Updated at 2022-07-19</p>
@@ -161,11 +161,15 @@
         </div>
       </div>
     </div>
+    <footer-component></footer-component>
   </section>
 </template>
 
 <script>
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
+
 export default {
   name: 'TermsAndConditions',
+  components: { FooterComponent },
 }
 </script>

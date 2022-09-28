@@ -1,11 +1,14 @@
 <template>
   <section>
-    <div class="page-header min-vh-100">
-      <span class="mask bg-gradient-dark opacity-4"></span>
-      <div class="carousel-inner full-height" v-if="selectedOrder !== null">
-        <order-viewer class="active" :modelValue="selectedOrder"></order-viewer>
-        <order-messages class="active" :messages="messages" @submitMessage="submitMessage"></order-messages>
+    <div class="min-vh-100 d-flex flex-column">
+      <div class="page-header">
+        <span class="mask bg-gradient-dark opacity-4"></span>
+        <div class="carousel-inner" v-if="selectedOrder !== null">
+          <order-viewer class="active" :modelValue="selectedOrder"></order-viewer>
+          <order-messages class="active" :messages="messages" @submitMessage="submitMessage"></order-messages>
+        </div>
       </div>
+      <footer-component></footer-component>
     </div>
   </section>
 </template>
@@ -16,10 +19,11 @@ import { useRoute } from 'vue-router';
 import { useServerError, useUserAuthentication, useScripts } from "../store";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 
 export default {
   name: 'OrderView',
-  components: { OrderViewer, OrderMessages },
+  components: { OrderViewer, OrderMessages, FooterComponent },
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { get, post } = useUserAuthentication();

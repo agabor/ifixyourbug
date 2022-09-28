@@ -1,23 +1,27 @@
 <template>
   <section>
-    <div class="page-header min-vh-100">
-      <span class="mask bg-gradient-dark opacity-4"></span>
-      <div class="carousel-inner">
-        <carousel-item :icon="true" :title="$t('checkout.successTitle')" :subTitle="$t('checkout.successSubTitle')" :buttonText="$t('checkout.backToHome')" @onClickBtn="$router.push('/')">
-          <template v-slot:icon>
-            <i :class="`ni ni-check-bold opacity-10 mt-2`"></i>
-          </template>
-        </carousel-item>
+    <div class="min-vh-100 d-flex flex-column">
+      <div class="page-header mt-6">
+        <span class="mask bg-gradient-dark opacity-4"></span>
+        <div class="carousel-inner">
+          <carousel-item :icon="true" :title="$t('checkout.successTitle')" :subTitle="$t('checkout.successSubTitle')" :buttonText="$t('checkout.backToHome')" @onClickBtn="$router.push('/')">
+            <template v-slot:icon>
+              <i :class="`ni ni-check-bold opacity-10 mt-2`"></i>
+            </template>
+          </carousel-item>
+        </div>
       </div>
+      <footer-component></footer-component>
     </div>
   </section>
 </template>
 
 <script>
 import CarouselItem from '../components/CarouselItem.vue';
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 
 export default {
   name: 'CheckoutSuccessView',
-  components: { CarouselItem },
+  components: { CarouselItem, FooterComponent },
 }
 </script>

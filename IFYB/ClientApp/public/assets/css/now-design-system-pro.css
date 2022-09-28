@@ -21228,6 +21228,7 @@ fieldset:disabled .btn {
   align-items: center;
   background-size: cover;
   background-position: 50%;
+  flex: auto;
 }
 
 .page-header .container {

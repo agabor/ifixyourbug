@@ -1,10 +1,13 @@
 <template>
   <section>
-    <div class="page-header min-vh-100">
-      <span class="mask bg-gradient-dark opacity-4"></span>
-      <div class="carousel-inner">
-        <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="acceptedPolicy" :showRequired="showRequired" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
+    <div class="min-vh-100 d-flex flex-column">
+      <div class="page-header mt-5">
+        <span class="mask bg-gradient-dark opacity-4"></span>
+        <div class="carousel-inner">
+          <authentication :page="page" :error="error" :progress="progress" :showPolicy="showPolicy" v-model:acceptedPolicy="acceptedPolicy" :showRequired="showRequired" v-model:activeBtn="activeBtn" @submitEmail="submitEmail" @changePolicy="changePolicy" @authentication="authentication" @setName="setUserName" @cancel="cancelLogin"></authentication>
+        </div>
       </div>
+      <footer-component></footer-component>
     </div>
   </section>
 </template>
@@ -12,13 +15,14 @@
 <script>
 import { ref, watch } from 'vue';
 import Authentication from '../components/Authentication.vue';
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { useServerError, useUserAuthentication, useMessages } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 import router from '../router';
 
 export default {
   name: 'AuthenticationView',
-  components: { Authentication },
+  components: { Authentication, FooterComponent },
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();

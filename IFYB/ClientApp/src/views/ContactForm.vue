@@ -1,52 +1,73 @@
 <template>
-  <div class="page-header">
-    <picture class="d-none d-md-block">
-      <source 
-        media="(min-width: 576px)"
-        srcset="../assets/img/bg1.webp">
-      <img 
-        class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
-        src="../assets/img/bg1_mobile.webp" 
-        alt="image">
-    </picture>
-    <div class="container" v-if="page == 'contact'">
-      <div class="row">
-        <div class="col-lg-7 d-flex justify-content-center flex-column">
-          <div class="card shadow-lg d-flex justify-content-center p-4 my-md-0 my-md-6 mt-7 mb-5">
-            <div class="text-center">
-              <h3>{{ $t('contact.title') }}</h3>
-              <p class="mb-0" v-html="$t('contact.subTitle')"></p>
-            </div>
-            <div class="card-body pb-2">
-              <div class="row">
-                <div class="col-md-6 col-12 pe-md-1">
-                  <label>{{ $t('contact.name') }}</label>
-                  <input id="name-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('contact.name')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
-                  <span class="text-danger" v-if="showError && inputErrors.name"><em><small>{{ $t(`${inputErrors.name}`) }}</small></em></span>
-                </div>
-                <div class="col-md-6 col-12 ps-md-1">
-                  <label>{{ $t('contact.email') }}</label>
-                  <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
-                  <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
-                </div>
+  <div class="min-vh-100 d-flex flex-column">
+    <div class="page-header mb-4">
+      <picture class="d-none d-md-block">
+        <source 
+          media="(min-width: 576px)"
+          srcset="../assets/img/bg1.webp">
+        <img 
+          class="position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-lg border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
+          src="../assets/img/bg1_mobile.webp" 
+          alt="image">
+      </picture>
+      <div class="container" v-if="page == 'contact'">
+        <div class="row">
+          <div class="col-lg-7 d-flex justify-content-center flex-column">
+            <div class="card shadow-lg d-flex justify-content-center p-4 my-md-0 my-md-6 mt-7 mb-5">
+              <div class="text-center">
+                <h3>{{ $t('contact.title') }}</h3>
+                <p class="mb-0" v-html="$t('contact.subTitle')"></p>
               </div>
-              <div class="form-group mb-0 mt-md-0 mt-4">
-                <label>{{ $t('contact.howCanWeHelp') }}</label>
-                <textarea name="message" :class="{'is-invalid': (showError && !!inputErrors.message)}" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
-                <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
-              </div>              
-              <div v-if="!isLoggedIn" class="align-items-center justify-content-center">
-                <div class="d-flex align-items-center justify-content-center mt-3">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="customCheck" v-model="acceptedPolicy">
-                    <label class="form-check-label" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+              <div class="card-body pb-2">
+                <div class="row">
+                  <div class="col-md-6 col-12 pe-md-1">
+                    <label>{{ $t('contact.name') }}</label>
+                    <input id="name-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('contact.name')" type="text" v-model="contact.name" autofocus :disabled="isLoggedIn">
+                    <span class="text-danger" v-if="showError && inputErrors.name"><em><small>{{ $t(`${inputErrors.name}`) }}</small></em></span>
+                  </div>
+                  <div class="col-md-6 col-12 ps-md-1">
+                    <label>{{ $t('contact.email') }}</label>
+                    <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('contact.emailPlaceholder')" v-model="contact.email" :disabled="isLoggedIn">
+                    <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
                   </div>
                 </div>
-                <span class="text-danger d-flex justify-content-center" v-if="showError && !acceptedPolicy"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
+                <div class="form-group mb-0 mt-md-0 mt-4">
+                  <label>{{ $t('contact.howCanWeHelp') }}</label>
+                  <textarea name="message" :class="{'is-invalid': (showError && !!inputErrors.message)}" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('contact.problemDes')" v-model="contact.message"></textarea>
+                  <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
+                </div>              
+                <div v-if="!isLoggedIn" class="align-items-center justify-content-center">
+                  <div class="d-flex align-items-center justify-content-center mt-3">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="customCheck" v-model="acceptedPolicy">
+                      <label class="form-check-label" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
+                    </div>
+                  </div>
+                  <span class="text-danger d-flex justify-content-center" v-if="showError && !acceptedPolicy"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
+                </div>
+                <div class="row">      
+                  <div class="col-md-12 d-flex justify-content-center mt-3">
+                    <one-click-btn v-model:active="activeBtn" :text="$t('contact.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmitMessage()"></one-click-btn>
+                  </div>
+                </div>
               </div>
-              <div class="row">      
-                <div class="col-md-12 d-flex justify-content-center mt-3">
-                  <one-click-btn v-model:active="activeBtn" :text="$t('contact.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmitMessage()"></one-click-btn>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container" v-else-if="page == 'success'">
+        <div class="row">
+          <div class="col-lg-7 d-flex justify-content-center flex-column">
+            <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
+              <div class="text-center">
+                <h3>{{ $t('contactSuccess.title') }}</h3>
+                <p class="mb-0">{{ $t('contactSuccess.subTitle') }}</p>
+              </div>
+              <div class="card-body pb-2">
+                <div class="row">
+                  <div class="col-md-12 text-center mt-3">
+                    <button type="button" class="btn bg-gradient-primary" @click="$router.push('/')">{{ $t('contactSuccess.backToHome') }}</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -54,25 +75,7 @@
         </div>
       </div>
     </div>
-    <div class="container" v-else-if="page == 'success'">
-      <div class="row">
-        <div class="col-lg-7 d-flex justify-content-center flex-column">
-          <div class="card shadow-lg d-flex justify-content-center p-4 my-sm-0 my-sm-6 mt-8 mb-5">
-            <div class="text-center">
-              <h3>{{ $t('contactSuccess.title') }}</h3>
-              <p class="mb-0">{{ $t('contactSuccess.subTitle') }}</p>
-            </div>
-            <div class="card-body pb-2">
-              <div class="row">
-                <div class="col-md-12 text-center mt-3">
-                  <button type="button" class="btn bg-gradient-primary" @click="$router.push('/')">{{ $t('contactSuccess.backToHome') }}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <footer-component></footer-component>
   </div>
 </template>
 
@@ -81,10 +84,11 @@ import { ref, watch, reactive } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useServerError, useUserAuthentication, useInputError, useMessages } from "../store";
 import OneClickBtn from '@/components/OneClickBtn.vue';
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 
 export default {
   name: 'ContactForm',
-  components: { OneClickBtn },
+  components: { OneClickBtn, FooterComponent },
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
@@ -152,14 +156,4 @@ export default {
   .page-header {
     background-image: none!important;
   }
-  @media (min-width: 768px) {
-    .page-header {
-      min-height: 85vh;
-    }
-  }
-  @media (max-width: 768px) {
-    .page-header {
-      min-height: unset;
-    }
-  }  
 </style>

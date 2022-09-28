@@ -1,10 +1,9 @@
 <template>
-<span class="full-bg"></span>
-<span class="mask bg-gradient-dark opacity-4"></span>
-  <section class="pt-7 pb-md-3">
-    <div class="container">
-      <div class="col-lg-10 col-12 mx-auto">
-        <div class="card">
+  <section>
+    <div class="min-vh-100 d-flex flex-column">
+      <div class="page-header justify-content-center">
+        <span class="mask bg-gradient-dark opacity-4"></span>
+        <div class="card mx-md-6 mx-3 mt-6 mb-4">
           <div class="card-header bg-gradient-primary p-5 position-relative">
             <h3 class="text-white mb-0">{{ $t('design.title') }}</h3>
             <p class="text-white opacity-8 mb-4">{{ $t('design.lastModified', { date: 'July 22, 2022' }) }}</p>
@@ -20,12 +19,16 @@
           </div>
         </div>
       </div>
+      <footer-component></footer-component>
     </div>
   </section>
 </template>
 
 <script>
+import FooterComponent from '../components/homeComponents/FooterComponent.vue';
+
 export default {
   name: 'CreditsView',
+  components: { FooterComponent },
 }
 </script>
