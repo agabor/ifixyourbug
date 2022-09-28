@@ -65,7 +65,7 @@
                 <div class="col-md-12 mb-3">
                   <div class="form-group mb-0">
                     <label>{{ $t('orderViewer.bugDescription') }}*</label>
-                    <text-viewer :value="order.bugDescription"></text-viewer>
+                    <span v-html="order.bugDescription"></span>
                   </div>
                 </div>
                 <third-party-tool :modelValue="order.thirdPartyTool" :editable="false" :showError="false"></third-party-tool>
@@ -83,7 +83,6 @@
 
 <script>
 import { ref } from 'vue';
-import TextViewer from './TextViewer.vue';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
 import OperatingSystem from './orderComponents/OperatingSystem.vue';
@@ -97,7 +96,7 @@ import StateBadge from './StateBadge.vue';
 
 export default {
   name: 'AdminOrderViewer',
-  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, StateBadge },
+  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, StateBadge },
   props: {
     order: Object,
   },

@@ -27,7 +27,7 @@
                 <div class="row mb-3">
                   <div class="col-12 form-group mb-0">
                     <label>{{ $t('orderViewer.bugDescription') }}*</label>
-                    <text-viewer :value="modelValue.bugDescription"></text-viewer>
+                    <span v-html="modelValue.bugDescription"></span>
                   </div>
                 </div>
                 <third-party-tool :modelValue="modelValue.thirdPartyTool"></third-party-tool>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import TextViewer from './TextViewer.vue';
 import SelectFramework from './orderComponents/SelectFramework.vue';
 import SelectVersion from './orderComponents/SelectVersion.vue';
 import OperatingSystem from './orderComponents/OperatingSystem.vue';
@@ -60,7 +59,7 @@ import router from '@/router';
 
 export default {
   name: 'OrderViewer',
-  components: { TextViewer, SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm, StateBadge },
+  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm, StateBadge },
   props: {
     modelValue: Object,
   },
