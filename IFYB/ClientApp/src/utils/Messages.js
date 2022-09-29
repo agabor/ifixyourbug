@@ -73,7 +73,7 @@ export const messages = {
   },
   "pricing": {
     "mainTitle": "Best no-tricks pricing",
-    "mainSubTitle": "Fixed price for all bugs.",
+    "mainSubTitle": "Fixed price for all bugs",
     "title": "Single Bugfix",
     "description": "ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
     "whatsincluded": "What's included",
@@ -87,7 +87,7 @@ export const messages = {
   },
   "workflow": {
     "title1": "How It Works",
-    "subTitle": "The process of submitting bugs and receiving fixes is straightforward. Here is how it works.",
+    "subTitle": "The process of submitting bugs and receiving fixes is straightforward.<br>Here is how it works.",
     "workflowTitle1": "1. Prepare for submission",
     "workflowDescription1": "To submit a bug, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the bug.",
     "workflowTitle2": "2. Submit Your Bug",
@@ -104,7 +104,7 @@ export const messages = {
   },
   "footer": {
     "title": "I Fix Your Bug",
-    "copyright": "Copyright © 2022 Code Sharp Kft",
+    "copyright": "Copyright © 2022 Code Sharp Kft.",
     "pages": "Pages",
     "home": "Home",
     "credits": "Credits",
@@ -206,8 +206,8 @@ export const messages = {
     "name": "Name",
     "nameDes": "Enter your name.",
     "save": "Save",
-    "orderData": "Order data",
-    "orderDataDes": "Enter data from your app.",
+    "orderData": "Send me a bug to fix",
+    "orderDataDes": "Please describe your problem",
     "emailExample": "email@example.com",
     "successfulOrder": "Successful order",
     "successfulOrderDes": "I will contact you shortly via email.",

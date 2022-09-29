@@ -9,7 +9,7 @@
             </div>
           </div>
           <h3 class="mb-0 mt-4">{{ $t('workflow.title1') }}</h3>
-          <p>{{ $t('workflow.subTitle') }}</p>
+          <p v-html="$t('workflow.subTitle')"></p>
         </div>
       </div>
       <div class="row mt-5">
