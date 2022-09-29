@@ -10,8 +10,9 @@
               </div>
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
-              <div class="d-flex align-items-center justify-content-center">
+              <div class="align-items-center justify-content-center">
                 <h2>{{ $t('orderViewer.title') }} #{{ order.number }}</h2>
+                <p>{{ $filters.dateTimeFormat(order.creationTime) }}</p>
               </div>
               <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="order.state" :isSimple="false"></state-badge>
               <div class="d-flex align-items-center justify-content-center flex-wrap" v-if="order.state == 0">

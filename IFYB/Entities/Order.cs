@@ -70,7 +70,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Number, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
+        return new OrderDto(Number, CreationTime, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
     }
 }
 

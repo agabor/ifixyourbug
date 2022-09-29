@@ -10,8 +10,9 @@
               </div>
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
-              <h2>{{ $t('orderViewer.title') }}</h2>
-              <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="modelValue.state" :isSimple="false"></state-badge>
+              <h2>{{ $t('orderViewer.title') }} #{{ modelValue.number }}</h2>
+              <p>{{ $filters.dateTimeFormat(modelValue.creationTime) }}</p>
+              <state-badge class="text-center mt-2 mb-5 py-2 px-4 rounded-pill text-uppercase" :state="modelValue.state" :isSimple="false"></state-badge>
             </div>
             <update-order-form v-if="modelValue.state === 7" :modelValue="modelValue"></update-order-form>
             <form v-else>

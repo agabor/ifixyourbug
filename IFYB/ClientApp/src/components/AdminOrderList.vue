@@ -5,6 +5,7 @@
       <thead>
         <tr>
           <sortable-th title="number" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+          <sortable-th title="creationTime" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="name" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="email" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="framework" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
@@ -20,6 +21,9 @@
         <tr v-for="(order, idx) in filteredOrders" :key="idx">
           <td>
             <span class="text-secondary text-xs font-weight-bold">#{{ order.number }}</span>
+          </td>
+          <td>
+            <span class="text-secondary text-xs font-weight-bold">{{ $filters.dateTimeFormat(order.creationTime) }}</span>
           </td>
           <td>
             <span class="text-secondary text-xs font-weight-bold">{{ order.name }}</span>
@@ -58,7 +62,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
 import SortableTh from './SortableTh.vue';
 import StateBadge from './StateBadge.vue';
@@ -71,14 +75,12 @@ export default {
   },
   emits: ['openOrder'],
   setup(props) {
-    const filteredOrders = ref(props.orders ?? []);
+    const filteredOrders = ref(props.orders);
     const properties = ['number', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state', 'name', 'email'];
     const orderBy = ref('');
-    const orderAsc = ref(true);
+    const orderAsc = ref(false);
 
-    watch(props, () => {
-      filteredOrders.value = props.orders;
-    });
+    sort('number');
 
     function sort(propName) {
       if (orderBy.value === propName) {
@@ -90,6 +92,10 @@ export default {
       const asc = orderAsc.value;
       if (orderBy.value !== '')
         filteredOrders.value.sort((a, b) => {
+          if(a[ordBy] === null)
+            return 1;
+          if(b[ordBy] === null)
+            return -1;
           if (a[ordBy] < b[ordBy] ^ asc)
             return 1;
           if (a[ordBy] > b[ordBy] ^ asc)

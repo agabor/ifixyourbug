@@ -34,34 +34,34 @@ export default {
               else 
                 element = tm('framework.option1');
             }
-            if(property == 'state') {
+            if(property === 'state') {
               switch (element) {
                 case '1':
-                  element = tm('orderList.accepted');
+                  element = tm('orderState.confirmed');
                   break;
                 case '2':
-                  element = tm('orderList.rejected');
+                  element = tm('orderState.rejected');
                   break;
                 case '3':
-                  element = tm('orderList.payed');
+                  element = tm('orderState.payed');
                   break;
                 case '4':
-                  element = tm('orderList.completed');
+                  element = tm('orderState.completed');
                   break;
                 case '5':
-                  element = tm('orderList.refundable');
+                  element = tm('orderState.refundable');
                   break;
                 case '6':
-                  element = tm('orderList.canceled');
+                  element = tm('orderState.canceled');
                   break;
                 case '7':
-                  element = tm('orderList.editable');
+                  element = tm('orderState.editable');
                   break;
                 default:
-                  element = tm('orderList.submitted');
+                  element = tm('orderState.submitted');
               }
             }
-            if(element.toUpperCase().includes(searchText.value.toUpperCase())) {
+            if(element !== null && element.toUpperCase().includes(searchText.value.toUpperCase())) {
               addElement = true;
               break;
             }

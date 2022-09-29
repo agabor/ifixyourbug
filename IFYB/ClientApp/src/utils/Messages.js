@@ -173,6 +173,7 @@ export const messages = {
   },
   "orderList": {
     "number": "Number",
+    "creationTime": "Creation time",
     "name": "Name",
     "email": "Email",
     "framework": "Framework",
