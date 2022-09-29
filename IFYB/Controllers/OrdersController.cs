@@ -70,7 +70,7 @@ public class OrdersController : BaseController
         order.Messages!.Add(message);
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "OrderMessageToAdmin", order, new { client.Name }, true);
+            emailDispatchService.DispatchEmail(admin.Id, admin.Email, "OrderMessageToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
         return Ok(message.ToDto());
@@ -126,10 +126,10 @@ public class OrdersController : BaseController
                 }
             }
         }
-        emailDispatchService.DispatchEmail(client.Email, "OrderSubmit", order, new { Name = client.Name, GitUser = gitUser, Saas = saas, AccessMode = (int)gitAccess.AccessMode, SshKey = settings.SshKey });
+        emailDispatchService.DispatchEmail(client.Id, client.Email, "OrderSubmit", order, new { Name = client.Name, GitUser = gitUser, Saas = saas, AccessMode = (int)gitAccess.AccessMode, SshKey = settings.SshKey });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "OrderSubmitToAdmin", order, new { client.Name }, true);
+            emailDispatchService.DispatchEmail(admin.Id, admin.Email, "OrderSubmitToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
         return Ok(new IdDto(order.Id));
@@ -167,10 +167,10 @@ public class OrdersController : BaseController
             image.OrderId = order.Id;
             order.Images!.Add(image);
         }
-        emailDispatchService.DispatchEmail(client.Email, "OrderUpdate", order, new { client.Name });
+        emailDispatchService.DispatchEmail(client.Id, client.Email, "OrderUpdate", order, new { client.Name });
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "OrderUpdateToAdmin", order, new { client.Name }, true);
+            emailDispatchService.DispatchEmail(admin.Id, admin.Email, "OrderUpdateToAdmin", order, new { client.Name }, true);
         }
         dbContext.SaveChanges();
         return base.Ok(order.ToDto());

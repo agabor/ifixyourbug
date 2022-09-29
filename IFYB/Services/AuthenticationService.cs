@@ -104,7 +104,7 @@ public class AuthenticationService
             }
             user.Password = passwordHasher.HashPassword(user, password);
             string textPassword = $"{password.Substring(0, 3)}-{password.Substring(3)}";
-            var email = emailService.CreateEmail(dto.Email, "Authentication", null, new { Password = textPassword });
+            var email = emailService.CreateEmail(null, dto.Email, "Authentication", null, new { Password = textPassword });
             emailSenderService.SendEmail(email!);
         }
         dbContext.SaveChanges();

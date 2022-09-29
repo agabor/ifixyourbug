@@ -39,11 +39,11 @@ public class ContactController : BaseController
             DateTime = DateTime.UtcNow
         });
         if(client != null) {
-            emailDispatchService.DispatchEmail(client.Email, "ContactMessage", null, new { Name = client.Name });
+            emailDispatchService.DispatchEmail(client.Id, client.Email, "ContactMessage", null, new { Name = client.Name });
         }
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "ContactMessageToAdmin", null, new { Name = client?.Name != null ? client.Name : "unknown user" }, true);
+            emailDispatchService.DispatchEmail(admin.Id, admin.Email, "ContactMessageToAdmin", null, new { Name = client?.Name != null ? client.Name : "unknown user" }, true);
         }
         dbContext.SaveChanges();
         return Ok();
