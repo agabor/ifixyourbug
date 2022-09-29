@@ -166,9 +166,10 @@ export const messages = {
     "subTitle": "I will contact you shortly via email.",
     "backToHome": "Back to home"
   },
-  "contactMessages": {
+  "contactView": {
     "select": "Select one client",
-    "haveNoMessages": "Have no messages"
+    "haveNoMessages": "Have no messages",
+    "haveNoEmails": "Have no emails"
   },
   "orderList": {
     "number": "Number",

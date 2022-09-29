@@ -45,6 +45,14 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet]
+    [Route("contact-emails/{email}")]
+    [Produces(typeof(ContactMessageDto))]
+    public IActionResult GetClientContactEmails(string email)
+    {
+        return Ok(dbContext.Emails.Where(e => e.ToEmail == email).Select(e => new ContactEmailDto(e.Subject, e.Text)));
+    }
+
+    [HttpGet]
     [Route("orders")]
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
