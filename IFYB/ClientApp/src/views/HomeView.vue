@@ -2,8 +2,8 @@
   <header-component></header-component>
   <features-component></features-component>
   <name-card v-if="loaded"></name-card>
-  <pricing-component v-if="loaded"></pricing-component>
   <work-with-us v-if="loaded"></work-with-us>
+  <pricing-component v-if="loaded"></pricing-component>
   <workflow-components v-if="loaded"></workflow-components>
   <footer-component></footer-component>
 </template>

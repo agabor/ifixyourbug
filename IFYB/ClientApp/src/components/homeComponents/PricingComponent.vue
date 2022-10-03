@@ -1,71 +1,79 @@
 <template>
-  <section id="pricing">
-    <div class="container">
+  <section class="bg-dark position-relative mt-7" id="pricing">
+    <div class="container py-5">
       <div class="row">
-        <div class="col-md-6 mx-auto text-center mb-5">
-          <h2>{{ $t('pricing.mainTitle') }}</h2>
+        <div class="col-md-6 mx-auto text-center mb-3">
+          <h2 class="text-white">{{ $t('pricing.mainTitle') }}</h2>
           <p class="lead">{{ $t('pricing.mainSubTitle') }}</p>
         </div>
       </div>
       <div class="row">
-        <div class="card">
+        <div class="col-lg-4 col-md-12 d-flex justify-content-center flex-column text-lg-start text-center ">
+          <h3 class="text-white">{{ $t('pricing.title') }}</h3>
+          <p class="lead">{{ $t('pricing.description', { workdays: workdays }) }}</p>
+        </div>
+        <div class="col-lg-8 col-md-12 ms-lg-auto me-lg-auto">
           <div class="row">
-            <div class="col-lg-8">
-              <div class="card-body">
-                <h3 class="text-primary">{{ $t('pricing.title') }}</h3>
-                <p>{{ $t('pricing.description', { workdays: workdays }) }}</p>
-                <div class="row mt-5 mb-2">
-                  <div class="col-lg-3 col-12">
-                    <h6 class="text-dark tet-uppercase">{{ $t('pricing.whatsincluded') }}</h6>
-                  </div>
-                  <div class="col-6">
-                    <hr class="horizontal dark">
-                  </div>
+            <div class="col-md-6 mt-4">
+              <div class="card card-pricing bg-white border-0 text-center">
+                <div class="card-header bg-transparent">
+                  <h6 class="text-uppercase ls-1">{{ $t('pricing.include1') }}</h6>
+                  <svg width="50" height="50">
+                    <image href="@/assets/img/logos/dotnet.svg" height="50" width="50" />
+                  </svg>
                 </div>
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-12 ps-0">
-                    <div class="d-flex align-items-center p-2">
-                      <i class="fas fa-check text-dark"></i>
-                      <div>
-                        <span class="ps-2">{{ $t('pricing.include1') }}</span>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center p-2">
-                      <i class="fas fa-check text-dark"></i>
-                      <div>
-                        <span class="ps-2">{{ $t('pricing.include2') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-12 ps-sm-2 ps-0">
-                    <div class="d-flex align-items-center p-2">
-                      <i class="fas fa-check text-dark"></i>
-                      <div>
-                        <span class="ps-2">{{ $t('pricing.include3') }}</span>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-center p-2">
-                      <i class="fas fa-check text-dark"></i>
-                      <div>
-                        <span class="ps-2">{{ $t('pricing.include4') }}</span>
-                      </div>
-                    </div>
-                  </div>
+                <div class="card-body text-dark py-0">
+                  <h6 class="m-0">{{ $t('pricing.payOne') }}</h6>
+                  <h3 class="mb-0">
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
+                  </h3>
+                  <h4><small>or</small></h4>
+                  <h3>
+                    € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
+                  <ul class="list-unstyled my-4">
+                    <li class="align-items-center">
+                      <span>{{ $t('pricing.include3') }}</span>
+                    </li>
+                    <li class="align-items-center my-2">
+                      <span>{{ $t('pricing.include4') }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-footer bg-transparent pt-2">
+                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(1)">{{ $t('pricing.orderNow') }}</button>
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 my-auto">
-              <div class="card-body text-center">
-                <h6 class="mt-sm-4 mt-0 mb-0">{{ $t('pricing.payOne') }}</h6>
-                <h3 class="mt-0">
-                  $ {{ parseFloat(usdPrice).toFixed(2) }}
-                </h3>
-                <h4><small>or</small></h4>
-                <h3>
-                  € {{ parseFloat(eurPrice).toFixed(2) }}
-                </h3>
-                <button type="button" class="btn bg-gradient-primary btn-lg mt-2" @click="$router.push('/new-order')">{{ $t('pricing.orderNow') }}</button>
-                <p>{{$t('pricing.excludeVat')}}</p>
+            <div class="col-md-6 mt-4">
+              <div class="card card-pricing bg-white border-0 text-center">
+                <div class="card-header bg-transparent">
+                  <h6 class="text-uppercase ls-1">{{ $t('pricing.include2') }}</h6>
+                  <img width="50" height="50" src="@/assets/img/logos/vuejs.svg" alt="dotnet">
+                </div>
+                <div class="card-body text-dark py-0">
+                  <h6 class="mt-0">{{ $t('pricing.payOne') }}</h6>
+                  <h3 class="mb-0">
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
+                  </h3>
+                  <h4><small>or</small></h4>
+                  <h3>
+                    € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
+                  <ul class="list-unstyled my-4">
+                    <li class="align-items-center">
+                      <span>{{ $t('pricing.include3') }}</span>
+                    </li>
+                    <li class="align-items-center my-2">
+                      <span>{{ $t('pricing.include4') }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-footer bg-transparent pt-2">
+                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(0)">{{ $t('pricing.orderNow') }}</button>
+                </div>
               </div>
             </div>
           </div>
@@ -76,6 +84,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import { useSettings } from "../../store";
 
 export default {
@@ -83,7 +92,31 @@ export default {
   setup() {
     const { eurPrice, usdPrice, workdays } = useSettings();
 
-    return { eurPrice, usdPrice, workdays }
+    function setOrderFrameWork(framework) {
+      let order = JSON.parse(localStorage.getItem('order'));
+      if(!order)
+        order = { framework: null,
+          version: null,
+          applicationUrl: null,
+          specificPlatform: null,
+          specificPlatformVersion: null,
+          thirdPartyTool: null,
+          bugDescription: '',
+          accessMode: null,
+          url: null,
+          selectedAccess: {}
+        };
+      if(order.framework !== framework) {
+        order.framework = framework;
+        order.version = null;
+        order.specificPlatform = null;
+        order.specificPlatformVersion = null;
+        localStorage.setItem('order', JSON.stringify(order));
+      } 
+      router.push('new-order');
+    }
+
+    return { eurPrice, usdPrice, workdays, setOrderFrameWork }
   }
 }
 </script>
