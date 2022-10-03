@@ -2,13 +2,13 @@
   <section>
     <div class="container mt-7">
       <div class="row">
-        <div class="col-lg-5 ms-auto me-auto text-center">
+        <div class="col-lg-5 mx-auto text-center">
           <div class="p-3 info-hover-warning d-flex justify-content-center">
             <div class="icon icon-shape bg-gradient-warning icon-shape-circle text-primary">
               <i class="ni ni-bulb-61 opacity-10"></i>
             </div>
           </div>
-          <h3 class="mb-0 mt-4">{{ $t('workflow.title1') }}</h3>
+          <h3 class="mt-4">{{ $t('workflow.title1') }}</h3>
           <p v-html="$t('workflow.subTitle')"></p>
         </div>
       </div>
@@ -24,7 +24,7 @@
                 src="../../assets/img/bg2_small_mobile.webp" 
                 alt="image">
             </picture>
-            <div class="card-body pt-7 pb-6 text-center">
+            <div class="card-body my-6 text-center">
               <i class="ni ni-send mb-3 h3 text-white"></i>
               <p class="h4 d-block text-white up mb-0 text-decoration-underline-hover">{{ $t('features.easy') }}</p>
               <p class="lead mt-2 opacity-9">{{ $t('features.easyDescription') }}</p>
@@ -86,7 +86,7 @@
                 src="../../assets/img/bg3_mobile.webp" 
                 alt="image">
             </picture>
-            <div class="card-body pt-7 pb-6 text-center">
+            <div class="card-body my-6 text-center">
               <i class="ni ni-watch-time mb-3 h3 text-white"></i>
               <p class="h4 text-decoration-underline-hover d-block text-white up mb-0">{{ $t('features.fast') }}</p>
               <p class="lead mt-2 opacity-9">{{ $t('features.fastDescription', { workdays }) }}</p>
@@ -96,10 +96,12 @@
         </div>
       </div>
     </div>
-    <div class="row my-5 mx-1">
+    <div class="container my-7">
+      <div class="row">
         <div class="col-md-5 me-auto my-auto ms-auto">
           <img class="mw-100" src="@/assets/img/stripe-badge-grey.png" alt="stripe">
         </div>
+      </div>
     </div>
   </section>
 </template>
@@ -111,16 +113,14 @@ import { computed } from 'vue';
 export default {
   name: 'WorkflowComponents',
   setup() {
-
     const { eurPrice, usdPrice, workdays } = useSettings();
-
     const eurPriceForDisplay = computed(() => parseFloat(eurPrice.value).toFixed(2));
-
     const usdPriceForDisplay = computed(() => parseFloat(usdPrice.value).toFixed(2));
 
     function toPricing() {
       document.getElementById('pricing').scrollIntoView();
     }
+    
     return { toPricing, eurPriceForDisplay, usdPriceForDisplay, workdays }
   }
 }
