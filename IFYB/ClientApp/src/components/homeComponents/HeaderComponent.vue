@@ -10,7 +10,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
-            <div class="card card-body text-center shadow px-sm-5 my-md-0 mt-7 mb-5">
+            <div class="card card-body text-center shadow px-sm-5 my-md-0 mt-7 mb-6">
               <div class="row justify-content-center my-4">
                 <picture class="col-xl-4 col-12 d-flex justify-content-center align-items-center">
                   <source 
