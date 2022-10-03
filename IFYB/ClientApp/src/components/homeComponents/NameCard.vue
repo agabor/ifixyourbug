@@ -4,7 +4,7 @@
       <span class="mask bg-gradient-primary opacity-5"></span>
     </div>
     <div class="container">
-      <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg">
+      <div class="row bg-white px-4 py-5 mt-n7 position-relative shadow border-radius-lg justify-content-center">
         <div class="col-lg-3 col-md-5 col-sm-12 position-relative my-auto d-flex align-items-center justify-content-center">
           <picture>
             <source 
