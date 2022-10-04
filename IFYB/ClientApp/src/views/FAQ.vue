@@ -1,9 +1,9 @@
 <template>
   <section>
     <div class="min-vh-100 d-flex flex-column">
-      <div class="page-header">
+      <div class="page-header justify-content-center">
         <span class="mask bg-gradient-dark opacity-4"></span>
-        <div class="carousel-inner row mt-6 mx-auto">
+        <div class="carousel-inner row mt-6">
           <div class="col-lg-10 col-12 my-4 mx-auto">
             <div class="card" v-if="loadedBootstrap">
               <div class="card-header bg-gradient-primary p-5 position-relative">
