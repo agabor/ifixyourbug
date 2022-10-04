@@ -71,15 +71,11 @@ export const messages = {
     "description": "You can submit bugs for either ASP.NET Core or Vue.js. I accept bugs for every officially supported version of these frameworks. In addition, I will also fix bugs that are related to web server configuration or third-party software."
   },
   "pricing": {
-    "mainTitle": "Best no-tricks pricing",
-    "mainSubTitle": "Fixed price for all bugs",
-    "title": "Single Bugfix",
-    "description": "ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
+    "title": "Best no-tricks pricing",
+    "description": "Fixed price for all bugs. ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
     "whatsincluded": "What's included",
     "include1": "ASP.NET Core",
     "include2": "Vue.js",
-    "include3": "Bugfix delivered as pull request",
-    "include4": "Explanation of the bugfix",
     "payOne": "One time payment, no hidden costs",
     "orderNow": "Order Now",
     "excludeVat": "The price does not include VAT."

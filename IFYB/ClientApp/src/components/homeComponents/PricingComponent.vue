@@ -2,12 +2,6 @@
   <section class="bg-dark position-relative mt-7" id="pricing">
     <div class="container py-5">
       <div class="row">
-        <div class="col-md-6 mx-auto text-center mb-3">
-          <h2 class="text-white">{{ $t('pricing.mainTitle') }}</h2>
-          <p class="lead">{{ $t('pricing.mainSubTitle') }}</p>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-lg-4 col-md-12 d-flex justify-content-center flex-column text-lg-start text-center ">
           <h3 class="text-white">{{ $t('pricing.title') }}</h3>
           <p class="lead">{{ $t('pricing.description', { workdays: workdays }) }}</p>
@@ -32,14 +26,6 @@
                     € {{ parseFloat(eurPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
-                  <ul class="list-unstyled my-4">
-                    <li class="align-items-center">
-                      <span>{{ $t('pricing.include3') }}</span>
-                    </li>
-                    <li class="align-items-center my-2">
-                      <span>{{ $t('pricing.include4') }}</span>
-                    </li>
-                  </ul>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
                   <button class="btn bg-gradient-primary" @click="setOrderFrameWork(1)">{{ $t('pricing.orderNow') }}</button>
@@ -62,14 +48,6 @@
                     € {{ parseFloat(eurPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
-                  <ul class="list-unstyled my-4">
-                    <li class="align-items-center">
-                      <span>{{ $t('pricing.include3') }}</span>
-                    </li>
-                    <li class="align-items-center my-2">
-                      <span>{{ $t('pricing.include4') }}</span>
-                    </li>
-                  </ul>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
                   <button class="btn bg-gradient-primary" @click="setOrderFrameWork(0)">{{ $t('pricing.orderNow') }}</button>
