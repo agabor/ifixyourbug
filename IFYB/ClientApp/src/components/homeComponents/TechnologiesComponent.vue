@@ -6,9 +6,8 @@
           <div class="row justify-content-center">
             <div class="row">
               <div class="col-lg-10 mx-auto text-center px-md-2 px-sm-5 mt-sm-0 mt-4">
-                <h3>{{ $t('workWithUs.title') }}</h3>
-                <p><small>{{ $t('workWithUs.subTitle') }}</small></p>
-                <p class="text-justify text-lg">{{ $t('workWithUs.carouselDes1') }}</p>
+                <h3>{{ $t('technologies.title') }}</h3>
+                <p class="text-justify text-lg">{{ $t('technologies.description') }}</p>
               </div>
             </div>
             <div class="row">
@@ -28,6 +27,6 @@
 
 <script>
 export default {
-  name: 'WorkWithUs'
+  name: 'TechnologiesComponent'
 }
 </script>

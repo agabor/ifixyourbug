@@ -64,12 +64,11 @@ export const messages = {
   },
   "nameCard": {
     "name": "Gabor Angyal",
-    "description": "I am Gabor Angyal, a software developer in <a href=\"https://en.wikipedia.org/wiki/Pécs\" target=\"_blank\">Pécs</a>. I have created this website to help others struggling with tricky bugs in their web applications. I have been a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, if you are stuck with a bug, send it to me, and let's see if I can help."
+    "description": "I am Gabor Angyal, a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, I have created this website to help others struggling with tricky bugs in their web applications."
   },
-  "workWithUs": {
+  "technologies": {
     "title": "Technologies",
-    "subTitle": "More than full-stack",
-    "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs, you might need someone with experience with various web servers, cloud providers, and deployment environments."
+    "description": "You can submit bugs for either ASP.NET Core or Vue.js. I accept bugs for every officially supported version of these frameworks. In addition, I will also fix bugs that are related to web server configuration or third-party software."
   },
   "pricing": {
     "mainTitle": "Best no-tricks pricing",

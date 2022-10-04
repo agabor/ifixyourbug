@@ -2,7 +2,7 @@
   <header-component></header-component>
   <features-component></features-component>
   <name-card v-if="loaded"></name-card>
-  <work-with-us v-if="loaded"></work-with-us>
+  <technologies-component v-if="loaded"></technologies-component>
   <pricing-component v-if="loaded"></pricing-component>
   <workflow-components v-if="loaded"></workflow-components>
   <footer-component></footer-component>
@@ -16,11 +16,11 @@ import WorkflowComponents from '../components/homeComponents/WorkflowComponents.
 import HeaderComponent from '../components/homeComponents/HeaderComponent.vue';
 import NameCard from '../components/homeComponents/NameCard.vue';
 import PricingComponent from '../components/homeComponents/PricingComponent.vue';
-import WorkWithUs from '../components/homeComponents/WorkWithUs.vue';
+import TechnologiesComponent from '../components/homeComponents/TechnologiesComponent.vue';
 
 export default {
   name: 'HomeView',
-  components: { FooterComponent, WorkflowComponents, PricingComponent, WorkWithUs, NameCard, FeaturesComponent, HeaderComponent },
+  components: { FooterComponent, WorkflowComponents, PricingComponent, TechnologiesComponent, NameCard, FeaturesComponent, HeaderComponent },
   setup() {
     const { loaded } = useWindowLoad();
     return { loaded }
