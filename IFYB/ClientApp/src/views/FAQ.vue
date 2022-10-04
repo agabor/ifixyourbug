@@ -3,15 +3,15 @@
     <div class="min-vh-100 d-flex flex-column">
       <div class="page-header">
         <span class="mask bg-gradient-dark opacity-4"></span>
-        <div class="carousel-inner row mt-6">
-          <div class="col-lg-10 col-12 mx-auto my-4">
+        <div class="carousel-inner row mt-6 mx-auto">
+          <div class="col-lg-10 col-12 my-4 mx-auto">
             <div class="card" v-if="loadedBootstrap">
               <div class="card-header bg-gradient-primary p-5 position-relative">
                 <h3 class="text-white mb-0">{{ $t('faqCard.title') }}</h3>
-                <p class="text-white opacity-8 mb-4">{{ $t('faqCard.lastModified', { date: 'July 22, 2022' }) }}</p>
+                <p class="text-white opacity-8 mb-0">{{ $t('faqCard.lastModified', { date: 'July 22, 2022' }) }}</p>
               </div>
               <div class="card-body p-sm-5 pt-0">
-                <h4 class="mt-5 mb-4 ps-3">{{ $t('faqOrders.title') }}</h4>
+                <h4 class="my-4 ps-3">{{ $t('faqOrders.title') }}</h4>
                 <div class="accordion" id="accordionFaq2">
                   <div class="accordion-item" v-for="n in faqOrders" :key="n">
                     <h6 class="accordion-header" :id="`headingSettings${n}`">
@@ -25,19 +25,21 @@
                     </div>
                   </div>
                 </div>
-                <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRepos.title') }}</h4>
+                <h4 class="my-4 ps-3">{{ $t('faqRepos.title') }}</h4>
                 <div class="accordion" id="accordionFaq3">
-                  <div class="accordion-item" v-for="service in gitServices" :key="service.name">
-                    <h6 class="accordion-header" id="headingSettings1">
-                      <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${service.name}`" aria-expanded="false" :aria-controls="`collapseRepos${gitServices.name}`">
-                        {{ $t('faqRepos.question1', {saas: service.name}) }}
-                        <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
-                      </button>
-                    </h6>
-                    <div :id="`collapseRepos${service.name}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${service.name}`" data-bs-parent="#accordionFaq3">
-                      <div class="accordion-body text-sm opacity-8">
-                        <span>{{$t('faqRepos.answer1')}}</span>
-                        <a :href="service.user" target="_blank">here.</a>
+                  <div v-for="service in gitServices" :key="service.name">
+                    <div class="accordion-item" v-if="service.domain !== 'bitbucket.com'">
+                      <h6 class="accordion-header" id="headingSettings1">
+                        <button class="accordion-button border-bottom font-weight-bold text-start" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapseRepos${service.name}`" aria-expanded="false" :aria-controls="`collapseRepos${gitServices.name}`">
+                          {{ $t('faqRepos.question1', {saas: service.name}) }}
+                          <i class="collapse-rotate fas fa-chevron-down text-xs text-primary pt-1 position-absolute end-0 me-3"></i>
+                        </button>
+                      </h6>
+                      <div :id="`collapseRepos${service.name}`" class="accordion-collapse collapse" :aria-labelledby="`headingSettings${service.name}`" data-bs-parent="#accordionFaq3">
+                        <div class="accordion-body text-sm opacity-8">
+                          <span>{{$t('faqRepos.answer1')}}</span>
+                          <a :href="service.user" target="_blank">here.</a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -56,7 +58,7 @@
                     </div>
                   </div>
                 </div>
-                <h4 class="mt-5 mb-4 ps-3">{{ $t('faqRefunds.title') }}</h4>
+                <h4 class="my-4 ps-3">{{ $t('faqRefunds.title') }}</h4>
                 <div class="accordion" id="accordionFaq4">
                   <div class="accordion-item" v-for="n in faqRefunds" :key="n">
                     <h6 class="accordion-header" :id="`headingLicenses${n}`">
@@ -100,6 +102,7 @@ import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { useGitServices, useSettings, useScripts } from '@/store';
 
 export default {
+  name: 'FaqView',
   components: { SshKeyPreview, FooterComponent },
   setup() {
     const faqSecurityCount = 2;
