@@ -127,6 +127,7 @@ export default {
     }
     
     async function submitMessage() {
+      window.rdt('track', 'Lead');
       let response = await fetch('/api/contact', {
         method: 'POST',
         headers: {

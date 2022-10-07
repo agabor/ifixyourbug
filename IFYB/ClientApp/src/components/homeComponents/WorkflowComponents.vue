@@ -119,6 +119,7 @@ export default {
     const usdPriceForDisplay = computed(() => parseFloat(usdPrice.value).toFixed(2));
 
     function toPricing() {
+      window.rdt('track', 'View Content');
       document.getElementById('pricing').scrollIntoView();
     }
     return { toPricing, eurPriceForDisplay, usdPriceForDisplay, workdays }

@@ -98,6 +98,7 @@
 import SshKeyPreview from '@/components/SshKeyPreview.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { useGitServices, useSettings, useScripts } from '@/store';
+import { onMounted } from 'vue'
 
 export default {
   components: { SshKeyPreview, FooterComponent },
@@ -109,6 +110,10 @@ export default {
     const { gitServices } = useGitServices();
     const { workdays } = useSettings();
     const { loadedBootstrap } = useScripts();
+
+    onMounted(() => {
+      window.rdt('track', 'View Content');
+    })
 
     return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays, loadedBootstrap };
   }

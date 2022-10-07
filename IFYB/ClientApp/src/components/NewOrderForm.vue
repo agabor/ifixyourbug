@@ -107,6 +107,7 @@ export default {
     }
 
     async function submitOrder() {
+      window.rdt('track', 'Purchase');
       let response = await post('/api/orders',
         {
           'framework': order.framework,
