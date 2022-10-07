@@ -71,7 +71,7 @@ export default {
     const { eurPrice, usdPrice, workdays } = useSettings();
 
     function setOrderFrameWork(framework) {
-      window.rdt('track', 'Add To Cart');
+      window.rdt('track', 'AddToCart');
       let order = JSON.parse(localStorage.getItem('order'));
       if(!order)
         order = { framework: null,

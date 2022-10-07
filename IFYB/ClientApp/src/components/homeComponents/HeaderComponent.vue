@@ -47,7 +47,7 @@ export default {
   name: 'HeaderComponent',
   setup() {
     function toPricing() {
-      window.rdt('track', 'View Content');
+      window.rdt('track', 'ViewContent');
       document.getElementById('pricing').scrollIntoView();
     }
     let windowWidth = ref(window.innerWidth)

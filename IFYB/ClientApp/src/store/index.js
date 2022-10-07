@@ -98,7 +98,7 @@ function setUserJwt(jwt) {
 }
 
 async function setName(name) {
-  window.rdt('track', 'Sign Up');
+  window.rdt('track', 'SignUp');
   let response = await userPost('/api/clients/name', {'name': name});
   if(response.status === 200) {
     resetServerError();

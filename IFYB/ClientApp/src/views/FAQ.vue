@@ -112,7 +112,7 @@ export default {
     const { loadedBootstrap } = useScripts();
 
     onMounted(() => {
-      window.rdt('track', 'View Content');
+      window.rdt('track', 'ViewContent');
     })
 
     return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays, loadedBootstrap };
