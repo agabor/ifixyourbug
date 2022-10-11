@@ -74,7 +74,7 @@
 <script>
 import router from '../router';
 import { computed } from "@vue/reactivity";
-import { useUserAuthentication, useScripts } from "../store";
+import { useUserAuthentication } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {
@@ -82,10 +82,7 @@ export default {
   setup() {
     const userAuth = useUserAuthentication();
     const adminAuth = useAdminAuthentication();
-    const { loadBootstrap } = useScripts();
     const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
-
-    loadBootstrap();
 
     function logout() {
       userAuth.logout();

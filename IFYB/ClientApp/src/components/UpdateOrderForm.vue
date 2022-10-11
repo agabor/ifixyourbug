@@ -39,7 +39,7 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useScripts, useMessages } from "../store";
+import { useServerError, useInputError, useUserAuthentication, useGitAccess, useTinyMce, useMessages } from "../store";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -54,7 +54,7 @@ export default {
     const { setServerError, resetServerError } = useServerError();
     const { hasInputError, setInputError } = useInputError();
     const { get, post } = useUserAuthentication();
-    const { loadedTinymce } = useScripts();
+    const { loadedTinymce } = useTinyMce();
     const { gitAccesses, getGitAccessId } = useGitAccess();
     const { tm } = useMessages();
     const order = reactive(props.modelValue);

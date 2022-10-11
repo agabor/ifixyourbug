@@ -23,6 +23,7 @@ export default {
   components: { FooterComponent, WorkflowComponents, PricingComponent, TechnologiesComponent, NameCard, FeaturesComponent, HeaderComponent },
   setup() {
     const { loaded } = useWindowLoad();
+    
     return { loaded }
   }
 }

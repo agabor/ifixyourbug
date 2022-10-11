@@ -21,14 +21,14 @@ const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminV
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
 
-import { useUserAuthentication, useServerError, useScripts } from '@/store';
+import { useUserAuthentication, useServerError, useTinyMce } from '@/store';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
-const { loadTinymce, loadBootstrap } = useScripts();
+const { loadTinymce } = useTinyMce();
 const { resetServerError } = useServerError();
 
 function paymentGuard(to) {
@@ -87,8 +87,7 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQ,
-    meta: { title: 'FAQ' },
-    beforeEnter: loadBootstrap
+    meta: { title: 'FAQ' }
   },
   {
     path: '/credits',

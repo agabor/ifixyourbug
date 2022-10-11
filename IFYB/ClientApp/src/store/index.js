@@ -25,6 +25,18 @@ function onLoad() {
       gitServices.value = data.gitServices;
     });
   });
+  loadBootstrap();
+  loadRedditPixel();
+  if (localStorage.getItem('visited') !== 'true') {
+    localStorage.setItem('visited', 'true');
+    fetch('/api/cookie', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({'referrer': document.referrer, search: window.location.search, 'analytics': false, 'advertisement': false})
+    });
+  }
 }
 
 window.addEventListener('load', onLoad);
@@ -229,6 +241,7 @@ export function useGitAccess() {
 
 const loadedTinymce = ref(false);
 const loadedBootstrap = ref(false);
+const loadedRedditPixel = ref(false);
 
 function loadTinymce() {
   if(!loadedTinymce.value) {
@@ -245,9 +258,7 @@ function loadTinymce() {
 function loadBootstrap() {
   if(!loadedBootstrap.value) {
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js';
-    script.integrity = 'sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF';
-    script.crossOrigin = 'anonymous';
+    script.src = '/assets/js/bootstrap.min.js';
     script.type = 'module';
       script.onload = () => {
         loadedBootstrap.value = true;
@@ -256,8 +267,31 @@ function loadBootstrap() {
   }
 }
 
-export function useScripts() {
-  return { loadedTinymce, loadTinymce, loadedBootstrap, loadBootstrap }
+function loadRedditPixel() {
+  if (!loadedRedditPixel.value) {
+    loadedRedditPixel.value = true;
+    ! function(w, d) {
+      if (!w.rdt) {
+          var p = w.rdt = function() {
+              p.sendEvent ? p.sendEvent.apply(p, arguments) : p.callQueue.push(arguments)
+          };
+          p.callQueue = [];
+          var t = d.createElement("script");
+          t.src = "https://www.redditstatic.com/ads/pixel.js", t.async = !0;
+          var s = d.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(t, s)
+      }
+    }(window, document);
+    window.rdt('init', 't2_sy5jico8', {
+        "optOut": false,
+        "useDecimalCurrencyValues": true
+    });
+    window.rdt('track', 'PageVisit');
+  }
+}
+
+export function useTinyMce() {
+  return { loadedTinymce, loadTinymce }
 }
 
 import { messages } from '../utils/Messages'
