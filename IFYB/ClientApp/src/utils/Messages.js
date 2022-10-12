@@ -153,7 +153,7 @@ export const messages = {
     "email": "Email",
     "emailPlaceholder": "yourname@domain.com",
     "howCanWeHelp": "How can I help you?",
-    "problemDes": "Please type ypur message here.",
+    "problemDes": "Please type your message here.",
     "sendMessage": "Send Message"
   },
   "contactSuccess": {
@@ -164,6 +164,18 @@ export const messages = {
   "contactMessages": {
     "select": "Select one client",
     "haveNoMessages": "Have no messages"
+  },
+  "stackoverflow": {
+    "title": "stackoverflow title",
+    "subTitle": "stackoverflow subtitle",
+    "name": "Name",
+    "email": "Email",
+    "emailPlaceholder": "yourname@domain.com",
+    "url": "Url",
+    "urlPlaceholder": "https://stackoverflow.com/",
+    "howCanWeHelp": "How can I help you?",
+    "problemDes": "Please type your message here.",
+    "sendMessage": "Send Message"
   },
   "orderList": {
     "number": "Number",
