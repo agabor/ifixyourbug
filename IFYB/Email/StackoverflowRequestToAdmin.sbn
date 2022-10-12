@@ -1,0 +1,13 @@
+{
+    "title": "New stackoverflow request received",
+    "content": [
+        {
+            "type": "header",
+            "text": "New stackoverflow request received!"
+        },
+        {
+            "type": "hero",
+            "text": "New stackoverflow request received from {{name}}."
+        }
+    ]
+}

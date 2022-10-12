@@ -111,7 +111,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'name': stackoverflow.name, 'email': stackoverflow.email, 'text': stackoverflow.message})
+        body: JSON.stringify({'name': stackoverflow.name, 'email': stackoverflow.email, 'url': stackoverflow.url, 'text': stackoverflow.message})
       });
       if(response.status == 200) {
         resetServerError();
