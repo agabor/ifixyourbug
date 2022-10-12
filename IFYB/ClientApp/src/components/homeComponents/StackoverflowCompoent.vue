@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-8 col-md-12 ms-lg-auto me-lg-auto">
+        <div class="col-lg-8 col-md-12 mx-auto" v-if="page === 'stackoverflow'">
           <div class="card shadow-lg d-flex justify-content-center p-4 mt-3">
             <div class="row">
               <div class="col-md-6 col-12 pe-md-1">
@@ -45,8 +45,22 @@
             </div>
             <div class="row">      
               <div class="col-md-12 d-flex justify-content-center mt-3">
-                <one-click-btn v-model:active="activeBtn" :text="$t('stackoverflow.sendMessage')" class="bg-gradient-primary mx-2" @click="trySubmit()"></one-click-btn>
+                <one-click-btn v-model:active="activeBtn" :text="$t('stackoverflow.sendRequest')" class="bg-gradient-primary mx-2" @click="trySubmit()"></one-click-btn>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-12 mx-auto text-center" v-if="page === 'success'">
+          <div class="card shadow-lg d-flex justify-content-center p-4 mt-3">
+            <div class="info mb-4">
+              <div class="icon icon-shape icon-xl rounded-circle bg-gradient-primary shadow text-center py-3 mx-auto">
+                <i :class="`ni ni-check-bold opacity-10 mt-2`"></i>
+              </div>
+            </div>
+            <h2>{{ $t('stackoverflowSuccess.title') }}</h2>
+            <p class="mb-4"><span v-html="$t('stackoverflowSuccess.subTitle')"></span></p>
+            <div class="text-center">
+              <button type="button" class="btn bg-gradient-primary my-4 mx-1" @click="newRequest">{{ $t('stackoverflowSuccess.newRequest') }}</button>
             </div>
           </div>
         </div>
@@ -125,8 +139,17 @@ export default {
     function toPrivacyPolicy() {
       window.open('/privacy-policy', '_blank');
     }
+    
+    function newRequest() {
+      page.value = 'stackoverflow';
+      stackoverflow.name = null;
+      stackoverflow.email = null;
+      stackoverflow.url = null;
+      stackoverflow.message = null;
+      activeBtn.value = true;
+    }
 
-    return { stackoverflow, inputErrors, showError, acceptedPolicy, page, isLoggedIn, activeBtn, trySubmit, toPrivacyPolicy };
+    return { stackoverflow, inputErrors, showError, acceptedPolicy, page, isLoggedIn, activeBtn, trySubmit, toPrivacyPolicy, newRequest };
   }
 }
 </script>

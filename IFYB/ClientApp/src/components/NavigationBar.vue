@@ -34,6 +34,13 @@
               </a>
             </router-link>
           </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <router-link to="/contact-form">
+              <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/contact-form">
+                {{ $t('navigationBar.contact') }}
+              </a>
+            </router-link>
+          </li>
           <li class="nav-item dropdown dropdown-hover mx-2" v-if="isUserLoggedIn">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/my-orders')">
               {{ $t('navigationBar.myOrders') }}

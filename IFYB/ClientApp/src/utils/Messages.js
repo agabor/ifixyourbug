@@ -39,6 +39,7 @@ export const messages = {
     "home": "Home",
     "myOrders": "My orders",
     "faq": "FAQ",
+    "contact": "Contact",
     "orders": "Orders",
     "clients": "Clients",
     "login": "Login",
@@ -49,6 +50,7 @@ export const messages = {
     "description": "ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes.",
     "pricing": "Pricing",
     "contact": "Contact",
+    "stackoverflow": "Stackoverflow",
     "asp": "ASP.NET Core",
     "vuejs": "Vue.js"
   },
@@ -166,8 +168,8 @@ export const messages = {
     "haveNoMessages": "Have no messages"
   },
   "stackoverflow": {
-    "title": "stackoverflow title",
-    "subTitle": "stackoverflow subtitle",
+    "title": "Do you have an open question on stackoverflow?",
+    "subTitle": "Please send the information below and I will try to help you!",
     "name": "Name",
     "email": "Email",
     "emailPlaceholder": "yourname@domain.com",
@@ -175,7 +177,12 @@ export const messages = {
     "urlPlaceholder": "https://stackoverflow.com/",
     "howCanWeHelp": "How can I help you?",
     "problemDes": "Please type your message here.",
-    "sendMessage": "Send Message"
+    "sendRequest": "Send request"
+  },
+  'stackoverflowSuccess': {
+    "title": "Thank you!",
+    "subTitle": "I will reply as soon as I can.",
+    "newRequest": "New request"
   },
   "orderList": {
     "number": "Number",

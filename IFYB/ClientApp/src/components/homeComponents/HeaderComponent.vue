@@ -29,7 +29,7 @@
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
                   <p class="lead pe-xl-3 me-xl-3 py-xl-3 my-xl-3">{{ $t('mainCard.description') }}</p>
                   <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
-                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
+                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="toStackoverflow">{{ $t('mainCard.stackoverflow') }}</button>
                 </div>
               </div>
             </div>
@@ -50,13 +50,18 @@ export default {
       window.rdt('track', 'ViewContent');
       document.getElementById('pricing').scrollIntoView();
     }
+    
+    function toStackoverflow(){ 
+      document.getElementById('stackoverflow').scrollIntoView();
+    }
+
     let windowWidth = ref(window.innerWidth)
 
     const onWidthChange = () => windowWidth.value = window.innerWidth
     onMounted(() => window.addEventListener('resize', onWidthChange))
     onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
-    return { toPricing, windowWidth }
+    return { toPricing, toStackoverflow, windowWidth }
   }
 }
 </script>
