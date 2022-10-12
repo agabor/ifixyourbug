@@ -21,7 +21,7 @@ const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminV
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
 
-import { useUserAuthentication, useServerError, useTinyMce } from '@/store';
+import { useUserAuthentication, useServerError, useInputError, useTinyMce } from '@/store';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
 
@@ -30,6 +30,7 @@ const adminAuth = useAdminAuthentication();
 const payment = usePayment();
 const { loadTinymce } = useTinyMce();
 const { resetServerError } = useServerError();
+const { resetInputErrors } = useInputError();
 
 function paymentGuard(to) {
   if (payment.isPaymentInProgress(to.params.token)) {
@@ -189,6 +190,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   resetServerError();
+  resetInputErrors();
   if(to.params.number)
     document.title = `I Fix Your Bug - #${to.params.number}`;
   else

@@ -87,7 +87,12 @@ export function useInputError() {
   const hasInputError = () => {
     return Object.values(inputErrors.value).some(x => x !== null);
   }
-  return { inputErrors, setInputError, hasInputError };
+  const resetInputErrors = () => {
+    for (const property in inputErrors.value) {
+      inputErrors.value[property] = null;
+    }
+  }
+  return { inputErrors, setInputError, resetInputErrors, hasInputError };
 }
 
 
