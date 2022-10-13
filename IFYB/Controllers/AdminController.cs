@@ -53,6 +53,17 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet]
+    [Produces(typeof(StackoverflowRequestDto))]
+    [Route("stackoverflow-requests/{number}")]
+    public IActionResult GetStackoverflowRequestByNumber(int number) {
+        var request = dbContext.StackoverflowRequests!.Single(s => s.Number == number);
+        if (request == null)
+            return NotFound();
+        dbContext.Entry(request).Reference(r => r.Client!).Load();
+        return base.Ok(request.ToDto());
+    }
+
+    [HttpGet]
     [Route("orders")]
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {
@@ -150,6 +161,22 @@ public class AdminController : ControllerBase
         order.Messages!.Add(data.Message);
         dbContext.SaveChanges();
         return Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    [Produces(typeof(StackoverflowRequestDto))]
+    [Route("stackoverflow-requests/{number}/solved-with-msg")]
+    public IActionResult SetStackoverflowRequestSolvedWithMessage([FromBody] StackoverflowRequestSolvedWithMessageDto data, int number) {
+        var request = dbContext.StackoverflowRequests!.Single(s => s.Number == number);
+        if (request == null)
+            return NotFound();
+        request.Solved = data.Solved;
+        dbContext.Entry(request).Reference(r => r.Client!).Load();
+        if(request.Client != null) {
+            emailDispatchService.DispatchEmail(request.Client.Email, "StackoverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml() });
+        }
+        dbContext.SaveChanges();
+        return Ok(request.ToDto());
     }
 
     [HttpGet]

@@ -1,0 +1,13 @@
+{
+    "title": "Stackoverflow request solved!",
+    "content": [
+        {
+            "type": "header",
+            "text": "Thank you for your stackoverflow request!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>Thank you for your stackoverflow request. I have solved your request."
+        }
+    ]
+}

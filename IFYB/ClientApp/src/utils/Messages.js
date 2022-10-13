@@ -264,6 +264,16 @@ export const messages = {
     "title": "Messages",
     "newMessagePlaceholder": "Aa"
   },
+  "requestViewer": {
+    "title": "Request",
+    "name": "Name",
+    "email": "Email",
+    "url": "Url",
+    "message": "Message",
+    "solved": "Solved",
+    "solve": "Solve",
+    "back": "Back",
+  },
   "authentication": {
     "title": "Check your email for a code",
     "subTitle": "I have sent a 6-character code to <b>{email}</b>. The code expires shortly, so please enter it soon.",
@@ -329,6 +339,8 @@ export const messages = {
   "confirm": {
     "stateChangeTitle": "Change of state",
     "stateChangeDescription": "Do you really want to change the status of the state?",
+    "requestSolveTitle": "Solved request",
+    "requestSolveDescription": "Did you really solve the request?",
     "message": "Message to the user",
     "cancel": "Cancel",
     "confirm": "Yes, got it!"

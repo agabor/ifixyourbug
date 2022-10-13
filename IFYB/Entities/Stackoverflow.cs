@@ -21,4 +21,8 @@ public class StackoverflowRequest
         Url = url;
         CreationDay = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
     }
+    public StackoverflowRequestDto ToDto()
+    {
+        return new StackoverflowRequestDto(Number, Client?.Name ?? string.Empty, Client?.Email ?? string.Empty, DateTime, Url, Text, Solved);
+    }
 }

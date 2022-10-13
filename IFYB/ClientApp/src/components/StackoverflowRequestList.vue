@@ -31,7 +31,7 @@
             <span class="text-secondary text-xs font-weight-bold">{{ request.url }}</span>
           </td>
           <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ request.solved }}</span>
+            <span class="text-secondary text-xs font-weight-bold" :class="{ 'text-danger': !request.solved, 'text-success': request.solved }">{{ request.solved }}</span>
           </td>
           <td class="align-middle text-center cursor-pointer" @click="$emit('openRequest', request)">
             <span class="text-secondary text-xs font-weight-bold">

@@ -21,6 +21,7 @@ const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminV
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
 const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestsView.vue');
+const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
 import { useUserAuthentication, useServerError, useInputError, useTinyMce } from '@/store';
 import { useAdminAuthentication } from "@/store/admin";
@@ -117,7 +118,12 @@ const routes = [
     meta: { title: 'Stackoverflow Requests' },
     beforeEnter: adminAuthenticationGuard
   },
-  
+  {
+    path: '/stackoverflow-requests/:number',
+    name: 'stackoverflow-request',
+    component: StackoverflowRequestView,
+    beforeEnter: adminAuthenticationGuard
+  },  
   {
     path: '/clients',
     name: 'clients',
