@@ -49,14 +49,14 @@ public class AdminController : ControllerBase
     [Produces(typeof(StackoverflowRequestDto))]
     public IActionResult GetStackoverflowRequests()
     {
-        return Ok(dbContext.StackoverflowRequests.Include(r => r.Client).Select(r => new StackoverflowRequestDto(r.Number, r.Client!.Name!, r.Client.Email, r.DateTime, r.Url, r.Text, r.Solved)));
+        return Ok(dbContext.StackOverflowRequests.Include(r => r.Client).Select(r => new StackoverflowRequestDto(r.Number, r.Client!.Name!, r.Client.Email, r.DateTime, r.Url, r.Text, r.Solved)));
     }
 
     [HttpGet]
     [Produces(typeof(StackoverflowRequestDto))]
     [Route("stackoverflow-requests/{number}")]
     public IActionResult GetStackoverflowRequestByNumber(int number) {
-        var request = dbContext.StackoverflowRequests!.Single(s => s.Number == number);
+        var request = dbContext.StackOverflowRequests!.Single(s => s.Number == number);
         if (request == null)
             return NotFound();
         dbContext.Entry(request).Reference(r => r.Client!).Load();
@@ -167,7 +167,7 @@ public class AdminController : ControllerBase
     [Produces(typeof(StackoverflowRequestDto))]
     [Route("stackoverflow-requests/{number}/solved-with-msg")]
     public IActionResult SetStackoverflowRequestSolvedWithMessage([FromBody] StackoverflowRequestSolvedWithMessageDto data, int number) {
-        var request = dbContext.StackoverflowRequests!.Single(s => s.Number == number);
+        var request = dbContext.StackOverflowRequests!.Single(s => s.Number == number);
         if (request == null)
             return NotFound();
         request.Solved = data.Solved;

@@ -2,7 +2,7 @@ using IFYB.Models;
 
 namespace IFYB.Entities;
 
-public class StackoverflowRequest
+public class StackOverflowRequest
 {
     public int Id { get; set; }
     public int ClientId { get; set; }
@@ -14,7 +14,7 @@ public class StackoverflowRequest
     public string Text { get; set; }
     public bool Solved { get; set; } = false;
 
-    public StackoverflowRequest(int number, string url, string text)
+    public StackOverflowRequest(int number, string url, string text)
     {
         Number = number;
         Text = text;
