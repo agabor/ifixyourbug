@@ -33,7 +33,10 @@ public class StackoverflowController : BaseController
                 client.Name = dto.Name;
             }
         }
-        dbContext.StackoverflowRequests.Add(new StackoverflowRequest(dto.Url, dto.Text) {
+        var today = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
+        var reuqestsToday = dbContext.StackoverflowRequests.Where(r => r.CreationDay == today).Count();
+        dto.Number = int.Parse(DateTime.UtcNow.ToString("yyMMdd") + (reuqestsToday+1).ToString("D3"));
+        dbContext.StackoverflowRequests.Add(new StackoverflowRequest(dto.Number, dto.Url, dto.Text) {
             ClientId = client.Id,
             Client = client,
             DateTime = DateTime.UtcNow

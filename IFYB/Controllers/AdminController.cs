@@ -45,6 +45,14 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet]
+    [Route("stackoverflow-requests")]
+    [Produces(typeof(StackoverflowRequestDto))]
+    public IActionResult GetStackoverflowRequests()
+    {
+        return Ok(dbContext.StackoverflowRequests.Include(r => r.Client).Select(r => new StackoverflowRequestDto(r.Number, r.Client!.Name!, r.Client.Email, r.DateTime, r.Url, r.Text, r.Solved)));
+    }
+
+    [HttpGet]
     [Route("orders")]
     [Produces(typeof(IEnumerable<OrderDto>))]
     public IActionResult ListOrders() {

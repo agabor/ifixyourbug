@@ -142,8 +142,6 @@ export default {
     
     function newRequest() {
       page.value = 'stackoverflow';
-      stackoverflow.name = null;
-      stackoverflow.email = null;
       stackoverflow.url = null;
       stackoverflow.message = null;
       activeBtn.value = true;

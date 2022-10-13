@@ -20,6 +20,7 @@ const NotFoundView = () => import(/* webpackChunkName: "order" */ '../views/NotF
 const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminView.vue');
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
+const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestsView.vue');
 
 import { useUserAuthentication, useServerError, useInputError, useTinyMce } from '@/store';
 import { useAdminAuthentication } from "@/store/admin";
@@ -109,6 +110,14 @@ const routes = [
     component: AdminOrderView,
     beforeEnter: adminAuthenticationGuard
   },
+  {
+    path: '/stackoverflow-requests',
+    name: 'stackoverflow-requests',
+    component: StackoverflowRequestsView,
+    meta: { title: 'Stackoverflow Requests' },
+    beforeEnter: adminAuthenticationGuard
+  },
+  
   {
     path: '/clients',
     name: 'clients',

@@ -41,6 +41,7 @@ export const messages = {
     "faq": "FAQ",
     "contact": "Contact",
     "orders": "Orders",
+    "stackoverflow": "Stackoverflow Requests",
     "clients": "Clients",
     "login": "Login",
     "logout": "Logout"
@@ -197,6 +198,20 @@ export const messages = {
     "state": "State",
     "addNewOrder": "Add new order",
     "details": "Details"
+  },
+  "thTitle": {
+    "number": "Number",
+    "name": "Name",
+    "email": "Email",
+    "framework": "Framework",
+    "version": "Version",
+    "thirdPartyTool": "Third party tool",
+    "applicationUrl": "Application url",
+    "specificPlatform": "Specific platform",
+    "state": "State",
+    "dateTime": "Created time",
+    "url": "Url",
+    "solved": "Solved",
   },
   "orderState": {
     "submitted": "Submitted",
