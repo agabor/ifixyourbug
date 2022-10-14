@@ -34,7 +34,7 @@ export default {
     setSelectedRequest();
 
     async function setSelectedRequest() {
-      let response = await get(`/api/admin/stackoverflow-requests/${route.params.number}`);
+      let response = await get(`/api/admin/stackoverflow-questions/${route.params.number}`);
       if(response.status == 200) {
         resetServerError();
         selectedRequest.value = await response.json();
@@ -45,14 +45,14 @@ export default {
 
     function closeSelectedRequest() {
       selectedRequest.value = null;
-      router.push('/stackoverflow-requests');
+      router.push('/stackoverflow-questions');
     }
 
     async function changeRequestSolve() {
       let response;
       if(solveMessage.value !== '') {
         showError.value = false;
-        response = await post(`/api/admin/stackoverflow-requests/${selectedRequest.value.number}/solved-with-msg`, { solved: true, message: solveMessage.value });
+        response = await post(`/api/admin/stackoverflow-questions/${selectedRequest.value.number}/solved-with-msg`, { solved: true, message: solveMessage.value });
       } else {
         showError.value = true;
       }

@@ -31,7 +31,7 @@ export default {
     setRequests();
 
     async function setRequests() {
-      let response = await get('/api/admin/stackoverflow-requests');
+      let response = await get('/api/admin/stackoverflow-questions');
       if(response.status == 200) {
         resetServerError();
         requests.value = await response.json();
@@ -41,7 +41,7 @@ export default {
     }
 
     function openRequest(request) {
-      router.push(`/stackoverflow-requests/${request.number}`)
+      router.push(`/stackoverflow-questions/${request.number}`)
     }
 
     return { requests, openRequest }

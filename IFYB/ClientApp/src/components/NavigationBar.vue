@@ -26,7 +26,7 @@
             </a>
           </li>
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/stackoverflow-requests')">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/stackoverflow-questions')">
               {{ $t('navigationBar.stackoverflow') }}
             </a>
           </li>          

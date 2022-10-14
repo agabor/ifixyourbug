@@ -112,14 +112,14 @@ const routes = [
     beforeEnter: adminAuthenticationGuard
   },
   {
-    path: '/stackoverflow-requests',
-    name: 'stackoverflow-requests',
+    path: '/stackoverflow-questions',
+    name: 'stackoverflow-questions',
     component: StackoverflowRequestsView,
-    meta: { title: 'Stackoverflow Requests' },
+    meta: { title: 'Stack Overflow Questions' },
     beforeEnter: adminAuthenticationGuard
   },
   {
-    path: '/stackoverflow-requests/:number',
+    path: '/stackoverflow-questions/:number',
     name: 'stackoverflow-request',
     component: StackoverflowRequestView,
     beforeEnter: adminAuthenticationGuard

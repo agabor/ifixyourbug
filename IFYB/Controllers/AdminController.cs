@@ -173,7 +173,7 @@ public class AdminController : ControllerBase
         request.Solved = data.Solved;
         dbContext.Entry(request).Reference(r => r.Client!).Load();
         if(request.Client != null) {
-            emailDispatchService.DispatchEmail(request.Client.Email, "StackoverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml() });
+            emailDispatchService.DispatchEmail(request.Client.Email, "StackOverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml(), Url = request.Url });
         }
         dbContext.SaveChanges();
         return Ok(request.ToDto());

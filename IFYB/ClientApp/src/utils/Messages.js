@@ -41,7 +41,7 @@ export const messages = {
     "faq": "FAQ",
     "contact": "Contact",
     "orders": "Orders",
-    "stackoverflow": "Stackoverflow Requests",
+    "stackoverflow": "Stack Overflow Questions",
     "clients": "Clients",
     "login": "Login",
     "logout": "Logout"
