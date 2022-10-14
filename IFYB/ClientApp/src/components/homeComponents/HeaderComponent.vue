@@ -10,7 +10,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
-            <div class="card card-body text-center px-sm-5 shadow my-md-0 my-md-6 mt-7 mb-5">
+            <div class="card card-body p-5 text-center px-sm-5 shadow my-md-0 my-md-6 mt-7 mb-5">
               <div class="row justify-content-center">
                 <picture class="col-xl-4 col-12 d-flex justify-content-center align-items-center">
                   <source 
@@ -29,7 +29,8 @@
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
                   <p class="lead pe-xl-3 me-xl-3 py-xl-3 my-xl-3">{{ $t('mainCard.description') }}</p>
                   <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
-                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="toStackoverflow">{{ $t('mainCard.stackoverflow') }}</button>
+                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="toAbout">{{ $t('mainCard.learnMore') }}</button>
+
                 </div>
               </div>
             </div>
@@ -51,8 +52,8 @@ export default {
       document.getElementById('pricing').scrollIntoView();
     }
     
-    function toStackoverflow(){ 
-      document.getElementById('stackoverflow').scrollIntoView();
+    function toAbout(){ 
+      document.getElementById('about').scrollIntoView();
     }
 
     let windowWidth = ref(window.innerWidth)
@@ -61,7 +62,7 @@ export default {
     onMounted(() => window.addEventListener('resize', onWidthChange))
     onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
-    return { toPricing, toStackoverflow, windowWidth }
+    return { toPricing, toAbout, windowWidth }
   }
 }
 </script>

@@ -12,26 +12,25 @@
           <div class="row">
             <div class="col-md-6 col-12 pe-md-1">
               <label>{{ $t('stackoverflow.name') }}</label>
-              <input id="name-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('stackoverflow.name')" type="text" v-model="stackoverflow.name" :disabled="isLoggedIn">
+              <input id="name-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('stackoverflow.name')" type="text" v-model="message.name" :disabled="isLoggedIn">
               <span class="text-danger" v-if="showError && inputErrors.name"><em><small>{{ $t(`${inputErrors.name}`) }}</small></em></span>
             </div>
             <div class="col-md-6 col-12 ps-md-1">
               <label>{{ $t('stackoverflow.email') }}</label>
-              <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('stackoverflow.emailPlaceholder')" v-model="stackoverflow.email" :disabled="isLoggedIn">
+              <input type="email" id="email-input" :class="{'is-invalid': (showError && !!inputErrors.email)}" class="form-control" :placeholder="$t('stackoverflow.emailPlaceholder')" v-model="message.email" :disabled="isLoggedIn">
               <span class="text-danger" v-if="showError && inputErrors.email"><em><small>{{ $t(`${inputErrors.email}`) }}</small></em></span>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label>{{ $t('stackoverflow.url') }}</label>
-              <input id="url-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('stackoverflow.urlPlaceholder')" type="text" v-model="stackoverflow.url">
+              <input id="url-input" :class="{'is-invalid': (showError && !!inputErrors.name)}" class="form-control" :placeholder="$t('stackoverflow.urlPlaceholder')" type="text" v-model="message.url">
               <span class="text-danger" v-if="showError && inputErrors.url"><em><small>{{ $t(`${inputErrors.url}`) }}</small></em></span>
             </div>
           </div>
           <div class="form-group mb-0 mt-md-0 mt-4">
             <label>{{ $t('stackoverflow.howCanWeHelp') }}</label>
-            <textarea name="message" :class="{'is-invalid': (showError && !!inputErrors.message)}" class="form-control border-radius-lg" id="message-input" rows="6" :placeholder="$t('stackoverflow.problemDes')" v-model="stackoverflow.message"></textarea>
-            <span class="text-danger" v-if="showError && inputErrors.message"><em><small>{{ $t(`${inputErrors.message}`) }}</small></em></span>
+            <textarea name="message" class="form-control border-radius-lg" id="message-input" rows="6" v-model="message.text"></textarea>
           </div>              
           <div v-if="!isLoggedIn" class="align-items-center justify-content-center">
             <div class="d-flex align-items-center justify-content-center mt-3">
@@ -79,31 +78,25 @@ export default {
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();
-    const stackoverflow = reactive({
-      name: null,
-      email: null,
-      url: null,
-      message: null
+    const message = reactive({
+      name: name.value ?? '',
+      email: email.value ?? '',
+      url: '',
+      text: ''
     });
     const page = ref('stackoverflow');
     const activeBtn = ref(true);
     const showError = ref(false);
     const acceptedPolicy = ref(false);
     
-    stackoverflow.name = name.value;
-    stackoverflow.email = email.value;
-    
-    setInputError('name', required(stackoverflow.name, tm('errors.requiredName')));
-    setInputError('email', validEmail(stackoverflow.email, tm('errors.requiredEmail')));
-    setInputError('url', validUrl(stackoverflow.url));
-    setInputError('message', required(stackoverflow.message, tm('errors.requiredMessage')));
+    function validateFields() {
+      setInputError('name', required(message.name, tm('errors.requiredName')));
+      setInputError('email', validEmail(message.email, tm('errors.requiredEmail')));
+      setInputError('url', validUrl(message.url));
+    }
+    validateFields();
 
-    watch(stackoverflow, () => {
-      setInputError('name', required(stackoverflow.name, tm('errors.requiredName')));
-      setInputError('email', validEmail(stackoverflow.email, tm('errors.requiredEmail')));
-      setInputError('url', validUrl(stackoverflow.url));
-      setInputError('message', required(stackoverflow.message, tm('errors.requiredMessage')));
-    })
+    watch(message, validateFields)
 
     async function trySubmit() {
       if(hasInputError() || (!isLoggedIn.value && !acceptedPolicy.value)) {
@@ -121,7 +114,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'name': stackoverflow.name, 'email': stackoverflow.email, 'url': stackoverflow.url, 'text': stackoverflow.message})
+        body: JSON.stringify(message)
       });
       if(response.status == 200) {
         resetServerError();
@@ -138,12 +131,12 @@ export default {
     
     function newRequest() {
       page.value = 'stackoverflow';
-      stackoverflow.url = null;
-      stackoverflow.message = null;
+      message.url = null;
+      message.message = null;
       activeBtn.value = true;
     }
 
-    return { stackoverflow, inputErrors, showError, acceptedPolicy, page, isLoggedIn, activeBtn, trySubmit, toPrivacyPolicy, newRequest };
+    return { message, inputErrors, showError, acceptedPolicy, page, isLoggedIn, activeBtn, trySubmit, toPrivacyPolicy, newRequest };
   }
 }
 </script>

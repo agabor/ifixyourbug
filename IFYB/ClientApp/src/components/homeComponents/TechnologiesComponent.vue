@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="about">
     <div class="container">
       <div class="row">
         <div class="card py-5 px-4">

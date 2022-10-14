@@ -48,12 +48,9 @@ export const messages = {
   },
   "mainCard": {
     "title": "I Fix Your Bug",
-    "description": "ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes.",
+    "description": "ASP.NET Core and Vue.js bug fixing service. For issues that are too advanced for Stack Overflow.",
     "pricing": "Pricing",
-    "contact": "Contact",
-    "stackoverflow": "Stackoverflow",
-    "asp": "ASP.NET Core",
-    "vuejs": "Vue.js"
+    "learnMore": "Learn More"
   },
   "features": {
     "fast": "Fast",
@@ -61,21 +58,21 @@ export const messages = {
     "fixedPrice": "Fixed Price",
     "fixedPriceDescription": "It does not matter if it takes half an hour or multiple days.",
     "easy": "Easy submission",
-    "easyDescription": "It takes only a few minutes.",
+    "easyDescription": "Simpler than posting a question to Stack Overflow.",
     "refundable": "Fully Refundable",
-    "refundableDescription": "You either get a bug fix within { workdays } workdays, or you get your money back."
+    "refundableDescription": "You either get a solution within { workdays } workdays, or you get your money back."
   },
   "nameCard": {
     "name": "Gabor Angyal",
     "description": "I am Gabor Angyal, a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, I have created this website to help others struggling with tricky bugs in their web applications."
   },
   "technologies": {
-    "title": "Technologies",
-    "description": "You can submit bugs for either ASP.NET Core or Vue.js. I accept bugs for every officially supported version of these frameworks. In addition, I will also fix bugs that are related to web server configuration or third-party software."
+    "title": "What kind of issues can you submit?",
+    "description": "You can submit technical issues related to ASP.NET Core or Vue.js that do not require comprehensive business domain knowledge. I will ask you to give me access to your git repository for testing and debugging, which means that you do not need to isolate the issue as much as if you would post a question to Stack Overflow."
   },
   "pricing": {
     "title": "Best no-tricks pricing",
-    "description": "Fixed price for all bugs. ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
+    "description": "Fixed price for all issues. ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
     "whatsincluded": "What's included",
     "include1": "ASP.NET Core",
     "include2": "Vue.js",
@@ -85,18 +82,18 @@ export const messages = {
   },
   "workflow": {
     "title1": "How It Works",
-    "subTitle": "The process of submitting bugs and receiving fixes is straightforward.<br>Here is how it works.",
+    "subTitle": "The process of submitting issues and receiving fixes is straightforward.<br>Here is how it works.",
     "workflowTitle1": "1. Prepare for submission",
-    "workflowDescription1": "To submit a bug, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the bug.",
-    "workflowTitle2": "2. Submit Your Bug",
-    "workflowDescription2": "Click on the order button to answer a few questions about your project and bug. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
+    "workflowDescription1": "To submit an issue, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the problem.",
+    "workflowTitle2": "2. Submit Your Issue",
+    "workflowDescription2": "Click on the order button to answer a few questions about your problem. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
     "workflowTitle3": "3. Make the payment",
-    "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bugfix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
-    "workflowTitle4": "4. I will attempt to fix your bug.",
-    "workflowDescription4": "After you pay, I have { workdays } workdays to fix your bug.",
+    "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bug fix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
+    "workflowTitle4": "4. I will attempt to fix your solve your problem.",
+    "workflowDescription4": "After you pay, I have { workdays } workdays to solve your problem.",
     "workflowTitle5": "5. I will notify you when the bug fix is ready.",
-    "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request and notify you by e-mail.",
-    "workflowTitle6": "6. If I can not fix the bug, you get a full refund",
+    "workflowDescription5": "If I succeed in solving your problem, I will send you a pull request and notify you by e-mail.",
+    "workflowTitle6": "6. If I can not solve your problem, you get a full refund",
     "workflowDescription6": "If I fail to fix your bug in time, you will automatically receive a full refund.",
     "getStarted": "Get Started"
   },
@@ -169,16 +166,16 @@ export const messages = {
     "haveNoMessages": "Have no messages"
   },
   "stackoverflow": {
-    "title": "Do you have an open question on stackoverflow?",
-    "subTitle": "Please send the information below and I will try to help you!",
+    "title": "Do you have a question on Stack Overflow, that no one could answer?",
+    "subTitle": "Send the link to me, and I will answer it for free.",
     "name": "Name",
     "email": "Email",
     "emailPlaceholder": "yourname@domain.com",
     "url": "Url",
-    "urlPlaceholder": "https://stackoverflow.com/",
-    "howCanWeHelp": "How can I help you?",
-    "problemDes": "Please type your message here.",
-    "sendRequest": "Send request"
+    "urlPlaceholder": "https://stackoverflow.com/questions/...",
+    "howCanWeHelp": "Message",
+    "problemDes": "",
+    "sendRequest": "Send Link"
   },
   'stackoverflowSuccess': {
     "title": "Thank you!",
