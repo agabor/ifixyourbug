@@ -53,8 +53,8 @@ export const messages = {
     "learnMore": "Learn More"
   },
   "features": {
-    "fast": "Fast",
-    "fastDescription": "Bug fixing within { workdays } workdays.",
+    "quick": "Quick",
+    "quickDescription": "Bug fixing within { workdays } workdays.",
     "fixedPrice": "Fixed Price",
     "fixedPriceDescription": "It does not matter if it takes half an hour or multiple days.",
     "easy": "Easy submission",
