@@ -34,7 +34,7 @@ function onLoad() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({'referrer': document.referrer, search: window.location.search, 'analytics': false, 'advertisement': false})
+      body: JSON.stringify({'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': false, 'advertisement': false})
     });
   }
 }
