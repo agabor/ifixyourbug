@@ -29,7 +29,7 @@ function onLoad() {
   loadRedditPixel();
   if (localStorage.getItem('visited') !== 'true') {
     localStorage.setItem('visited', 'true');
-    fetch('/api/cookie', {
+    fetch('/api/visitor', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 namespace IFYB.Models;
-public class CookieDto
+public class VisitorDto
 {
     public string Referrer { get; set; }
     public string Search { get; set; }
@@ -7,7 +7,7 @@ public class CookieDto
     public bool Analytics { get; set; }
     public bool Advertisement { get; set; }
 
-    public CookieDto(string referrer, string search, string timeZone, bool analytics, bool advertisement)
+    public VisitorDto(string referrer, string search, string timeZone, bool analytics, bool advertisement)
     {
         Referrer = referrer;
         Search = search;

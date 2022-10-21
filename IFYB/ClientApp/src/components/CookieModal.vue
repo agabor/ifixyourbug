@@ -93,7 +93,7 @@ export default {
       cookieConsentAnswered.value = true;
       if (analytics.value)
         bootstrap().then(optIn)
-      await fetch('/api/cookie', {
+      await fetch('/api/visitor', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

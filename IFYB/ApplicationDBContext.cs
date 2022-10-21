@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Image> Images { get; set; } = null!;
     public DbSet<Admin> Admins { get; set; } = null!;
     public DbSet<Email> Emails { get; set; } = null!;
-    public DbSet<Cookie> Cookies { get; set; } = null!;
+    public DbSet<Visitor> Visitors { get; set; } = null!;
     public DbSet<ServerError> ServerErrors { get; set; } = null!;
     public DbSet<ClientError> ClientErrors { get; set; } = null!;
     public DbSet<Event> Events { get; set; } = null!;
