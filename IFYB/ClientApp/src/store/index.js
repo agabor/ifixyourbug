@@ -27,7 +27,8 @@ function onLoad() {
   });
   loadBootstrap();
   loadRedditPixel();
-  if (localStorage.getItem('visited') !== 'true') {
+  let isEuropean = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] === 'Europe';
+  if (localStorage.getItem('visited') !== 'true' && !isEuropean) {
     localStorage.setItem('visited', 'true');
     fetch('/api/visitor', {
       method: 'POST',

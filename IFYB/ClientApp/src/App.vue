@@ -1,6 +1,7 @@
 <template>
   <navigation-bar></navigation-bar>
   <timeout-modal></timeout-modal>
+  <cookie-modal></cookie-modal>
   <div class="d-flex w-100 position-fixed bottom-1 justify-content-center z-index-3">
     <div class="d-flex alert alert-warning text-white font-weight-bold w-80 justify-content-center" role="alert" v-if="serverError">
       {{ serverError }}
@@ -13,10 +14,11 @@
 import { useServerError } from "./store";
 import NavigationBar from "./components/NavigationBar.vue";
 import TimeoutModal from "./components/TimeoutModal.vue";
+import CookieModal from "./components/CookieModal.vue";
 
 export default {
   name: "AppView",
-  components: { NavigationBar, TimeoutModal },
+  components: { NavigationBar, TimeoutModal, CookieModal },
   setup() {
     const { serverError } = useServerError();
       

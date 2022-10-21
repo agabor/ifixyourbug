@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="!cookieConsentAnswered">
+  <div class="container" v-if="!cookieConsentAnswered && isEuropean">
     <div class="row">
       <div class="col-sm-3 col-6 mx-auto">
         <div class="modal fade show" tabindex="-1" aria-labelledby="cookieModal" aria-hidden="true">
@@ -65,6 +65,7 @@ export default {
     const analytics = ref(true);
     const advertisement = ref(true);
     const showCustomize = ref(false);
+    let isEuropean = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] === 'Europe';
 
     setShowModal();
 
@@ -102,7 +103,7 @@ export default {
       });
     }
 
-    return { cookieConsentAnswered, showCustomize, analytics, advertisement, rejectAllCookies, acceptAllCookies, customizeCookies, save };
+    return { isEuropean, cookieConsentAnswered, showCustomize, analytics, advertisement, rejectAllCookies, acceptAllCookies, customizeCookies, save };
   },
 }
 </script>
