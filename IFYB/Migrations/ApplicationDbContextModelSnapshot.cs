@@ -117,40 +117,6 @@ namespace IFYB.Migrations
                     b.ToTable("ClientErrors");
                 });
 
-            modelBuilder.Entity("IFYB.Entities.Cookie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Advertisement")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Analytics")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Referrer")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Search")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserAgent")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cookies");
-                });
-
             modelBuilder.Entity("IFYB.Entities.Email", b =>
                 {
                     b.Property<int>("Id")
@@ -168,6 +134,9 @@ namespace IFYB.Migrations
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("RetryCount")
                         .HasColumnType("integer");
@@ -512,6 +481,44 @@ namespace IFYB.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("StackOverflowRequests");
+                });
+
+            modelBuilder.Entity("IFYB.Entities.Visitor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Advertisement")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Analytics")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Referrer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Search")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TimeZone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserAgent")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visitors");
                 });
 
             modelBuilder.Entity("IFYB.Entities.Event", b =>

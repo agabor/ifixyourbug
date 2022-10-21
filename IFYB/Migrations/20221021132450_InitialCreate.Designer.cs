@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IFYB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220922124635_AddCookieModel")]
-    partial class AddCookieModel
+    [Migration("20221021132450_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,36 +119,6 @@ namespace IFYB.Migrations
                     b.ToTable("ClientErrors");
                 });
 
-            modelBuilder.Entity("IFYB.Entities.Cookie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Advertisement")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Analytics")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Referrer")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserAgent")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cookies");
-                });
-
             modelBuilder.Entity("IFYB.Entities.Email", b =>
                 {
                     b.Property<int>("Id")
@@ -166,6 +136,9 @@ namespace IFYB.Migrations
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("RetryCount")
                         .HasColumnType("integer");
@@ -474,6 +447,82 @@ namespace IFYB.Migrations
                     b.ToTable("ServerErrors");
                 });
 
+            modelBuilder.Entity("IFYB.Entities.StackOverflowRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CreationDay")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Solved")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("StackOverflowRequests");
+                });
+
+            modelBuilder.Entity("IFYB.Entities.Visitor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Advertisement")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Analytics")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Referrer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Search")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TimeZone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserAgent")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visitors");
+                });
+
             modelBuilder.Entity("IFYB.Entities.Event", b =>
                 {
                     b.HasOne("IFYB.Entities.Admin", "Admin")
@@ -537,6 +586,17 @@ namespace IFYB.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("GitAccess");
+                });
+
+            modelBuilder.Entity("IFYB.Entities.StackOverflowRequest", b =>
+                {
+                    b.HasOne("IFYB.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("IFYB.Entities.Client", b =>
