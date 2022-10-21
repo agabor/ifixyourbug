@@ -29,14 +29,14 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import NewOrderForm from '../components/NewOrderForm.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useScripts } from '@/store';
+import { useTinyMce } from '@/store';
 
 export default {
   name: 'NewOrderView',
   components: { CarouselItem, NewOrderForm, FooterComponent },
   setup() {
     const page = ref('data');
-    const { loadedTinymce } = useScripts();
+    const { loadedTinymce } = useTinyMce();
 
     return { page, loadedTinymce }
   }

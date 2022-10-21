@@ -1,0 +1,21 @@
+{
+    "title": "Stack Overflow question answered!",
+    "content": [
+        {
+            "type": "header",
+            "text": "Stack Overflow question answered!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I have sent an answer for your question on Stack Overflow. You can read it by clicking on the following link:"
+        },
+        {
+            "type": "link",
+            "text": "{{url}}"
+        },
+        {
+            "type": "quote",
+            "text": "{{message}}"
+        }
+    ]
+}

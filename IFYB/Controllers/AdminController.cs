@@ -52,6 +52,24 @@ public class AdminController : ControllerBase
         return Ok(dbContext.Emails.Where(e => e.ToEmail == email).Select(e => new ContactEmailDto(e.Subject, e.Text)));
     }
 
+    [Route("stackoverflow-requests")]
+    [Produces(typeof(StackoverflowRequestDto))]
+    public IActionResult GetStackoverflowRequests()
+    {
+        return Ok(dbContext.StackOverflowRequests.Include(r => r.Client).Select(r => new StackoverflowRequestDto(r.Number, r.Client!.Name!, r.Client.Email, r.DateTime, r.Url, r.Text, r.Solved)));
+    }
+
+    [HttpGet]
+    [Produces(typeof(StackoverflowRequestDto))]
+    [Route("stackoverflow-requests/{number}")]
+    public IActionResult GetStackoverflowRequestByNumber(int number) {
+        var request = dbContext.StackOverflowRequests!.Single(s => s.Number == number);
+        if (request == null)
+            return NotFound();
+        dbContext.Entry(request).Reference(r => r.Client!).Load();
+        return base.Ok(request.ToDto());
+    }
+
     [HttpGet]
     [Route("orders")]
     [Produces(typeof(IEnumerable<OrderDto>))]
@@ -150,6 +168,22 @@ public class AdminController : ControllerBase
         order.Messages!.Add(data.Message);
         dbContext.SaveChanges();
         return Ok(order.ToDto());
+    }
+
+    [HttpPost]
+    [Produces(typeof(StackoverflowRequestDto))]
+    [Route("stackoverflow-requests/{number}/solved-with-msg")]
+    public IActionResult SetStackoverflowRequestSolvedWithMessage([FromBody] StackoverflowRequestSolvedWithMessageDto data, int number) {
+        var request = dbContext.StackOverflowRequests!.Single(s => s.Number == number);
+        if (request == null)
+            return NotFound();
+        request.Solved = data.Solved;
+        dbContext.Entry(request).Reference(r => r.Client!).Load();
+        if(request.Client != null) {
+            emailDispatchService.DispatchEmail(request.Client.Id, request.Client.Email, "StackOverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml(), Url = request.Url });
+        }
+        dbContext.SaveChanges();
+        return Ok(request.ToDto());
     }
 
     [HttpGet]

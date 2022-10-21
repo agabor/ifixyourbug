@@ -27,9 +27,9 @@
                 </picture>
                 <div class="col-xl-8 col-12 text-xl-start text-center ps-xl-4">
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
-                  <p class="lead my-4">{{ $t('mainCard.description') }}</p>
-                  <button type="button" class="btn btn-rounded bg-gradient-primary me-2 mb-0 mt-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
-                  <button type="button" class="btn btn-rounded btn-outline-secondary mb-0 mt-2" @click="$router.push('/contact-form')">{{ $t('mainCard.contact') }}</button>
+                  <p class="lead pe-xl-3 me-xl-3 py-xl-3 my-xl-3">{{ $t('mainCard.description') }}</p>
+                  <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
+                  <button type="button" class="btn btn-rounded btn-outline-secondary" @click="toAbout">{{ $t('mainCard.learnMore') }}</button>
                 </div>
               </div>
             </div>
@@ -47,15 +47,21 @@ export default {
   name: 'HeaderComponent',
   setup() {
     function toPricing() {
+      window.rdt('track', 'ViewContent');
       document.getElementById('pricing').scrollIntoView();
     }
+    
+    function toAbout(){ 
+      document.getElementById('about').scrollIntoView();
+    }
+
     let windowWidth = ref(window.innerWidth)
 
     const onWidthChange = () => windowWidth.value = window.innerWidth
     onMounted(() => window.addEventListener('resize', onWidthChange))
     onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
-    return { toPricing, windowWidth }
+    return { toPricing, toAbout, windowWidth }
   }
 }
 </script>

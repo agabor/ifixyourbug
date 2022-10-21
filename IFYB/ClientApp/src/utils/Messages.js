@@ -39,66 +39,61 @@ export const messages = {
     "home": "Home",
     "myOrders": "My orders",
     "faq": "FAQ",
+    "contact": "Contact",
     "orders": "Orders",
+    "stackoverflow": "Stack Overflow Questions",
     "clients": "Clients",
     "login": "Login",
     "logout": "Logout"
   },
   "mainCard": {
     "title": "I Fix Your Bug",
-    "description": "ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes.",
+    "description": "ASP.NET Core and Vue.js bug fixing service. For issues that are too advanced for Stack Overflow.",
     "pricing": "Pricing",
-    "contact": "Contact",
-    "asp": "ASP.NET Core",
-    "vuejs": "Vue.js"
+    "learnMore": "Learn More"
   },
   "features": {
-    "fast": "Fast",
-    "fastDescription": "Bug fixing within { workdays } workdays.",
+    "quick": "Quick",
+    "quickDescription": "Bug fixing within { workdays } workdays.",
     "fixedPrice": "Fixed Price",
     "fixedPriceDescription": "It does not matter if it takes half an hour or multiple days.",
     "easy": "Easy submission",
-    "easyDescription": "It takes only a few minutes.",
+    "easyDescription": "Simpler than posting a question to Stack Overflow.",
     "refundable": "Fully Refundable",
-    "refundableDescription": "You either get a bug fix within { workdays } workdays, or you get your money back."
+    "refundableDescription": "You either get a solution within { workdays } workdays, or you get your money back."
   },
   "nameCard": {
     "name": "Gabor Angyal",
-    "description": "I am Gabor Angyal, a software developer in <a href=\"https://en.wikipedia.org/wiki/Pécs\" target=\"_blank\">Pécs</a>. I have created this website to help others struggling with tricky bugs in their web applications. I have been a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, if you are stuck with a bug, send it to me, and let's see if I can help."
+    "description": "I am Gabor Angyal, a professional software developer for over ten years. During this time, I have learned the value of having someone help out when I am stuck with a problem. Sometimes a second pair of eyes looking at your code is all you need to save hours, even days of debugging. So, I have created this website to help others struggling with tricky bugs in their web applications."
   },
-  "workWithUs": {
-    "title": "Technologies",
-    "subTitle": "More than full-stack",
-    "carouselDes1": "No software exists in isolation, and some bugs are beyond the strict scope of the application. To find the trickiest bugs, you might need someone with experience with various web servers, cloud providers, and deployment environments."
+  "technologies": {
+    "title": "What kind of issues can you submit?",
+    "description": "You can submit technical issues related to ASP.NET Core or Vue.js that do not require comprehensive business domain knowledge. I will ask you to give me access to your git repository for testing and debugging, which means that you do not need to isolate the issue as much as if you would post a question to Stack Overflow."
   },
   "pricing": {
-    "mainTitle": "Best no-tricks pricing",
-    "mainSubTitle": "Fixed price for all bugs",
-    "title": "Single Bugfix",
-    "description": "ASP.NET Core and Vue.js bug fixing within { workdays } workdays",
+    "title": "Best no-tricks pricing",
+    "description": "Fixed price for all issues. ASP.NET Core and Vue.js bug fixing within { workdays } workdays.",
     "whatsincluded": "What's included",
     "include1": "ASP.NET Core",
     "include2": "Vue.js",
-    "include3": "Bugfix delivered as pull request",
-    "include4": "Explanation of the bugfix",
     "payOne": "One time payment, no hidden costs",
     "orderNow": "Order Now",
     "excludeVat": "The price does not include VAT."
   },
   "workflow": {
     "title1": "How It Works",
-    "subTitle": "The process of submitting bugs and receiving fixes is straightforward.<br>Here is how it works.",
+    "subTitle": "The process of submitting issues and receiving fixes is straightforward.<br>Here is how it works.",
     "workflowTitle1": "1. Prepare for submission",
-    "workflowDescription1": "To submit a bug, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the bug.",
-    "workflowTitle2": "2. Submit Your Bug",
-    "workflowDescription2": "Click on the order button to answer a few questions about your project and bug. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
+    "workflowDescription1": "To submit an issue, you need a standalone project that is easy to compile and run and a straightforward way to reproduce the problem.",
+    "workflowTitle2": "2. Submit Your Issue",
+    "workflowDescription2": "Click on the order button to answer a few questions about your problem. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
     "workflowTitle3": "3. Make the payment",
-    "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bugfix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
-    "workflowTitle4": "4. I will attempt to fix your bug.",
-    "workflowDescription4": "After you pay, I have { workdays } workdays to fix your bug.",
+    "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bug fix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
+    "workflowTitle4": "4. I will attempt to fix your solve your problem.",
+    "workflowDescription4": "After you pay, I have { workdays } workdays to solve your problem.",
     "workflowTitle5": "5. I will notify you when the bug fix is ready.",
-    "workflowDescription5": "If I succeed in fixing your bug, I will send you a pull request and notify you by e-mail.",
-    "workflowTitle6": "6. If I can not fix the bug, you get a full refund",
+    "workflowDescription5": "If I succeed in solving your problem, I will send you a pull request and notify you by e-mail.",
+    "workflowTitle6": "6. If I can not solve your problem, you get a full refund",
     "workflowDescription6": "If I fail to fix your bug in time, you will automatically receive a full refund.",
     "getStarted": "Get Started"
   },
@@ -158,7 +153,7 @@ export const messages = {
     "email": "Email",
     "emailPlaceholder": "yourname@domain.com",
     "howCanWeHelp": "How can I help you?",
-    "problemDes": "Please type ypur message here.",
+    "problemDes": "Please type your message here.",
     "sendMessage": "Send Message"
   },
   "contactSuccess": {
@@ -170,6 +165,23 @@ export const messages = {
     "select": "Select one client",
     "haveNoMessages": "Have no messages",
     "haveNoEmails": "Have no emails"
+  },
+  "stackoverflow": {
+    "title": "Do you have a question on Stack Overflow, that no one could answer?",
+    "subTitle": "Send the link to me, and I will answer it for free.",
+    "name": "Name",
+    "email": "Email",
+    "emailPlaceholder": "yourname@domain.com",
+    "url": "Url",
+    "urlPlaceholder": "https://stackoverflow.com/questions/...",
+    "howCanWeHelp": "Message",
+    "problemDes": "",
+    "sendRequest": "Send Link"
+  },
+  'stackoverflowSuccess': {
+    "title": "Thank you!",
+    "subTitle": "I will reply as soon as I can.",
+    "newRequest": "New request"
   },
   "orderList": {
     "number": "Number",
@@ -185,6 +197,20 @@ export const messages = {
     "state": "State",
     "addNewOrder": "Add new order",
     "details": "Details"
+  },
+  "thTitle": {
+    "number": "Number",
+    "name": "Name",
+    "email": "Email",
+    "framework": "Framework",
+    "version": "Version",
+    "thirdPartyTool": "Third party tool",
+    "applicationUrl": "Application url",
+    "specificPlatform": "Specific platform",
+    "state": "State",
+    "dateTime": "Created time",
+    "url": "Url",
+    "solved": "Solved",
   },
   "orderState": {
     "submitted": "Submitted",
@@ -236,6 +262,16 @@ export const messages = {
   "orderMessages": {
     "title": "Messages",
     "newMessagePlaceholder": "Aa"
+  },
+  "requestViewer": {
+    "title": "Request",
+    "name": "Name",
+    "email": "Email",
+    "url": "Url",
+    "message": "Message",
+    "solved": "Solved",
+    "solve": "Solve",
+    "back": "Back",
   },
   "authentication": {
     "title": "Check your email for a code",
@@ -302,6 +338,8 @@ export const messages = {
   "confirm": {
     "stateChangeTitle": "Change of state",
     "stateChangeDescription": "Do you really want to change the status of the state?",
+    "requestSolveTitle": "Solved request",
+    "requestSolveDescription": "Did you really solve the request?",
     "message": "Message to the user",
     "cancel": "Cancel",
     "confirm": "Yes, got it!"

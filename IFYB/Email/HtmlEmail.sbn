@@ -28,6 +28,11 @@
             {{ item.text }}
         </p>
         {{~ end ~}}
+        {{~ if item.type == "link" ~}}
+        <p style="font-size:16px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px">
+            <a target="_blank" href="{{ item.text }}">{{ item.text }}</a>
+        </p>
+        {{~ end ~}}
         {{~ if item.type == "verbatim" ~}}
         <p style="background:#F5F4F5; border-radius:2px; padding:5px 5px; font-size:14px; line-height:24px; letter-spacing:-0.2px; margin-top:28px; margin-bottom:28px; font-family: monospace">
             {{ item.text }}

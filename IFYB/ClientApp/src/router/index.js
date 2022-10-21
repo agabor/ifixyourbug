@@ -20,16 +20,19 @@ const NotFoundView = () => import(/* webpackChunkName: "order" */ '../views/NotF
 const AdminView  = () => import(/* webpackChunkName: "admin" */  '@/views/AdminView.vue');
 const AdminOrderView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminOrderView.vue');
 const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@/views/AdminAuthenticationView.vue');
+const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestsView.vue');
+const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
-import { useUserAuthentication, useServerError, useScripts } from '@/store';
+import { useUserAuthentication, useServerError, useInputError, useTinyMce } from '@/store';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
 
 const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
-const { loadTinymce, loadBootstrap } = useScripts();
+const { loadTinymce } = useTinyMce();
 const { resetServerError } = useServerError();
+const { resetInputErrors } = useInputError();
 
 function paymentGuard(to) {
   if (payment.isPaymentInProgress(to.params.token)) {
@@ -87,8 +90,7 @@ const routes = [
     path: '/faq',
     name: 'faq',
     component: FAQ,
-    meta: { title: 'FAQ' },
-    beforeEnter: loadBootstrap
+    meta: { title: 'FAQ' }
   },
   {
     path: '/credits',
@@ -109,6 +111,19 @@ const routes = [
     component: AdminOrderView,
     beforeEnter: adminAuthenticationGuard
   },
+  {
+    path: '/stackoverflow-questions',
+    name: 'stackoverflow-questions',
+    component: StackoverflowRequestsView,
+    meta: { title: 'Stack Overflow Questions' },
+    beforeEnter: adminAuthenticationGuard
+  },
+  {
+    path: '/stackoverflow-questions/:number',
+    name: 'stackoverflow-request',
+    component: StackoverflowRequestView,
+    beforeEnter: adminAuthenticationGuard
+  },  
   {
     path: '/clients',
     name: 'clients',
@@ -190,6 +205,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   resetServerError();
+  resetInputErrors();
   if(to.params.number)
     document.title = `I Fix Your Bug - #${to.params.number}`;
   else

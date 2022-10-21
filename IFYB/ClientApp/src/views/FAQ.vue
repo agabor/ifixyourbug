@@ -4,8 +4,8 @@
       <div class="page-header justify-content-center">
         <span class="mask bg-gradient-dark opacity-4"></span>
         <div class="carousel-inner row mt-6">
-          <div class="col-lg-10 col-12 my-4 mx-auto">
-            <div class="card" v-if="loadedBootstrap">
+          <div class="col-lg-10 col-12 mx-auto my-4">
+            <div class="card">
               <div class="card-header bg-gradient-primary p-5 position-relative">
                 <h3 class="text-white mb-0">{{ $t('faqCard.title') }}</h3>
                 <p class="text-white opacity-8 mb-0">{{ $t('faqCard.lastModified', { date: 'July 22, 2022' }) }}</p>
@@ -99,7 +99,8 @@
 <script>
 import SshKeyPreview from '@/components/SshKeyPreview.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useGitServices, useSettings, useScripts } from '@/store';
+import { useGitServices, useSettings } from '@/store';
+import { onMounted } from 'vue'
 
 export default {
   name: 'FaqView',
@@ -111,9 +112,12 @@ export default {
 
     const { gitServices } = useGitServices();
     const { workdays } = useSettings();
-    const { loadedBootstrap } = useScripts();
 
-    return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays, loadedBootstrap };
+    onMounted(() => {
+      window.rdt('track', 'ViewContent');
+    })
+
+    return { faqSecurityCount, faqOrders, faqRefunds, gitServices, workdays };
   }
 }
 </script>

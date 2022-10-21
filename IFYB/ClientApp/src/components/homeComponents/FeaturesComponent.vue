@@ -5,8 +5,8 @@
         <div class="col-lg-3 col-md-6">
           <div class="info">
             <i class="ni ni-watch-time h3 text-info"></i>
-            <h5 class="mt-2">{{ $t('features.fast') }}</h5>
-            <p>{{ $t('features.fastDescription', { workdays }) }}</p>
+            <h5 class="mt-2">{{ $t('features.quick') }}</h5>
+            <p>{{ $t('features.quickDescription', { workdays }) }}</p>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">

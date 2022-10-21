@@ -1,0 +1,17 @@
+{
+    "title": "Thank you for submitting your Stack Overflow question!",
+    "content": [
+        {
+            "type": "header",
+            "text": "Thank you for submitting your Stack Overflow question!"
+        },
+        {
+            "type": "hero",
+            "text": "Dear {{name}},<br>I have received your request, and I will try to answer your question as soon as I can."
+        },
+        {
+            "type": "link",
+            "text": "{{url}}"
+        }
+    ]
+}

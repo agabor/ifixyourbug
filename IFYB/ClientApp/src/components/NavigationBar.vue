@@ -25,12 +25,24 @@
               {{ $t('navigationBar.clients') }}
             </a>
           </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/stackoverflow-questions')">
+              {{ $t('navigationBar.stackoverflow') }}
+            </a>
+          </li>          
         </ul>
         <ul class="navbar-nav navbar-nav-hover me-auto" v-else>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <router-link to="/faq">
               <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/faq">
                 {{ $t('navigationBar.faq') }}
+              </a>
+            </router-link>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <router-link to="/contact-form">
+              <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/contact-form">
+                {{ $t('navigationBar.contact') }}
               </a>
             </router-link>
           </li>
@@ -74,7 +86,7 @@
 <script>
 import router from '../router';
 import { computed } from "@vue/reactivity";
-import { useUserAuthentication, useScripts } from "../store";
+import { useUserAuthentication } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {
@@ -82,10 +94,7 @@ export default {
   setup() {
     const userAuth = useUserAuthentication();
     const adminAuth = useAdminAuthentication();
-    const { loadBootstrap } = useScripts();
     const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
-
-    loadBootstrap();
 
     function logout() {
       userAuth.logout();

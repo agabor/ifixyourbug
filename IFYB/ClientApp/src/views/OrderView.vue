@@ -16,7 +16,7 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError, useUserAuthentication, useScripts } from "../store";
+import { useServerError, useUserAuthentication, useTinyMce } from "../store";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
@@ -28,7 +28,7 @@ export default {
   setup() {
     const { setServerError, resetServerError } = useServerError();
     const { get, post } = useUserAuthentication();
-    const { loadTinymce } = useScripts();
+    const { loadTinymce } = useTinyMce();
     const messages = ref([]);
     const selectedOrder = ref(null);
     const route = useRoute();

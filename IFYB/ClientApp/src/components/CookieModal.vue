@@ -98,7 +98,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({'referrer': document.referrer, search: window.location.search, 'analytics': analytics.value, 'advertisement': advertisement.value})
+        body: JSON.stringify({'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': analytics.value, 'advertisement': advertisement.value})
       });
     }
 
