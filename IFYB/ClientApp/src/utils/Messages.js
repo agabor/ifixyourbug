@@ -161,9 +161,10 @@ export const messages = {
     "subTitle": "I will contact you shortly via email.",
     "backToHome": "Back to home"
   },
-  "contactMessages": {
+  "contactView": {
     "select": "Select one client",
-    "haveNoMessages": "Have no messages"
+    "haveNoMessages": "Have no messages",
+    "haveNoEmails": "Have no emails"
   },
   "stackoverflow": {
     "title": "Do you have a question on Stack Overflow, that no one could answer?",
@@ -184,6 +185,7 @@ export const messages = {
   },
   "orderList": {
     "number": "Number",
+    "creationTime": "Creation time",
     "name": "Name",
     "email": "Email",
     "framework": "Framework",

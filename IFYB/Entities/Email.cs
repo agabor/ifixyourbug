@@ -4,6 +4,7 @@ namespace IFYB.Entities;
 public class Email
 {
     public int Id { get; set; }
+    public int? OwnerId { get; set; }
     public string ToEmail {get; set; }
     public string Subject {get; set; }
     public string Text {get; set; }
@@ -16,8 +17,9 @@ public class Email
     [NotMapped]
     public byte[]? File {get; set; }
 
-    public Email(string toEmail, string subject, string text, string html)
+    public Email(int? ownerId, string toEmail, string subject, string text, string html)
     {
+        OwnerId = ownerId;
         ToEmail = toEmail;
         Subject = subject;
         Text = text;

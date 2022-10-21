@@ -179,6 +179,9 @@ function userLogout() {
       localStorage.removeItem('order');
       resetUserData();
     });
+  } else {
+    localStorage.removeItem('order');
+    resetUserData();
   }
 }
 

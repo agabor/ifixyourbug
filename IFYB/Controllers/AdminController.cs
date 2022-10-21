@@ -45,6 +45,13 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet]
+    [Route("contact-emails/{email}")]
+    [Produces(typeof(ContactMessageDto))]
+    public IActionResult GetClientContactEmails(string email)
+    {
+        return Ok(dbContext.Emails.Where(e => e.ToEmail == email).Select(e => new ContactEmailDto(e.Subject, e.Text)));
+    }
+
     [Route("stackoverflow-requests")]
     [Produces(typeof(StackoverflowRequestDto))]
     public IActionResult GetStackoverflowRequests()
@@ -114,7 +121,7 @@ public class AdminController : ControllerBase
         dbContext.SaveChanges();
         Client? client = GetClientById(order.ClientId);
         if(client != null) {
-            emailDispatchService.DispatchEmail(client.Email, "OrderMessage", order, new { Name = client.Name, Message = message.Text.ToHtml() });
+            emailDispatchService.DispatchEmail(client.Id, client.Email, "OrderMessage", order, new { Name = client.Name, Message = message.Text.ToHtml() });
         }
         return Ok(message.ToDto());
     }
@@ -173,7 +180,7 @@ public class AdminController : ControllerBase
         request.Solved = data.Solved;
         dbContext.Entry(request).Reference(r => r.Client!).Load();
         if(request.Client != null) {
-            emailDispatchService.DispatchEmail(request.Client.Email, "StackOverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml(), Url = request.Url });
+            emailDispatchService.DispatchEmail(request.Client.Id, request.Client.Email, "StackOverflowRequestSolved", null, new { Name = request.Client.Name, Message = data.Message.ToHtml(), Url = request.Url });
         }
         dbContext.SaveChanges();
         return Ok(request.ToDto());

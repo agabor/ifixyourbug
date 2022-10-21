@@ -42,11 +42,11 @@ public class StackoverflowController : BaseController
             DateTime = DateTime.UtcNow
         });
         if(client != null) {
-            emailDispatchService.DispatchEmail(client.Email, "StackOverflowRequest", null, new { Name = client.Name, Url = dto.Url });
+            emailDispatchService.DispatchEmail(client.Id, client.Email, "StackOverflowRequest", null, new { Name = client.Name, Url = dto.Url });
         }
         var admins = dbContext.Admins.ToList();
         foreach(var admin in admins) {
-            emailDispatchService.DispatchEmail(admin.Email, "StackOverflowRequestToAdmin", null, new { Name = client?.Name ?? "unknown user", Url = dto.Url }, true);
+            emailDispatchService.DispatchEmail(admin.Id, admin.Email, "StackOverflowRequestToAdmin", null, new { Name = client?.Name ?? "unknown user", Url = dto.Url }, true);
         }
         dbContext.SaveChanges();
         return Ok();

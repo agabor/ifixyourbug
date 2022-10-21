@@ -32,19 +32,29 @@
 <script>
 import router from '@/router';
 import { watch } from 'vue';
-import { useTimeout } from "../store";
+import { useTimeout, useUserAuthentication } from '../store';
+import { useAdminAuthentication } from '../store/admin'
 
 export default {
   name: "TimeoutModal",
   setup() {
-    const { timeout }  =  useTimeout();
+    const { timeout } = useTimeout();
+    const userAuth = useUserAuthentication();
+    const adminAuth = useAdminAuthentication();
     
+    function logout() {
+      userAuth.logout();
+      adminAuth.logout();
+    }
+
     function toLogin() {
+      logout();
       timeout.value = false;
       router.push('/authentication');
     }
 
     function close() {
+      logout();
       timeout.value = false;
     }
 

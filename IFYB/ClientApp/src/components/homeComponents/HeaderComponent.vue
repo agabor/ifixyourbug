@@ -2,16 +2,16 @@
  <header>
     <div class="page-header">
       <img 
-          class="d-none d-md-block position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
-          src="/hero.webp" 
-          alt="hero"
-          v-if="windowWidth > 768"
-          >
+        class="d-none d-md-block position-absolute fixed-top ms-auto w-70 h-100 z-index-0 d-block border-radius-xl border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0 fit-cover"
+        src="/hero.webp" 
+        alt="hero"
+        v-if="windowWidth > 768"
+      >
       <div class="container">
         <div class="row">
           <div class="col-lg-7 d-flex">
-            <div class="card card-body p-5 text-center px-sm-5 shadow my-md-0 my-md-6 mt-7 mb-5">
-              <div class="row justify-content-center">
+            <div class="card card-body text-center shadow px-sm-5 my-md-0 mt-7 mb-6">
+              <div class="row justify-content-center my-4">
                 <picture class="col-xl-4 col-12 d-flex justify-content-center align-items-center">
                   <source 
                     media="(min-width: 576px)"
@@ -25,12 +25,11 @@
                     src="../../assets/img/logo_mobile.webp" 
                     alt="logo">
                 </picture>
-                <div class="col-xl-8 col-12 text-xl-start text-center">
+                <div class="col-xl-8 col-12 text-xl-start text-center ps-xl-4">
                   <h2 class="mb-0">{{ $t('mainCard.title') }}</h2>
                   <p class="lead pe-xl-3 me-xl-3 py-xl-3 my-xl-3">{{ $t('mainCard.description') }}</p>
                   <button type="button" class="btn btn-rounded bg-gradient-primary me-2" @click="toPricing">{{ $t('mainCard.pricing') }}</button>
                   <button type="button" class="btn btn-rounded btn-outline-secondary" @click="toAbout">{{ $t('mainCard.learnMore') }}</button>
-
                 </div>
               </div>
             </div>
@@ -68,10 +67,6 @@ export default {
 </script>
 
 <style scoped>
-  .btn-outline-secondary {
-    background: white;
-    opacity: 0.8;
-  }
   .header-logo {
     object-fit: contain;
   }

@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-5 mx-0 px-5 bg-dark">
+  <footer class="p-5 bg-dark">
     <div class="row">
       <div class="col-lg-4 me-auto my-auto text-lg-start text-center">
         <h6 class="text-white font-weight-bolder text-uppercase mb-2">{{ $t('footer.title') }}</h6>

@@ -90,14 +90,14 @@ public class BillingService : BackgroundService
                 
                 dbContext.Entry(orderFromScope).Reference(o => o.Client).Load();
                 var client = orderFromScope.Client!;
-                var email = emailCreationService.CreateEmail(client.Email, "OrderPayed", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays });
+                var email = emailCreationService.CreateEmail(client.Id, client.Email, "OrderPayed", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays });
                 email!.File = response.InvoicePdf;
                 email!.FileName = $"{response.InvoiceNumber}.pdf";
                 emailChanel.Writer.TryWrite(email);
 
                 var admins = dbContext.Admins.ToList();
                 foreach(var admin in admins) {
-                    var adminEmail = emailCreationService.CreateEmail(admin.Email, "OrderPayedToAdmin", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays }, true);
+                    var adminEmail = emailCreationService.CreateEmail(admin.Id, admin.Email, "OrderPayedToAdmin", orderFromScope, new { Name = client.Name, Workdays = offer.Workdays }, true);
                     adminEmail!.File = response.InvoicePdf;
                     adminEmail!.FileName = $"{response.InvoiceNumber}.pdf";
                     emailChanel.Writer.TryWrite(adminEmail);

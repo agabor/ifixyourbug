@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="px-sm-4 px-2">
     <div class="row">
       <div class="col-12 mx-auto">
         <div class="d-flex flex-column align-items-start justify-content-start my-1" v-if="isMyMessage">

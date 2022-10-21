@@ -22,9 +22,9 @@ public class EmailDispatchService
         Dispatch(email);
     }
 
-    public void DispatchEmail(string toEmail, string jsonTemplate, Order? order, object data, bool? toAdmin = false)
+    public void DispatchEmail(int ownerId, string toEmail, string jsonTemplate, Order? order, object data, bool? toAdmin = false)
     {
-        var email = emailCreationService.CreateEmail(toEmail, jsonTemplate, order, data, toAdmin);
+        var email = emailCreationService.CreateEmail(ownerId, toEmail, jsonTemplate, order, data, toAdmin);
         Dispatch(email);
     }
 

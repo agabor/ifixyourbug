@@ -1,5 +1,5 @@
 <template>
-  <section class="pb-7">
+  <section class="mb-7">
     <div class="author-header min-vh-25">
       <span class="mask bg-gradient-primary opacity-5"></span>
     </div>
@@ -20,7 +20,7 @@
               alt="gabor">
           </picture>
         </div>
-        <div class="col-md-7 col-sm-12 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+        <div class="col-md-7 col-sm-12 z-index-2 position-relative px-md-2 px-sm-5 mt-md-0 mt-4">
           <div class="d-flex justify-content-center justify-content-sm-start mb-2">
             <h4 class="mb-0">{{ $t('nameCard.name') }}</h4>
           </div>

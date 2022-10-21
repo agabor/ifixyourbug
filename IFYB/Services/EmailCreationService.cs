@@ -30,22 +30,22 @@ public class EmailCreationService
         {
             case OrderState.Accepted:
                 string paymentLink = $"{appOptions.BaseUrl}/checkout/{order.PaymentToken}";
-                return CreateEmail(client.Email, "OrderConfirm", order, new { client.Name, PaymentLink = paymentLink, Workdays = offerDto.Workdays });
+                return CreateEmail(client.Id, client.Email, "OrderConfirm", order, new { client.Name, PaymentLink = paymentLink, Workdays = offerDto.Workdays });
             case OrderState.Rejected:
-                return CreateEmail(client.Email, "OrderReject", order, new { client.Name, Message = message?.ToHtml() });
+                return CreateEmail(client.Id, client.Email, "OrderReject", order, new { client.Name, Message = message?.ToHtml() });
             case OrderState.Completed:
-                return CreateEmail(client.Email, "OrderComplete", order, new { client.Name });
+                return CreateEmail(client.Id, client.Email, "OrderComplete", order, new { client.Name });
             case OrderState.Refundable:
-                return CreateEmail(client.Email, "OrderRefund", order, new { client.Name });
+                return CreateEmail(client.Id, client.Email, "OrderRefund", order, new { client.Name });
             case OrderState.Canceled:
-                return CreateEmail(client.Email, "OrderCancel", order, new { client.Name });
+                return CreateEmail(client.Id, client.Email, "OrderCancel", order, new { client.Name });
             case OrderState.Editable:
-                return CreateEmail(client.Email, "OrderEditable", order, new { client.Name, Message = message?.ToHtml() });
+                return CreateEmail(client.Id, client.Email, "OrderEditable", order, new { client.Name, Message = message?.ToHtml() });
         }
         return null;
     }
 
-    public Email? CreateEmail(string toEmail, string jsonTemplate, Order? order, object data, bool? toAdmin = false) {
+    public Email? CreateEmail(int? ownerId, string toEmail, string jsonTemplate, Order? order, object data, bool? toAdmin = false) {
         string path = toAdmin == true ? "admin" : "my-orders";
         string? link = order != null ? $"{appOptions.BaseUrl}/{path}/{order.Number}" : null;
         var json = Template.Parse(System.IO.File.ReadAllText($"Email/{jsonTemplate}.sbn")).Render(data);
@@ -64,7 +64,7 @@ public class EmailCreationService
         }
         var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent.ToPlainText());
         var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);
-        var email = new Email(toEmail, emailContent.Title, text, html);
+        var email = new Email(ownerId, toEmail, emailContent.Title, text, html);
         email = dbContext.Emails.Add(email).Entity;
         dbContext.SaveChanges();
         return email;
