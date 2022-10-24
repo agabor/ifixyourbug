@@ -39,7 +39,8 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useMessages } from "../store";
+import { useInputError, useUserAuthentication, useGitAccess, useMessages } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -48,7 +49,6 @@ export default {
   components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
   emits: ['toSuccessPage'],
   setup(props, context) {
-    const { setServerError, resetServerError } = useServerError();
     const { hasInputError, setInputError } = useInputError();
     const { tm } = useMessages();
     const { post } = useUserAuthentication();

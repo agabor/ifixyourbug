@@ -17,7 +17,7 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import StackoverflowRequestList from '../components/StackoverflowRequestList.vue';
-import { useServerError } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import router from '@/router';
 
@@ -25,7 +25,6 @@ export default {
   name: 'StackoverflowRequestsView',
   components: { CarouselItem, StackoverflowRequestList },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const requests = ref([]);
     setRequests();

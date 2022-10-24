@@ -28,7 +28,7 @@ import CarouselItem from '../components/CarouselItem.vue';
 import ClientList from '../components/ClientList.vue';
 import ContactView from '../components/ContactView.vue';
 import SearchBar from '../components/SearchBar.vue';
-import { useServerError } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {
@@ -36,7 +36,6 @@ export default {
   components: { CarouselItem, ClientList, ContactView, SearchBar },
   setup() {
     const { get } = useAdminAuthentication();
-    const { setServerError, resetServerError } = useServerError();
     const clients = ref([]);
     const selectedClient = ref(null);
     const clientMessages = ref([]);

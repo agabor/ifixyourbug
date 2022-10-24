@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { get, post, postData, timeout, requestedPage } from './web'
+import { resetServerError, setServerError } from './serverError'
 
 export function useTimeout() {
   return { timeout }
@@ -47,20 +48,6 @@ export function useWindowLoad() {
 }
 export function useSettings() {
   return { eurPrice, usdPrice, workdays };
-}
-
-const serverError = ref(null);
-
-const setServerError = (error) => {
-  serverError.value = error;
-};
-
-const resetServerError = () => {
-  serverError.value = null;
-};
-
-export function useServerError() {
-  return { serverError, setServerError, resetServerError };
 }
 
 const inputErrors = ref({

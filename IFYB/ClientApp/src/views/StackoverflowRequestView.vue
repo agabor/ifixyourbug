@@ -13,7 +13,7 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import StackoverflowRequestViewer from '../components/StackoverflowRequestViewer.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
@@ -23,7 +23,6 @@ export default {
   name: 'StackoverflowRequestView',
   components: { StackoverflowRequestViewer, ConfirmationModal },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
     const selectedRequest = ref(null);
     const solveMessage = ref('');

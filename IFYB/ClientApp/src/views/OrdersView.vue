@@ -21,14 +21,14 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useServerError, useUserAuthentication } from "../store";
+import { useUserAuthentication } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 
 export default {
   name: 'OrdersView',
   components: { CarouselItem, OrderList, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const orders = ref([]);
 

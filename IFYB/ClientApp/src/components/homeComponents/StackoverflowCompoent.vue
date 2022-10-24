@@ -67,14 +67,14 @@
 <script>
 import { ref, watch, reactive } from 'vue';
 import { validEmail, required, validUrl } from '../../utils/Validate';
-import { useServerError, useUserAuthentication, useInputError, useMessages } from "../../store";
+import { useUserAuthentication, useInputError, useMessages } from "../../store";
+import { setServerError, resetServerError } from "../../store/serverError";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 
 export default {
   name: 'StackoverflowComponent',
   components: { OneClickBtn },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();

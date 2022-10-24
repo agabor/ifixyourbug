@@ -16,7 +16,8 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError, useUserAuthentication, useTinyMce } from "../store";
+import { useUserAuthentication, useTinyMce } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
@@ -26,7 +27,6 @@ export default {
   name: 'OrderView',
   components: { OrderViewer, OrderMessages, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useUserAuthentication();
     const { loadTinymce } = useTinyMce();
     const messages = ref([]);

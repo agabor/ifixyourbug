@@ -79,7 +79,8 @@
 <script>
 import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 import { validEmail, required } from '../utils/Validate';
-import { useServerError, useUserAuthentication, useInputError, useMessages } from "../store";
+import { useUserAuthentication, useInputError, useMessages } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 
@@ -87,7 +88,6 @@ export default {
   name: 'ContactForm',
   components: { OneClickBtn, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();

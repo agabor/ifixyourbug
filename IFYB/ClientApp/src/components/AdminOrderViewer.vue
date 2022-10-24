@@ -91,7 +91,7 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
-import { useServerError } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import StateBadge from './StateBadge.vue';
 
@@ -103,7 +103,6 @@ export default {
   },
   emits: ['back', 'changeOrderState' ],
   setup(props) {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const gitAccess = ref(null);
 

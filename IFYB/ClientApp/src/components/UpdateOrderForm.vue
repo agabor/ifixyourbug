@@ -39,7 +39,8 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useTinyMce, useMessages } from "../store";
+import { useInputError, useUserAuthentication, useGitAccess, useTinyMce, useMessages } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -51,7 +52,6 @@ export default {
   },
   emits: ['update:modelValue'],
   setup(props, context) {
-    const { setServerError, resetServerError } = useServerError();
     const { hasInputError, setInputError } = useInputError();
     const { get, post } = useUserAuthentication();
     const { loadedTinymce } = useTinyMce();

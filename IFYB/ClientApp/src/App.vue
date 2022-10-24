@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { useServerError } from "./store";
+import { useServerError } from "./store/serverError";
 import NavigationBar from "./components/NavigationBar.vue";
 import TimeoutModal from "./components/TimeoutModal.vue";
 import CookieModal from "./components/CookieModal.vue";

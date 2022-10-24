@@ -23,7 +23,8 @@ const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@
 const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestsView.vue');
 const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
-import { useUserAuthentication, useServerError, useInputError, useTinyMce } from '@/store';
+import { useInputError, useTinyMce, useUserAuthentication } from '@/store';
+import { resetServerError } from '@/store/serverError';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
 
@@ -31,7 +32,6 @@ const userAuth = useUserAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
 const { loadTinymce } = useTinyMce();
-const { resetServerError } = useServerError();
 const { resetInputErrors } = useInputError();
 
 function paymentGuard(to) {

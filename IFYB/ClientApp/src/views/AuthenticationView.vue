@@ -16,7 +16,8 @@
 import { ref, watch } from 'vue';
 import Authentication from '../components/Authentication.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useServerError, useUserAuthentication, useMessages } from "../store";
+import { useUserAuthentication, useMessages } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import router from '../router';
 
@@ -24,7 +25,6 @@ export default {
   name: 'AuthenticationView',
   components: { Authentication, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();
     const adminAuth = useAdminAuthentication();
     const { tm } = useMessages();

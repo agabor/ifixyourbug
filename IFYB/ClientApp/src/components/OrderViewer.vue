@@ -54,7 +54,8 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
-import { useServerError, useUserAuthentication } from "../store";
+import { useUserAuthentication } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import StateBadge from './StateBadge.vue';
 import router from '@/router';
 
@@ -66,7 +67,6 @@ export default {
   },
   emits: ['update:modelValue'],
   setup(props, context) {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
 
     setGitAccess();

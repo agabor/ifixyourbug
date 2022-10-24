@@ -14,7 +14,7 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError } from "../store";
+import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
@@ -25,7 +25,6 @@ export default {
   name: 'AdminOrderView',
   components: { AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
     const clients = ref([]);
     const messages = ref([]);
