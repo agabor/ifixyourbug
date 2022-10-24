@@ -16,15 +16,16 @@
 import { ref, watch } from 'vue';
 import Authentication from '../components/Authentication.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useServerError, useUserAuthentication, useMessages } from "../store";
+import { useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { useAdminAuthentication } from "../store/admin";
 import router from '../router';
+import { fetchPost } from '@/store/web';
 
 export default {
   name: 'AuthenticationView',
   components: { Authentication, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { requestedPage, jwt, name, email, setUserData, resetUserData, setName } = useUserAuthentication();
     const adminAuth = useAdminAuthentication();
     const { tm } = useMessages();
@@ -55,17 +56,10 @@ export default {
 
     async function submitEmail(e) {
       progress.value = 30;
-      let response = await fetch('/api/authenticate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'email': e, 'privacyPolicyAccepted': acceptedPolicy.value})
-      });
+      let response = await fetchPost('/api/authenticate', {'email': e, 'privacyPolicyAccepted': acceptedPolicy.value})
       progress.value = 100;
       email.value = e;
       if(response.status === 200) {
-        resetServerError();
         clientId = (await response.json()).id;
         setTimeout(() => {
           page.value = 'auth';
@@ -79,7 +73,6 @@ export default {
         progress.value = 0;
         activeBtn.value = true;
       } else {
-        setServerError(response.statusText);
         email.value = null;
         progress.value = null;
         activeBtn.value = true;
@@ -92,28 +85,18 @@ export default {
     }
 
     async function authentication(code) {
-      let response = await fetch(`/api/authenticate/${clientId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 'password': code})
-      });
+      let response = await fetchPost(`/api/authenticate/${clientId}`,{'password': code})
       if(response.status === 200) {
-        resetServerError();
         error.value = null;
         await setUserData(response);
         toNamePageOrToTargetPage();
       } else if(response.status === 401) {
         const passwordExpired = (await response.json()).passwordExpired;
         if (!passwordExpired) {
-          resetServerError();
           error.value = tm('errors.wrongCode');
         } else {
           page.value = 'failed';
         }
-      } else {
-        setServerError(response.statusText);
       }
       activeBtn.value = true;
     }

@@ -28,7 +28,6 @@ import CarouselItem from '../components/CarouselItem.vue';
 import ClientList from '../components/ClientList.vue';
 import ContactView from '../components/ContactView.vue';
 import SearchBar from '../components/SearchBar.vue';
-import { useServerError } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {
@@ -36,7 +35,6 @@ export default {
   components: { CarouselItem, ClientList, ContactView, SearchBar },
   setup() {
     const { get } = useAdminAuthentication();
-    const { setServerError, resetServerError } = useServerError();
     const clients = ref([]);
     const selectedClient = ref(null);
     const clientMessages = ref([]);
@@ -48,13 +46,10 @@ export default {
 
     async function setClients() {
       let response = await get('/api/admin/clients');
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         clients.value = await response.json();
         filteredClients.value = clients.value;
-      } else {
-        setServerError(response.statusText);
-      }       
+      }     
     }
 
     async function selectClient(client) {
@@ -65,22 +60,16 @@ export default {
 
     async function setClientsMessages() {
       let response = await get(`/api/admin/contact-messages/${selectedClient.value.id}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         clientMessages.value = await response.json();
-      } else {
-        setServerError(response.statusText);
-      }       
+      }    
     }
 
     async function setClientsEmails() {
       let response = await get(`/api/admin/contact-emails/${selectedClient.value.email}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         clientEmails.value = await response.json();
-      } else {
-        setServerError(response.statusText);
-      }       
+      }     
     }
 
     return { clients, filteredClients, properties, selectedClient, clientMessages, clientEmails, selectClient }

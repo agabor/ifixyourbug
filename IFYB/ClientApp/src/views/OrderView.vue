@@ -16,7 +16,8 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError, useUserAuthentication, useTinyMce } from "../store";
+import { useTinyMce } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
@@ -26,7 +27,6 @@ export default {
   name: 'OrderView',
   components: { OrderViewer, OrderMessages, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useUserAuthentication();
     const { loadTinymce } = useTinyMce();
     const messages = ref([]);
@@ -38,39 +38,29 @@ export default {
     async function setSelectedOrder() {
       let response = await get(`/api/orders/${route.params.number}`);
       if(response.status === 200) {
-        resetServerError();
         selectedOrder.value = await response.json();
         if(selectedOrder.value.state === 7){
           loadTinymce();
         }
         setMessages();
       } else if(response.status === 404) {
-        resetServerError();
         router.push('/not-found')
-      } else {
-        setServerError(response.statusText);
       }
     }
 
     async function setMessages() {
       let response = await get(`/api/orders/${selectedOrder.value.number}`);
       if(response.status === 200) {
-        resetServerError();
         let order = await response.json();
         messages.value = order.messages.reverse();
-      } else {
-        setServerError(response.statusText);
       }
     }
 
     async function submitMessage(message) {
       let response = await post(`/api/orders/${selectedOrder.value.number}`, { text: message });
       if(response.status === 200) {
-        resetServerError();
         let newMessage = await response.json();
         messages.value.unshift(newMessage);
-      } else {
-        setServerError(response.statusText);
       }
     }
 

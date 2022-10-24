@@ -91,7 +91,6 @@ import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
-import { useServerError } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 import StateBadge from './StateBadge.vue';
 
@@ -103,7 +102,6 @@ export default {
   },
   emits: ['back', 'changeOrderState' ],
   setup(props) {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const gitAccess = ref(null);
 
@@ -111,11 +109,8 @@ export default {
 
     async function setGitAccess() {
       let response = await get(`/api/admin/git-accesses/${props.order.gitAccessId}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         gitAccess.value = await response.json();
-      } else {
-        setServerError(response.statusText);
       }
     }
     function copyToClipboard(text) {

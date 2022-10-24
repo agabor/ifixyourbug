@@ -21,24 +21,20 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useServerError, useUserAuthentication } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import router from '../router';
 
 export default {
   name: 'OrdersView',
   components: { CarouselItem, OrderList, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useUserAuthentication();
     const orders = ref([]);
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');
-      if(orderResponse.status == 200) {
-        resetServerError();
+      if(orderResponse.status === 200) {
         orders.value = await orderResponse.json();
-      } else {
-        setServerError(orderResponse.statusText);
       }
     }
     setOrders();

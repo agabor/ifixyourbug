@@ -14,7 +14,6 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useServerError } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 import AdminOrderViewer from '../components/AdminOrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';
@@ -25,7 +24,6 @@ export default {
   name: 'AdminOrderView',
   components: { AdminOrderViewer, OrderMessages, ConfirmationModal },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get, post } = useAdminAuthentication();
     const clients = ref([]);
     const messages = ref([]);
@@ -40,36 +38,27 @@ export default {
 
     async function setSelectedOrder() {
       let response = await get(`/api/admin/orders/${route.params.number}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         selectedOrder.value = await response.json();
         setClient();
         setMessages();
-      } else {
-        setServerError(response.statusText);
       }
     }
 
     async function setClient() {
       let response = await get(`/api/admin/clients/${selectedOrder.value.clientId}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         let client = await response.json();
         selectedOrder.value.name = client.name;
         selectedOrder.value.email = client.email;
-      } else {
-        setServerError(response.statusText);
       }
     }
 
     async function setMessages() {
       let response = await get(`/api/admin/orders/${selectedOrder.value.number}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         let order = await response.json();
         messages.value = order.messages.reverse();
-      } else {
-        setServerError(response.statusText);
       }
     }
 
@@ -84,12 +73,9 @@ export default {
           clientId: localStorage.getItem('adminId'),
           text: message
         });
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         let newMessage = await response.json();
         messages.value.unshift(newMessage);
-      } else {
-        setServerError(response.statusText);
       }
     }
 
@@ -116,12 +102,9 @@ export default {
       } else {
         response = await post(`/api/admin/orders/${selectedOrder.value.number}/state`, nextState.value);
       }
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         selectedOrder.value.state = nextState.value;
         nextState.value = null;
-      } else {
-        setServerError(response.statusText);
       }
       showModal.value = false;
     }

@@ -17,7 +17,6 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import StackoverflowRequestList from '../components/StackoverflowRequestList.vue';
-import { useServerError } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 import router from '@/router';
 
@@ -25,19 +24,15 @@ export default {
   name: 'StackoverflowRequestsView',
   components: { CarouselItem, StackoverflowRequestList },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const requests = ref([]);
     setRequests();
 
     async function setRequests() {
       let response = await get('/api/admin/stackoverflow-questions');
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         requests.value = await response.json();
-      } else {
-        setServerError(response.statusText);
-      }       
+      }  
     }
 
     function openRequest(request) {

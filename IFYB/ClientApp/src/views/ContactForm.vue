@@ -79,15 +79,16 @@
 <script>
 import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 import { validEmail, required } from '../utils/Validate';
-import { useServerError, useUserAuthentication, useInputError, useMessages } from "../store";
+import { useInputError, useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
+import { fetchPost } from '@/store/web';
 
 export default {
   name: 'ContactForm',
   components: { OneClickBtn, FooterComponent },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();
@@ -132,18 +133,10 @@ export default {
     
     async function submitMessage() {
       window.rdt('track', 'Lead');
-      let response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'name': contact.name, 'email': contact.email, 'text': contact.message})
-      });
+      let response = await fetchPost('/api/contact', {'name': contact.name, 'email': contact.email, 'text': contact.message})
       if(response.status === 200) {
-        resetServerError();
         page.value = 'success';
       } else {
-        setServerError(response.statusText);
         activeBtn.value = true;
       }
     }

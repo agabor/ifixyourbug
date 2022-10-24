@@ -39,7 +39,8 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useMessages } from "../store";
+import { useInputError, useGitAccess, useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -48,7 +49,6 @@ export default {
   components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, ThirdPartyTool, AcceptTerms, OneClickBtn },
   emits: ['toSuccessPage'],
   setup(props, context) {
-    const { setServerError, resetServerError } = useServerError();
     const { hasInputError, setInputError } = useInputError();
     const { tm } = useMessages();
     const { post } = useUserAuthentication();
@@ -120,13 +120,11 @@ export default {
           'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.selectedAccess.url, order.selectedAccess.accessMode)
         }
       );
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         localStorage.removeItem('order');
         context.emit('toSuccessPage');
       } else {
         progress.value = 0;
-        setServerError(response.statusText);
       }
     }
 

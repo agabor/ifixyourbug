@@ -39,7 +39,8 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useServerError, useInputError, useUserAuthentication, useGitAccess, useTinyMce, useMessages } from "../store";
+import { useInputError, useGitAccess, useTinyMce, useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -51,7 +52,6 @@ export default {
   },
   emits: ['update:modelValue'],
   setup(props, context) {
-    const { setServerError, resetServerError } = useServerError();
     const { hasInputError, setInputError } = useInputError();
     const { get, post } = useUserAuthentication();
     const { loadedTinymce } = useTinyMce();
@@ -73,11 +73,8 @@ export default {
 
     async function setGitAccess() {
       let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         selectedAccess.value = await response.json();
-      } else {
-        setServerError(response.statusText);
       }
     }
     
@@ -110,13 +107,10 @@ export default {
         }
       );
       if(response.status === 200) {
-        resetServerError();
         let newOrder = await response.json();
         Object.assign(order, newOrder);
         selectedAccess.value = order.selectedAccess;
         context.emit('update:modelValue', order);
-      } else {
-        setServerError(response.statusText);
       }
     }
 

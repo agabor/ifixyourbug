@@ -67,14 +67,15 @@
 <script>
 import { ref, watch, reactive } from 'vue';
 import { validEmail, required, validUrl } from '../../utils/Validate';
-import { useServerError, useUserAuthentication, useInputError, useMessages } from "../../store";
+import { useInputError, useMessages } from "../../store";
+import { useUserAuthentication } from "../../store/authentication";
 import OneClickBtn from '@/components/OneClickBtn.vue';
+import { fetchPost } from '@/store/web';
 
 export default {
   name: 'StackoverflowComponent',
   components: { OneClickBtn },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { isLoggedIn, name, email } = useUserAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();
@@ -109,18 +110,10 @@ export default {
     
     async function submit() {
       window.rdt('track', 'Lead');
-      let response = await fetch('/api/stackoverflow', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message)
-      });
-      if(response.status == 200) {
-        resetServerError();
+      let response = await fetchPost('/api/stackoverflow', message);
+      if(response.status === 200) {
         page.value = 'success';
       } else {
-        setServerError(response.statusText);
         activeBtn.value = true;
       }
     }

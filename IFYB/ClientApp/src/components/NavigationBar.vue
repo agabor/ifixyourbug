@@ -86,7 +86,7 @@
 <script>
 import router from '../router';
 import { computed } from "@vue/reactivity";
-import { useUserAuthentication } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {

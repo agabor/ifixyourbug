@@ -17,7 +17,6 @@
 import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import AdminOrderList from '../components/AdminOrderList.vue';
-import { useServerError } from "../store";
 import { useAdminAuthentication } from "../store/admin";
 import router from '@/router';
 
@@ -25,7 +24,6 @@ export default {
   name: 'AdminView',
   components: { CarouselItem, AdminOrderList },
   setup() {
-    const { setServerError, resetServerError } = useServerError();
     const { get } = useAdminAuthentication();
     const orders = ref([]);
     const clients = ref([]);
@@ -35,23 +33,17 @@ export default {
 
     async function setClients() {
       let response = await get('/api/admin/clients');
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         clients.value = await response.json();
-      } else {
-        setServerError(response.statusText);
-      }       
+      }    
     }
 
     async function setOrders() {
       let response = await get('/api/admin/orders');
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         let data = await response.json();
         orders.value = data.map(order => ({...order, ...clients.value.find(client => client.id === order.clientId)}));
-      } else {
-        setServerError(response.statusText);
-      }       
+      }   
     }
 
     function openOrder(order) {

@@ -56,6 +56,7 @@
 
 <script>
 import { ref } from 'vue';
+import { fetchPost } from '../store/web';
 
 import { bootstrap, optIn } from 'vue-gtag'
 export default {
@@ -94,13 +95,7 @@ export default {
       cookieConsentAnswered.value = true;
       if (analytics.value)
         bootstrap().then(optIn)
-      await fetch('/api/visitor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': analytics.value, 'advertisement': advertisement.value})
-      });
+      await fetchPost('/api/visitor', {'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': analytics.value, 'advertisement': advertisement.value})
     }
 
     return { isEuropean, cookieConsentAnswered, showCustomize, analytics, advertisement, rejectAllCookies, acceptAllCookies, customizeCookies, save };
