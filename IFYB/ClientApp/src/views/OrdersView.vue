@@ -22,7 +22,6 @@ import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { useUserAuthentication } from "../store/authentication";
-import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 
 export default {
@@ -34,11 +33,8 @@ export default {
 
     async function setOrders() {
       let orderResponse = await get('/api/orders');
-      if(orderResponse.status == 200) {
-        resetServerError();
+      if(orderResponse.status === 200) {
         orders.value = await orderResponse.json();
-      } else {
-        setServerError(orderResponse.statusText);
       }
     }
     setOrders();

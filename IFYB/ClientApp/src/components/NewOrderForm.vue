@@ -41,7 +41,6 @@ import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useInputError, useGitAccess, useMessages } from "../store";
 import { useUserAuthentication } from "../store/authentication";
-import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -121,13 +120,11 @@ export default {
           'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.selectedAccess.url, order.selectedAccess.accessMode)
         }
       );
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         localStorage.removeItem('order');
         context.emit('toSuccessPage');
       } else {
         progress.value = 0;
-        setServerError(response.statusText);
       }
     }
 

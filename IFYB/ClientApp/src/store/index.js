@@ -1,7 +1,6 @@
 import { ref } from 'vue';
-import { timeout } from './web'
-import { resetServerError, setServerError } from './serverError'
-import { userGet, userPost } from './authentication'
+import { fetchGet, fetchPost, timeout } from './web';
+import { userGet, userPost } from './authentication';
 
 export function useTimeout() {
   return { timeout }
@@ -13,12 +12,11 @@ const workdays = ref(null);
 const sshKey = ref(null);
 const gitServices = ref(null);
 
-
 const loaded = ref(false);
 function onLoad() {
   window.removeEventListener('load', onLoad);
   loaded.value = true;
-  fetch('/api/settings').then(resp => {
+  fetchGet('/api/settings').then(resp => {
     resp.json().then(data => {
       eurPrice.value = data.eurPrice;
       usdPrice.value = data.usdPrice;
@@ -32,13 +30,7 @@ function onLoad() {
   let isEuropean = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] === 'Europe';
   if (localStorage.getItem('visited') !== 'true' && !isEuropean) {
     localStorage.setItem('visited', 'true');
-    fetch('/api/visitor', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': false, 'advertisement': false})
-    });
+    fetchPost('/api/visitor', {'referrer': document.referrer, 'search': window.location.search, 'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone, 'analytics': false, 'advertisement': false})
   }
 }
 
@@ -96,10 +88,8 @@ const gitAccesses = ref([]);
 async function setGitAccesses() {
   let response = await userGet('/api/git-accesses');
   if(response.status === 200) {
-    resetServerError();
     gitAccesses.value = await response.json();
   } else {
-    setServerError(response.statusText);
     gitAccesses.value = [];
   }
 }
@@ -111,11 +101,8 @@ async function getGitAccessId(id, url, mode) {
   } else {
     let response = await userPost(`/api/git-accesses`, {'url': url, 'accessMode': mode});
     if(response.status === 200) {
-      resetServerError();
       gitAccessId = (await response.json()).id;
       setGitAccesses();
-    } else {
-      setServerError(response.statusText);
     }
   }
   return gitAccessId;

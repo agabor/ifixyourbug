@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import { get, post, postData, timeout, requestedPage } from './web'
-import { resetServerError, setServerError } from './serverError'
 
 const userJwt = ref(localStorage.getItem('jwt'));
 const isUserLoggedIn = ref(userJwt.value != null);
@@ -24,11 +23,9 @@ async function setName(name) {
   window.rdt('track', 'SignUp');
   let response = await userPost('/api/clients/name', {'name': name});
   if(response.status === 200) {
-    resetServerError();
     localStorage.setItem('clientName', name);
     userName.value = name;
   } else {
-    setServerError(response.statusText);
     localStorage.removeItem('clientName');
     userName.value = null;
   }

@@ -13,7 +13,6 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import StackoverflowRequestViewer from '../components/StackoverflowRequestViewer.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
@@ -34,11 +33,8 @@ export default {
 
     async function setSelectedRequest() {
       let response = await get(`/api/admin/stackoverflow-questions/${route.params.number}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         selectedRequest.value = await response.json();
-      } else {
-        setServerError(response.statusText);
       }
     }
 
@@ -55,11 +51,8 @@ export default {
       } else {
         showError.value = true;
       }
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         selectedRequest.value.solved = true;
-      } else {
-        setServerError(response.statusText);
       }
       showModal.value = false;
     }

@@ -2,9 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import VueGtag from "vue-gtag";
-import { stringify } from 'flatted';
 import { useMessages } from './store/index';
-
+import { fetchPost } from './store/web';
 
 const app = createApp(App);
 const { tm } = useMessages();
@@ -37,28 +36,23 @@ app.config.globalProperties.$filters = {
   },
 }
 
-//let acceptedCookies = JSON.parse(localStorage.getItem('acceptedCookies'));
-//const enabled = acceptedCookies ? acceptedCookies.analytics : false
+let acceptedCookies = JSON.parse(localStorage.getItem('acceptedCookies'));
+let visited = localStorage.getItem('visited');
+const enabled = acceptedCookies ? acceptedCookies.analytics : false
 app.use(router).use(VueGtag, {
   config: { id: "G-TX7L6QHPS3" },
-  enabled: true,
+  enabled: visited ? true : enabled,
   bootstrap: true
 }, router).mount('#app');
 
-function reportError(obj) {
-  fetch('/api/errors', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: stringify(obj)
-  })
+async function reportError(obj) {
+  await fetchPost('/api/errors', obj);
 }
 
-app.config.errorHandler = function (err, vm, info) {
-  reportError({ ...err, info, vm })
+app.config.errorHandler = async function (err, vm, info) {
+  await reportError({ ...err, info, vm })
 };
 
-window.onerror = function(event, source, lineno, colno, error) {
-  reportError({ ...error, event, lineno, colno, source })
- };
+window.onerror = async function(event, source, lineno, colno, error) {
+  await reportError({ ...error, event, lineno, colno, source })
+};

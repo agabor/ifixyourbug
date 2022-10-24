@@ -61,9 +61,10 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePayment } from "@/store/payment";
-import CarouselItem from '../components/CarouselItem.vue';
+import { fetchGet, fetchPost } from '@/store/web';
+import CarouselItem from '@/components/CarouselItem.vue';
 import OneClickBtn from '@/components/OneClickBtn.vue';
-import FooterComponent from '../components/homeComponents/FooterComponent.vue';
+import FooterComponent from '@/components/homeComponents/FooterComponent.vue';
 
 export default {
   components: { CarouselItem, OneClickBtn, FooterComponent },
@@ -81,8 +82,8 @@ export default {
       removeEventListener('pageshow', resetState);
     }
 
-    fetch(`/api/pay/${route.params.token}`).then(resp => {
-      if (resp.status == 200) {
+    fetchGet(`/api/pay/${route.params.token}`).then(resp => {
+      if (resp.status === 200) {
         resp.json().then(data => {
           order.value = data;
           waitForOrder.value = false;
@@ -94,7 +95,7 @@ export default {
 
     function pay(isEur) {
       progress.value = 30;
-      fetch(`/api/pay/${route.params.token}/${isEur}`, { method: 'post' }).then(resp => {
+      fetchPost(`/api/pay/${route.params.token}/${isEur}`).then(resp => {
         payment.setPaymentToken(route.params.token)
         resp.json().then(data => {
           window.location.href = data.url

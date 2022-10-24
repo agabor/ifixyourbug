@@ -14,9 +14,9 @@ import { ref } from 'vue';
 import Authentication from '../components/Authentication.vue';
 import { useMessages } from "../store";
 import { useUserAuthentication } from "../store/authentication";
-import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import router from '../router';
+import { fetchPost } from '@/store/web';
 
 export default {
   name: 'AdminAuthenticationView',
@@ -36,16 +36,9 @@ export default {
     
     async function submitEmail(email) {
       progress.value = 30;
-      let response = await fetch('/api/authenticate/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'email': email})
-      });
+      let response = await fetchPost('/api/authenticate/admin', {'email': email})
       progress.value = 100;
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         adminId = (await response.json()).id;
         localStorage.setItem('adminId', adminId);
         error.value = null;
@@ -54,41 +47,30 @@ export default {
           progress.value = 100;
           activeBtn.value = true;
         }, "500");
-      } else if(response.status == 403) {
+      } else if(response.status === 403) {
 				error.value = tm('errors.notAdministratorEmail');
         progress.value = null;
         activeBtn.value = true;
 			}  else {
-        setServerError(response.statusText);
         progress.value = null;
         activeBtn.value = true;
       }
     }
 
     async function authentication(code) {
-      let response = await fetch(`/api/authenticate/admin/${adminId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({'adminId': adminId, 'password': code})
-      });
-      if(response.status == 200) {
-        resetServerError();
+      let response = await fetchPost(`/api/authenticate/admin/${adminId}`, {'adminId': adminId, 'password': code})
+      if(response.status === 200) {
         error.value = null;
         let jwt = (await response.json()).jwt;
         setJwt(jwt);
         router.push(requestedPage.value ? requestedPage.value.fullPath : '/admin');
-      } else if(response.status == 401) {
+      } else if(response.status === 401) {
         const passwordExpired = (await response.json()).passwordExpired;
         if (!passwordExpired) {
-          resetServerError();
           error.value = tm('errors.wrongCode');
         } else {
           page.value = 'failed';
         }
-      } else {
-        setServerError(response.statusText);
       }
       activeBtn.value = true;
     }

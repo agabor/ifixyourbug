@@ -55,7 +55,6 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
 import { useUserAuthentication } from "../store/authentication";
-import { setServerError, resetServerError } from "../store/serverError";
 import StateBadge from './StateBadge.vue';
 import router from '@/router';
 
@@ -73,13 +72,10 @@ export default {
 
     async function setGitAccess() {
       let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
-      if(response.status == 200) {
-        resetServerError();
+      if(response.status === 200) {
         let order = props.modelValue;
         order.selectedAccess = await response.json();
         context.emit('update:modelValue', order);
-      } else {
-        setServerError(response.statusText);
       }
     }
 
