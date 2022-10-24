@@ -18,7 +18,7 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue';
-import { useUserAuthentication } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 
 export default {
 	name: 'TextEditor',

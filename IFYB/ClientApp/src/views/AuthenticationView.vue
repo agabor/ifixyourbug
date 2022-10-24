@@ -16,7 +16,8 @@
 import { ref, watch } from 'vue';
 import Authentication from '../components/Authentication.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useUserAuthentication, useMessages } from "../store";
+import { useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { setServerError, resetServerError } from "../store/serverError";
 import { useAdminAuthentication } from "../store/admin";
 import router from '../router';

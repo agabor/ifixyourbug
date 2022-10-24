@@ -16,7 +16,8 @@
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useUserAuthentication, useTinyMce } from "../store";
+import { useTinyMce } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { setServerError, resetServerError } from "../store/serverError";
 import OrderViewer from '../components/OrderViewer.vue';
 import OrderMessages from '../components/OrderMessages.vue';

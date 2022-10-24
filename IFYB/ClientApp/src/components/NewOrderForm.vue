@@ -39,7 +39,8 @@ import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useInputError, useUserAuthentication, useGitAccess, useMessages } from "../store";
+import { useInputError, useGitAccess, useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { setServerError, resetServerError } from "../store/serverError";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';

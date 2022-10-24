@@ -79,7 +79,8 @@
 <script>
 import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 import { validEmail, required } from '../utils/Validate';
-import { useUserAuthentication, useInputError, useMessages } from "../store";
+import { useInputError, useMessages } from "../store";
+import { useUserAuthentication } from "../store/authentication";
 import { setServerError, resetServerError } from "../store/serverError";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';

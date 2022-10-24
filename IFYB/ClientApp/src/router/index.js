@@ -23,7 +23,8 @@ const AdminAuthenticationView = () => import(/* webpackChunkName: "admin" */  '@
 const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestsView.vue');
 const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
-import { useInputError, useTinyMce, useUserAuthentication } from '@/store';
+import { useInputError, useTinyMce } from '@/store';
+import { useUserAuthentication } from "@/store/authentication";
 import { resetServerError } from '@/store/serverError';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";

@@ -32,7 +32,8 @@
 <script>
 import router from '@/router';
 import { watch } from 'vue';
-import { useTimeout, useUserAuthentication } from '../store';
+import { useTimeout } from '../store';
+import { useUserAuthentication } from "../store/authentication";
 import { useAdminAuthentication } from '../store/admin'
 
 export default {

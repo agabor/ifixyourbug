@@ -67,7 +67,8 @@
 <script>
 import { ref, watch, reactive } from 'vue';
 import { validEmail, required, validUrl } from '../../utils/Validate';
-import { useUserAuthentication, useInputError, useMessages } from "../../store";
+import { useInputError, useMessages } from "../../store";
+import { useUserAuthentication } from "../../store/authentication";
 import { setServerError, resetServerError } from "../../store/serverError";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 
