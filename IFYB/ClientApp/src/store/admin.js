@@ -1,9 +1,6 @@
 import { ref } from 'vue';
 import { get, post, fetchPost, timeout, requestedPage } from './web';
 import router from '@/router';
-import { useMessages } from "../store";
-
-const { tm } = useMessages();
 
 const adminJwt = ref(localStorage.getItem('adminJwt'));
 const isAdminLoggedIn = ref(false);
@@ -29,7 +26,7 @@ async function authenticate(email) {
       progress.value = 100;
     }, "500");
   } else {
-    authenticationError.value = tm('errors.notAdministratorEmail');
+    authenticationError.value = 'errors.notAdministratorEmail';
     progress.value = 0;
   }
 }
@@ -44,7 +41,7 @@ async function authenticateWithCode(code) {
   } else if(response.status === 401) {
     const passwordExpired = data.passwordExpired;
     if (!passwordExpired) {
-      authenticationError.value = tm('errors.wrongCode');
+      authenticationError.value = 'errors.wrongCode';
     } else {
       page.value = 'failed';
     }

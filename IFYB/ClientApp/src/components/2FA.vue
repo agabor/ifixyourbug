@@ -8,12 +8,10 @@
         <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in codeLength" :key="i">
           <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="code[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)" :disabled="progress !== 0">
         </div>
-      </div>
-      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : authenticationError">
-        {{ codeError ? codeError : authenticationError }}
+        <span class="text-danger mt-2" v-if="authenticationError"><em><small>{{ $t(authenticationError) }}</small></em></span>
       </div>
       <div class="text-center d-flex justify-content-center">
-        <one-click-btn :active="progress === 0" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
+        <one-click-btn :active="progress === 0" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()" :disabled="code.length < codeLength"></one-click-btn>
         <one-click-btn :active="progress === 0" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancelLogin()"></one-click-btn>
       </div>
     </template>
@@ -36,7 +34,6 @@ export default {
     const auth = authenticator(props.isClient);
     const code = ref([]);
     let codeLength = 6;
-    const codeError = ref(null);
     const inputs = ref([]);
     auth.progress.value = 0;
     
@@ -58,8 +55,7 @@ export default {
     }
 
     function onInputChange(event, idx) {
-      let newValue = event.target.value.toUpperCase();
-      
+      let newValue = event.target.value.toUpperCase();      
       if(!newValue){
         code.value[idx] = '';
         focus(idx-1);
@@ -95,10 +91,10 @@ export default {
     }
 
     function submitCode() {
-      auth.authenticateWithCode(code.value.join(''))
+      auth.authenticateWithCode(code.value.join(''));
     }
 
-    return { code, codeError, codeLength, inputs, 'email': auth.email, 'progress': auth.progress, 'authenticationError': auth.authenticationError, submitCode, onPaste, onInputChange, 'cancelLogin': auth.cancelLogin }
+    return { code, codeLength, inputs, 'email': auth.email, 'progress': auth.progress, 'authenticationError': auth.authenticationError, submitCode, onPaste, onInputChange, 'cancelLogin': auth.cancelLogin }
   }
 }
 </script>

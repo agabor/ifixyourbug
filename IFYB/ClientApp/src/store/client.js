@@ -1,9 +1,6 @@
 import { ref } from 'vue';
 import { get, post, postData, fetchPost, timeout, requestedPage } from './web';
 import router from '@/router';
-import { useMessages } from "../store";
-
-const { tm } = useMessages();
 
 const userJwt = ref(localStorage.getItem('jwt'));
 const isUserLoggedIn = ref(userJwt.value != null);
@@ -52,9 +49,9 @@ async function authenticateWithCode(code) {
   let response = await fetchPost(`/api/authenticate/${clientId}`,{'password': code})
   let data = await response.json();
   progress.value = 100;
+  authenticationError.value = null;
   if(response.status === 200) {
     setTimeout(() => {
-      authenticationError.value = null;
       setUserData(data.jwt);
       toNamePageOrToTargetPage();
       progress.value = 100;
@@ -63,7 +60,7 @@ async function authenticateWithCode(code) {
     progress.value = 0;
     const passwordExpired = data.passwordExpired;
     if (!passwordExpired) {
-      authenticationError.value = tm('errors.wrongCode');
+      authenticationError.value = 'errors.wrongCode';
     } else {
       page.value = 'failed';
     }
