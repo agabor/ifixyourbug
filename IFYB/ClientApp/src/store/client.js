@@ -33,7 +33,6 @@ async function authenticate(email, acceptedPolicy) {
   let response = await fetchPost('/api/authenticate', {'email': email, 'privacyPolicyAccepted': acceptedPolicy})
   progress.value = 100;
   if(response.status === 200) {
-    authenticationError.value = null;
     clientId = (await response.json()).id;
     userEmail.value = email;
     setTimeout(() => {
