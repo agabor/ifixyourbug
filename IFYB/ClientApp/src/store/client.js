@@ -14,17 +14,6 @@ let clientId;
 
 setUserJwt(localStorage.getItem('jwt'));
 
-function setUserJwt(jwt) {
-  userJwt.value = jwt;
-  if (jwt) {
-    localStorage.setItem('jwt', jwt);
-    isUserLoggedIn.value = true;
-  } else {
-    localStorage.removeItem('jwt');
-    isUserLoggedIn.value = false;
-  }
-}
-
 async function authenticate(email, acceptedPolicy) {
   progress.value = 30;
   let response = await fetchPost('/api/authenticate', {'email': email, 'privacyPolicyAccepted': acceptedPolicy})
@@ -97,6 +86,17 @@ async function cancelLogin() {
   authenticationError.value = null;
   resetUserData();
   page.value = 'email';
+}
+
+function setUserJwt(jwt) {
+  userJwt.value = jwt;
+  if (jwt) {
+    localStorage.setItem('jwt', jwt);
+    isUserLoggedIn.value = true;
+  } else {
+    localStorage.removeItem('jwt');
+    isUserLoggedIn.value = false;
+  }
 }
 
 export function userGet(route) {

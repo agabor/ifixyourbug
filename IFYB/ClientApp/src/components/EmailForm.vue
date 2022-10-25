@@ -6,8 +6,8 @@
     <template v-slot:content>
       <div class="row mb-4">
         <input id="emailInput" class="form-control" :class="{'is-invalid': (inputErrors.email && showErrors)}" ref="emailInput" :placeholder="$t('order.emailExample')" type="email"
-          @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()" :disabled="progress !== 0">
-        <span class="text-danger" v-if="(inputErrors.email && showErrors)"><em><small>{{ $t(inputErrors.email) }}</small></em></span>
+          @keyup.enter="trySubmitEmail()" :value="email" @input="email = $event.target.value.toLowerCase()" :disabled="progress !== 0">
+        <span class="text-danger" v-if="((inputErrors.email || authenticationError) && showErrors)"><em><small>{{ $t(inputErrors.email ? inputErrors.email : authenticationError) }}</small></em></span>
         <div v-if="firstLogin">
           <div class="d-flex align-items-center justify-content-center mt-3">
             <div class="form-check form-switch">
@@ -54,10 +54,13 @@ export default {
     })
     
     watch(email, () => {
-      auth.firstLogin.value = false;
+      if(props.sClient) {
+        auth.firstLogin.value = false;
+      }
       showRequired.value = false;
       acceptedPolicy.value = false;
       setInputError('email', validEmail(email.value));
+      auth.authenticationError.value = null;
     })
 
     watch(acceptedPolicy, () => {
@@ -86,7 +89,7 @@ export default {
       window.open('/privacy-policy', '_blank');
     }
 
-    return { inputErrors, showErrors, 'progress' : auth.progress, 'firstLogin': auth.firstLogin, acceptedPolicy, showRequired, email, emailInput, trySubmitEmail, toPrivacyPolicy }
+    return { inputErrors, 'authenticationError': auth.authenticationError, showErrors, 'progress' : auth.progress, 'firstLogin': auth.firstLogin, acceptedPolicy, showRequired, email, emailInput, trySubmitEmail, toPrivacyPolicy }
   }
 }
 </script>
