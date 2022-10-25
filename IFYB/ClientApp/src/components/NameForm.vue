@@ -1,68 +1,60 @@
 <template>
-  <carousel-item :icon="true" :title="$t('order.name')" :subTitle="$t('order.nameDes')">
+  <carousel-item :icon="true" :title="$t('order.name')" :subTitle="$t('order.nameDes')" :progress="progress">
     <template v-slot:icon>
       <i :class="`ni ni-badge opacity-10 mt-2`"></i>
     </template>
     <template v-slot:content>
       <div class="row mb-4">
-        <input id="nameInput" class="form-control" ref="userNameInput" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="!activeBtn">
+        <input id="nameInput" class="form-control" ref="nameInput" placeholder="Your Name" type="text" @keyup.enter="trySetName()" v-model="name" :disabled="progress !== 0">
       </div>
-      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error: validationError">
-        {{ error ? error: validationError }}
+      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="validationError ? authenticationError: authenticationError">
+        {{ validationError ? authenticationError: authenticationError }}
       </div>
       <div class="d-flex justify-content-center">
-        <one-click-btn v-model:active="activeBtn" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()"></one-click-btn>
+        <one-click-btn :active="progress === 0" :text="$t('order.save')" class="bg-gradient-primary mx-2" @click="trySetName()" :disabled="name === ''"></one-click-btn>
       </div>
     </template>
   </carousel-item>
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { required } from '../utils/Validate';
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
 import { useMessages } from "../store";
+import { authenticator } from '@/store/authentication';
 
 export default {
   name: 'NameForm',
   components: { CarouselItem, OneClickBtn },
   props: {
-    modelValue: String,
-    error: String,
-    activeButton: Boolean
+    isClient: Boolean
   },
-  emits: [ 'update:modelValue', 'update:activeButton' ],
-  setup(props, context) {
+  setup(props) {
+    const auth = authenticator(props.isClient);
     const { tm } = useMessages();
-    const name = ref(props.modelValue ?? '');
+    const name = ref('');
     const validationError = ref(null);
-    const activeBtn = ref(props.activeButton ?? true);
-    const userNameInput = ref(null);
+    const nameInput = ref(null);
+    auth.progress.value = 0;
 
     onMounted(() => {
-      userNameInput.value.focus();
-    })
-
-    watch(props, () => {
-      activeBtn.value = props.activeButton;
-      name.value = props.modelValue;
+      nameInput.value.focus();
     })
 
     function trySetName() {
       let err = required(name.value, tm('errors.requiredName'), 'nameInput');
       if(err) {
         validationError.value = err;
-        activeBtn.value = true;
-        userNameInput.value.focus();
+        nameInput.value.focus();
       } else {
         validationError.value = null;
-        context.emit('update:activeButton', activeBtn.value);
-        context.emit('update:modelValue', name.value);
+        auth.setName(name.value);
       }
     }
 
-    return { validationError, name, activeBtn, userNameInput, trySetName }
+    return { validationError, name, 'progress': auth.progress, 'authenticationError': auth.authenticationError, nameInput, trySetName }
   }
 }
 </script>

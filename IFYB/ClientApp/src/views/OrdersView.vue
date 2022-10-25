@@ -21,7 +21,7 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useUserAuthentication } from "../store/authentication";
+import { useUserAuthentication } from "../store/client";
 import router from '../router';
 
 export default {

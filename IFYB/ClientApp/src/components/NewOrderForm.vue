@@ -40,7 +40,7 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useInputError, useGitAccess, useMessages } from "../store";
-import { useUserAuthentication } from "../store/authentication";
+import { useUserAuthentication } from "../store/client";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 

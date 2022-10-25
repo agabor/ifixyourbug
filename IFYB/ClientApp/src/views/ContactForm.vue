@@ -80,7 +80,7 @@
 import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useInputError, useMessages } from "../store";
-import { useUserAuthentication } from "../store/authentication";
+import { useUserAuthentication } from "../store/client";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { fetchPost } from '@/store/web';

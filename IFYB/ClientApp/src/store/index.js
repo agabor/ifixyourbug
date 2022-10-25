@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { fetchGet, fetchPost, timeout } from './web';
-import { userGet, userPost } from './authentication';
+import { userGet, userPost } from './client';
 
 export function useTimeout() {
   return { timeout }

@@ -33,7 +33,7 @@
 import router from '@/router';
 import { watch } from 'vue';
 import { useTimeout } from '../store';
-import { useUserAuthentication } from "../store/authentication";
+import { useUserAuthentication } from "../store/client";
 import { useAdminAuthentication } from '../store/admin'
 
 export default {

@@ -1,53 +1,47 @@
 <template>
-  <carousel-item :icon="true" :title="$t('authentication.title')" :subTitle="$t('authentication.subTitle', { email })">
+  <carousel-item :icon="true" :title="$t('authentication.title')" :subTitle="$t('authentication.subTitle', { email })" :progress="progress">
     <template v-slot:icon>
       <i :class="`ni ni-atom opacity-10 mt-2`"></i>
     </template>
     <template v-slot:content>
       <div class="row mb-4 mx-xl-4">
-        <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in authLength" :key="i">
-          <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="auth[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)">
+        <div class="col-2 px-md-2 px-sm-1 px-0" v-for="(i, idx) in codeLength" :key="i">
+          <input type="text" :ref="(el) => inputs[idx] = el" class="form-control text-lg text-center" :value="code[idx]" aria-label="2fa" @paste="onPaste($event, idx)" @input="onInputChange($event, idx)" :disabled="progress !== 0">
         </div>
       </div>
-      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : error">
-        {{ codeError ? codeError : error }}
+      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="codeError ? codeError : authenticationError">
+        {{ codeError ? codeError : authenticationError }}
       </div>
       <div class="text-center d-flex justify-content-center">
-        <one-click-btn v-model:active="activeBtn" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
-        <one-click-btn v-model:active="activeCancelBtn" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancel()"></one-click-btn>
+        <one-click-btn :active="progress === 0" :text="$t('authentication.buttonText')" class="bg-gradient-primary mx-2" @click="submitCode()"></one-click-btn>
+        <one-click-btn :active="progress === 0" :text="$t('authentication.cancel')" class="btn-outline-secondary mx-2" @click="cancelLogin()"></one-click-btn>
       </div>
     </template>
   </carousel-item>
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import CarouselItem from './CarouselItem.vue';
 import OneClickBtn from './OneClickBtn.vue';
+import { authenticator } from '@/store/authentication';
 
 export default {
   name: '2FA',
   components: { CarouselItem, OneClickBtn },
   props: {
-    modelValue: String,
-    error: String,
-    email: String
+    isClient: Boolean
   },
-  emits:['update:modelValue', 'cancel'],
-  setup(props, context) {
-    const auth = ref(props.modelValue ? props.modelValue.split('') : []);
-    let authLength = 6;
+  setup(props) {
+    const auth = authenticator(props.isClient);
+    const code = ref([]);
+    let codeLength = 6;
     const codeError = ref(null);
     const inputs = ref([]);
-    const activeBtn = ref(false);
-    const activeCancelBtn = ref(true);
-
+    auth.progress.value = 0;
+    
     onMounted(() => {
       focus(0);
-    })
-
-    watch(props, () => {
-      auth.value = props.modelValue ? props.modelValue.split('') : [];
     })
 
     function focus(idx) {
@@ -55,50 +49,45 @@ export default {
     }
 
     function onPaste(event, idx) {
-      let code = event.clipboardData.getData('text').replace('-', '').split('');
-      for(let i = 0; i < authLength-idx; i++){
-        const char = code[i];
-        auth.value[idx+i] = char;
+      let splittedCode = event.clipboardData.getData('text').replace('-', '').split('');
+      for(let i = 0; i < codeLength-idx; i++){
+        const char = splittedCode[i];
+        code.value[idx+i] = char;
       }
-      auth.value[idx] = code[0];
+      code.value[idx] = splittedCode[0];
     }
 
     function onInputChange(event, idx) {
       let newValue = event.target.value.toUpperCase();
       
       if(!newValue){
-        auth.value[idx] = '';
+        code.value[idx] = '';
         focus(idx-1);
       } else if(newValue.length === 1) {
-        auth.value[idx] = newValue;
-        if(idx+1 < authLength)
+        code.value[idx] = newValue;
+        if(idx+1 < codeLength)
           focus(idx+1);
       } else if(newValue && newValue.length === 2) {
-        newValue = newValue.replace(auth.value[idx], '');
-        if (newValue !== auth.value[idx]) {
-          auth.value[idx] = newValue.replace(auth.value[idx], '');
+        newValue = newValue.replace(code.value[idx], '');
+        if (newValue !== code.value[idx]) {
+          code.value[idx] = newValue.replace(code.value[idx], '');
         } else {
           event.target.value = auth.value[idx];
         }
-        if(idx+1 < authLength)
+        if(idx+1 < codeLength)
           focus(idx+1);
       } else {
-        auth.value[idx] = newValue[0];
+        code.value[idx] = newValue[0];
       }
-      if (fillCount() === authLength) {
+      if (fillCount() === codeLength) {
         submitCode();
-        activeBtn.value = true;
-        activeCancelBtn.value = false;
-      } else {
-        activeBtn.value = false;
-        activeCancelBtn.value = true;
       }
     }
 
     function fillCount() {
       let count = 0;
-      for(let i = 0; i < authLength; i++) {
-        if(auth.value[i]) {
+      for(let i = 0; i < codeLength; i++) {
+        if(code.value[i]) {
           count += 1;
         }
       }
@@ -106,19 +95,10 @@ export default {
     }
 
     function submitCode() {
-      activeBtn.value = false;
-      activeCancelBtn.value = false;
-      context.emit('update:modelValue', auth.value.join(''));
+      auth.authenticateWithCode(code.value.join(''))
     }
 
-    function cancel() {
-      auth.value = [];
-      codeError.value = null;
-      activeBtn.value = true;
-      activeCancelBtn.value = false;
-      context.emit('cancel');
-    }
-    return { auth, codeError, authLength, inputs, activeBtn, activeCancelBtn, submitCode, onPaste, onInputChange, cancel }
+    return { code, codeError, codeLength, inputs, 'email': auth.email, 'progress': auth.progress, 'authenticationError': auth.authenticationError, submitCode, onPaste, onInputChange, 'cancelLogin': auth.cancelLogin }
   }
 }
 </script>

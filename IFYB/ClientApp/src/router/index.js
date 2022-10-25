@@ -24,7 +24,7 @@ const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  
 const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
 import { useInputError, useTinyMce } from '@/store';
-import { useUserAuthentication } from "@/store/authentication";
+import { useUserAuthentication } from "@/store/client";
 import { resetServerError } from '@/store/serverError';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
@@ -48,6 +48,7 @@ function userAuthenticationGuard(to) {
     return true
   } else {
     userAuth.requestedPage.value = to;
+    userAuth.page.value = "name";
     return { path: '/authentication' }
   }
 }

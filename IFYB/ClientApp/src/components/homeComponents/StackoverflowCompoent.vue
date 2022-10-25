@@ -68,7 +68,7 @@
 import { ref, watch, reactive } from 'vue';
 import { validEmail, required, validUrl } from '../../utils/Validate';
 import { useInputError, useMessages } from "../../store";
-import { useUserAuthentication } from "../../store/authentication";
+import { useUserAuthentication } from "../../store/client";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import { fetchPost } from '@/store/web';
 
