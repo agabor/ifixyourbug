@@ -5,73 +5,78 @@
     </template>
     <template v-slot:content>
       <div class="row mb-4">
-        <input id="emailInput" class="form-control" ref="userEmailInput" :placeholder="$t('order.emailExample')" type="email" @keyup.enter="trySubmitEmail()" v-model="email" @input="email = $event.target.value.toLowerCase()">
-        <div v-if="showPolicy">
+        <input id="emailInput" class="form-control" :class="{'is-invalid': (inputErrors.email && showErrors)}" ref="emailInput" :placeholder="$t('order.emailExample')" type="email"
+          @keyup.enter="trySubmitEmail()" :value="email" @input="email = $event.target.value.toLowerCase()" :disabled="progress !== 0">
+        <span class="text-danger" v-if="((inputErrors.email || authenticationError) && showErrors)"><em><small>{{ $t(inputErrors.email ? inputErrors.email : authenticationError) }}</small></em></span>
+        <div v-if="firstLogin">
           <div class="d-flex align-items-center justify-content-center mt-3">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="customCheck" :value="acceptedPolicy" @input="$emit('update:acceptedPolicy', !acceptedPolicy)">
+              <input class="form-check-input" type="checkbox" id="customCheck" v-model="acceptedPolicy">
               <label class="form-check-label" for="customCheck">{{ $t('policies.iAcceptAndRead') }}<a class="mx-1 text-decoration-underline" @click="toPrivacyPolicy">{{ $t('policies.privacyPolicy') }}</a></label>
             </div>
           </div>
           <span class="text-danger" v-if="showRequired"><em><small>{{ $t('policies.requiredPrivacyPolicy') }}</small></em></span>
         </div>
       </div>
-      <div class="alert alert-warning text-white font-weight-bold" role="alert" v-if="error ? error : validationError">
-        {{ error ? error: validationError }}
-      </div>
       <div class="d-flex justify-content-center">
-        <one-click-btn v-model:active="activeBtn" :text="$t('order.submit')" class="bg-gradient-primary mx-2" @click="trySubmitEmail()"></one-click-btn>
+        <one-click-btn :active="progress === 0" :text="$t('order.submit')" class="bg-gradient-primary mx-2" @click="trySubmitEmail()" :disabled="email === ''"></one-click-btn>
       </div>
     </template>
   </carousel-item>
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { validEmail } from '../utils/Validate';
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
-import { useMessages } from "../store";
+import { useInputError } from "../store";
+import { useAuthenticator } from '@/store/authentication';
 
 export default {
   name: 'EmailForm',
   components: { CarouselItem, OneClickBtn },
   props: {
-    modelValue: String,
-    error: String,
-    progress: Number,
-    showPolicy: Boolean,
-    acceptedPolicy: Boolean,
-    showRequired: Boolean,
-    activeButton: Boolean
+    isClient: Boolean
   },
-  emits: [ 'update:modelValue', 'update:acceptedPolicy', 'update:activeButton' ],
-  setup(props, context) {
-    const { tm } = useMessages();
-    const email = ref(props.modelValue ?? '');
-    const validationError = ref(null);
-    const activeBtn = ref(props.activeButton ?? true);
-    const userEmailInput = ref(null);
+  setup(props) {
+    const { progress, firstLogin, authenticationError, authenticate } = useAuthenticator(props.isClient);
+    const { inputErrors, setInputError } = useInputError();
+    const email = ref('');
+    const acceptedPolicy = ref(false);
+    const showRequired = ref(false);
+    const showErrors = ref(false);
+    const emailInput = ref(null);
+    progress.value = 0;
 
     onMounted(() => {
-      userEmailInput.value.focus();
+      emailInput.value.focus();
+    })
+    
+    watch(email, () => {
+      firstLogin.value = false;
+      showRequired.value = false;
+      acceptedPolicy.value = false;
+      setInputError('email', validEmail(email.value));
+      authenticationError.value = null;
     })
 
-    watch(props, () => {
-      activeBtn.value = props.activeButton;
-      email.value = props.modelValue;
+    watch(acceptedPolicy, () => {
+      showRequired.value = false;
     })
 
-    function trySubmitEmail() {
+    async function trySubmitEmail() {
       let err = validEmail(email.value);
+      showErrors.value = true
       if(err) {
-        validationError.value = tm(err);
-        activeBtn.value = true;
-        userEmailInput.value.focus();
+        setInputError('email', err);
+        emailInput.value.focus();
       } else {
-        validationError.value = null;
-        context.emit('update:activeButton', activeBtn.value);
-        context.emit('update:modelValue', email.value);
+        if(firstLogin.value && !acceptedPolicy.value) {
+          showRequired.value = true;
+        }
+        setInputError('email', null);
+        await authenticate(email.value, acceptedPolicy.value);
       }
     }
 
@@ -79,7 +84,7 @@ export default {
       window.open('/privacy-policy', '_blank');
     }
 
-    return { validationError, email, activeBtn, userEmailInput, trySubmitEmail, toPrivacyPolicy }
+    return { inputErrors, authenticationError, showErrors, progress, firstLogin, acceptedPolicy, showRequired, email, emailInput, trySubmitEmail, toPrivacyPolicy }
   }
 }
 </script>

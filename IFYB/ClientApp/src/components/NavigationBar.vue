@@ -46,23 +46,23 @@
               </a>
             </router-link>
           </li>
-          <li class="nav-item dropdown dropdown-hover mx-2" v-if="isUserLoggedIn">
+          <li class="nav-item dropdown dropdown-hover mx-2" v-if="isClientLoggedIn">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="$router.push('/my-orders')">
               {{ $t('navigationBar.myOrders') }}
             </a>
           </li>
-          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="isUserLoggedIn">
+          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="isClientLoggedIn">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" @click="logout">
               {{ $t('navigationBar.logout') }}
             </a>
           </li>
-          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="!isUserLoggedIn">
+          <li class="nav-item dropdown dropdown-hover mx-2 d-lg-none d-block" v-if="!isClientLoggedIn">
             <a role="button" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="/authentication">
               {{ $t('navigationBar.login') }}
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav d-block mx-4 text-center" v-if="isUserLoggedIn">
+        <ul class="navbar-nav d-block mx-4 text-center" v-if="isClientLoggedIn">
           <li class="nav-item small fw-bold">
             {{name}}
           </li>
@@ -86,24 +86,24 @@
 <script>
 import router from '../router';
 import { computed } from "@vue/reactivity";
-import { useUserAuthentication } from "../store/authentication";
+import { useClientAuthentication } from "../store/client";
 import { useAdminAuthentication } from "../store/admin";
 
 export default {
   name: 'NavigationBar',
   setup() {
-    const userAuth = useUserAuthentication();
+    const clientAuth = useClientAuthentication();
     const adminAuth = useAdminAuthentication();
-    const isLoggedIn = computed(() => userAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
+    const isLoggedIn = computed(() => clientAuth.isLoggedIn.value || adminAuth.isLoggedIn.value);
 
     function logout() {
-      userAuth.logout();
+      clientAuth.logout();
       adminAuth.logout();
-      userAuth.requestedPage.value = null;
+      clientAuth.requestedPage.value = null;
       router.push('/');
     }
 
-    return { logout, isLoggedIn, 'isUserLoggedIn': userAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': userAuth.name, 'email': userAuth.email }
+    return { logout, isLoggedIn, 'isClientLoggedIn': clientAuth.isLoggedIn, 'isAdminLoggedIn': adminAuth.isLoggedIn, 'name': clientAuth.name, 'email': clientAuth.email }
   }
 }
 </script>

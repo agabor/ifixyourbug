@@ -21,14 +21,14 @@ import { ref } from 'vue';
 import CarouselItem from '../components/CarouselItem.vue';
 import OrderList from '../components/OrderList.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
-import { useUserAuthentication } from "../store/authentication";
+import { useClientAuthentication } from "../store/client";
 import router from '../router';
 
 export default {
   name: 'OrdersView',
   components: { CarouselItem, OrderList, FooterComponent },
   setup() {
-    const { get } = useUserAuthentication();
+    const { get } = useClientAuthentication();
     const orders = ref([]);
 
     async function setOrders() {

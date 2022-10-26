@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { fetchGet, fetchPost, timeout } from './web';
-import { userGet, userPost } from './authentication';
+import { clientGet, clientPost } from './client';
 
 export function useTimeout() {
   return { timeout }
@@ -86,7 +86,7 @@ export function useGitServices() {
 const gitAccesses = ref([]);
 
 async function setGitAccesses() {
-  let response = await userGet('/api/git-accesses');
+  let response = await clientGet('/api/git-accesses');
   if(response.status === 200) {
     gitAccesses.value = await response.json();
   } else {
@@ -99,7 +99,7 @@ async function getGitAccessId(id, url, mode) {
   if(id){
     gitAccessId = id;
   } else {
-    let response = await userPost(`/api/git-accesses`, {'url': url, 'accessMode': mode});
+    let response = await clientPost(`/api/git-accesses`, {'url': url, 'accessMode': mode});
     if(response.status === 200) {
       gitAccessId = (await response.json()).id;
       setGitAccesses();

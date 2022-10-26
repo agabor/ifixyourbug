@@ -33,18 +33,18 @@
 import router from '@/router';
 import { watch } from 'vue';
 import { useTimeout } from '../store';
-import { useUserAuthentication } from "../store/authentication";
+import { useClientAuthentication } from "../store/client";
 import { useAdminAuthentication } from '../store/admin'
 
 export default {
   name: "TimeoutModal",
   setup() {
     const { timeout } = useTimeout();
-    const userAuth = useUserAuthentication();
+    const clientAuth = useClientAuthentication();
     const adminAuth = useAdminAuthentication();
     
     function logout() {
-      userAuth.logout();
+      clientAuth.logout();
       adminAuth.logout();
     }
 

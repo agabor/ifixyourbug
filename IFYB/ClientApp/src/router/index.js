@@ -24,12 +24,12 @@ const StackoverflowRequestsView = () => import(/* webpackChunkName: "admin" */  
 const StackoverflowRequestView = () => import(/* webpackChunkName: "admin" */  '@/views/StackoverflowRequestView.vue');
 
 import { useInputError, useTinyMce } from '@/store';
-import { useUserAuthentication } from "@/store/authentication";
+import { useClientAuthentication } from "@/store/client";
 import { resetServerError } from '@/store/serverError';
 import { useAdminAuthentication } from "@/store/admin";
 import { usePayment } from "@/store/payment";
 
-const userAuth = useUserAuthentication();
+const clientAuth = useClientAuthentication();
 const adminAuth = useAdminAuthentication();
 const payment = usePayment();
 const { loadTinymce } = useTinyMce();
@@ -43,11 +43,12 @@ function paymentGuard(to) {
   return { path: '/' }
 }
 
-function userAuthenticationGuard(to) {
-  if (userAuth.isLoggedIn.value && userAuth.name.value) {
+function clientAuthenticationGuard(to) {
+  if (clientAuth.isLoggedIn.value && clientAuth.name.value) {
     return true
   } else {
-    userAuth.requestedPage.value = to;
+    clientAuth.requestedPage.value = to;
+    clientAuth.page.value = "name";
     return { path: '/authentication' }
   }
 }
@@ -85,7 +86,7 @@ const routes = [
     name: 'new-order',
     component: NewOrderView,
     meta: { title: 'New Order' },
-    beforeEnter: [userAuthenticationGuard, loadTinymce]
+    beforeEnter: [clientAuthenticationGuard, loadTinymce]
   },
   {
     path: '/faq',
@@ -143,13 +144,13 @@ const routes = [
     name: 'my-orders',
     component: OrdersView,
     meta: { title: 'My Orders' },
-    beforeEnter: userAuthenticationGuard
+    beforeEnter: clientAuthenticationGuard
   },
   {
     path: '/my-orders/:number',
     name: 'my-order',
     component: OrderView,
-    beforeEnter: userAuthenticationGuard
+    beforeEnter: clientAuthenticationGuard
   },
   {
     path: '/authentication',

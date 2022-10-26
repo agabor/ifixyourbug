@@ -54,7 +54,7 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
-import { useUserAuthentication } from "../store/authentication";
+import { useClientAuthentication } from "../store/client";
 import StateBadge from './StateBadge.vue';
 import router from '@/router';
 
@@ -66,7 +66,7 @@ export default {
   },
   emits: ['update:modelValue'],
   setup(props, context) {
-    const { get } = useUserAuthentication();
+    const { get } = useClientAuthentication();
 
     setGitAccess();
 
