@@ -3,9 +3,10 @@
     <div class="row">
       <div class="col-lg-4 me-auto my-auto text-lg-start text-center">
         <h6 class="text-white font-weight-bolder text-uppercase mb-2">{{ $t('footer.title') }}</h6>
-        <p class="text-white">{{ $t('footer.copyright') }}</p>
+        <p class="text-white mb-2">{{ $t('footer.copyright') }}</p>
+        <a class="text-white mb-2" href="https://github.com/agabor/ifixyourbug" target="_blank"><span class="fab fa-github text-white" aria-hidden="true"></span> Project on GitHub</a>
       </div>
-      <div class="col-lg-2 col-sm-6 col-12 text-lg-start text-center mb-sm-0 mb-4">
+      <div class="col-lg-2 col-sm-6 col-12 text-lg-start text-center mt-lg-0 mt-4">
         <div>
           <h6 class="text-white text-sm mb-1">{{ $t('footer.pages') }}</h6>
           <ul class="flex-column ms-lg-n3 nav">
@@ -21,7 +22,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mb-sm-0 mb-4">
+      <div class="col-lg-2 col-sm-4 col-12 text-lg-start text-center mt-lg-0 mt-4">
         <div>
           <h6 class="text-white text-sm mb-1">{{ $t('footer.legal') }}</h6>
           <ul class="flex-column ms-lg-n3 nav">
