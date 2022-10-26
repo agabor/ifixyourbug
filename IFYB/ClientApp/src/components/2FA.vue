@@ -22,7 +22,7 @@
 import { ref, onMounted } from 'vue';
 import CarouselItem from './CarouselItem.vue';
 import OneClickBtn from './OneClickBtn.vue';
-import { authenticator } from '@/store/authentication';
+import { useAuthenticator } from '@/store/authentication';
 
 export default {
   name: '2FA',
@@ -31,11 +31,11 @@ export default {
     isClient: Boolean
   },
   setup(props) {
-    const auth = authenticator(props.isClient);
+    const { progress, email, authenticationError, authenticateWithCode, cancelLogin } = useAuthenticator(props.isClient);
     const code = ref([]);
     let codeLength = 6;
     const inputs = ref([]);
-    auth.progress.value = 0;
+    progress.value = 0;
     
     onMounted(() => {
       focus(0);
@@ -68,7 +68,7 @@ export default {
         if (newValue !== code.value[idx]) {
           code.value[idx] = newValue.replace(code.value[idx], '');
         } else {
-          event.target.value = auth.value[idx];
+          event.target.value = code.value[idx];
         }
         if(idx+1 < codeLength)
           focus(idx+1);
@@ -91,10 +91,10 @@ export default {
     }
 
     function submitCode() {
-      auth.authenticateWithCode(code.value.join(''));
+      authenticateWithCode(code.value.join(''));
     }
 
-    return { code, codeLength, inputs, 'email': auth.email, 'progress': auth.progress, 'authenticationError': auth.authenticationError, submitCode, onPaste, onInputChange, 'cancelLogin': auth.cancelLogin }
+    return { code, codeLength, inputs, email, progress, authenticationError, submitCode, onPaste, onInputChange, cancelLogin }
   }
 }
 </script>

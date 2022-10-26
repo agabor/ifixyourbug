@@ -18,7 +18,7 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue';
-import { useUserAuthentication } from "../store/client";
+import { useClientAuthentication } from "../store/client";
 
 export default {
 	name: 'TextEditor',
@@ -29,7 +29,7 @@ export default {
 	},
 	emits: ['update:modelValue'],
 	setup() {
-		const { postData } = useUserAuthentication();
+		const { postData } = useClientAuthentication();
 		const upload = (blobInfo) => new Promise((resolve, reject) => {
 			const formData = new FormData();
 			formData.append('file', blobInfo.blob(), blobInfo.filename());

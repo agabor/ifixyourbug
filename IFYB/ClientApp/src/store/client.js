@@ -2,25 +2,25 @@ import { ref } from 'vue';
 import { get, post, postData, fetchPost, timeout, requestedPage } from './web';
 import router from '@/router';
 
-const userJwt = ref(localStorage.getItem('jwt'));
-const isUserLoggedIn = ref(userJwt.value != null);
-const userName = ref(localStorage.getItem('clientName'));
-const userEmail = ref(localStorage.getItem('clientEmail'));
+const jwt = ref(localStorage.getItem('jwt'));
+const isLoggedIn = ref(jwt.value != null);
+const name = ref(localStorage.getItem('clientName'));
+const email = ref(localStorage.getItem('clientEmail'));
 const progress = ref(0);
 const firstLogin = ref(false);
 const page = ref("email");
 const authenticationError = ref(null);
 let clientId;
 
-setUserJwt(localStorage.getItem('jwt'));
+setJwt(localStorage.getItem('jwt'));
 
-async function authenticate(email, acceptedPolicy) {
+async function authenticate(e, acceptedPolicy) {
   progress.value = 30;
-  let response = await fetchPost('/api/authenticate', {'email': email, 'privacyPolicyAccepted': acceptedPolicy})
+  let response = await fetchPost('/api/authenticate', {'email': e, 'privacyPolicyAccepted': acceptedPolicy})
   progress.value = 100;
   if(response.status === 200) {
     clientId = (await response.json()).id;
-    userEmail.value = email;
+    email.value = e;
     setTimeout(() => {
       page.value = 'auth';
       progress.value = 100;
@@ -29,7 +29,7 @@ async function authenticate(email, acceptedPolicy) {
     firstLogin.value = true;
     progress.value = 0;
   } else {
-    userEmail.value = null;
+    email.value = null;
     progress.value = 0;
   }
 }
@@ -41,7 +41,7 @@ async function authenticateWithCode(code) {
   authenticationError.value = null;
   if(response.status === 200) {
     setTimeout(() => {
-      setUserData(data.jwt);
+      setData(data.jwt);
       toNamePageOrToTargetPage();
       progress.value = 100;
     }, "500");
@@ -57,26 +57,26 @@ async function authenticateWithCode(code) {
 }
 
 function toNamePageOrToTargetPage() {
-  if(userName.value) {
+  if(name.value) {
     router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
   } else {
     page.value = 'name';
   }
 }
 
-async function setName(name) {
+async function setName(n) {
   window.rdt('track', 'SignUp');
-  let response = await userPost('/api/clients/name', {'name': name});
+  let response = await clientPost('/api/clients/name', {'name': n});
   progress.value = 100;
   if(response.status === 200) {
     setTimeout(() => {
-      localStorage.setItem('clientName', name);
-      userName.value = name;
+      localStorage.setItem('clientName', n);
+      name.value = n;
       router.push(requestedPage.value ? requestedPage.value.fullPath : '/my-orders');
     }, "500");
   } else {
     localStorage.removeItem('clientName');
-    userName.value = null;
+    name.value = null;
   }
 }
 
@@ -84,47 +84,47 @@ async function cancelLogin() {
   progress.value = 0;
   firstLogin.value = false;
   authenticationError.value = null;
-  resetUserData();
+  resetData();
   page.value = 'email';
 }
 
-function setUserJwt(jwt) {
-  userJwt.value = jwt;
-  if (jwt) {
-    localStorage.setItem('jwt', jwt);
-    isUserLoggedIn.value = true;
+function setJwt(newJwt) {
+  jwt.value = newJwt;
+  if (newJwt) {
+    localStorage.setItem('jwt', newJwt);
+    isLoggedIn.value = true;
   } else {
     localStorage.removeItem('jwt');
-    isUserLoggedIn.value = false;
+    isLoggedIn.value = false;
   }
 }
 
-export function userGet(route) {
-  return get(route, userJwt.value)
+export function clientGet(route) {
+  return get(route, jwt.value)
 }
 
-export function userPost(route, body) {
-  return post(route, body, userJwt.value)
+export function clientPost(route, body) {
+  return post(route, body, jwt.value)
 }
 
-function userPostData(route, data) {
-  return postData(route, data, userJwt.value)
+function clientPostData(route, data) {
+  return postData(route, data, jwt.value)
 }
 
-function setUserData(jwt) {
-  let parts = jwt.split('.');
+function setData(newJwt) {
+  let parts = newJwt.split('.');
   if (parts.length === 3) {
     let base64 = parts[1];
     let payload = JSON.parse(b64DecodeUnicode(base64));
-    userName.value = payload.name;
-    userEmail.value = payload.email;
-    if(userName.value) {
-      localStorage.setItem('clientName', userName.value);
+    name.value = payload.name;
+    email.value = payload.email;
+    if(name.value) {
+      localStorage.setItem('clientName', name.value);
     }
-    localStorage.setItem('clientEmail', userEmail.value);
-    setUserJwt(jwt);
+    localStorage.setItem('clientEmail', email.value);
+    setJwt(newJwt);
   } else {
-    resetUserData();
+    resetData();
   }
 }
 
@@ -134,50 +134,50 @@ function b64DecodeUnicode(str) {
   }).join(''));
 }
 
-function resetUserData() {
-  userName.value = null;
-  userEmail.value = null;
+function resetData() {
+  name.value = null;
+  email.value = null;
   localStorage.removeItem('clientName');
   localStorage.removeItem('clientEmail');
-  setUserJwt(null);
+  setJwt(null);
 }
 
-function userLogout() {
-  if (userJwt.value) {
+function logout() {
+  if (jwt.value) {
     checkJwtPromise
     .finally(() => {
       localStorage.removeItem('order');
-      resetUserData();
+      resetData();
     });
   } else {
     localStorage.removeItem('order');
-    resetUserData();
+    resetData();
   }
   page.value = "email";
   firstLogin.value = false;
 }
 
 let checkJwtPromise = Promise.resolve();
-if (userJwt.value) {
+if (jwt.value) {
   checkJwtPromise = new Promise((resolve) => {
-    userGet('/api/authenticate/check-jwt').then(async resp => {
+    clientGet('/api/authenticate/check-jwt').then(async resp => {
       if (resp.status !== 200) {
-        resetUserData();
+        resetData();
         timeout.value = true;
       } else {
-        setUserData((await resp.json()).jwt);
+        setData((await resp.json()).jwt);
         router.push(requestedPage.value ? requestedPage.value : '/');
       }
       resolve();
     })
   });
 } else {
-  resetUserData();
+  resetData();
 }
 
-export function useUserAuthentication() {
+export function useClientAuthentication() {
   return {
     page, progress, firstLogin, authenticationError, authenticate, authenticateWithCode, cancelLogin,
-    requestedPage, 'jwt': userJwt, setUserData, resetUserData, 'setJwt': setUserJwt, 'name': userName, 'email': userEmail, 'isLoggedIn': isUserLoggedIn, setName, 'get': userGet, 'post': userPost, 'postData': userPostData, 'logout': userLogout
+    requestedPage, jwt, setData, resetData, setJwt, name, email, isLoggedIn, setName, 'get': clientGet, 'post': clientPost, 'postData': clientPostData, logout
   };
 }

@@ -11,13 +11,13 @@
 
 <script>
 import Authentication from '../components/Authentication.vue';
-import { useUserAuthentication } from "../store/client";
+import { useClientAuthentication } from "../store/client";
 
 export default {
   name: 'AdminAuthenticationView',
   components: { Authentication },
   setup() {
-    const { logout } = useUserAuthentication();
+    const { logout } = useClientAuthentication();
     logout();
     
     return {}

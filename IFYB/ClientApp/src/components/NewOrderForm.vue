@@ -40,7 +40,7 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useInputError, useGitAccess, useMessages } from "../store";
-import { useUserAuthentication } from "../store/client";
+import { useClientAuthentication } from "../store/client";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -51,7 +51,7 @@ export default {
   setup(props, context) {
     const { hasInputError, setInputError } = useInputError();
     const { tm } = useMessages();
-    const { post } = useUserAuthentication();
+    const { post } = useClientAuthentication();
     const { gitAccesses, getGitAccessId } = useGitAccess();
     const order = reactive({
       framework: null,

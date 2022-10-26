@@ -10,7 +10,7 @@ import EmailForm from '../components/EmailForm.vue';
 import TwoFa from '../components/2FA.vue';
 import NameForm from '../components/NameForm.vue';
 import AuthenticationFailed from '../components/AuthenticationFailed.vue';
-import { authenticator } from '@/store/authentication';
+import { useAuthenticator } from '@/store/authentication';
 
 export default {
   name: 'AuthenticationForm',
@@ -19,7 +19,7 @@ export default {
     isClient: Boolean
   },
   setup(props) {
-    const { page } = authenticator(props.isClient);
+    const { page } = useAuthenticator(props.isClient);
 
     return { page }
   }

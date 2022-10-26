@@ -2,25 +2,26 @@ import { ref } from 'vue';
 import { get, post, fetchPost, timeout, requestedPage } from './web';
 import router from '@/router';
 
-const adminJwt = ref(localStorage.getItem('adminJwt'));
-const isAdminLoggedIn = ref(false);
-const adminEmail = ref('');
+const jwt = ref(localStorage.getItem('adminJwt'));
+const isLoggedIn = ref(false);
+const email = ref('');
 const progress = ref(0);
+const firstLogin = ref(false);
 const page = ref("email");
 const authenticationError = ref(null);
 let adminId;
 
-setAdminJwt(localStorage.getItem('adminJwt'));
+setJwt(localStorage.getItem('adminJwt'));
 
-async function authenticate(email) {
+async function authenticate(e) {
   progress.value = 30;
-  let response = await fetchPost('/api/authenticate/admin', {'email': email})
+  let response = await fetchPost('/api/authenticate/admin', {'email': e})
   progress.value = 100;
   if(response.status === 200) {
     authenticationError.value = null;
     adminId = (await response.json()).id;
     localStorage.setItem('adminId', adminId);
-    adminEmail.value = email;
+    email.value = e;
     setTimeout(() => {
       page.value = 'auth';
       progress.value = 100;
@@ -36,7 +37,7 @@ async function authenticateWithCode(code) {
   let data = await response.json();
   if(response.status === 200) {
     authenticationError.value = null;
-    setAdminJwt(data.jwt);
+    setJwt(data.jwt);
     router.push(requestedPage.value ? requestedPage.value.fullPath : '/admin');
   } else if(response.status === 401) {
     const passwordExpired = data.passwordExpired;
@@ -51,49 +52,49 @@ async function authenticateWithCode(code) {
 function cancelLogin() {
   progress.value = 0;
   authenticationError.value = null;
-  setAdminJwt(null);
+  setJwt(null);
   page.value = 'email';
 }
 
-function setAdminJwt(jwt) {
-  adminJwt.value = jwt;
-  if (jwt) {
-    localStorage.setItem('adminJwt', jwt);
-    isAdminLoggedIn.value = true;
+function setJwt(newJwt) {
+  jwt.value = newJwt;
+  if (newJwt) {
+    localStorage.setItem('adminJwt', newJwt);
+    isLoggedIn.value = true;
   } else {
     localStorage.removeItem('adminJwt');
     localStorage.removeItem('adminId');
-    isAdminLoggedIn.value = false;
+    isLoggedIn.value = false;
   }
 }
 
 function adminGet(route) {
-  return get(route, adminJwt.value)
+  return get(route, jwt.value)
 }
 
 function adminPost(route, body) {
-  return post(route, body, adminJwt.value)
+  return post(route, body, jwt.value)
 }
 
 
-if (adminJwt.value) {
+if (jwt.value) {
   adminGet('/api/authenticate/admin/check-jwt').then(resp => {
     if (resp.status !== 200) {
-      setAdminJwt(null);
+      setJwt(null);
       timeout.value = true;
     }
   })
 }
 
-function adminLogout() {
-  if (adminJwt.value) {
-    setAdminJwt(null);
+function logout() {
+  if (jwt.value) {
+    setJwt(null);
   }
 }
 
 export function useAdminAuthentication() {
   return {
-    page, progress, 'email': adminEmail, authenticationError, authenticate, authenticateWithCode, cancelLogin,
-    requestedPage, 'setJwt': setAdminJwt, 'isLoggedIn': isAdminLoggedIn, 'get': adminGet, 'post': adminPost, 'logout': adminLogout
+    page, progress, firstLogin, email, authenticationError, authenticate, authenticateWithCode, cancelLogin,
+    requestedPage, setJwt, isLoggedIn, 'get': adminGet, 'post': adminPost, logout
   };
 }

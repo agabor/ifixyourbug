@@ -1,9 +1,9 @@
 import { useAdminAuthentication } from "./admin";
-import { useUserAuthentication } from "./client";
+import { useClientAuthentication } from "./client";
 
-export function authenticator(isClient) {
+export function useAuthenticator(isClient) {
   if(isClient) 
-    return useUserAuthentication();
+    return useClientAuthentication();
   else
     return useAdminAuthentication();
 }

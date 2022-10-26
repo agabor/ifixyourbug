@@ -40,7 +40,7 @@ import BugDescription from './orderComponents/BugDescription.vue'
 import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
 import { useInputError, useGitAccess, useTinyMce, useMessages } from "../store";
-import { useUserAuthentication } from "../store/client";
+import { useClientAuthentication } from "../store/client";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
 
@@ -53,7 +53,7 @@ export default {
   emits: ['update:modelValue'],
   setup(props, context) {
     const { hasInputError, setInputError } = useInputError();
-    const { get, post } = useUserAuthentication();
+    const { get, post } = useClientAuthentication();
     const { loadedTinymce } = useTinyMce();
     const { gitAccesses, getGitAccessId } = useGitAccess();
     const { tm } = useMessages();

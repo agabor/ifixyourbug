@@ -31,7 +31,7 @@ import { validEmail } from '../utils/Validate';
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
 import { useInputError } from "../store";
-import { authenticator } from '@/store/authentication';
+import { useAuthenticator } from '@/store/authentication';
 
 export default {
   name: 'EmailForm',
@@ -40,27 +40,25 @@ export default {
     isClient: Boolean
   },
   setup(props) {
-    const auth = authenticator(props.isClient);
+    const { progress, firstLogin, authenticationError, authenticate } = useAuthenticator(props.isClient);
     const { inputErrors, setInputError } = useInputError();
     const email = ref('');
     const acceptedPolicy = ref(false);
     const showRequired = ref(false);
     const showErrors = ref(false);
     const emailInput = ref(null);
-    auth.progress.value = 0;
+    progress.value = 0;
 
     onMounted(() => {
       emailInput.value.focus();
     })
     
     watch(email, () => {
-      if(props.sClient) {
-        auth.firstLogin.value = false;
-      }
+      firstLogin.value = false;
       showRequired.value = false;
       acceptedPolicy.value = false;
       setInputError('email', validEmail(email.value));
-      auth.authenticationError.value = null;
+      authenticationError.value = null;
     })
 
     watch(acceptedPolicy, () => {
@@ -73,15 +71,12 @@ export default {
       if(err) {
         setInputError('email', err);
         emailInput.value.focus();
-      } else if(props.isClient) {
-        if(auth.firstLogin.value && !acceptedPolicy.value) {
+      } else {
+        if(firstLogin.value && !acceptedPolicy.value) {
           showRequired.value = true;
         }
         setInputError('email', null);
-        await auth.authenticate(email.value, acceptedPolicy.value);
-      } else if(!props.isClient) {
-        setInputError('email', null);
-        await auth.authenticate(email.value);
+        await authenticate(email.value, acceptedPolicy.value);
       }
     }
 
@@ -89,7 +84,7 @@ export default {
       window.open('/privacy-policy', '_blank');
     }
 
-    return { inputErrors, 'authenticationError': auth.authenticationError, showErrors, 'progress' : auth.progress, 'firstLogin': auth.firstLogin, acceptedPolicy, showRequired, email, emailInput, trySubmitEmail, toPrivacyPolicy }
+    return { inputErrors, authenticationError, showErrors, progress, firstLogin, acceptedPolicy, showRequired, email, emailInput, trySubmitEmail, toPrivacyPolicy }
   }
 }
 </script>

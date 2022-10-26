@@ -23,7 +23,7 @@ import { required } from '../utils/Validate';
 import CarouselItem from '../components/CarouselItem.vue';
 import OneClickBtn from '../components/OneClickBtn.vue';
 import { useMessages } from "../store";
-import { authenticator } from '@/store/authentication';
+import { useAuthenticator } from '@/store/authentication';
 
 export default {
   name: 'NameForm',
@@ -32,12 +32,12 @@ export default {
     isClient: Boolean
   },
   setup(props) {
-    const auth = authenticator(props.isClient);
+    const { progress, authenticationError, setName } = useAuthenticator(props.isClient);
     const { tm } = useMessages();
     const name = ref('');
     const validationError = ref(null);
     const nameInput = ref(null);
-    auth.progress.value = 0;
+    progress.value = 0;
 
     onMounted(() => {
       nameInput.value.focus();
@@ -50,11 +50,11 @@ export default {
         nameInput.value.focus();
       } else {
         validationError.value = null;
-        auth.setName(name.value);
+        setName(name.value);
       }
     }
 
-    return { validationError, name, 'progress': auth.progress, 'authenticationError': auth.authenticationError, nameInput, trySetName }
+    return { validationError, name, progress, authenticationError, nameInput, trySetName }
   }
 }
 </script>

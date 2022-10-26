@@ -80,7 +80,7 @@
 import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 import { validEmail, required } from '../utils/Validate';
 import { useInputError, useMessages } from "../store";
-import { useUserAuthentication } from "../store/client";
+import { useClientAuthentication } from "../store/client";
 import OneClickBtn from '@/components/OneClickBtn.vue';
 import FooterComponent from '../components/homeComponents/FooterComponent.vue';
 import { fetchPost } from '@/store/web';
@@ -89,7 +89,7 @@ export default {
   name: 'ContactForm',
   components: { OneClickBtn, FooterComponent },
   setup() {
-    const { isLoggedIn, name, email } = useUserAuthentication();
+    const { isLoggedIn, name, email } = useClientAuthentication();
     const { inputErrors, setInputError, hasInputError } = useInputError();
     const { tm } = useMessages();
     const contact = reactive({
