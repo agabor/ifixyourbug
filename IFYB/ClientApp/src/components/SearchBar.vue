@@ -28,12 +28,6 @@ export default {
             if(!props.properties.includes(property)){
               continue;
             }
-            if(property == 'framework') {
-              if(element == '1')
-                element = tm('framework.option2');
-              else 
-                element = tm('framework.option1');
-            }
             if(property === 'state') {
               switch (element) {
                 case '1':

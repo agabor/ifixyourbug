@@ -6,6 +6,7 @@
         <carousel-item class="full-height" width="col-12">
           <template v-slot:content>
             <admin-order-list v-if="orders.length > 0" :orders="orders" @openOrder="openOrder"></admin-order-list>
+            <p class="m-2" v-else>{{ $t('errors.noResult') }}</p>
           </template>
         </carousel-item>
       </div>

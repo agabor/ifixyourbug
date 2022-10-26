@@ -8,11 +8,7 @@
           <sortable-th title="creationTime" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="name" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="email" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
-          <sortable-th title="framework" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
-          <sortable-th title="version" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="applicationUrl" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
-          <sortable-th title="specificPlatform" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
-          <sortable-th title="thirdPartyTool" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="state" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
         </tr>
@@ -32,19 +28,7 @@
             <span class="text-secondary text-xs font-weight-bold">{{ order.email }}</span>
           </td>
           <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }}</span>
-          </td>
-          <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ order.version }}</span>
-          </td>
-          <td>
             <span class="text-secondary text-xs font-weight-bold">{{ order.applicationUrl }}</span>
-          </td>
-          <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ order.specificPlatform }}</span>
-          </td>
-          <td>
-            <span class="text-secondary text-xs font-weight-bold">{{ order.thirdPartyTool }}</span>
           </td>
           <td>
             <state-badge class="badge badge-sm" :state="order.state" :isSimple="true"></state-badge>
@@ -58,7 +42,6 @@
       </tbody>
     </table>
   </div>
-  <p class="m-2" v-if="filteredOrders.length == 0">{{ $t('errors.noResult') }}</p>
 </template>
 
 <script>
@@ -76,7 +59,7 @@ export default {
   emits: ['openOrder'],
   setup(props) {
     const filteredOrders = ref(props.orders);
-    const properties = ['number', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state', 'name', 'email'];
+    const properties = ['number', 'applicationUrl', 'state', 'name', 'email'];
     const orderBy = ref('');
     const orderAsc = ref(false);
 

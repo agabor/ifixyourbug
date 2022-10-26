@@ -146,12 +146,7 @@ public class OrdersController : BaseController
         var order = client.Orders!.FirstOrDefault(o => o.Number == number);
         if (order == null)
             return NotFound();
-        order.Framework = dto.Framework;
-        order.Version = dto.Version;
         order.ApplicationUrl = dto.ApplicationUrl;
-        order.SpecificPlatform = dto.SpecificPlatform;
-        order.SpecificPlatformVersion = dto.SpecificPlatformVersion;
-        order.ThirdPartyTool = dto.ThirdPartyTool;
         order.BugDescription = dto.BugDescription;
         order.State = OrderState.Submitted;
         order.GitAccessId = dto.GitAccessId;

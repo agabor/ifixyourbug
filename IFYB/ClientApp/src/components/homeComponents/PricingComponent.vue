@@ -28,7 +28,7 @@
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
-                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(1)">{{ $t('pricing.orderNow') }}</button>
+                  <button class="btn bg-gradient-primary" @click="toNewOrderView()">{{ $t('pricing.orderNow') }}</button>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
-                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(0)">{{ $t('pricing.orderNow') }}</button>
+                  <button class="btn bg-gradient-primary" @click="toNewOrderView()">{{ $t('pricing.orderNow') }}</button>
                 </div>
               </div>
             </div>
@@ -70,32 +70,12 @@ export default {
   setup() {
     const { eurPrice, usdPrice, workdays } = useSettings();
 
-    function setOrderFrameWork(framework) {
+    function toNewOrderView() {
       window.rdt('track', 'AddToCart');
-      let order = JSON.parse(localStorage.getItem('order'));
-      if(!order)
-        order = { framework: null,
-          version: null,
-          applicationUrl: null,
-          specificPlatform: null,
-          specificPlatformVersion: null,
-          thirdPartyTool: null,
-          bugDescription: '',
-          accessMode: null,
-          url: null,
-          selectedAccess: {}
-        };
-      if(order.framework !== framework) {
-        order.framework = framework;
-        order.version = null;
-        order.specificPlatform = null;
-        order.specificPlatformVersion = null;
-        localStorage.setItem('order', JSON.stringify(order));
-      } 
       router.push('new-order');
     }
 
-    return { eurPrice, usdPrice, workdays, setOrderFrameWork }
+    return { eurPrice, usdPrice, workdays, toNewOrderView }
   }
 }
 </script>

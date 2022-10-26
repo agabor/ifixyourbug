@@ -59,12 +59,7 @@ public class IFYBTests
         int orderNumber = int.Parse(DateTime.Now.ToString("yyMMdd") + "001");
         var order = new
         {
-            framework = 0,
-            version = "6.0",
             applicationUrl = "app url",
-            specificPlatform = "Windows",
-            specificPlatformVersion = "10",
-            thirdPartyTool = "",
             bugDescription = "bello",
             gitAccessId = gitAccessId,
             clientId = 1

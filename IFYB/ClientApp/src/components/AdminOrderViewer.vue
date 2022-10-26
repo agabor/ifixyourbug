@@ -55,12 +55,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <select-framework :modelValue="order.framework" :editable="false" :showError="false"></select-framework>
-                  <select-version :modelValue="order.version" :framework="order.framework" :editable="false" :showError="false"></select-version>
-                </div>
-                <operating-system v-if="order.framework == 1" :modelValue="order.specificPlatform" :version="order.specificPlatformVersion" :editable="false" :showError="false"></operating-system>
-                <browser-type v-if="order.framework == 0" :modelValue="order.specificPlatform" :version="order.specificPlatformVersion" :editable="false" :showError="false"></browser-type>
                 <online-app :modelValue="order.applicationUrl" :editable="false" :showError="false"></online-app>
                 <project-sharing v-if="gitAccess" :modelValue="gitAccess.url" :accessMode="gitAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="col-md-12 mb-3">
@@ -69,7 +63,6 @@
                     <span v-html="order.bugDescription"></span>
                   </div>
                 </div>
-                <third-party-tool :modelValue="order.thirdPartyTool" :editable="false" :showError="false"></third-party-tool>
               </div>
             </form>
             <div class="text-center">
@@ -84,19 +77,14 @@
 
 <script>
 import { ref } from 'vue';
-import SelectFramework from './orderComponents/SelectFramework.vue';
-import SelectVersion from './orderComponents/SelectVersion.vue';
-import OperatingSystem from './orderComponents/OperatingSystem.vue';
-import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
-import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import { useAdminAuthentication } from "../store/admin";
 import StateBadge from './StateBadge.vue';
 
 export default {
   name: 'AdminOrderViewer',
-  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, StateBadge },
+  components: { OnlineApp, ProjectSharing, StateBadge },
   props: {
     order: Object,
   },

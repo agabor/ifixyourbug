@@ -17,12 +17,6 @@
             <update-order-form v-if="modelValue.state === 7" :modelValue="modelValue"></update-order-form>
             <form v-else>
               <div class="text-start">
-                <div class="row mb-3">
-                  <select-framework :modelValue="modelValue.framework"></select-framework>
-                  <select-version :modelValue="modelValue.version" :framework="modelValue.framework"></select-version>
-                </div>
-                <operating-system v-if="modelValue.framework == 1" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></operating-system>
-                <browser-type v-if="modelValue.framework == 0" :modelValue="modelValue.specificPlatform" :version="modelValue.specificPlatformVersion"></browser-type>
                 <online-app :modelValue="modelValue.applicationUrl"></online-app>
                 <project-sharing :modelValue="modelValue.selectedAccess.url" :accessMode="modelValue.selectedAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="row mb-3">
@@ -31,7 +25,6 @@
                     <span v-html="modelValue.bugDescription"></span>
                   </div>
                 </div>
-                <third-party-tool :modelValue="modelValue.thirdPartyTool"></third-party-tool>
               </div>
             </form>
             <div class="text-center">
@@ -46,13 +39,8 @@
 </template>
 
 <script>
-import SelectFramework from './orderComponents/SelectFramework.vue';
-import SelectVersion from './orderComponents/SelectVersion.vue';
-import OperatingSystem from './orderComponents/OperatingSystem.vue';
-import BrowserType from './orderComponents/BrowserType.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
-import ThirdPartyTool from './orderComponents/ThirdPartyTool.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
 import { useClientAuthentication } from "../store/client";
 import StateBadge from './StateBadge.vue';
@@ -60,7 +48,7 @@ import router from '@/router';
 
 export default {
   name: 'OrderViewer',
-  components: { SelectFramework, SelectVersion, OperatingSystem, BrowserType, OnlineApp, ProjectSharing, ThirdPartyTool, UpdateOrderForm, StateBadge },
+  components: { OnlineApp, ProjectSharing, UpdateOrderForm, StateBadge },
   props: {
     modelValue: Object,
   },
