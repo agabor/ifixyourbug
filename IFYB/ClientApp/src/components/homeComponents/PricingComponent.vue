@@ -18,12 +18,11 @@
                 </div>
                 <div class="card-body text-dark py-0">
                   <h6 class="m-0">{{ $t('pricing.payOne') }}</h6>
-                  <h3 class="mb-0">
-                    $ {{ parseFloat(usdPrice).toFixed(2) }}
-                  </h3>
-                  <h4><small>or</small></h4>
-                  <h3>
+                  <h3 v-if="isEuropean">
                     € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <h3 v-else>
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
@@ -40,12 +39,11 @@
                 </div>
                 <div class="card-body text-dark py-0">
                   <h6 class="mt-0">{{ $t('pricing.payOne') }}</h6>
-                  <h3 class="mb-0">
-                    $ {{ parseFloat(usdPrice).toFixed(2) }}
-                  </h3>
-                  <h4><small>or</small></h4>
-                  <h3>
+                  <h3 v-if="isEuropean">
                     € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <h3 v-else>
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
@@ -68,14 +66,14 @@ import { useSettings } from "../../store";
 export default {
   name: 'PricingComponent',
   setup() {
-    const { eurPrice, usdPrice, workdays } = useSettings();
+    const { isEuropean, eurPrice, usdPrice, workdays } = useSettings();
 
     function toNewOrderView() {
       window.rdt('track', 'AddToCart');
       router.push('new-order');
     }
 
-    return { eurPrice, usdPrice, workdays, toNewOrderView }
+    return { isEuropean, eurPrice, usdPrice, workdays, toNewOrderView }
   }
 }
 </script>

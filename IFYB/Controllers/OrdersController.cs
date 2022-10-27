@@ -89,10 +89,9 @@ public class OrdersController : BaseController
         var today = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
         var ordersToday = dbContext.Orders.Where(o => o.CreationDay == today).Count();
         order.Number = int.Parse(DateTime.UtcNow.ToString("yyMMdd") + (ordersToday+1).ToString("D3"));
-        order.EurPriceId = stripeOptions.EurPriceId;
-        order.UsdPriceId = stripeOptions.UsdPriceId;
-        order.EurPrice = settings.EurPrice;
-        order.UsdPrice = settings.UsdPrice;
+        order.PriceId =  dto.Currency == "eur" ? stripeOptions.EurPriceId : stripeOptions.UsdPriceId;
+        order.Price = dto.Currency == "eur" ? settings.EurPrice : settings.UsdPrice;
+        order.Currency = dto.Currency;
         string pattern = "(src=\".?.?/?userimages/)(.*?)\"";
         order.BugDescription = Regex.Replace(order.BugDescription, pattern, m => $"src=\"/userimages/{m.Groups[2].Value}\"");
 

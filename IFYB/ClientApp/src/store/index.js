@@ -6,6 +6,7 @@ export function useTimeout() {
   return { timeout }
 }
 
+let isEuropean = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] === 'Europe';
 const eurPrice = ref(null);
 const usdPrice = ref(null);
 const workdays = ref(null);
@@ -40,7 +41,7 @@ export function useWindowLoad() {
   return { loaded }
 }
 export function useSettings() {
-  return { eurPrice, usdPrice, workdays };
+  return { isEuropean, eurPrice, usdPrice, workdays };
 }
 
 const inputErrors = ref({

@@ -39,9 +39,9 @@ public class PaymentController : BaseController
     }
 
     [HttpPost]
-    [Route("{paymentToken}/{isEur}")]
+    [Route("{paymentToken}")]
     [Produces(typeof(UrlDto))]
-    public IActionResult Pay(string paymentToken, bool isEur)
+    public IActionResult Pay(string paymentToken)
     {
       var order = dbContext.Orders.FirstOrDefault(o => o.PaymentToken == paymentToken);
       if (order == null)
@@ -59,7 +59,7 @@ public class PaymentController : BaseController
           {
             new SessionLineItemOptions
             {
-              Price = isEur ? order.EurPriceId : order.UsdPriceId,
+              Price = order.PriceId,
               Quantity = 1,
             },
           },

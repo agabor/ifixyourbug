@@ -18,12 +18,10 @@
               <div>
                 <p v-if="!waitForOrder">{{ $t('checkout.payDescription') }}</p>
                 <div class="d-flex justify-content-center" v-if="order">
-                  <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} $${parseFloat(order.usdPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(false)"></one-click-btn>
-                  <one-click-btn v-model:active="activeBtn" :text="`${$t('checkout.pay')} €${parseFloat(order.eurPrice).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay(true)"></one-click-btn>
+                  <one-click-btn :active="progress === 0" :text="`${$t('checkout.pay')} ${ order.currency === 'eur' ? '€' : '$' }${parseFloat(order.price).toFixed(2)}`" class="bg-gradient-primary mx-2" @click="pay()"></one-click-btn>
                 </div>
                 <div class="d-flex justify-content-center" v-else>
-                  <one-click-btn :text="`${$t('checkout.pay')} $`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
-                  <one-click-btn :text="`${$t('checkout.pay')} €`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
+                  <one-click-btn :text="`${$t('checkout.pay')}`" class="bg-gradient-primary mx-2" disabled></one-click-btn>
                 </div>
                 <p>{{$t('pricing.excludeVat')}}</p>
               </div>
@@ -74,11 +72,9 @@ export default {
     const route = useRoute();
     const payment = usePayment();
     const progress = ref(0);
-    const activeBtn = ref(true);
 
     function resetState() {
-      progress.value = null;
-      activeBtn.value = true;
+      progress.value = 0;
       removeEventListener('pageshow', resetState);
     }
 
@@ -93,9 +89,9 @@ export default {
       }
     });    
 
-    function pay(isEur) {
+    function pay() {
       progress.value = 30;
-      fetchPost(`/api/pay/${route.params.token}/${isEur}`).then(resp => {
+      fetchPost(`/api/pay/${route.params.token}}`).then(resp => {
         payment.setPaymentToken(route.params.token)
         resp.json().then(data => {
           window.location.href = data.url
@@ -104,7 +100,7 @@ export default {
         addEventListener('pageshow', resetState);
       });
     }
-    return { order, waitForOrder, route, progress, activeBtn, pay };
+    return { order, waitForOrder, route, progress, pay };
   }
 }
 </script>

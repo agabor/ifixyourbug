@@ -57,16 +57,17 @@
 <script>
 import { ref } from 'vue';
 import { fetchPost } from '../store/web';
+import { useSettings } from '../store';
 
 import { bootstrap, optIn } from 'vue-gtag'
 export default {
   name: "CookieModal",
   setup() {
+    let { isEuropean } = useSettings();
     const cookieConsentAnswered = ref(false);
     const analytics = ref(true);
     const advertisement = ref(true);
     const showCustomize = ref(false);
-    let isEuropean = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0] === 'Europe';
 
     setShowModal();
 

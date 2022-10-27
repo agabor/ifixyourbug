@@ -30,10 +30,8 @@ public class Order
     public string? PostalCode { get; set; }
     public string? AddressState { get; set; }
     public string? Currency { get; set; }
-    public string? EurPriceId { get; set; }
-    public string? UsdPriceId { get; set; }
-    public decimal? EurPrice { get; set; }
-    public decimal? UsdPrice { get; set; }
+    public string? PriceId { get; set; }
+    public decimal? Price { get; set; }
     public long? AmountTotal { get; set; }
     public long? AmountSubtotal { get; set; }
     public long? AmountTax { get; set; }
@@ -60,7 +58,7 @@ public class Order
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Number, CreationTime, ApplicationUrl, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
+        return new OrderDto(Number, CreationTime, ApplicationUrl, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, Currency!, Price!.Value);
     }
 }
 

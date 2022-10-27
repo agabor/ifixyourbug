@@ -13,10 +13,10 @@ public class OrderDto
     public int GitAccessId { get; set; }
     public string? PaymentToken { get; set; }
     public int ClientId { get; set; }
-    public decimal EurPrice { get; set; }
-    public decimal UsdPrice { get; set; }
+    public string Currency { get; set; }
+    public decimal Price { get; set; }
 
-    public OrderDto(int number, DateTime creationTime, string? applicationUrl, string bugDescription, OrderState state, List<MessageDto>? messages, List<ImageDto>? images, int gitAccessId, string? paymentToken, int clientId, decimal eurPrice, decimal usdPrice)
+    public OrderDto(int number, DateTime creationTime, string? applicationUrl, string bugDescription, OrderState state, List<MessageDto>? messages, List<ImageDto>? images, int gitAccessId, string? paymentToken, int clientId, string currency, decimal price)
     {
         Number = number;
         ApplicationUrl = applicationUrl;
@@ -27,8 +27,8 @@ public class OrderDto
         GitAccessId = gitAccessId;
         PaymentToken = paymentToken;
         ClientId = clientId;
-        EurPrice = eurPrice;
-        UsdPrice = usdPrice;
+        Currency = currency;
+        Price = price;
         CreationTime = creationTime;
     }
 }

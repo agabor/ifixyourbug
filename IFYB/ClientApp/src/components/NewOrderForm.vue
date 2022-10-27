@@ -27,7 +27,7 @@ import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import BugDescription from './orderComponents/BugDescription.vue'
 import AcceptTerms from './orderComponents/AcceptTerms.vue';
-import { useInputError, useGitAccess, useMessages } from "../store";
+import { useInputError, useGitAccess, useMessages, useSettings } from "../store";
 import { useClientAuthentication } from "../store/client";
 import router from '../router';
 import OneClickBtn from './OneClickBtn.vue';
@@ -37,6 +37,7 @@ export default {
   components: { OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, AcceptTerms, OneClickBtn },
   emits: ['toSuccessPage'],
   setup(props, context) {
+    let { isEuropean } = useSettings();
     const { hasInputError, setInputError } = useInputError();
     const { tm } = useMessages();
     const { post } = useClientAuthentication();
@@ -93,7 +94,8 @@ export default {
         {
           'applicationUrl': order.applicationUrl,
           'bugDescription': order.bugDescription,
-          'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.selectedAccess.url, order.selectedAccess.accessMode)
+          'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.selectedAccess.url, order.selectedAccess.accessMode),
+          'currency': isEuropean ? 'eur' : 'usd'
         }
       );
       if(response.status === 200) {
