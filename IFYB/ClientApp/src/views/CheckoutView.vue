@@ -91,7 +91,7 @@ export default {
 
     function pay() {
       progress.value = 30;
-      fetchPost(`/api/pay/${route.params.token}}`).then(resp => {
+      fetchPost(`/api/pay/${route.params.token}`).then(resp => {
         payment.setPaymentToken(route.params.token)
         resp.json().then(data => {
           window.location.href = data.url
