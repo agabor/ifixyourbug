@@ -18,7 +18,7 @@
             <form v-else>
               <div class="text-start">
                 <online-app :modelValue="modelValue.applicationUrl"></online-app>
-                <project-sharing :modelValue="modelValue.selectedAccess.url" :accessMode="modelValue.selectedAccess.accessMode" :visible="false" :showError="false"></project-sharing>
+                <project-sharing :modelValue="selectedAccess.url" :accessMode="selectedAccess.accessMode" :visible="false" :showError="false"></project-sharing>
                 <div class="row mb-3">
                   <div class="col-12 form-group mb-0">
                     <label>{{ $t('orderViewer.bugDescription') }}*</label>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import UpdateOrderForm from './UpdateOrderForm.vue';
@@ -55,15 +56,14 @@ export default {
   emits: ['update:modelValue'],
   setup(props, context) {
     const { get } = useClientAuthentication();
+    const selectedAccess = ref({});
 
     setGitAccess();
 
     async function setGitAccess() {
       let response = await get(`/api/git-accesses/${props.modelValue.gitAccessId}`);
       if(response.status === 200) {
-        let order = props.modelValue;
-        order.selectedAccess = await response.json();
-        context.emit('update:modelValue', order);
+        selectedAccess.value = await response.json();
       }
     }
 
@@ -72,7 +72,7 @@ export default {
       router.push('/my-orders');
     }
 
-    return { backToList }
+    return { backToList, selectedAccess }
   }
 }
 </script>
