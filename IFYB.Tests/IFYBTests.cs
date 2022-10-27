@@ -77,6 +77,7 @@ public class IFYBTests
         Assert.IsTrue(respObject.Remove("eurPrice"));
         Assert.IsTrue(respObject.Remove("usdPrice"));
         Assert.IsTrue(respObject.Remove("images"));
+        Assert.IsTrue(respObject.Remove("creationTime"));
         Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
     }
 
