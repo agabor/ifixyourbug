@@ -62,7 +62,8 @@ public class IFYBTests
             applicationUrl = "app url",
             bugDescription = "bello",
             gitAccessId = gitAccessId,
-            clientId = 1
+            clientId = 1,
+            currency = "EUR"
         };
         response = await Post("api/orders", HttpStatusCode.OK, order);
         idToken = response.GetValue("id");
@@ -74,8 +75,7 @@ public class IFYBTests
         Assert.IsTrue(respObject.Remove("messages"));
         Assert.IsTrue(respObject.Remove("state"));
         Assert.IsTrue(respObject.Remove("paymentToken"));
-        Assert.IsTrue(respObject.Remove("eurPrice"));
-        Assert.IsTrue(respObject.Remove("usdPrice"));
+        Assert.IsTrue(respObject.Remove("price"));
         Assert.IsTrue(respObject.Remove("images"));
         Assert.IsTrue(respObject.Remove("creationTime"));
         Assert.AreEqual(JObject.FromObject(order).ToString(), respObject.ToString());
