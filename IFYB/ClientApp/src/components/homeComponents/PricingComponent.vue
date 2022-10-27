@@ -18,17 +18,16 @@
                 </div>
                 <div class="card-body text-dark py-0">
                   <h6 class="m-0">{{ $t('pricing.payOne') }}</h6>
-                  <h3 class="mb-0">
-                    $ {{ parseFloat(usdPrice).toFixed(2) }}
-                  </h3>
-                  <h4><small>or</small></h4>
-                  <h3>
+                  <h3 v-if="isEuropean">
                     € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <h3 v-else>
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
-                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(1)">{{ $t('pricing.orderNow') }}</button>
+                  <button class="btn bg-gradient-primary" @click="toNewOrderView()">{{ $t('pricing.orderNow') }}</button>
                 </div>
               </div>
             </div>
@@ -40,17 +39,16 @@
                 </div>
                 <div class="card-body text-dark py-0">
                   <h6 class="mt-0">{{ $t('pricing.payOne') }}</h6>
-                  <h3 class="mb-0">
-                    $ {{ parseFloat(usdPrice).toFixed(2) }}
-                  </h3>
-                  <h4><small>or</small></h4>
-                  <h3>
+                  <h3 v-if="isEuropean">
                     € {{ parseFloat(eurPrice).toFixed(2) }}
+                  </h3>
+                  <h3 v-else>
+                    $ {{ parseFloat(usdPrice).toFixed(2) }}
                   </h3>
                   <span class="fst-italic"><small>{{$t('pricing.excludeVat')}}</small></span>
                 </div>
                 <div class="card-footer bg-transparent pt-2">
-                  <button class="btn bg-gradient-primary" @click="setOrderFrameWork(0)">{{ $t('pricing.orderNow') }}</button>
+                  <button class="btn bg-gradient-primary" @click="toNewOrderView()">{{ $t('pricing.orderNow') }}</button>
                 </div>
               </div>
             </div>
@@ -68,34 +66,14 @@ import { useSettings } from "../../store";
 export default {
   name: 'PricingComponent',
   setup() {
-    const { eurPrice, usdPrice, workdays } = useSettings();
+    const { isEuropean, eurPrice, usdPrice, workdays } = useSettings();
 
-    function setOrderFrameWork(framework) {
+    function toNewOrderView() {
       window.rdt('track', 'AddToCart');
-      let order = JSON.parse(localStorage.getItem('order'));
-      if(!order)
-        order = { framework: null,
-          version: null,
-          applicationUrl: null,
-          specificPlatform: null,
-          specificPlatformVersion: null,
-          thirdPartyTool: null,
-          bugDescription: '',
-          accessMode: null,
-          url: null,
-          selectedAccess: {}
-        };
-      if(order.framework !== framework) {
-        order.framework = framework;
-        order.version = null;
-        order.specificPlatform = null;
-        order.specificPlatformVersion = null;
-        localStorage.setItem('order', JSON.stringify(order));
-      } 
       router.push('new-order');
     }
 
-    return { eurPrice, usdPrice, workdays, setOrderFrameWork }
+    return { isEuropean, eurPrice, usdPrice, workdays, toNewOrderView }
   }
 }
 </script>

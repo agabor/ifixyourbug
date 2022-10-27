@@ -5,12 +5,7 @@ public class OrderDto
 {
     public int Number { get; set; }
     public DateTime CreationTime { get; set; }
-    public Framework Framework { get; set; }
-    public string Version { get; set; }
     public string? ApplicationUrl { get; set; }
-    public string? SpecificPlatform { get; set; }
-    public string? SpecificPlatformVersion { get; set; }
-    public string? ThirdPartyTool { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
     public List<MessageDto>? Messages { get; set; }
@@ -18,18 +13,13 @@ public class OrderDto
     public int GitAccessId { get; set; }
     public string? PaymentToken { get; set; }
     public int ClientId { get; set; }
-    public decimal EurPrice { get; set; }
-    public decimal UsdPrice { get; set; }
+    public string Currency { get; set; }
+    public decimal Price { get; set; }
 
-    public OrderDto(int number, DateTime creationTime, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, OrderState state, List<MessageDto>? messages, List<ImageDto>? images, int gitAccessId, string? paymentToken, int clientId, decimal eurPrice, decimal usdPrice)
+    public OrderDto(int number, DateTime creationTime, string? applicationUrl, string bugDescription, OrderState state, List<MessageDto>? messages, List<ImageDto>? images, int gitAccessId, string? paymentToken, int clientId, string currency, decimal price)
     {
         Number = number;
-        Framework = framework;
-        Version = version;
         ApplicationUrl = applicationUrl;
-        SpecificPlatform = specificPlatform;
-        SpecificPlatformVersion = specificPlatformVersion;
-        ThirdPartyTool = thirdPartyTool;
         BugDescription = bugDescription;
         State = state;
         Messages = messages;
@@ -37,10 +27,8 @@ public class OrderDto
         GitAccessId = gitAccessId;
         PaymentToken = paymentToken;
         ClientId = clientId;
-        EurPrice = eurPrice;
-        UsdPrice = usdPrice;
+        Currency = currency;
+        Price = price;
         CreationTime = creationTime;
     }
 }
-
-public enum Framework { DotNet, Vue }

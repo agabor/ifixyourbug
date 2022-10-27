@@ -1,17 +1,10 @@
 export const messages = {
   "errors": {
-    "requiredFramework": "Framework required",
-    "requiredVersion": "Version required",
-    "requiredOS": "Operating system required",
-    "requiredOSVersion": "Operating system version required",
-    "requiredBrowserType": "Browser type required",
-    "requiredBrowserVersion": "Browser version required",
     "requiredUrl": "URL required",
     "requiredGitUrl": "Git repo URL required",
     "requiredAccessMode": "Access Mode required",
     "requiredProjectSharing": "Project sharing required",
     "requiredBugDes": "Bug description required",
-    "requiredThirdPartyTool": "Third-party tool required",
     "requiredName": "Name required",
     "requiredEmail": "Email required",
     "requiredValidEmail": "Valid email required.",
@@ -88,7 +81,8 @@ export const messages = {
     "workflowTitle2": "2. Submit Your Issue",
     "workflowDescription2": "Click on the order button to answer a few questions about your problem. Then, submit your order, and wait for the confirmation, which usually takes one workday.",
     "workflowTitle3": "3. Make the payment",
-    "workflowDescription3": "When your order is confirmed, I will notify you by e-mail. Every bug fix is fixed-priced. You can choose to pay either $&nbsp;{usdPrice} or €&nbsp;{eurPrice}.",
+    "workflowDescription3_eur": "When your order is confirmed, I will notify you by e-mail. Every bug fix on fixed-price €&nbsp;{eurPrice}.",
+    "workflowDescription3_usd": "When your order is confirmed, I will notify you by e-mail. Every bug fix on fixed-price $&nbsp;{usdPrice}.",
     "workflowTitle4": "4. I will attempt to fix your solve your problem.",
     "workflowDescription4": "After you pay, I have { workdays } workdays to solve your problem.",
     "workflowTitle5": "5. I will notify you when the bug fix is ready.",
@@ -188,11 +182,7 @@ export const messages = {
     "creationTime": "Creation time",
     "name": "Name",
     "email": "Email",
-    "framework": "Framework",
-    "version": "Version",
-    "thirdPartyTool": "Third party tool",
     "applicationUrl": "Application url",
-    "specificPlatform": "Specific platform",
     "pay": "Pay",
     "state": "State",
     "addNewOrder": "Add new order",
@@ -202,11 +192,7 @@ export const messages = {
     "number": "Number",
     "name": "Name",
     "email": "Email",
-    "framework": "Framework",
-    "version": "Version",
-    "thirdPartyTool": "Third party tool",
     "applicationUrl": "Application url",
-    "specificPlatform": "Specific platform",
     "state": "State",
     "dateTime": "Created time",
     "url": "Url",
@@ -284,33 +270,6 @@ export const messages = {
     "subTitle": "You have entered the wrong code 3 times.",
     "buttonText": "Go Back"
   },
-  "framework": {
-    "label": "Framework*",
-    "placeholder": "Select a framework",
-    "option1": "Vue.js",
-    "option2": "ASP.NET Core"
-  },
-  "frameworkVersion": {
-    "label": "Version*",
-    "placeholder": "Select version",
-    "frameworkFirst": "Please select a framework first"
-  },
-  "operatingSystem": {
-    "isSpecific": "Is the issue specific to an operating system?",
-    "label": "Operating system*",
-    "option1": "Windows",
-    "option2": "Linux",
-    "option3": "MacOS",
-    "version": "Operating system version"
-  },
-  "browserType": {
-    "isSpecific": "Is the issue specific to a browser?",
-    "label": "Browser type*",
-    "option1": "Chrome",
-    "option2": "Safari",
-    "option3": "Firefox",
-    "version": "Browser version"
-  },
   "onlineApp": {
     "isAvailable": "Is there a deployed version of the application available online?",
     "appUrl": "Application url"
@@ -330,10 +289,6 @@ export const messages = {
     "description2": "It looks like your repository is hosted on {saas}. Please invite the following {saas} user: <a href=\"{git_user}\">{git_user}</a>",
     "description2default": "Please send an invitation for your repository to the following email address: gabor@ifixyourbug.com",
     "description3": "Use this option if your project is hosted privately, and you wish to create an account for me. Please include the user credentials in the bug description. If you want to use an SSH key, please use the following public key:"
-  },
-  "thirdPartyTool": {
-    "isPotentially": "Is the bug potentially related to a third party library?",
-    "label": "Third-party library name"
   },
   "confirm": {
     "stateChangeTitle": "Change of state",

@@ -6,7 +6,11 @@
         <div class="carousel-inner">
           <carousel-item width="col-lg-10 col-12">
             <template v-slot:content>
-              <order-list :orders="orders" @openOrder="openOrder"></order-list>
+              <button type="button" class="btn bg-gradient-primary mt-4" @click="$router.push('/new-order')">
+                {{ $t('orderList.addNewOrder') }}
+              </button>
+              <order-list v-if="orders.length > 0" :orders="orders" @openOrder="openOrder"></order-list>
+              <p class="m-2" v-else>{{ $t('errors.noResult') }}</p>
             </template>
           </carousel-item>
         </div>

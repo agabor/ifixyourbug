@@ -4,8 +4,8 @@
       <div class="page-header">
         <span class="mask bg-gradient-dark opacity-4"></span>
         <div class="carousel-inner" v-if="selectedOrder !== null">
-          <order-viewer class="active" :modelValue="selectedOrder"></order-viewer>
-          <order-messages class="active" :messages="messages" @submitMessage="submitMessage"></order-messages>
+          <order-viewer :modelValue="selectedOrder"></order-viewer>
+          <order-messages :messages="messages" @submitMessage="submitMessage"></order-messages>
         </div>
       </div>
       <footer-component></footer-component>
@@ -42,17 +42,9 @@ export default {
         if(selectedOrder.value.state === 7){
           loadTinymce();
         }
-        setMessages();
+        messages.value = selectedOrder.value.messages.reverse();
       } else if(response.status === 404) {
         router.push('/not-found')
-      }
-    }
-
-    async function setMessages() {
-      let response = await get(`/api/orders/${selectedOrder.value.number}`);
-      if(response.status === 200) {
-        let order = await response.json();
-        messages.value = order.messages.reverse();
       }
     }
 

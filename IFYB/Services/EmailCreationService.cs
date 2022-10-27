@@ -59,8 +59,8 @@ public class EmailCreationService
         emailContent.ToAdmin = toAdmin;
         if (order?.State == OrderState.Submitted)
         {
-            emailContent.EurPrice = order.EurPrice;
-            emailContent.UsdPrice = order.UsdPrice;
+            emailContent.Currency = order.Currency;
+            emailContent.Price = order.Price;
         }
         var text = Template.Parse(System.IO.File.ReadAllText("Email/TextEmail.sbn")).Render(emailContent.ToPlainText());
         var html = Template.Parse(System.IO.File.ReadAllText("Email/HtmlEmail.sbn")).Render(emailContent);

@@ -48,7 +48,7 @@ function clientAuthenticationGuard(to) {
     return true
   } else {
     clientAuth.requestedPage.value = to;
-    clientAuth.page.value = "name";
+    clientAuth.page.value = clientAuth.isLoggedIn.value ? 'name' : 'email';
     return { path: '/authentication' }
   }
 }

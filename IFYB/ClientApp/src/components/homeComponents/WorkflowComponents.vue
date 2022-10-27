@@ -48,7 +48,8 @@
           <div class="p-3 info-horizontal d-flex">
             <div>
               <h5>{{ $t('workflow.workflowTitle3') }}</h5>
-              <p v-html="$t('workflow.workflowDescription3', { eurPrice: eurPriceForDisplay, usdPrice: usdPriceForDisplay })"></p>
+              <p v-if="isEuropean" v-html="$t('workflow.workflowDescription3_eur', { eurPrice: eurPriceForDisplay })"></p>
+              <p v-else v-html="$t('workflow.workflowDescription3_usd', { usdPrice: usdPriceForDisplay })"></p>
             </div>
           </div>
         </div>
@@ -111,7 +112,7 @@ import { computed } from 'vue';
 export default {
   name: 'WorkflowComponents',
   setup() {
-    const { eurPrice, usdPrice, workdays } = useSettings();
+    const { isEuropean, eurPrice, usdPrice, workdays } = useSettings();
     const eurPriceForDisplay = computed(() => parseFloat(eurPrice.value).toFixed(2));
     const usdPriceForDisplay = computed(() => parseFloat(usdPrice.value).toFixed(2));
 
@@ -120,7 +121,7 @@ export default {
       document.getElementById('pricing').scrollIntoView();
     }
     
-    return { toPricing, eurPriceForDisplay, usdPriceForDisplay, workdays }
+    return { isEuropean, eurPriceForDisplay, usdPriceForDisplay, workdays, toPricing }
   }
 }
 </script>

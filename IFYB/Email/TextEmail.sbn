@@ -13,8 +13,8 @@
 {{~ if order_number ~}}
 Order number: #{{order_number}}
 {{~ end ~}}
-{{~ if eur_price ~}}
-Price: € {{eur_price}} or $ {{usd_price}} (You can choose.)
+{{~ if price ~}}
+Price: {{~ if currency == "eur" ~}}€{{~ else ~}}${{~ end ~}} {{price}}
 {{~ end ~}}
 {{~ if order_link ~}}
 Order details: {{order_link}}

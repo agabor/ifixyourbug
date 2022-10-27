@@ -8,12 +8,7 @@ public class Order
     public int Number { get; set; }
     public DateTime CreationTime { get; set; }
     public int CreationDay { get; set; }
-    public Framework Framework { get; set; }
-    public string Version { get; set; }
     public string? ApplicationUrl { get; set; }
-    public string? SpecificPlatform { get; set; }
-    public string? SpecificPlatformVersion { get; set; }
-    public string? ThirdPartyTool { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
     public int ClientId { get; set; }
@@ -35,10 +30,8 @@ public class Order
     public string? PostalCode { get; set; }
     public string? AddressState { get; set; }
     public string? Currency { get; set; }
-    public string? EurPriceId { get; set; }
-    public string? UsdPriceId { get; set; }
-    public decimal? EurPrice { get; set; }
-    public decimal? UsdPrice { get; set; }
+    public string? PriceId { get; set; }
+    public decimal? Price { get; set; }
     public long? AmountTotal { get; set; }
     public long? AmountSubtotal { get; set; }
     public long? AmountTax { get; set; }
@@ -48,15 +41,10 @@ public class Order
     public string? InvoiceNumber { get; set; }
     public DateTime? PayedAt { get; set; }
 
-    public Order(int number, Framework framework, string version, string? applicationUrl, string? specificPlatform, string? specificPlatformVersion, string? thirdPartyTool, string bugDescription, int gitAccessId)
+    public Order(int number, string? applicationUrl, string bugDescription, int gitAccessId)
     {
         Number = number;
-        Framework = framework;
-        Version = version;
         ApplicationUrl = applicationUrl;
-        SpecificPlatform = specificPlatform;
-        SpecificPlatformVersion = specificPlatformVersion;
-        ThirdPartyTool = thirdPartyTool;
         BugDescription = bugDescription;
         GitAccessId = gitAccessId;
         CreationTime = DateTime.UtcNow;
@@ -65,12 +53,12 @@ public class Order
 
     public static Order FromDto(OrderDto dto)
     {
-        return new Order(dto.Number, dto.Framework, dto.Version, dto.ApplicationUrl, dto.SpecificPlatform, dto.SpecificPlatformVersion, dto.ThirdPartyTool, dto.BugDescription, dto.GitAccessId);
+        return new Order(dto.Number, dto.ApplicationUrl, dto.BugDescription, dto.GitAccessId);
     }
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Number, CreationTime, Framework, Version, ApplicationUrl, SpecificPlatform, SpecificPlatformVersion, ThirdPartyTool, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, EurPrice!.Value, UsdPrice!.Value);
+        return new OrderDto(Number, CreationTime, ApplicationUrl, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, Currency!, Price!.Value);
     }
 }
 

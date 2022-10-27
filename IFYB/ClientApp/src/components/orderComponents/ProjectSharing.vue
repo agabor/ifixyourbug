@@ -4,20 +4,20 @@
       <label>{{ $t('projectSharing.urlLabel') }}</label>
       <input class="form-control" :class="{'is-invalid': (showError && !!inputErrors.url)}" :placeholder="$t('projectSharing.urlPlaceholder')" type="text" :value="modelValue" @input="updateUrl($event.target.value)" :disabled="!visible">
       <span class="text-danger" v-if="showError && inputErrors.url"><em><small>{{ $t(`${inputErrors.url}`) }}</small></em></span>
-    </div>
-    <label>{{ $t('projectSharing.sharingLabel') }}</label>
-    <div class="col-12 d-flex flex-wrap">
-      <div class="form-check me-3" v-for="(option, idx) in sharingOptions" :key="idx">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`option${option.id}`" :value="option.id" @input="updateAccessMode(option.id)" :disabled="!visible" :checked="option.id === accessMode">
-        <label class="form-check-label" :for="`option${option.id}`">{{ option.title }}</label>
+      <label class="mt-3">{{ $t('projectSharing.sharingLabel') }}</label>
+      <div class="col-12 d-flex flex-wrap">
+        <div class="form-check me-3" v-for="(option, idx) in sharingOptions" :key="idx">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" :id="`option${option.id}`" :value="option.id" @input="updateAccessMode(option.id)" :disabled="!visible" :checked="option.id === accessMode">
+          <label class="form-check-label" :for="`option${option.id}`">{{ option.title }}</label>
+        </div>
+      </div>
+      <span class="text-danger" v-if="showError && inputErrors.accessMode"><em><small>{{ inputErrors.accessMode }}</small></em></span>
+      <div class="col-12" v-if="selectedOption">
+        <span v-html="selectedOption.description"></span>
       </div>
     </div>
-    <span class="text-danger" v-if="showError && inputErrors.accessMode"><em><small>{{ inputErrors.accessMode }}</small></em></span>
-    <div class="col-12" v-if="selectedOption">
-      <span v-html="selectedOption.description"></span>
+    <ssh-key-preview v-if="selectedOption && selectedOption.id === 2"></ssh-key-preview>
     </div>
-  </div>
-  <ssh-key-preview v-if="selectedOption && selectedOption.id === 2"></ssh-key-preview>
 </template>
 
 <script>

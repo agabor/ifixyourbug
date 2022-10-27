@@ -6,6 +6,7 @@
         <carousel-item class="full-height" width="col-12">
           <template v-slot:content>
             <stackoverflow-request-list v-if="requests.length > 0" :requests="requests" @openRequest="openRequest"></stackoverflow-request-list>
+            <p class="m-2" v-else>{{ $t('errors.noResult') }}</p>
           </template>
         </carousel-item>
       </div>

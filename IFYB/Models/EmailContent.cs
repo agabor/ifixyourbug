@@ -6,8 +6,8 @@ public class EmailContent
     public int? OrderNumber { get; set; }
     public string? OrderLink { get; set; }
     public List<EmailContentItem> Content { get; set; } = new List<EmailContentItem>();
-    public decimal? EurPrice { get; set; }
-    public decimal? UsdPrice { get; set; }
+    public string? Currency { get; set; }
+    public decimal? Price { get; set; }
     public bool? ToAdmin { get; set; }
 
     public EmailContent ToPlainText()
@@ -18,8 +18,8 @@ public class EmailContent
             OrderNumber = OrderNumber,
             OrderLink = OrderLink,
             Content = Content.Select(i => i.ToPlainText()).ToList(),
-            EurPrice = EurPrice,
-            UsdPrice = UsdPrice,
+            Currency = Currency,
+            Price = Price,
             ToAdmin = ToAdmin
         };
     }

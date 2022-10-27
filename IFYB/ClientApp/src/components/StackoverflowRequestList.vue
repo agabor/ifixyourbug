@@ -42,7 +42,6 @@
       </tbody>
     </table>
   </div>
-  <p class="m-2" v-if="filteredRequests.length == 0">{{ $t('errors.noResult') }}</p>
 </template>
 
 <script>

@@ -166,7 +166,6 @@ if (jwt.value) {
         timeout.value = true;
       } else {
         setData((await resp.json()).jwt);
-        router.push(requestedPage.value ? requestedPage.value : '/');
       }
       resolve();
     })

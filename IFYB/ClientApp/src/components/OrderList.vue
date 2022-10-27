@@ -1,7 +1,4 @@
 <template>
-  <button type="button" class="btn bg-gradient-primary mt-4" @click="$router.push('/new-order')">
-    {{ $t('orderList.addNewOrder') }}
-  </button>
   <div class="row">
     <div class="col-12">
       <div class="card mt-3" v-for="(order, idx) in sortedOrders" :key="idx">
@@ -10,12 +7,7 @@
             <div class="card-body text-start">
               <h5 class="mb-0">Order number: #{{ order.number }}</h5>
               <p class="m-0">{{ $filters.dateTimeFormat(order.creationTime) }}</p>
-              <div class="d-flex">
-                <h6 class="text-info mb-0">{{ order.framework == 0 ? 'Vue.js' : 'ASP.NET Core' }} {{ order.version }}</h6>
-                <p class="mx-1 mb-0" v-if="order.specificPlatform">| {{ order.specificPlatform }}</p>
-              </div>
               <p class="mb-0" v-if="order.applicationUrl">{{ $t('orderList.applicationUrl') }}: <a class="text-decoration-underline" :href="order.applicationUrl" >{{ order.applicationUrl }}</a></p>
-              <p class="mb-0" v-if="order.thirdPartyTool">{{ $t('orderList.thirdPartyTool') }}: {{ order.thirdPartyTool }}</p>
               <state-badge class="badge badge-sm mt-3" :state="order.state" view="list" :isSimple="true"></state-badge>
             </div>
           </div>
@@ -39,11 +31,10 @@
       </div>
     </div>
   </div>
-  <p class="m-2" v-if="sortedOrders.length == 0">{{ $t('errors.noResult') }}</p>
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import StateBadge from './StateBadge.vue';
 
 export default {
@@ -54,26 +45,21 @@ export default {
   },
   emits: ['openOrder'],
   setup(props) {
-    const sortedOrders = ref(props.orders ?? []);
-    const properties = ['number', 'framework', 'version', 'applicationUrl', 'specificPlatform', 'thirdPartyTool', 'state'];
+    const sortedOrders = ref(props.orders);
     
-    watch(props, () => {
-      sortedOrders.value = props.orders;
-      sort('number', false);
-    });
+    sort('number', false);
 
     function sort(propName, asc) {
-      if (propName !== '')
-        sortedOrders.value.sort((a, b) => {
-          if (a[propName] < b[propName] ^ asc)
-            return 1;
-          if (a[propName] > b[propName] ^ asc)
-            return -1;
-          return 0
-        });
+      sortedOrders.value.sort((a, b) => {
+        if (a[propName] < b[propName] ^ asc)
+          return 1;
+        if (a[propName] > b[propName] ^ asc)
+          return -1;
+        return 0
+      });
     }
 
-    return { sortedOrders, properties }
+    return { sortedOrders }
   }
 }
 </script>
