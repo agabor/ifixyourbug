@@ -67,8 +67,8 @@ export const messages = {
     "title": "Best no-tricks pricing",
     "description": "Fixed price for all issues. ASP.NET Core and Vue.js bug fixing within { workdays } workdays.",
     "whatsincluded": "What's included",
-    "include1": "ASP.NET Core",
-    "include2": "Vue.js",
+    "include1": "Bugfix",
+    "include2": "Code review",
     "payOne": "One time payment, no hidden costs",
     "orderNow": "Order Now",
     "excludeVat": "The price does not include VAT."
