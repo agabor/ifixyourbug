@@ -11,6 +11,7 @@ public class Order
     public string? ApplicationUrl { get; set; }
     public string BugDescription { get; set; }
     public OrderState State { get; set; }
+    public OrderFlag Flag { get; set; }
     public int ClientId { get; set; }
     public Client? Client { get; set; }
     public List<Message>? Messages { get; set; }
@@ -41,11 +42,12 @@ public class Order
     public string? InvoiceNumber { get; set; }
     public DateTime? PayedAt { get; set; }
 
-    public Order(int number, string? applicationUrl, string bugDescription, int gitAccessId)
+    public Order(int number, string? applicationUrl, string bugDescription, OrderFlag flag, int gitAccessId)
     {
         Number = number;
         ApplicationUrl = applicationUrl;
         BugDescription = bugDescription;
+        Flag = flag;
         GitAccessId = gitAccessId;
         CreationTime = DateTime.UtcNow;
         CreationDay = (DateTime.UtcNow - DateTime.UnixEpoch).Days;
@@ -53,13 +55,14 @@ public class Order
 
     public static Order FromDto(OrderDto dto)
     {
-        return new Order(dto.Number, dto.ApplicationUrl, dto.BugDescription, dto.GitAccessId);
+        return new Order(dto.Number, dto.ApplicationUrl, dto.BugDescription, dto.Flag, dto.GitAccessId);
     }
 
     public OrderDto ToDto()
     {
-        return new OrderDto(Number, CreationTime, ApplicationUrl, BugDescription, State, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, Currency!, Price!.Value);
+        return new OrderDto(Number, CreationTime, ApplicationUrl, BugDescription, State, Flag, Messages?.Select(m => m.ToDto()).ToList(), Images?.Select(i => i.ToDto()).ToList(), GitAccessId, PaymentToken, ClientId, Currency!, Price!.Value);
     }
 }
 
 public enum OrderState { Submitted, Accepted, Rejected, Payed, Completed, Refundable, Canceled, Editable }
+public enum OrderFlag { Bugfix, CodeReview }
