@@ -61,6 +61,7 @@ public class IFYBTests
         {
             applicationUrl = "app url",
             bugDescription = "bello",
+            flag = 0,
             gitAccessId = gitAccessId,
             clientId = 1,
             currency = "EUR"
