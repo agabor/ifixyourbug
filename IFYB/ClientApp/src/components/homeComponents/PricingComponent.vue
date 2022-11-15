@@ -73,11 +73,14 @@ export default {
 
     function toNewOrderView() {
       window.rdt('track', 'AddToCart');
+      localStorage.setItem('order', JSON.stringify({applicationUrl: null, bugDescription: "", accessMode: null, flag: 1, selectedAccess: {}}));
       router.push('new-order');
     }
 
     function toNewCodeReview() {
-      /* TODO */
+      window.rdt('track', 'AddToCart');
+      localStorage.setItem('order', JSON.stringify({applicationUrl: null, bugDescription: "", accessMode: null, flag: 2, selectedAccess: {}}));
+      router.push('new-order');
     }
 
     return { isEuropean, eurPrice, usdPrice, workdays, toNewOrderView, toNewCodeReview }
