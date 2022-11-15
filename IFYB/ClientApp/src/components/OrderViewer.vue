@@ -10,7 +10,12 @@
               </div>
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
-              <h2>{{ $t('orderViewer.title') }} #{{ modelValue.number }}</h2>
+              <div class="d-flex align-items-center justify-content-center">
+                <h2 class="my-0">{{ $t('orderViewer.title') }} #{{ modelValue.number }}</h2>
+                <button type="button" class="btn py-1 px-3 ms-2 my-0" :class="{'bg-gradient-dark': modelValue.flag === 0, 'bg-gradient-secondary': modelValue.flag !== 0}">
+                  <span>{{ modelValue.flag === 0 ? $t('orderList.bugfix') : $t('orderList.codeReview') }}</span>
+                </button>
+              </div>
               <p>{{ $filters.dateTimeFormat(modelValue.creationTime) }}</p>
               <state-badge class="text-center mt-2 mb-5 py-2 px-4 rounded-pill text-uppercase" :state="modelValue.state" :isSimple="false"></state-badge>
             </div>
