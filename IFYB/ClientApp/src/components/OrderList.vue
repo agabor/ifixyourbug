@@ -7,9 +7,7 @@
             <div class="card-body text-start">
               <div class="d-flex">
                 <h5 class="mb-0">Order number: #{{ order.number }}</h5>
-                <button type="button" class="btn py-1 px-3 ms-2" :class="{'bg-gradient-dark': order.flag === 0, 'bg-gradient-secondary': order.flag !== 0}">
-                  <span>{{ order.flag === 0 ? $t('orderList.bugfix') : $t('orderList.codeReview') }}</span>
-                </button>
+                <flag-component :flag="order.flag"></flag-component>
               </div>
               <p class="m-0">{{ $filters.dateTimeFormat(order.creationTime) }}</p>
               <p class="mb-0" v-if="order.applicationUrl">{{ $t('orderList.applicationUrl') }}: <a class="text-decoration-underline" :href="order.applicationUrl" >{{ order.applicationUrl }}</a></p>
@@ -41,10 +39,11 @@
 <script>
 import { ref } from 'vue';
 import StateBadge from './StateBadge.vue';
+import FlagComponent from './FlagComponent.vue';
 
 export default {
   name: 'OrderList',
-  components: { StateBadge },
+  components: { StateBadge, FlagComponent },
   props: {
     orders: Array
   },
