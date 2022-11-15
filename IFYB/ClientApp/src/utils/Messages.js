@@ -186,7 +186,9 @@ export const messages = {
     "pay": "Pay",
     "state": "State",
     "addNewOrder": "Add new order",
-    "details": "Details"
+    "details": "Details",
+    "bugfix": "Bugfix",
+    "codeReview": "Code Review",
   },
   "thTitle": {
     "number": "Number",
