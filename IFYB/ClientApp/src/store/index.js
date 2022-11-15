@@ -45,7 +45,6 @@ export function useSettings() {
 }
 
 const inputErrors = ref({
-  flagSelector: null,
   applicationUrl: null,
   bugDescription: null,
   accessMode: null,
