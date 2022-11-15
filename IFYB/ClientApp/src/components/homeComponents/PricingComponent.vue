@@ -70,16 +70,21 @@ export default {
   name: 'PricingComponent',
   setup() {
     const { isEuropean, eurPrice, usdPrice, workdays } = useSettings();
+    let order = { applicationUrl: null, bugDescription: "", accessMode: null, flag: 1, selectedAccess: {} };
+    let tempOrder = JSON.parse(localStorage.getItem('order'));
+    Object.assign(order, tempOrder);
 
     function toNewOrderView() {
       window.rdt('track', 'AddToCart');
-      localStorage.setItem('order', JSON.stringify({applicationUrl: null, bugDescription: "", accessMode: null, flag: 1, selectedAccess: {}}));
+      order.flag = 1;
+      localStorage.setItem('order', JSON.stringify(order));
       router.push('new-order');
     }
 
     function toNewCodeReview() {
       window.rdt('track', 'AddToCart');
-      localStorage.setItem('order', JSON.stringify({applicationUrl: null, bugDescription: "", accessMode: null, flag: 2, selectedAccess: {}}));
+      order.flag = 2;
+      localStorage.setItem('order', JSON.stringify(order));
       router.push('new-order');
     }
 
