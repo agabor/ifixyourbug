@@ -64,7 +64,7 @@ export default {
   emits: ['openOrder'],
   setup(props) {
     const filteredOrders = ref(props.orders);
-    const properties = ['number', 'applicationUrl', 'state', 'name', 'email'];
+    const properties = ['number', 'applicationUrl', 'state', 'name', 'email', 'flag'];
     const orderBy = ref('');
     const orderAsc = ref(false);
 

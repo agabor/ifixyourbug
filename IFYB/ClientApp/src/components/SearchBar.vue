@@ -55,6 +55,15 @@ export default {
                   element = tm('orderState.submitted');
               }
             }
+            if(property === 'flag') {
+              switch (element) {
+                case '1':
+                  element = tm('flag.codeReview');
+                  break;
+                default:
+                  element = tm('flag.bugfix');
+              }
+            }
             if(element !== null && element.toUpperCase().includes(searchText.value.toUpperCase())) {
               addElement = true;
               break;
