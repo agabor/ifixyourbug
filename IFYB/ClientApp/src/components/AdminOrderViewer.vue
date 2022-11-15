@@ -11,7 +11,10 @@
             </div>
             <div class="d-flex flex-column align-items-center justify-content-center">
               <div class="align-items-center justify-content-center">
-                <h2>{{ $t('orderViewer.title') }} #{{ order.number }}</h2>
+                <div class="d-flex align-items-center justify-content-center">
+                  <h2 class="my-0">{{ $t('orderViewer.title') }} #{{ order.number }}</h2>
+                  <flag-component :flag="order.flag"></flag-component>
+                </div>
                 <p>{{ $filters.dateTimeFormat(order.creationTime) }}</p>
               </div>
               <state-badge class="text-center my-4 py-2 px-4 rounded-pill text-uppercase" :state="order.state" :isSimple="false"></state-badge>
@@ -81,10 +84,11 @@ import OnlineApp from './orderComponents/OnlineApp.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
 import { useAdminAuthentication } from "../store/admin";
 import StateBadge from './StateBadge.vue';
+import FlagComponent from './FlagComponent.vue';
 
 export default {
   name: 'AdminOrderViewer',
-  components: { OnlineApp, ProjectSharing, StateBadge },
+  components: { OnlineApp, ProjectSharing, StateBadge, FlagComponent },
   props: {
     order: Object,
   },
