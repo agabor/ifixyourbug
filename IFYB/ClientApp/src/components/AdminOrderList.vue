@@ -9,6 +9,7 @@
           <sortable-th title="name" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="email" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="applicationUrl" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
+          <sortable-th title="flag" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <sortable-th title="state" :orderBy="orderBy" :orderAsc="orderAsc" @sort="sort"></sortable-th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
         </tr>
@@ -31,6 +32,9 @@
             <span class="text-secondary text-xs font-weight-bold">{{ order.applicationUrl }}</span>
           </td>
           <td>
+            <flag-component :flag="order.flag"></flag-component>
+          </td>
+          <td>
             <state-badge class="badge badge-sm" :state="order.state" :isSimple="true"></state-badge>
           </td>
           <td class="align-middle text-center cursor-pointer" @click="$emit('openOrder', order)">
@@ -47,12 +51,13 @@
 <script>
 import { ref } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
+import FlagComponent from '../components/FlagComponent.vue';
 import SortableTh from './SortableTh.vue';
 import StateBadge from './StateBadge.vue';
 
 export default {
   name: 'AdminOrderList',
-  components: { SearchBar, SortableTh, StateBadge },
+  components: { SearchBar, FlagComponent, SortableTh, StateBadge },
   props: {
     orders: Array
   },
