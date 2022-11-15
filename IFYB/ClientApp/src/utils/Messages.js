@@ -187,8 +187,6 @@ export const messages = {
     "state": "State",
     "addNewOrder": "Add new order",
     "details": "Details",
-    "bugfix": "Bugfix",
-    "codeReview": "Code Review",
   },
   "thTitle": {
     "number": "Number",
@@ -196,6 +194,7 @@ export const messages = {
     "email": "Email",
     "applicationUrl": "Application url",
     "state": "State",
+    "flag": "Flag",
     "dateTime": "Created time",
     "url": "Url",
     "solved": "Solved",
@@ -209,6 +208,10 @@ export const messages = {
     "refundable": "Refundable",
     "canceled": "Canceled",
     "editable": "Editable"
+  },
+  "flag": {
+    "bugfix": "Bugfix",
+    "codeReview": "Code Review",
   },
   "clientList": {
     "name": "Name",
