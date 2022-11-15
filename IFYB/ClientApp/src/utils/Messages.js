@@ -220,8 +220,10 @@ export const messages = {
     "name": "Name",
     "nameDes": "Enter your name.",
     "save": "Save",
-    "orderData": "Send me a bug to fix",
-    "orderDataDes": "Please describe your problem",
+    "sendBug": "Send me a bug to fix",
+    "sendBugDes": "Please describe your problem",
+    "sendCode": "Send me your code for review",
+    "sendCodeDes": "Please describe your code",
     "emailExample": "email@example.com",
     "successfulOrder": "Successful order",
     "successfulOrderDes": "I will contact you shortly via email.",
@@ -273,6 +275,10 @@ export const messages = {
   "onlineApp": {
     "isAvailable": "Is there a deployed version of the application available online?",
     "appUrl": "Application url"
+  },
+  "flagSelector": {
+    "label": "Order mode",
+    "placeholder": "Select an order mode"
   },
   "gitAccessSelector": {
     "label": "Previous git repositories",

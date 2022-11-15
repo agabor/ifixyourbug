@@ -1,6 +1,7 @@
 <template>
   <form>
     <div class="text-start">
+      <flag-selector v-model="order.flag" :flags="flags" :showError="showErrors"></flag-selector>
       <online-app v-model="order.applicationUrl" :editable="true" :showError="showErrors"></online-app>
       <git-access-selector v-if="gitAccesses.length > 0" :accesses="gitAccesses" v-model="selectedAccess"></git-access-selector>
       <project-sharing v-model="order.selectedAccess.url" v-model:accessMode="order.selectedAccess.accessMode" :visible="!order.selectedAccess.id" :showError="showErrors"></project-sharing>
@@ -22,6 +23,7 @@
 <script>
 import { ref, watch, reactive } from 'vue';
 import { required, validGitUrl } from '../utils/Validate';
+import FlagSelector from './orderComponents/FlagSelector.vue';
 import OnlineApp from './orderComponents/OnlineApp.vue';
 import GitAccessSelector from './orderComponents/GitAccessSelector.vue';
 import ProjectSharing from './orderComponents/ProjectSharing.vue';
@@ -34,8 +36,11 @@ import OneClickBtn from './OneClickBtn.vue';
 
 export default {
   name: 'NewOrderForm',
-  components: { OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, AcceptTerms, OneClickBtn },
-  emits: ['toSuccessPage'],
+  components: { FlagSelector, OnlineApp, GitAccessSelector, ProjectSharing, BugDescription, AcceptTerms, OneClickBtn },
+  props: {
+    flag: Number
+  },
+  emits: [ 'toSuccessPage', 'update:flag' ],
   setup(props, context) {
     let { isEuropean } = useSettings();
     const { hasInputError, setInputError } = useInputError();
@@ -46,12 +51,13 @@ export default {
       applicationUrl: null,
       bugDescription: '',
       accessMode: null,
-      url: null,
+      flag: 1,
       selectedAccess: {}
     });
     const selectedAccess = ref({});
     const showErrors = ref(false);
     const progress = ref(0);
+    const flags = [{ id: 1, name: 'Bugfix' }, { id: 2, name: 'Code review' }]
 
     watch(selectedAccess, () => {
       order.selectedAccess = selectedAccess.value;
@@ -61,6 +67,7 @@ export default {
 
     watch(order, () => {
       localStorage.setItem('order', JSON.stringify(order));
+      context.emit('update:flag', order.flag);
     })
 
     if(localStorage.getItem('order')) {
@@ -94,6 +101,7 @@ export default {
         {
           'applicationUrl': order.applicationUrl,
           'bugDescription': order.bugDescription,
+          'flag': order.flag-1,
           'gitAccessId': await getGitAccessId(selectedAccess.value.id, order.selectedAccess.url, order.selectedAccess.accessMode),
           'currency': isEuropean ? 'eur' : 'usd'
         }
@@ -106,7 +114,7 @@ export default {
       }
     }
 
-    return { showErrors, order, selectedAccess, gitAccesses, progress, trySubmitOrder, cancelSubmit }
+    return { showErrors, order, selectedAccess, gitAccesses, flags, progress, trySubmitOrder, cancelSubmit }
   }
 }
 </script>
