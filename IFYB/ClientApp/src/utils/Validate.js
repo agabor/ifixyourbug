@@ -13,7 +13,7 @@ export function required(e, errorText) {
     e = e.toString().replaceAll('\n', '');
     e = e.toString().replaceAll(' ', '');
   }
-  if(e === '' || e === null || e === undefined) {
+  if(e === '' || e === null || e === undefined || e === false) {
     return errorText;
   }
   return null;
